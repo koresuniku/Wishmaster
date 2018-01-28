@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Animations-->
+    <integer name="slide_anim_duration">350</integer>
+    <integer name="slide_back_anim_duration">250</integer>
+    <integer name="loading_fade_duration">150</integer>
+    <integer name="showing_list_duration">250</integer>
+
+    <!--ThreadList-->
+    <dimen name="thread_post_side_margin_default">10dp</dimen>
+    <dimen name="thread_item_image_comment_no_subject_top_margin">7dp</dimen>
+    <dimen name="thread_item_image_comment_is_subject_top_margin">3dp</dimen>
+</resources>

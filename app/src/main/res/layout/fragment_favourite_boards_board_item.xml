@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@drawable/light_ripple_background"
+    android:clickable="true"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/board_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_toLeftOf="@+id/drag_and_drop"
+        android:clickable="false"
+        android:gravity="left|center"
+        android:text="zelenyi slonik"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/drag_and_drop"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:clickable="true"
+        android:padding="12dp"
+        app:srcCompat="@drawable/ic_drag_handle_black_24dp" />
+</RelativeLayout>

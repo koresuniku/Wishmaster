@@ -1,0 +1,25 @@
+<resources>
+
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="searchViewStyle">@style/DefaultSearchViewStyle</item>
+    </style>
+
+    <style name="DefaultToolbarStyle" parent="Base.Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@color/colorBackground</item>
+    </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="DefaultSearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="searchHintIcon">@null</item>
+        <item name="submitBackground">@null</item>
+        <item name="queryBackground">@null</item>
+
+    </style>
+</resources>
