@@ -51,7 +51,7 @@ class BoardListFragment : Fragment(), BoardListView {
         return mRootView
     }
 
-    override fun onBoardsDataReceived(boardListData: BoardListData) {
+    override fun onBoardListReceived(boardListData: BoardListData) {
         val boardLists = BoardsMapper.mapToBoardsDataByCategory(boardListData)
         activity?.runOnUiThread { setupBoardListAdapter(boardLists) }
     }

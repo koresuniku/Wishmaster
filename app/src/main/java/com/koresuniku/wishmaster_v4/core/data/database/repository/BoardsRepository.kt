@@ -126,7 +126,7 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
                 DatabaseContract.BoardsEntry.COLUMN_BOARD_ID + " =? ", arrayOf(boardId))
     }
 
-    fun makeBoardFavourite(database: SQLiteDatabase, boardId: String): Int {
+    fun switchBoardFavourability(database: SQLiteDatabase, boardId: String): Int {
         val newPosition: Int
         val cursor = database.query(DatabaseContract.BoardsEntry.TABLE_NAME, mBoardsProjection,
                 DatabaseContract.BoardsEntry.COLUMN_BOARD_ID + " =? ", arrayOf(boardId),
@@ -189,7 +189,7 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
         cursor.close()
     }
 
-    fun getFavouriteBoardListAsc(database: SQLiteDatabase): List<BoardModel> {
+    fun getFavouriteBoardModelListAscending(database: SQLiteDatabase): List<BoardModel> {
         val cursor = database.query(DatabaseContract.BoardsEntry.TABLE_NAME,
                 mBoardsProjection,
                 DatabaseContract.BoardsEntry.COLUMN_FAVOURITE_POSITION + " !=? ",

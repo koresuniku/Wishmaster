@@ -7,7 +7,7 @@ import io.reactivex.Single
 
 interface IDashboardPresenter : MvpPresenter<DashboardView> {
 
-    fun loadBoards(): Single<BoardListData>
+    fun loadBoards()
     fun shouldLaunchThreadListActivity(boardId: String)
 
     fun bindDashboardBoardListView(dashboardBoardListView: BoardListView)

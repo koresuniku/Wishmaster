@@ -6,6 +6,8 @@ import com.koresuniku.wishmaster_v4.core.data.database.repository.BoardsReposito
 import com.koresuniku.wishmaster_v4.core.util.search.SearchInputMatcher
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -46,29 +48,30 @@ class DashboardPresenter @Inject constructor(private val networkInteractor: Dash
 
    // fun reloadBoards() { mLoadBoardObservable = getNewLoadBoardsObservable().cache() }
 
-    override fun loadBoards(): Single<BoardListData> = Single.create(this::loadFromDatabase)
+    override fun loadBoards() {
+        Single.create(this::loadFromDatabase)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    mView?.onBoardListReceived(it)
+                    dashboardBoardListView?.onBoardListReceived(it)
+                }, { mView?.onBoardListError(it) })
+    }
 
     private fun loadFromDatabase(e: SingleEmitter<BoardListData>) {
         compositeDisposable.add(databaseInteractor.getDataFromDatabase()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     if (it.getBoardList().isEmpty()) loadFromNetwork(e)
-                    else { e.onSuccess(it); dashboardBoardListView?.onBoardsDataReceived(it) }
+                    else { e.onSuccess(it) }
                 }, { it.printStackTrace() }))
     }
 
     private fun loadFromNetwork(e: SingleEmitter<BoardListData>) {
         mView?.showLoading()
         compositeDisposable.add(networkInteractor.getDataFromNetwork()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    databaseInteractor.insertAllBoardsIntoDatabase(it)
-                            .subscribeOn(Schedulers.newThread())
-                            .subscribe()
+                    databaseInteractor.insertAllBoardsIntoDatabase(it).subscribe()
                     e.onSuccess(it)
-                    dashboardBoardListView?.onBoardsDataReceived(it)
                 }, { it.printStackTrace() }))
     }
 
@@ -78,7 +81,7 @@ class DashboardPresenter @Inject constructor(private val networkInteractor: Dash
 //            loadBoardsFromDatabase().subscribe(
 //                    { boardListData: BoardListData ->
 //                        e.onNext(boardListData)
-//                        mDashboardBoardListView?.onBoardsDataReceived(boardListData)
+//                        mDashboardBoardListView?.onBoardListReceived(boardListData)
 //                    },
 //                    { throwable -> throwable.printStackTrace() },
 //                    { loadBoardsFromNetwork(e) })
@@ -105,29 +108,58 @@ class DashboardPresenter @Inject constructor(private val networkInteractor: Dash
 //                .subscribe({ boardListData: BoardListData ->
 //                    BoardsRepository.insertAllBoardsIntoDatabase(databaseHelper.writableDatabase, boardListData)
 //                    e.onNext(boardListData)
-//                    mDashboardBoardListView?.onBoardsDataReceived(boardListData)
+//                    mDashboardBoardListView?.onBoardListReceived(boardListData)
 //                }, { throwable: Throwable -> e.onError(throwable) }))
 //    }
 
-    fun makeBoardFavourite(boardId: String): Single<Int> {
-        return Single.create { e -> run {
-            e.onSuccess(BoardsRepository.makeBoardFavourite(databaseHelper.writableDatabase, boardId))
-            mFavouriteBoardsView?.onFavouriteBoardListChanged(
-                    BoardsRepository.getFavouriteBoardListAsc(databaseHelper.readableDatabase))
-        }}
+//    fun switchBoardFavourability(boardId: String) {
+//        return Single.create { e -> run {
+//            e.onSuccess(BoardsRepository.makeBoardFavourite(databaseHelper.writableDatabase, boardId))
+//            mFavouriteBoardsView?.onFavouriteBoardListChanged(
+//                    BoardsRepository.getFavouriteBoardListAsc(databaseHelper.readableDatabase))
+//        }}
+//    }
+
+    fun switchBoardFavourability(boardId: String) {
+        compositeDisposable.add(Single.zip(
+                databaseInteractor.switchBoardFavourability(boardId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread()),
+                databaseInteractor.getFavouriteBoardModelListAscending()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread()),
+                BiFunction({ newFavouritePosition: Int, boardModelList: List<BoardModel> ->
+                    dashboardBoardListView?.onFavouriteBoardPositionChanged(boardId, newFavouritePosition)
+                    favouriteBoardsView?.onFavouriteBoardListChanged(boardModelList)
+                    return@BiFunction
+                })).subscribe())
     }
 
-    fun loadFavouriteBoardsList(): Single<List<BoardModel>> {
-        return Single.create { e -> run {
-            e.onSuccess(BoardsRepository.getFavouriteBoardListAsc(databaseHelper.readableDatabase))
-        }}
+//    fun loadFavouriteBoardsList(): Single<List<BoardModel>> {
+//        return Single.create { e -> run {
+//            e.onSuccess(BoardsRepository.getFavouriteBoardListAsc(databaseHelper.readableDatabase))
+//        }}
+//    }
+
+    fun loadFavouriteBoardList(): Single<List<BoardModel>> {
+        compositeDisposable.add(databaseInteractor.getFavouriteBoardModelListAscending()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ favouriteBoardsView?.onFavouriteBoardListChanged(it) }, { it.printStackTrace() }))
     }
+
+//    fun reorderFavouriteBoardList(boardList: List<BoardModel>): Completable {
+//        return Completable.create( { e -> run {
+//            BoardsRepository.reorderBoardList(databaseHelper.writableDatabase, boardList)
+//            e.onComplete()
+//        }})
+//    }
 
     fun reorderFavouriteBoardList(boardList: List<BoardModel>): Completable {
-        return Completable.create( { e -> run {
-            BoardsRepository.reorderBoardList(databaseHelper.writableDatabase, boardList)
-            e.onComplete()
-        }})
+        compositeDisposable.add(databaseInteractor.reorderBoardList(boardList)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe())
     }
 
     fun processSearchInput(input: String) {

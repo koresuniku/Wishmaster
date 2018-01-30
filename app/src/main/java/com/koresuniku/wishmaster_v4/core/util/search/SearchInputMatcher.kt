@@ -9,10 +9,10 @@ import java.util.regex.Pattern
 
 object SearchInputMatcher {
 
-    val UNKNOWN_CODE = -1
-    val BOARD_CODE = 0
-    val THREAD_CODE = 1
-    val POST_CODE = 2
+    const val UNKNOWN_CODE = -1
+    const val BOARD_CODE = 0
+    const val THREAD_CODE = 1
+    const val POST_CODE = 2
 
     fun matchInput(input: String): SearchInputResponse {
         var result = checkIfBoard(input).data

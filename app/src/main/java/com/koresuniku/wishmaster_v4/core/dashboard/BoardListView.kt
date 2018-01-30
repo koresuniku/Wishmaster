@@ -8,5 +8,6 @@ import com.koresuniku.wishmaster_v4.core.data.boards.BoardListData
  */
 
 interface BoardListView : IMvpView {
-    fun onBoardsDataReceived(boardListData: BoardListData)
+    fun onBoardListReceived(boardListData: BoardListData)
+    fun onFavouriteBoardPositionChanged(boardId: String, newFavouritePosition: Int)
 }

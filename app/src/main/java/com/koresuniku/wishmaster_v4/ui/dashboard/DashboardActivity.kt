@@ -105,6 +105,16 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView {
                 }))
     }
 
+    override fun onBoardListReceived(boardListData: BoardListData) {
+        hideLoading()
+    }
+
+    override fun onBoardListError(t: Throwable) {
+        t.printStackTrace()
+        hideLoading()
+        showError(t)
+    }
+
     @LayoutRes override fun provideContentLayoutResource(): Int = R.layout.activity_dashboard
 
     override fun showLoading() {

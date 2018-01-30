@@ -75,7 +75,7 @@ class BoardListAdapter (private val mContext: Context,
                 else
                     R.drawable.ic_favorite_gray_24dp)
         makeFavouriteButton?.setOnClickListener { mCompositeDisposable.add(
-                mPresenter.makeBoardFavourite(boardModel.getBoardId())
+                mPresenter.switchBoardFavourability(boardModel.getBoardId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ newPosition ->
