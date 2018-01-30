@@ -1,6 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.thread_list
 
-import com.koresuniku.wishmaster_v4.core.base.IMvpView
+import com.koresuniku.wishmaster_v4.core.base.mvp.IMvpView
 import com.koresuniku.wishmaster_v4.core.data.threads.ThreadListData
 
 /**

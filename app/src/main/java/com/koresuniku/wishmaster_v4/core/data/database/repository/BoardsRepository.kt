@@ -9,12 +9,13 @@ import com.koresuniku.wishmaster_v4.core.data.boards.BoardModel
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardsMapper
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseContract
 import java.util.ArrayList
+import javax.inject.Inject
 
 /**
  * Created by koresuniku on 03.10.17.
  */
 
-object BoardsRepository {
+class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMapper) {
 
     private val mBoardsProjection = arrayOf(
             DatabaseContract.BoardsEntry.COLUMN_BOARD_ID,
@@ -36,7 +37,7 @@ object BoardsRepository {
             " INTEGER DEFAULT " + FAVOURITE_POSITION_DEFAULT + ";"
 
 
-    fun getBoardsDataFromDatabase(database: SQLiteDatabase): BoardListData? {
+    fun getBoardsDataFromDatabase(database: SQLiteDatabase): BoardListData {
         val data = BoardListData()
         val boardList = ArrayList<BoardModel>()
 
@@ -44,7 +45,7 @@ object BoardsRepository {
                 DatabaseContract.BoardsEntry.TABLE_NAME, mBoardsProjection,
                 null, null, null, null, null)
 
-        if (cursor.count == 0) return null
+        //if (cursor.count == 0) return data
 
         val columnBoardId = cursor.getColumnIndex(
                 DatabaseContract.BoardsEntry.COLUMN_BOARD_ID)
@@ -58,7 +59,7 @@ object BoardsRepository {
         var boardModel: BoardModel
 
         cursor.moveToFirst()
-        do {
+        if (cursor.count != 0) do {
             boardModel = BoardModel()
             boardModel.setBoardId(cursor.getString(columnBoardId))
             boardModel.setBoardName(cursor.getString(columnBoardName))
@@ -197,7 +198,7 @@ object BoardsRepository {
                 null,
                 DatabaseContract.BoardsEntry.COLUMN_FAVOURITE_POSITION + " ASC")
 
-        val boardList = BoardsMapper.mapCursorToBoardModelList(cursor)
+        val boardList = boardsMapper.mapCursorToBoardModelList(cursor)
         cursor.close()
         database.close()
 

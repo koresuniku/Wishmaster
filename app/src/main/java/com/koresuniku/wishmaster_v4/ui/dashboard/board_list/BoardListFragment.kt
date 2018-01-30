@@ -1,6 +1,5 @@
 package com.koresuniku.wishmaster_v4.ui.dashboard.board_list
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -10,14 +9,13 @@ import android.widget.ExpandableListView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.application.IntentKeystore
 import com.koresuniku.wishmaster_v4.core.dashboard.BoardListView
 import com.koresuniku.wishmaster_v4.core.dashboard.DashboardPresenter
+import com.koresuniku.wishmaster_v4.core.dashboard.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardListData
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardListsObject
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardsMapper
 import com.koresuniku.wishmaster_v4.ui.dashboard.DashboardActivity
-import com.koresuniku.wishmaster_v4.ui.thread_list.ThreadListActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -30,7 +28,7 @@ import javax.inject.Inject
 class BoardListFragment : Fragment(), BoardListView {
     private val LOG_TAG = BoardListFragment::class.java.simpleName
 
-    @Inject lateinit var presenter: DashboardPresenter
+    @Inject lateinit var presenter: IDashboardPresenter
 
     private lateinit var mRootView: View
     @BindView(R.id.board_list) lateinit var mBoardList: ExpandableListView
@@ -43,7 +41,7 @@ class BoardListFragment : Fragment(), BoardListView {
         ButterKnife.bind(this, mRootView)
         (activity as DashboardActivity)
                 .getWishmasterApplication()
-                .getDashBoardComponent()
+                .getDashboardViewComponent()
                 .inject(this)
         presenter.bindDashboardBoardListView(this)
 

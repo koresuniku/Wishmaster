@@ -5,8 +5,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
 import com.koresuniku.wishmaster_v4.core.dagger.component.DaggerApplicationComponent
-import com.koresuniku.wishmaster_v4.core.dagger.component.DaggerDashboardComponent
-import com.koresuniku.wishmaster_v4.core.dagger.component.DaggerThreadListComponent
+import com.koresuniku.wishmaster_v4.core.dagger.component.DaggerDashboardPresenterComponent
+import com.koresuniku.wishmaster_v4.core.dagger.component.DaggerDashboardViewComponent
+import com.koresuniku.wishmaster_v4.core.dagger.component.DaggerThreadListViewComponent
 import com.koresuniku.wishmaster_v4.core.dagger.module.*
 import com.koresuniku.wishmaster_v4.core.domain.Dvach
 import com.koresuniku.wishmaster_v4.core.domain.client.RetrofitHolder
@@ -28,12 +29,13 @@ import javax.inject.Inject
 
 class WishmasterApplication : Application() {
 
-    private lateinit var mDaggerDashboardComponent: DaggerDashboardComponent
-    private lateinit var mDaggerThreadListComponent: DaggerThreadListComponent
+    private lateinit var mDaggerDashboardViewComponent: DaggerDashboardViewComponent
+    private lateinit var mDaggerDashboardPresenterComponent: DaggerDashboardPresenterComponent
+    private lateinit var mDaggerThreadListComponent: DaggerThreadListViewComponent
     private lateinit var mDaggerApplicationComponent: DaggerApplicationComponent
 
-    private lateinit var mAppModule: AppModule
-    private lateinit var mNetModule: NetModule
+    private lateinit var mApplicationModule: ApplicationModule
+    private lateinit var mNetworkModule: NetworkModule
     private lateinit var mDatabaseModule: DatabaseModule
     private lateinit var mSharedPreferencesModule: SharedPreferencesModule
 
@@ -46,35 +48,37 @@ class WishmasterApplication : Application() {
 
         if (!LeakCanary.isInAnalyzerProcess(this)) LeakCanary.install(this)
 
-        mAppModule = AppModule(this)
-        mNetModule = NetModule(Dvach.BASE_URL)
+        mApplicationModule = ApplicationModule(this)
+        mNetworkModule = NetworkModule(Dvach.BASE_URL)
         mDatabaseModule = DatabaseModule()
         mSharedPreferencesModule = SharedPreferencesModule()
 
         mDaggerApplicationComponent = DaggerApplicationComponent.builder()
-                .appModule(mAppModule)
-                .netModule(mNetModule)
+                .applicationModule(mApplicationModule)
+                .networkModule(mNetworkModule)
                 .sharedPreferencesModule(mSharedPreferencesModule)
                 .build() as DaggerApplicationComponent
         mDaggerApplicationComponent.inject(this)
 
         SharedPreferencesInteractor.onApplicationCreate(this, sharedPreferencesStorage, retrofitHolder)
 
-        mDaggerDashboardComponent = DaggerDashboardComponent.builder()
-                .dashboardModule(DashboardModule())
-                .build() as DaggerDashboardComponent
+        mDaggerDashboardViewComponent = DaggerDashboardViewComponent.builder()
+                .dashboardViewModule(DashboardViewModule())
+                .build() as DaggerDashboardViewComponent
 
-        mDaggerThreadListComponent = DaggerThreadListComponent.builder()
-                .threadListModule(ThreadListModule())
-                .build() as DaggerThreadListComponent
+        mDaggerDashboardPresenterComponent = DaggerDashboardPresenterComponent.builder()
+                .applicationComponent(mDaggerApplicationComponent)
+                .build() as DaggerDashboardPresenterComponent
 
-        Glide.get(this).register(
-                GlideUrl::class.java,
-                InputStream::class.java,
-                OkHttpUrlLoader.Factory(okHttpClient))
+//        mDaggerThreadListComponent = DaggerThreadListViewComponent.builder()
+//                .applicationComponent(mDaggerApplicationComponent)
+//                .threadListModule(ThreadListModule())
+//                .build() as DaggerThreadListViewComponent
 
+        Glide.get(this).register(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
     }
 
-    fun getDashBoardComponent() = mDaggerDashboardComponent
+    fun getDashboardViewComponent() = mDaggerDashboardViewComponent
+    fun getDashboardPresenterComponent() = mDaggerDashboardPresenterComponent
     fun getThreadListComponent() = mDaggerThreadListComponent
 }

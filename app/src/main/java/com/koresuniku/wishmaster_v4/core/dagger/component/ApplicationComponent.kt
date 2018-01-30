@@ -6,13 +6,12 @@ import com.google.gson.Gson
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster_v4.application.SharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.application.WishmasterApplication
-import com.koresuniku.wishmaster_v4.core.dagger.module.AppModule
-import com.koresuniku.wishmaster_v4.core.dagger.module.NetModule
+import com.koresuniku.wishmaster_v4.core.dagger.module.ApplicationModule
+import com.koresuniku.wishmaster_v4.core.dagger.module.NetworkModule
 import com.koresuniku.wishmaster_v4.core.dagger.module.SharedPreferencesModule
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper
 import com.koresuniku.wishmaster_v4.core.domain.thread_list_api.ThreadListApiService
 import dagger.Component
-import dagger.Subcomponent
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
@@ -21,7 +20,7 @@ import javax.inject.Singleton
  */
 
 @Singleton
-@Component (modules = [(AppModule::class), (NetModule::class), (SharedPreferencesModule::class)])
+@Component (modules = [(ApplicationModule::class), (NetworkModule::class), (SharedPreferencesModule::class)])
 interface ApplicationComponent {
 
     fun application(): Application

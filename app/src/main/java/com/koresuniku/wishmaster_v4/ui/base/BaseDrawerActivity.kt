@@ -1,15 +1,11 @@
 package com.koresuniku.wishmaster_v4.ui.base
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.application.WishmasterApplication
-import com.koresuniku.wishmaster_v4.core.base.IActivityMvpView
-import com.koresuniku.wishmaster_v4.core.base.IMvpView
 import com.koresuniku.wishmaster_v4.ui.util.UiUtils
 
 /**

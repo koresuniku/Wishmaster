@@ -1,6 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.dashboard
 
-import com.koresuniku.wishmaster_v4.core.base.IMvpView
+import com.koresuniku.wishmaster_v4.core.base.mvp.IMvpView
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardListData
 
 /**

@@ -85,7 +85,7 @@ class BoardListAdapter (private val mContext: Context,
                                         R.drawable.ic_favorite_border_gray_24dp
                                     else
                                         R.drawable.ic_favorite_gray_24dp)
-                            mPresenter.reloadBoards()
+                            //mPresenter.reloadBoards()
                         }, { e -> e.printStackTrace()}))}
         return newConvertView!!
     }

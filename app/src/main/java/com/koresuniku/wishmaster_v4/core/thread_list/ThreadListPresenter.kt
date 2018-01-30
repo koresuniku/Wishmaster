@@ -2,7 +2,7 @@ package com.koresuniku.wishmaster_v4.core.thread_list
 
 import android.util.Log
 import com.koresuniku.wishmaster_v4.application.SharedPreferencesStorage
-import com.koresuniku.wishmaster_v4.core.base.BaseRxPresenter
+import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxPresenter
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper
 import com.koresuniku.wishmaster_v4.core.data.threads.ThreadListData
 import com.koresuniku.wishmaster_v4.core.data.threads.ThreadsMapper

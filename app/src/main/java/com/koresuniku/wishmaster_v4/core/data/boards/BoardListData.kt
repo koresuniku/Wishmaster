@@ -5,7 +5,7 @@ package com.koresuniku.wishmaster_v4.core.data.boards
  */
 
 class BoardListData {
-    private lateinit var boardModelList: List<BoardModel>
+    private var boardModelList: List<BoardModel> = emptyList()
 
     fun getBoardList() = boardModelList
 

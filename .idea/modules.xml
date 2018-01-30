@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Wishmaster-v4-24cf6f9ccb3f453f5ce2b3072efca74d903e51fe.iml" filepath="$PROJECT_DIR$/Wishmaster-v4-24cf6f9ccb3f453f5ce2b3072efca74d903e51fe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,5 +1,7 @@
-package com.koresuniku.wishmaster_v4.core.base
+package com.koresuniku.wishmaster_v4.core.base.rx
 
+import com.koresuniku.wishmaster_v4.core.base.mvp.BasePresenter
+import com.koresuniku.wishmaster_v4.core.base.mvp.IMvpView
 import io.reactivex.disposables.CompositeDisposable
 
 /**

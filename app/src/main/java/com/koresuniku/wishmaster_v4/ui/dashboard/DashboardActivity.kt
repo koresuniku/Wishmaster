@@ -30,14 +30,15 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import android.support.v7.widget.SearchView
 import com.koresuniku.wishmaster_v4.application.IntentKeystore
+import com.koresuniku.wishmaster_v4.core.dashboard.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster_v4.ui.thread_list.ThreadListActivity
 
 class DashboardActivity : BaseWishmasterActivity(), DashboardView {
     private val LOG_TAG = DashboardActivity::class.java.simpleName
 
-    @Inject lateinit var presenter: DashboardPresenter
-    @Inject lateinit var sharedPreferencesStorage: SharedPreferencesStorage
+    @Inject lateinit var presenter: IDashboardPresenter
+   // @Inject lateinit var sharedPreferencesStorage: SharedPreferencesStorage
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.tab_layout) lateinit var mTabLayout: TabLayout
@@ -51,7 +52,7 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getWishmasterApplication().getDashBoardComponent().inject(this)
+        getWishmasterApplication().getDashboardViewComponent().inject(this)
         ButterKnife.bind(this)
         presenter.bindView(this)
 
@@ -161,12 +162,12 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView {
         mViewPagerAdapter = DashboardViewPagerAdapter(supportFragmentManager)
         mViewPager.adapter = mViewPagerAdapter
         mViewPager.offscreenPageLimit = 2
-        mCompositeDisposable.add(sharedPreferencesStorage.readInt(
-                SharedPreferencesKeystore.DASHBOARD_PREFERRED_TAB_POSITION_KEY,
-                SharedPreferencesKeystore.DASHBOARD_PREFERRED_TAB_POSITION_DEFAULT)
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe { value -> mViewPager.currentItem = value })
+//        mCompositeDisposable.add(sharedPreferencesStorage.readInt(
+//                SharedPreferencesKeystore.DASHBOARD_PREFERRED_TAB_POSITION_KEY,
+//                SharedPreferencesKeystore.DASHBOARD_PREFERRED_TAB_POSITION_DEFAULT)
+//                .observeOn(Schedulers.io())
+//                .subscribeOn(AndroidSchedulers.mainThread())
+//                .subscribe { value -> mViewPager.currentItem = value })
     }
 
     override fun launchThreadListActivity(boardId: String) {

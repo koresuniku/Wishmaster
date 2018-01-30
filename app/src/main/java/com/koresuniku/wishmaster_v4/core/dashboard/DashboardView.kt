@@ -1,6 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.dashboard
 
-import com.koresuniku.wishmaster_v4.core.base.IActivityMvpView
+import com.koresuniku.wishmaster_v4.core.base.mvp.IActivityMvpView
 
 /**
  * Created by koresuniku on 03.10.17.

@@ -3,12 +3,13 @@ package com.koresuniku.wishmaster_v4.core.data.boards
 import android.database.Cursor
 import com.koresuniku.wishmaster.domain.boards_api.BoardsJsonSchemaResponse
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseContract
+import javax.inject.Inject
 
 /**
  * Created by koresuniku on 04.10.17.
  */
 
-object BoardsMapper {
+class BoardsMapper @Inject constructor() {
 
     fun mapResponse(boardsJsonSchemaResponse: BoardsJsonSchemaResponse): BoardListData {
         val boardsDataResult = BoardListData()

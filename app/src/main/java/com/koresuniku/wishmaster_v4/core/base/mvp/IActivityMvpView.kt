@@ -1,4 +1,4 @@
-package com.koresuniku.wishmaster_v4.core.base
+package com.koresuniku.wishmaster_v4.core.base.mvp
 
 import com.koresuniku.wishmaster_v4.application.WishmasterApplication
 
