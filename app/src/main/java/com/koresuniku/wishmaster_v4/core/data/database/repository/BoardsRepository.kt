@@ -5,6 +5,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardListData
+import com.koresuniku.wishmaster_v4.core.data.boards.BoardListsObject
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardModel
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardsMapper
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseContract
@@ -23,18 +24,20 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
             DatabaseContract.BoardsEntry.COLUMN_BOARD_CATEGORY,
             DatabaseContract.BoardsEntry.COLUMN_FAVOURITE_POSITION)
 
-    fun getBoardsProjection() = mBoardsProjection
+    companion object {
+        val CREATE_TABLE_BOARDS_STATEMENT = "CREATE TABLE " + DatabaseContract.BoardsEntry.TABLE_NAME + " (" +
+                DatabaseContract.BoardsEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DatabaseContract.BoardsEntry.COLUMN_BOARD_ID + " TEXT NOT NULL, " +
+                DatabaseContract.BoardsEntry.COLUMN_BOARD_NAME + " TEXT NOT NULL, " +
+                DatabaseContract.BoardsEntry.COLUMN_BOARD_CATEGORY + " TEXT NOT NULL" + ");"
 
-    val CREATE_TABLE_BOARDS_STATEMENT = "CREATE TABLE " + DatabaseContract.BoardsEntry.TABLE_NAME + " (" +
-            DatabaseContract.BoardsEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            DatabaseContract.BoardsEntry.COLUMN_BOARD_ID + " TEXT NOT NULL, " +
-            DatabaseContract.BoardsEntry.COLUMN_BOARD_NAME + " TEXT NOT NULL, " +
-            DatabaseContract.BoardsEntry.COLUMN_BOARD_CATEGORY + " TEXT NOT NULL" + ");"
+        const val FAVOURITE_POSITION_DEFAULT = -1
 
-    val FAVOURITE_POSITION_DEFAULT = -1
-    val ALTER_TABLE_ADD_COLUMN_FAVOURITE_POSITION = "ALTER TABLE " + DatabaseContract.BoardsEntry.TABLE_NAME +
-            " ADD COLUMN " + DatabaseContract.BoardsEntry.COLUMN_FAVOURITE_POSITION +
-            " INTEGER DEFAULT " + FAVOURITE_POSITION_DEFAULT + ";"
+        val ALTER_TABLE_ADD_COLUMN_FAVOURITE_POSITION = "ALTER TABLE " + DatabaseContract.BoardsEntry.TABLE_NAME +
+                " ADD COLUMN " + DatabaseContract.BoardsEntry.COLUMN_FAVOURITE_POSITION +
+                " INTEGER DEFAULT " + FAVOURITE_POSITION_DEFAULT + ";"
+    }
+
 
 
     fun getBoardsDataFromDatabase(database: SQLiteDatabase): BoardListData {
@@ -95,7 +98,7 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
 
     fun insertSubtractedBoardsFromInputData(database: SQLiteDatabase, inputData: BoardListData) {
         val existingBoardsData = getBoardsDataFromDatabase(database)
-        val resultData = inputData.getBoardList().subtract(existingBoardsData!!.getBoardList())
+        val resultData = inputData.getBoardList().subtract(existingBoardsData.getBoardList())
 
         resultData.forEach {
             insertBoard(database, it.getBoardId(), it.getBoardName(), it.getBoardCategory())
@@ -114,7 +117,7 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
 
     fun deleteOldBoards(database: SQLiteDatabase, inputData: BoardListData) {
         val existingBoardsData = getBoardsDataFromDatabase(database)
-        val resultData = existingBoardsData!!.getBoardList().subtract(inputData.getBoardList())
+        val resultData = existingBoardsData.getBoardList().subtract(inputData.getBoardList())
 
         resultData.forEach { deleteBoard(database, it.getBoardId()) }
 
@@ -215,5 +218,9 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
                     DatabaseContract.BoardsEntry.COLUMN_BOARD_ID + " =? ",
                     arrayOf(it.getBoardId()))
         }
+    }
+
+    fun mapToBoardsDataByCategory(boardListData: BoardListData): BoardListsObject {
+        return boardsMapper.mapToBoardsDataByCategory(boardListData)
     }
 }

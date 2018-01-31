@@ -11,4 +11,5 @@ interface DashboardView : IActivityMvpView, DashboardSearchView {
     fun showLoading()
     fun onBoardListReceived(boardListData: BoardListData)
     fun onBoardListError(t: Throwable)
+    fun onFavouriteTabPositionReceived(position: Int)
 }

@@ -7,14 +7,16 @@ import java.util.regex.Pattern
  * Created by koresuniku on 02.01.18.
  */
 
-object SearchInputMatcher {
+class SearchInputMatcher : ISearchInputMatcher {
 
-    const val UNKNOWN_CODE = -1
-    const val BOARD_CODE = 0
-    const val THREAD_CODE = 1
-    const val POST_CODE = 2
+    companion object {
+        const val UNKNOWN_CODE = -1
+        const val BOARD_CODE = 0
+        const val THREAD_CODE = 1
+        const val POST_CODE = 2
+    }
 
-    fun matchInput(input: String): SearchInputResponse {
+    override fun matchInput(input: String): SearchInputResponse {
         var result = checkIfBoard(input).data
         if (result != SearchInputResponse.UNKNOWN_ADDRESS) return SearchInputResponse(BOARD_CODE, result)
 
@@ -27,7 +29,7 @@ object SearchInputMatcher {
         return SearchInputResponse.unknownResponse()
     }
 
-    private fun checkIfBoard(input: String): SearchInputResponse {
+    override fun checkIfBoard(input: String): SearchInputResponse {
         Dvach.MIRRORS.forEach {
             val pattern = Pattern.compile("(^(https?://)?(www\\.)?$it/+)?/*[a-zA-Z0-9]+/*")
             val matcher = pattern.matcher(input)
@@ -39,7 +41,7 @@ object SearchInputMatcher {
         return SearchInputResponse.unknownResponse()
     }
 
-    private fun checkIfThread(input: String): SearchInputResponse {
+    override fun checkIfThread(input: String): SearchInputResponse {
         Dvach.MIRRORS.forEach {
             val pattern = Pattern.compile("^(https?://)?(www\\.)?$it/+[a-zA-Z0-9]+/+res/+[0-9]+\\.html$")
             val matcher = pattern.matcher(input)
@@ -54,7 +56,7 @@ object SearchInputMatcher {
         return SearchInputResponse.unknownResponse()
     }
 
-    private fun checkIfPost(input: String): SearchInputResponse {
+    override fun checkIfPost(input: String): SearchInputResponse {
         Dvach.MIRRORS.forEach {
             val pattern = Pattern.compile("^(https?://)?(www\\.)?$it/+[a-zA-Z0-9]+/+res/+[0-9]+\\.html#[0-9]+$")
             val matcher = pattern.matcher(input)

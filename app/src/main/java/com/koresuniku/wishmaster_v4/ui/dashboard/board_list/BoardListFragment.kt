@@ -19,6 +19,7 @@ import com.koresuniku.wishmaster_v4.ui.dashboard.DashboardActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 /**
@@ -34,7 +35,7 @@ class BoardListFragment : Fragment(), BoardListView {
     @BindView(R.id.board_list) lateinit var mBoardList: ExpandableListView
 
     private lateinit var mBoardListAdapter: BoardListAdapter
-    private lateinit var mCompositeDisposable: CompositeDisposable
+   // private lateinit var mCompositeDisposable: CompositeDisposable
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mRootView = inflater.inflate(R.layout.fragment_board_list, container, false)
@@ -45,28 +46,32 @@ class BoardListFragment : Fragment(), BoardListView {
                 .inject(this)
         presenter.bindDashboardBoardListView(this)
 
-        mCompositeDisposable = CompositeDisposable()
-        loadBoards()
+       // mCompositeDisposable = CompositeDisposable()
+        //loadBoards()
 
         return mRootView
     }
 
-    override fun onBoardListReceived(boardListData: BoardListData) {
-        val boardLists = BoardsMapper.mapToBoardsDataByCategory(boardListData)
-        activity?.runOnUiThread { setupBoardListAdapter(boardLists) }
+//    fun onBoardListReceived(boardListData: BoardListData) {
+//        val boardLists = BoardsMapper.mapToBoardsDataByCategory(boardListData)
+//        activity?.runOnUiThread { setupBoardListAdapter(boardLists) }
+//    }
+
+    override fun onBoardListsObjectReceived(boardListsObject: BoardListsObject) {
+        setupBoardListAdapter(boardListsObject)
     }
 
-    private fun loadBoards() {
-        mCompositeDisposable.add(presenter.getLoadBoardsObservable()
-                .subscribeOn(Schedulers.newThread())
-                .map(BoardsMapper::mapToBoardsDataByCategory)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::setupBoardListAdapter, { e -> e.printStackTrace() }))
-    }
+//    private fun loadBoards() {
+//        mCompositeDisposable.add(presenter.getLoadBoardsObservable()
+//                .subscribeOn(Schedulers.newThread())
+//                .map(BoardsMapper::mapToBoardsDataByCategory)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(this::setupBoardListAdapter, { e -> e.printStackTrace() }))
+//    }
 
     private fun setupBoardListAdapter(boardListsObject: BoardListsObject) {
         context?.let {
-            mBoardListAdapter = BoardListAdapter(it, boardListsObject, presenter, mCompositeDisposable)
+            mBoardListAdapter = BoardListAdapter(WeakReference(it), boardListsObject, presenter)
             mBoardList.setAdapter(mBoardListAdapter)
             mBoardList.setGroupIndicator(null)
             mBoardList.setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
@@ -76,9 +81,13 @@ class BoardListFragment : Fragment(), BoardListView {
         }
     }
 
+    override fun onBoardFavourabilityChanged(boardId: String, newFavouritePosition: Int) {
+        mBoardListAdapter.onBoardFavourabilityChanged(boardId, newFavouritePosition)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.unbindDashboardBoardListView()
-        mCompositeDisposable.clear()
+        //mCompositeDisposable.clear()
     }
 }

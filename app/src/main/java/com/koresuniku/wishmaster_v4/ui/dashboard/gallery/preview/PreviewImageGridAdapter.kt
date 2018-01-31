@@ -29,8 +29,6 @@ import com.koresuniku.wishmaster_v4.ui.view.widget.ExpandableHeightGridView
 class PreviewImageGridAdapter(private val imageItemDataList: List<ImageItemData>,
                               private val baseUrl: String) : BaseAdapter() {
 
-
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var returnView: View? = convertView
         parent?.let {
@@ -51,23 +49,6 @@ class PreviewImageGridAdapter(private val imageItemDataList: List<ImageItemData>
         }
         return returnView ?: View(parent?.context)
     }
-
-//    private fun adjustHeight(gridView: ExpandableHeightGridView, position: Int, itemHeight: Int) {
-//        if (position == 0 || (position >= gridView.numColumns && gridView.numColumns % position == 0)) {
-//            if (position != 0) lastRowHeight = finalHeight
-//            finalHeight += itemHeight
-//        } else if (lastRowHeight + itemHeight > finalHeight) {
-//            finalHeight = lastRowHeight + itemHeight
-//        }
-//        if (lastItemCounted) run {
-//            Log.d("EHGV", "finalHeight: $finalHeight")
-//            finalHeight = 0
-//            lastRowHeight = 0
-//            lastItemCounted = !lastItemCounted
-//            //gridView.layoutParams.height = finalHeight
-//            //measure(layoutParams.width, layoutParams.height)
-//        }
-//    }
 
     override fun getItem(position: Int): Any = imageItemDataList[position].file
     override fun getItemId(position: Int): Long = position.toLong()

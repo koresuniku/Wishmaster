@@ -40,7 +40,7 @@ class WishmasterApplication : Application() {
     private lateinit var mSharedPreferencesModule: SharedPreferencesModule
 
     @Inject lateinit var okHttpClient: OkHttpClient
-    @Inject lateinit var sharedPreferencesStorage: SharedPreferencesStorage
+    @Inject lateinit var ISharedPreferencesStorage: ISharedPreferencesStorage
     @Inject lateinit var retrofitHolder: RetrofitHolder
 
     override fun onCreate() {
@@ -60,7 +60,7 @@ class WishmasterApplication : Application() {
                 .build() as DaggerApplicationComponent
         mDaggerApplicationComponent.inject(this)
 
-        SharedPreferencesInteractor.onApplicationCreate(this, sharedPreferencesStorage, retrofitHolder)
+        SharedPreferencesHelper.onApplicationCreate(this, ISharedPreferencesStorage, retrofitHolder)
 
         mDaggerDashboardViewComponent = DaggerDashboardViewComponent.builder()
                 .dashboardViewModule(DashboardViewModule())
@@ -68,6 +68,10 @@ class WishmasterApplication : Application() {
 
         mDaggerDashboardPresenterComponent = DaggerDashboardPresenterComponent.builder()
                 .applicationComponent(mDaggerApplicationComponent)
+                .dashboardPresenterModule(DashboardPresenterModule())
+                .rxModule(RxModule())
+                .boardsModule(BoardsModule())
+                .searchModule(SearchModule())
                 .build() as DaggerDashboardPresenterComponent
 
 //        mDaggerThreadListComponent = DaggerThreadListViewComponent.builder()

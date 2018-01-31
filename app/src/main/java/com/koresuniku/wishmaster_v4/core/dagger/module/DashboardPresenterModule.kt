@@ -4,9 +4,11 @@ import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster_v4.core.dagger.ForDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.dashboard.DashboardDatabaseInteractor
 import com.koresuniku.wishmaster_v4.core.dashboard.DashboardNetworkInteractor
+import com.koresuniku.wishmaster_v4.core.dashboard.DashboardSearchInteractor
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardsMapper
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper
 import com.koresuniku.wishmaster_v4.core.data.database.repository.BoardsRepository
+import com.koresuniku.wishmaster_v4.core.util.search.ISearchInputMatcher
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -27,5 +29,11 @@ class DashboardPresenterModule {
                                            databaseHelper: DatabaseHelper,
                                            compositeDisposable: CompositeDisposable): DashboardDatabaseInteractor {
         return DashboardDatabaseInteractor(boardsRepository, databaseHelper, compositeDisposable)
+    }
+
+    @Provides @ForDashboardPresenter
+    fun provideDashboardSearchInteractor(matcher: ISearchInputMatcher,
+                                         compositeDisposable: CompositeDisposable): DashboardSearchInteractor {
+        return DashboardSearchInteractor(matcher, compositeDisposable)
     }
 }

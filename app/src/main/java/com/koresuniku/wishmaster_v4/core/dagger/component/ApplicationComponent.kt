@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
-import com.koresuniku.wishmaster_v4.application.SharedPreferencesStorage
+import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.application.WishmasterApplication
 import com.koresuniku.wishmaster_v4.core.dagger.module.ApplicationModule
 import com.koresuniku.wishmaster_v4.core.dagger.module.NetworkModule
@@ -25,7 +25,7 @@ interface ApplicationComponent {
 
     fun application(): Application
     fun context(): Context
-    fun sharedPreferencesStorage(): SharedPreferencesStorage
+    fun sharedPreferencesStorage(): ISharedPreferencesStorage
     fun databaseHelper(): DatabaseHelper
     fun boardsApiServide(): BoardsApiService
     fun threadListApiService(): ThreadListApiService

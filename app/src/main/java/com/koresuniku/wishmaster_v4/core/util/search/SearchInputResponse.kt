@@ -6,7 +6,7 @@ package com.koresuniku.wishmaster_v4.core.util.search
 
 data class SearchInputResponse(val responseCode: Int, val data: String) {
     companion object {
-        val UNKNOWN_ADDRESS = "unknown_address"
+        const val UNKNOWN_ADDRESS = "unknown_address"
         fun unknownResponse() = SearchInputResponse(SearchInputMatcher.UNKNOWN_CODE, UNKNOWN_ADDRESS)
     }
 }

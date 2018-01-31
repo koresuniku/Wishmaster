@@ -10,9 +10,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.AbsListView
 import android.widget.Button
@@ -22,7 +20,7 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.application.IntentKeystore
-import com.koresuniku.wishmaster_v4.application.SharedPreferencesStorage
+import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListPresenter
 import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListView
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
@@ -40,7 +38,7 @@ class ThreadListActivity : BaseWishmasterActivity(), ThreadListView {
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
     @Inject lateinit var presenter: ThreadListPresenter
-    @Inject lateinit var sharedPreferencesStorage: SharedPreferencesStorage
+    @Inject lateinit var ISharedPreferencesStorage: ISharedPreferencesStorage
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup

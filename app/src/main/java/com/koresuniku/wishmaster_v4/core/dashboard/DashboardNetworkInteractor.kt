@@ -14,7 +14,7 @@ class DashboardNetworkInteractor @Inject constructor(
         apiService: BoardsApiService,
         private val boardsMapper: BoardsMapper,
         compositeDisposable: CompositeDisposable):
-        BaseRxNetworkInteractor<DashboardPresenter, BoardsApiService, BoardListData>(apiService, compositeDisposable) {
+        BaseRxNetworkInteractor<IDashboardPresenter, BoardsApiService, BoardListData>(apiService, compositeDisposable) {
 
 
     override fun getDataFromNetwork(): Single<BoardListData> {

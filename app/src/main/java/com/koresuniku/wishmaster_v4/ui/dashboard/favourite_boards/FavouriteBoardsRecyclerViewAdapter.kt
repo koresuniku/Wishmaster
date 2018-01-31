@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.core.dashboard.DashboardPresenter
+import com.koresuniku.wishmaster_v4.core.dashboard.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardModel
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import com.koresuniku.wishmaster_v4.ui.view.drag_and_swipe_recycler_view.ItemTouchHelperAdapter
@@ -22,16 +23,11 @@ import kotlin.collections.ArrayList
 
 class FavouriteBoardsRecyclerViewAdapter(
         private val mOnStartDragListener: OnStartDragListener,
-        private val mPresenter: DashboardPresenter,
-        private val mCompositeDisposable: CompositeDisposable) :
+        private val mPresenter: IDashboardPresenter):
         RecyclerView.Adapter<FavouriteBoardsRecyclerViewViewHolder>(), ItemTouchHelperAdapter {
     private val LOG_TAG = FavouriteBoardsRecyclerViewAdapter::class.java.simpleName
 
-    private var mFavouriteBoards: List<BoardModel>
-
-    init {
-        mFavouriteBoards = ArrayList()
-    }
+    private var mFavouriteBoards: List<BoardModel> = emptyList()
 
     fun bindFavouriteBoardList(favouriteBoardList: List<BoardModel>) {
         mFavouriteBoards = favouriteBoardList
@@ -66,10 +62,11 @@ class FavouriteBoardsRecyclerViewAdapter(
 
         mFavouriteBoards.forEachIndexed { index, boardModel -> boardModel.setFavouritePosition(index) }
 
-        mCompositeDisposable.add(mPresenter.reorderFavouriteBoardList(mFavouriteBoards)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe())
+//        mCompositeDisposable.add(mPresenter.reorderFavouriteBoardList(mFavouriteBoards)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe())
+        mPresenter.reorderFavouriteBoardList(mFavouriteBoards)
 
         notifyItemMoved(fromPosition, toPosition)
     }

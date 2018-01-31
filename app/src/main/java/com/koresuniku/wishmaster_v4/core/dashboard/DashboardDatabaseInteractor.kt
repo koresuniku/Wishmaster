@@ -2,17 +2,19 @@ package com.koresuniku.wishmaster_v4.core.dashboard
 
 import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxDatabaseInteractor
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardListData
+import com.koresuniku.wishmaster_v4.core.data.boards.BoardListsObject
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardModel
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper
 import com.koresuniku.wishmaster_v4.core.data.database.repository.BoardsRepository
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
 
-class DashboardDatabaseInteractor(private val boardsRepository: BoardsRepository,
-                                  databaseHelper: DatabaseHelper,
-                                  compositeDisposable: CompositeDisposable):
+class DashboardDatabaseInteractor @Inject constructor(private val boardsRepository: BoardsRepository,
+                                                      databaseHelper: DatabaseHelper,
+                                                      compositeDisposable: CompositeDisposable):
         BaseRxDatabaseInteractor<IDashboardPresenter, BoardListData>(databaseHelper, compositeDisposable) {
 
     override fun getDataFromDatabase(): Single<BoardListData> {
@@ -44,6 +46,12 @@ class DashboardDatabaseInteractor(private val boardsRepository: BoardsRepository
         return Completable.create({
             boardsRepository.reorderBoardList(getWritableDatabase(), boardList)
             it.onComplete()
+        })
+    }
+
+    fun mapToBoardsDataByCategory(boardListData: BoardListData): Single<BoardListsObject> {
+        return Single.create({
+            it.onSuccess(boardsRepository.mapToBoardsDataByCategory(boardListData))
         })
     }
 }

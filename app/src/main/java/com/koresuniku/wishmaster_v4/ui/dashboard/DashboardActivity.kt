@@ -18,9 +18,7 @@ import butterknife.ButterKnife
 
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.application.SharedPreferencesKeystore
-import com.koresuniku.wishmaster_v4.application.SharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.core.dashboard.DashboardView
-import com.koresuniku.wishmaster_v4.core.dashboard.DashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardListData
 import com.koresuniku.wishmaster_v4.ui.util.ViewUtils
 import com.koresuniku.wishmaster_v4.ui.view.widget.DashboardViewPager
@@ -38,7 +36,7 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView {
     private val LOG_TAG = DashboardActivity::class.java.simpleName
 
     @Inject lateinit var presenter: IDashboardPresenter
-   // @Inject lateinit var sharedPreferencesStorage: SharedPreferencesStorage
+   // @Inject lateinit var ISharedPreferencesStorage: ISharedPreferencesStorage
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.tab_layout) lateinit var mTabLayout: TabLayout
@@ -91,18 +89,19 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView {
     }
 
     private fun loadBoards() {
-        val loadBoardsObservable = presenter.getLoadBoardsObservable()
-        mCompositeDisposable.add(loadBoardsObservable
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe( { boardListData: BoardListData ->
-                    Log.d(LOG_TAG, "received board data: " + boardListData.getBoardList().size)
-                    hideLoading()
-                }, { throwable: Throwable ->
-                    throwable.printStackTrace()
-                    hideLoading()
-                    showError(throwable)
-                }))
+//        val loadBoardsObservable = presenter.getLoadBoardsObservable()
+//        mCompositeDisposable.add(loadBoardsObservable
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe( { boardListData: BoardListData ->
+//                    Log.d(LOG_TAG, "received board data: " + boardListData.getBoardList().size)
+//                    hideLoading()
+//                }, { throwable: Throwable ->
+//                    throwable.printStackTrace()
+//                    hideLoading()
+//                    showError(throwable)
+//                }))
+        presenter.loadBoards()
     }
 
     override fun onBoardListReceived(boardListData: BoardListData) {
@@ -110,7 +109,7 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView {
     }
 
     override fun onBoardListError(t: Throwable) {
-        t.printStackTrace()
+        //t.printStackTrace()
         hideLoading()
         showError(t)
     }
@@ -147,7 +146,7 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView {
                 snackbar.dismiss()
                 hideError()
                 showLoading()
-                presenter.reloadBoards()
+                //presenter.reloadBoards()
                 loadBoards()
             }
         }
@@ -178,6 +177,11 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView {
 //                .observeOn(Schedulers.io())
 //                .subscribeOn(AndroidSchedulers.mainThread())
 //                .subscribe { value -> mViewPager.currentItem = value })
+        presenter.getDashboardFavouriteTabPosition()
+    }
+
+    override fun onFavouriteTabPositionReceived(position: Int) {
+        mViewPager.currentItem = position
     }
 
     override fun launchThreadListActivity(boardId: String) {
@@ -185,7 +189,7 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView {
         val intent = Intent(this, ThreadListActivity::class.java)
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, boardId)
         startActivity(intent)
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out)
+        overridePendingTransitionEnter()
     }
 
     override fun showUnknownInput() {

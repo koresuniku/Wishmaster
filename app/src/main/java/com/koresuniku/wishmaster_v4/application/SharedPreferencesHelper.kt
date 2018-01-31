@@ -14,28 +14,28 @@ import io.reactivex.schedulers.Schedulers
  * Created by koresuniku on 14.01.18.
  */
 
-object SharedPreferencesInteractor {
+object SharedPreferencesHelper {
 
     fun onApplicationCreate(context: Context,
-                            sharedPreferencesStorage: SharedPreferencesStorage,
+                            ISharedPreferencesStorage: ISharedPreferencesStorage,
                             retrofitHolder: RetrofitHolder) {
-        setDefaultImageWidth(context, sharedPreferencesStorage)
-        setRetrofitBaseUrl(sharedPreferencesStorage, retrofitHolder)
+        setDefaultImageWidth(context, ISharedPreferencesStorage)
+        setRetrofitBaseUrl(ISharedPreferencesStorage, retrofitHolder)
     }
 
 //    private fun setDefaultImageWidth(context: Context,
-//                                     sharedPreferencesStorage: SharedPreferencesStorage) {
-//        sharedPreferencesStorage.readInt(
+//                                     ISharedPreferencesStorage: ISharedPreferencesStorage) {
+//        ISharedPreferencesStorage.readInt(
 //                SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_KEY,
 //                SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_DEFAULT)
 //                .subscribeOn(Schedulers.io())
 //                .filter { value -> value == SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_DEFAULT }
 //                .subscribe {
-//                    if (sharedPreferencesStorage.writeIntSameThread(
+//                    if (ISharedPreferencesStorage.writeIntSameThread(
 //                            SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_KEY,
 //                            UiUtils.getDefaultImageWidthInDp(
 //                                    DeviceUtils.getMaximumDisplayWidthInPx(context), context))) {
-//                        computeThreadPostItemWidth(context, sharedPreferencesStorage)
+//                        computeThreadPostItemWidth(context, ISharedPreferencesStorage)
 //                                .subscribeOn(Schedulers.computation())
 //                                .subscribe()
 //                    }
@@ -43,21 +43,21 @@ object SharedPreferencesInteractor {
 //    }
 
     private fun setDefaultImageWidth(context: Context,
-                                     sharedPreferencesStorage: SharedPreferencesStorage) {
-        readDefaultImageWidthDependentValues(sharedPreferencesStorage)
+                                     ISharedPreferencesStorage: ISharedPreferencesStorage) {
+        readDefaultImageWidthDependentValues(ISharedPreferencesStorage)
                 .subscribeOn(Schedulers.io())
                 .subscribe( { values ->
                     if (values.imageWidth == SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_DEFAULT) {
-                        if (sharedPreferencesStorage.writeIntSameThread(
+                        if (ISharedPreferencesStorage.writeIntSameThread(
                                 SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_KEY,
                                 UiUtils.getDefaultImageWidthInDp(
                                         DeviceUtils.getMaximumDisplayWidthInPx(context), context))) {
-                            computeThreadPostItemWidth(context, sharedPreferencesStorage)
+                            computeThreadPostItemWidth(context, ISharedPreferencesStorage)
                                     .subscribeOn(Schedulers.computation())
                                     .subscribe()
                         }
                     } else {
-                        computeThreadPostItemWidth(context, sharedPreferencesStorage)
+                        computeThreadPostItemWidth(context, ISharedPreferencesStorage)
                                 .subscribeOn(Schedulers.computation())
                                 .subscribe()
                     }
@@ -65,22 +65,22 @@ object SharedPreferencesInteractor {
     }
 
     private fun readDefaultImageWidthDependentValues(
-            sharedPreferencesStorage: SharedPreferencesStorage) :
+            ISharedPreferencesStorage: ISharedPreferencesStorage) :
             Single<DefaultImageWidthDependentValues> {
         return Single.zip(
-                readDefaultImageWidth(sharedPreferencesStorage),
-                readThreadPostItemHorizontalWidth(sharedPreferencesStorage),
-                readThreadPostItemVerticalWidth(sharedPreferencesStorage),
-                readThreadPostItemSingleImageHorizontalWidth(sharedPreferencesStorage),
-                readThreadPostItemSingleImageVerticalWidth(sharedPreferencesStorage),
+                readDefaultImageWidth(ISharedPreferencesStorage),
+                readThreadPostItemHorizontalWidth(ISharedPreferencesStorage),
+                readThreadPostItemVerticalWidth(ISharedPreferencesStorage),
+                readThreadPostItemSingleImageHorizontalWidth(ISharedPreferencesStorage),
+                readThreadPostItemSingleImageVerticalWidth(ISharedPreferencesStorage),
                 Function5({ imageWidth, hw, vw, sihw, sivw ->
                     DefaultImageWidthDependentValues(imageWidth, hw, vw, sihw, sivw)
                 }))
     }
 
-    private fun setRetrofitBaseUrl(sharedPreferencesStorage: SharedPreferencesStorage,
+    private fun setRetrofitBaseUrl(ISharedPreferencesStorage: ISharedPreferencesStorage,
                                    retrofitHolder: RetrofitHolder) {
-        sharedPreferencesStorage.readString(
+        ISharedPreferencesStorage.readString(
                 SharedPreferencesKeystore.BASE_URL_KEY,
                 SharedPreferencesKeystore.BASE_URL_DEFAULT)
                 .subscribeOn(Schedulers.io())
@@ -89,7 +89,7 @@ object SharedPreferencesInteractor {
     }
 
     private fun computeThreadPostItemWidth(context: Context,
-                                           sharedPreferencesStorage: SharedPreferencesStorage): Completable {
+                                           ISharedPreferencesStorage: ISharedPreferencesStorage): Completable {
         return Completable.create({ e -> kotlin.run {
             var displayWidth = DeviceUtils.getDisplayWidth(context)
             var displayHeight = DeviceUtils.getDisplayHeight(context)
@@ -104,7 +104,7 @@ object SharedPreferencesInteractor {
             val threadPostItemHorizontalWidth = displayWidth - sideMargin * 2
             val threadPostItemVerticalWidth = displayHeight - sideMargin * 2
 
-            sharedPreferencesStorage.readInt(
+            ISharedPreferencesStorage.readInt(
                     SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_KEY,
                     SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_DEFAULT)
                     .subscribeOn(Schedulers.io())
@@ -112,16 +112,16 @@ object SharedPreferencesInteractor {
                         val threadPostItemSingleImageHorizontal = threadPostItemHorizontalWidth - value - sideMargin
                         val threadPostItemSingleImageVertical = threadPostItemVerticalWidth - value - sideMargin
 
-                        sharedPreferencesStorage.writeIntBackground(
+                        ISharedPreferencesStorage.writeIntBackground(
                                 SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_HORIZONTAL_IN_PX_KEY,
                                 threadPostItemHorizontalWidth)
-                        sharedPreferencesStorage.writeIntBackground(
+                        ISharedPreferencesStorage.writeIntBackground(
                                 SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_VERTICAL_IN_PX_KEY,
                                 threadPostItemVerticalWidth)
-                        sharedPreferencesStorage.writeIntBackground(
+                        ISharedPreferencesStorage.writeIntBackground(
                                 SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_SINGLE_IMAGE_HORIZONTAL_IN_PX_KEY,
                                 threadPostItemSingleImageHorizontal)
-                        sharedPreferencesStorage.writeIntBackground(
+                        ISharedPreferencesStorage.writeIntBackground(
                                 SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_SINGLE_IMAGE_VERTICAL_IN_PX_KEY,
                                 threadPostItemSingleImageVertical)
 
@@ -130,9 +130,9 @@ object SharedPreferencesInteractor {
         }})
     }
 
-    private fun readDefaultImageWidth(sharedPreferencesStorage: SharedPreferencesStorage): Single<Int> {
+    private fun readDefaultImageWidth(ISharedPreferencesStorage: ISharedPreferencesStorage): Single<Int> {
         return Single.create({ e ->
-                sharedPreferencesStorage.readInt(
+                ISharedPreferencesStorage.readInt(
                         SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_KEY,
                         SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_DEFAULT)
                         .observeOn(Schedulers.io())
@@ -140,9 +140,9 @@ object SharedPreferencesInteractor {
         })
     }
 
-    private fun readThreadPostItemHorizontalWidth(sharedPreferencesStorage: SharedPreferencesStorage): Single<Int> {
+    private fun readThreadPostItemHorizontalWidth(ISharedPreferencesStorage: ISharedPreferencesStorage): Single<Int> {
         return Single.create({ e ->
-            sharedPreferencesStorage.readInt(
+            ISharedPreferencesStorage.readInt(
                     SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_HORIZONTAL_IN_PX_KEY,
                     SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_DEFAULT)
                     .observeOn(Schedulers.io())
@@ -150,9 +150,9 @@ object SharedPreferencesInteractor {
         })
     }
 
-    private fun readThreadPostItemVerticalWidth(sharedPreferencesStorage: SharedPreferencesStorage): Single<Int> {
+    private fun readThreadPostItemVerticalWidth(ISharedPreferencesStorage: ISharedPreferencesStorage): Single<Int> {
         return Single.create({ e ->
-            sharedPreferencesStorage.readInt(
+            ISharedPreferencesStorage.readInt(
                     SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_VERTICAL_IN_PX_KEY,
                     SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_DEFAULT)
                     .observeOn(Schedulers.io())
@@ -160,9 +160,9 @@ object SharedPreferencesInteractor {
         })
     }
 
-    private fun readThreadPostItemSingleImageHorizontalWidth(sharedPreferencesStorage: SharedPreferencesStorage): Single<Int> {
+    private fun readThreadPostItemSingleImageHorizontalWidth(ISharedPreferencesStorage: ISharedPreferencesStorage): Single<Int> {
         return Single.create({ e ->
-            sharedPreferencesStorage.readInt(
+            ISharedPreferencesStorage.readInt(
                     SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_SINGLE_IMAGE_HORIZONTAL_IN_PX_KEY,
                     SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_SINGLE_IMAGE_DEFAULT)
                     .observeOn(Schedulers.io())
@@ -170,9 +170,9 @@ object SharedPreferencesInteractor {
         })
     }
 
-    private fun readThreadPostItemSingleImageVerticalWidth(sharedPreferencesStorage: SharedPreferencesStorage): Single<Int> {
+    private fun readThreadPostItemSingleImageVerticalWidth(ISharedPreferencesStorage: ISharedPreferencesStorage): Single<Int> {
         return Single.create({ e ->
-            sharedPreferencesStorage.readInt(
+            ISharedPreferencesStorage.readInt(
                     SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_SINGLE_IMAGE_VERTICAL_IN_PX_KEY,
                     SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_SINGLE_IMAGE_DEFAULT)
                     .observeOn(Schedulers.io())

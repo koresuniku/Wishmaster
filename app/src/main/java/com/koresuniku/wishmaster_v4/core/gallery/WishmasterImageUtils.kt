@@ -1,14 +1,12 @@
 package com.koresuniku.wishmaster_v4.core.gallery
 
-import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.application.SharedPreferencesKeystore
-import com.koresuniku.wishmaster_v4.application.SharedPreferencesStorage
+import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.core.data.threads.File
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import com.koresuniku.wishmaster_v4.ui.util.UiUtils
@@ -24,11 +22,11 @@ import io.reactivex.schedulers.Schedulers
 object WishmasterImageUtils {
 
     fun getImageItemData(file: File,
-                         sharedPreferencesStorage: SharedPreferencesStorage,
+                         ISharedPreferencesStorage: ISharedPreferencesStorage,
                          compositeDisposable: CompositeDisposable): Single<ImageItemData> {
         return Single.create({ e ->
             compositeDisposable.add(getImageConfigurationFromSharedPreferences(
-                    sharedPreferencesStorage, compositeDisposable)
+                    ISharedPreferencesStorage, compositeDisposable)
                     .subscribe({ config -> e.onSuccess(ImageItemData(
                             file,
                             computeImageLayoutConfiguration(file, config),
@@ -38,11 +36,11 @@ object WishmasterImageUtils {
     }
 
     fun getImageItemData(files: List<File>,
-                         sharedPreferencesStorage: SharedPreferencesStorage,
+                         ISharedPreferencesStorage: ISharedPreferencesStorage,
                          compositeDisposable: CompositeDisposable): Single<List<ImageItemData>> {
         return Single.create({ e ->
             compositeDisposable.add(getImageConfigurationFromSharedPreferences(
-                    sharedPreferencesStorage, compositeDisposable)
+                    ISharedPreferencesStorage, compositeDisposable)
                     .subscribe({ config -> run {
                         val configs: MutableList<ImageLayoutConfiguration> = ArrayList()
                         val summaries: MutableList<String> = ArrayList()
@@ -74,12 +72,12 @@ object WishmasterImageUtils {
         return ImageLayoutConfiguration(actualWidth, actualHeight)
     }
 
-    private fun getImageConfigurationFromSharedPreferences(sharedPreferencesStorage: SharedPreferencesStorage,
+    private fun getImageConfigurationFromSharedPreferences(ISharedPreferencesStorage: ISharedPreferencesStorage,
                                                            compositeDisposable: CompositeDisposable) : Single<ImageSharedPreferencesConfiguration> {
         return Single.zip(
-                getDefaultImageWidthInDpSingle(sharedPreferencesStorage, compositeDisposable).observeOn(Schedulers.computation()),
-                getMinimumImageHeightInDpSingle(sharedPreferencesStorage, compositeDisposable).observeOn(Schedulers.computation()),
-                getMaximumImageHeightInDpSingle(sharedPreferencesStorage, compositeDisposable).observeOn(Schedulers.computation()),
+                getDefaultImageWidthInDpSingle(ISharedPreferencesStorage, compositeDisposable).observeOn(Schedulers.computation()),
+                getMinimumImageHeightInDpSingle(ISharedPreferencesStorage, compositeDisposable).observeOn(Schedulers.computation()),
+                getMaximumImageHeightInDpSingle(ISharedPreferencesStorage, compositeDisposable).observeOn(Schedulers.computation()),
                 Function3({ width, min, max -> ImageSharedPreferencesConfiguration(
                         UiUtils.convertDpToPixel(width.toFloat()).toInt(),
                         UiUtils.convertDpToPixel(min.toFloat()).toInt(),
@@ -87,30 +85,30 @@ object WishmasterImageUtils {
                 }))
     }
 
-    private fun getDefaultImageWidthInDpSingle(sharedPreferencesStorage: SharedPreferencesStorage,
+    private fun getDefaultImageWidthInDpSingle(ISharedPreferencesStorage: ISharedPreferencesStorage,
                                                compositeDisposable: CompositeDisposable): Single<Int> {
         return Single.create({ e ->
-            compositeDisposable.add(sharedPreferencesStorage.readInt(
+            compositeDisposable.add(ISharedPreferencesStorage.readInt(
                     SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_KEY,
                     SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_DEFAULT)
                     .observeOn(Schedulers.io()).subscribe(e::onSuccess))
         })
     }
 
-    private fun getMinimumImageHeightInDpSingle(sharedPreferencesStorage: SharedPreferencesStorage,
-                                               compositeDisposable: CompositeDisposable): Single<Int> {
+    private fun getMinimumImageHeightInDpSingle(ISharedPreferencesStorage: ISharedPreferencesStorage,
+                                                compositeDisposable: CompositeDisposable): Single<Int> {
         return Single.create({ e ->
-            compositeDisposable.add(sharedPreferencesStorage.readInt(
+            compositeDisposable.add(ISharedPreferencesStorage.readInt(
                     SharedPreferencesKeystore.MINIMUM_IMAGE_HEIGHT_IN_DP_KEY,
                     SharedPreferencesKeystore.MINIMUM_IMAGE_HEIGHT_IN_DP_DEFAULT)
                     .observeOn(Schedulers.io()).subscribe(e::onSuccess))
         })
     }
 
-    private fun getMaximumImageHeightInDpSingle(sharedPreferencesStorage: SharedPreferencesStorage,
-                                               compositeDisposable: CompositeDisposable): Single<Int> {
+    private fun getMaximumImageHeightInDpSingle(ISharedPreferencesStorage: ISharedPreferencesStorage,
+                                                compositeDisposable: CompositeDisposable): Single<Int> {
         return Single.create({ e ->
-            compositeDisposable.add(sharedPreferencesStorage.readInt(
+            compositeDisposable.add(ISharedPreferencesStorage.readInt(
                     SharedPreferencesKeystore.MAXIMUM_IMAGE_HEIGHT_IN_DP_KEY,
                     SharedPreferencesKeystore.MAXIMUM_IMAGE_HEIGHT_IN_DP_DEFAULT)
                     .observeOn(Schedulers.io()).subscribe(e::onSuccess))

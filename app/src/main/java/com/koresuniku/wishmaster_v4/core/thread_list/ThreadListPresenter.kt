@@ -1,7 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.thread_list
 
 import android.util.Log
-import com.koresuniku.wishmaster_v4.application.SharedPreferencesStorage
+import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxPresenter
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper
 import com.koresuniku.wishmaster_v4.core.data.threads.ThreadListData
@@ -25,7 +25,7 @@ class ThreadListPresenter @Inject constructor(): BaseRxPresenter<ThreadListView>
 
     @Inject lateinit var threadListApiService: ThreadListApiService
     @Inject lateinit var databaseHelper: DatabaseHelper
-    @Inject lateinit var sharedPreferencesStorage: SharedPreferencesStorage
+    @Inject lateinit var ISharedPreferencesStorage: ISharedPreferencesStorage
 
     private lateinit var mLoadThreadListSingle: Single<ThreadListData>
     private var mActualThreadListData: ThreadListData? = null
@@ -122,13 +122,13 @@ class ThreadListPresenter @Inject constructor(): BaseRxPresenter<ThreadListView>
                     when (getThreadItemType(position)) {
                         SINGLE_IMAGE_CODE ->
                             compositeDisposable.add(WishmasterImageUtils
-                                    .getImageItemData(it[0], sharedPreferencesStorage, compositeDisposable)
+                                    .getImageItemData(it[0], ISharedPreferencesStorage, compositeDisposable)
                                     .subscribeOn(Schedulers.computation())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(threadItemView::setSingleImage))
                         MULTIPLE_IMAGES_CODE ->
                             compositeDisposable.add(WishmasterImageUtils
-                                    .getImageItemData(it, sharedPreferencesStorage, compositeDisposable)
+                                    .getImageItemData(it, ISharedPreferencesStorage, compositeDisposable)
                                     .subscribeOn(Schedulers.computation())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(threadItemView::setMultipleImages))

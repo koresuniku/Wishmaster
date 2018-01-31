@@ -1,10 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.dagger.module
 
 import com.koresuniku.wishmaster_v4.core.dagger.ForDashboardView
-import com.koresuniku.wishmaster_v4.core.dashboard.DashboardDatabaseInteractor
-import com.koresuniku.wishmaster_v4.core.dashboard.DashboardNetworkInteractor
-import com.koresuniku.wishmaster_v4.core.dashboard.DashboardPresenter
-import com.koresuniku.wishmaster_v4.core.dashboard.IDashboardPresenter
+import com.koresuniku.wishmaster_v4.core.dashboard.*
 import dagger.Module
 import dagger.Provides
 
@@ -18,7 +15,8 @@ class DashboardViewModule {
     @Provides
     @ForDashboardView
     fun provideDashboardPresenter(dashboardNetworkInteractor: DashboardNetworkInteractor,
-                                  dashboardDatabaseInteractor: DashboardDatabaseInteractor): IDashboardPresenter {
-        return DashboardPresenter(dashboardNetworkInteractor, dashboardDatabaseInteractor)
+                                  dashboardDatabaseInteractor: DashboardDatabaseInteractor,
+                                  dashboardSearchInteractor: DashboardSearchInteractor): IDashboardPresenter {
+        return DashboardPresenter(dashboardNetworkInteractor, dashboardDatabaseInteractor, dashboardSearchInteractor)
     }
 }

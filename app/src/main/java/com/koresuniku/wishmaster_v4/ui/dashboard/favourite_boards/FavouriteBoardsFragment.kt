@@ -37,7 +37,7 @@ class FavouriteBoardsFragment : Fragment(), OnStartDragListener, FavouriteBoards
     @BindView(R.id.favourites_recycler_view) lateinit var recyclerView: RecyclerView
     @BindView(R.id.nothing_container) lateinit var nothingContainer: ViewGroup
 
-    private lateinit var mCompositeDisposable: CompositeDisposable
+   // private lateinit var mCompositeDisposable: CompositeDisposable
     private lateinit var mItemTouchHelper: ItemTouchHelper
     private lateinit var mRecyclerViewAdapter: FavouriteBoardsRecyclerViewAdapter
 
@@ -50,7 +50,7 @@ class FavouriteBoardsFragment : Fragment(), OnStartDragListener, FavouriteBoards
                 .inject(this)
         presenter.bindFavouriteBoardsView(this)
 
-        mCompositeDisposable = CompositeDisposable()
+       // mCompositeDisposable = CompositeDisposable()
 
         initRecyclerView()
         loadFavouriteBoardsList()
@@ -59,8 +59,7 @@ class FavouriteBoardsFragment : Fragment(), OnStartDragListener, FavouriteBoards
     }
 
     private fun initRecyclerView() {
-        mRecyclerViewAdapter = FavouriteBoardsRecyclerViewAdapter(
-                this, presenter, mCompositeDisposable)
+        mRecyclerViewAdapter = FavouriteBoardsRecyclerViewAdapter(this, presenter)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = mRecyclerViewAdapter
         context?.let { recyclerView.addItemDecoration(FavouriteBoardsItemDividerDecoration(it)) }
@@ -71,14 +70,15 @@ class FavouriteBoardsFragment : Fragment(), OnStartDragListener, FavouriteBoards
     }
 
     private fun loadFavouriteBoardsList() {
-        mCompositeDisposable.add(presenter.loadFavouriteBoardsList()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe( { boardList ->
-                    boardList.forEach { Log.d(LOG_TAG, it.toString() + "\n") }
-                    nothingContainer.visibility = if (boardList.isEmpty()) View.VISIBLE else View.GONE
-                    mRecyclerViewAdapter.bindFavouriteBoardList(boardList)
-                }))
+//        mCompositeDisposable.add(presenter.loadFavouriteBoardsList()
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe( { boardList ->
+//                    boardList.forEach { Log.d(LOG_TAG, it.toString() + "\n") }
+//                    nothingContainer.visibility = if (boardList.isEmpty()) View.VISIBLE else View.GONE
+//                    mRecyclerViewAdapter.bindFavouriteBoardList(boardList)
+//                }))
+        presenter.loadFavouriteBoardList()
     }
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
@@ -95,7 +95,7 @@ class FavouriteBoardsFragment : Fragment(), OnStartDragListener, FavouriteBoards
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mCompositeDisposable.clear()
+        //mCompositeDisposable.clear()
         presenter.unbindFavouriteBoardsView()
     }
 }
