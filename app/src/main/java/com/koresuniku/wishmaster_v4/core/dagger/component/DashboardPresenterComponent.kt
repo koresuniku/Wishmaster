@@ -6,11 +6,11 @@ import com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scope.BoardsMod
 import com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scope.DashboardPresenterModule
 import com.koresuniku.wishmaster_v4.core.dagger.module.RxModule
 import com.koresuniku.wishmaster_v4.core.dagger.module.SearchModule
-import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardDatabaseInteractorI
-import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardNetworkInteractorI
-import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSearchInteractorI
-import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSharedPreferencesInteractorI
-import com.koresuniku.wishmaster_v4.core.dashboard.presenter.DashboardPresenterI
+import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardDatabaseInteractor
+import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardNetworkInteractor
+import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSearchInteractor
+import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSharedPreferencesInteractor
+import com.koresuniku.wishmaster_v4.core.dashboard.presenter.DashboardPresenter
 import dagger.Component
 
 
@@ -21,11 +21,11 @@ import dagger.Component
 interface DashboardPresenterComponent {
 
     fun injector(): IWishmasterDaggerInjector
-    fun dashboardNetworkInteractor(): DashboardNetworkInteractorI
-    fun dashboardDatabaseInteractor(): DashboardDatabaseInteractorI
-    fun dashboardSearchInteractor(): DashboardSearchInteractorI
-    fun dashboardSharedPreferencesInteractor(): DashboardSharedPreferencesInteractorI
+    fun dashboardNetworkInteractor(): DashboardNetworkInteractor
+    fun dashboardDatabaseInteractor(): DashboardDatabaseInteractor
+    fun dashboardSearchInteractor(): DashboardSearchInteractor
+    fun dashboardSharedPreferencesInteractor(): DashboardSharedPreferencesInteractor
 
-    fun inject(dashboardPresenter: DashboardPresenterI)
+    fun inject(dashboardPresenter: DashboardPresenter)
 
 }

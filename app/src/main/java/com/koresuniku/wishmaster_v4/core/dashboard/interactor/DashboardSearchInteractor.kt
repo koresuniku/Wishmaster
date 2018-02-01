@@ -8,7 +8,7 @@ import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 
 
-class DashboardSearchInteractorI(
+class DashboardSearchInteractor(
         matcher: ISearchInputMatcher,
         compositeDisposable: CompositeDisposable):
         BaseRxSearchInterator<IDashboardPresenterI>(matcher, compositeDisposable) {

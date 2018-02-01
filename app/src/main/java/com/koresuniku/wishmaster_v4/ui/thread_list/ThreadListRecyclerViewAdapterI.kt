@@ -10,7 +10,7 @@ import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster_v4.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListAdapterViewI
-import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListPresenterI
+import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListPresenter
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterActivity
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -19,15 +19,15 @@ import javax.inject.Inject
  * Created by koresuniku on 07.01.18.
  */
 
-class ThreadListRecyclerViewAdapterI() : RecyclerView.Adapter<ThreadItemViewHolder>(), ThreadListAdapterViewI<ThreadListPresenterI> {
+class ThreadListRecyclerViewAdapterI() : RecyclerView.Adapter<ThreadItemViewHolder>(), ThreadListAdapterViewI<ThreadListPresenter> {
     private val LOG_TAG = ThreadListRecyclerViewAdapterI::class.java.simpleName
 
     @Inject lateinit var retrofitHolder: RetrofitHolder
 
     private lateinit var activity: WeakReference<Activity>
-    override lateinit var presenter: ThreadListPresenterI
+    override lateinit var presenter: ThreadListPresenter
 
-    constructor(activity: BaseWishmasterActivity, presenter: ThreadListPresenterI) : this() {
+    constructor(activity: BaseWishmasterActivity, presenter: ThreadListPresenter) : this() {
         activity.getWishmasterApplication().getThreadListComponent().inject(this)
         this.activity = WeakReference(activity)
         this.presenter = presenter
@@ -39,15 +39,15 @@ class ThreadListRecyclerViewAdapterI() : RecyclerView.Adapter<ThreadItemViewHold
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ThreadItemViewHolder {
         return when (viewType) {
-            ThreadListPresenterI.NO_IMAGES_CODE -> ThreadItemViewHolder(
+            ThreadListPresenter.NO_IMAGES_CODE -> ThreadItemViewHolder(
                     LayoutInflater.from(parent?.context).inflate(
                             R.layout.thread_item_no_images, parent, false),
                     retrofitHolder.getBaseUrl())
-            ThreadListPresenterI.SINGLE_IMAGE_CODE -> ThreadItemViewHolder(
+            ThreadListPresenter.SINGLE_IMAGE_CODE -> ThreadItemViewHolder(
                     LayoutInflater.from(parent?.context).inflate(
                             R.layout.thread_item_single_image, parent, false),
                     retrofitHolder.getBaseUrl())
-            ThreadListPresenterI.MULTIPLE_IMAGES_CODE -> ThreadItemViewHolder(
+            ThreadListPresenter.MULTIPLE_IMAGES_CODE -> ThreadItemViewHolder(
                     LayoutInflater.from(parent?.context).inflate(
                             R.layout.thread_item_multiple_images, parent, false),
                     retrofitHolder.getBaseUrl())

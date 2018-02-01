@@ -21,9 +21,9 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListPresenterI @Inject constructor(private val injector: IWishmasterDaggerInjector):
-        BaseRxPresenterI<ThreadListViewI<ThreadListPresenterI>>() {
-    private val LOG_TAG = ThreadListPresenterI::class.java.simpleName
+class ThreadListPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector):
+        BaseRxPresenterI<ThreadListViewI<ThreadListPresenter>>() {
+    private val LOG_TAG = ThreadListPresenter::class.java.simpleName
 
     @Inject lateinit var threadListApiService: ThreadListApiService
     @Inject lateinit var databaseHelper: DatabaseHelper
@@ -31,9 +31,9 @@ class ThreadListPresenterI @Inject constructor(private val injector: IWishmaster
 
     private lateinit var mLoadThreadListSingle: Single<ThreadListData>
     private var mActualThreadListData: ThreadListData? = null
-    private var mThreadListAdapterView: ThreadListAdapterViewI<ThreadListPresenterI>? = null
+    private var mThreadListAdapterView: ThreadListAdapterViewI<ThreadListPresenter>? = null
 
-    override fun bindView(mvpView: ThreadListViewI<ThreadListPresenterI>) {
+    override fun bindView(mvpView: ThreadListViewI<ThreadListPresenter>) {
         super.bindView(mvpView)
         injector.getThreadListComponent().inject(this)
 
@@ -43,7 +43,7 @@ class ThreadListPresenterI @Inject constructor(private val injector: IWishmaster
         mLoadThreadListSingle = mLoadThreadListSingle.cache()
     }
 
-    fun bindThreadListAdapterView(threadListAdapterView: ThreadListAdapterViewI<ThreadListPresenterI>) {
+    fun bindThreadListAdapterView(threadListAdapterView: ThreadListAdapterViewI<ThreadListPresenter>) {
         this.mThreadListAdapterView = threadListAdapterView
     }
 

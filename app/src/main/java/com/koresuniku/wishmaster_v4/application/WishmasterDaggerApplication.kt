@@ -17,7 +17,7 @@ import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.SharedP
 import com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scope.BoardsModule
 import com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scope.DashboardPresenterModule
 import com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scope.DashboardViewModule
-import com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scope.ThreadListModule
+import com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scope.ThreadListViewModule
 import com.koresuniku.wishmaster_v4.core.network.Dvach
 import com.koresuniku.wishmaster_v4.core.network.client.RetrofitHolder
 import com.squareup.leakcanary.LeakCanary
@@ -77,7 +77,7 @@ class WishmasterDaggerApplication : Application(), IWishmasterDaggerInjector {
 
         mDaggerThreadListComponent = DaggerThreadListViewComponent.builder()
                 .applicationComponent(mDaggerApplicationComponent)
-                .threadListModule(ThreadListModule())
+                .threadListModule(ThreadListViewModule())
                 .build() as DaggerThreadListViewComponent
 
         Glide.get(this).register(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))

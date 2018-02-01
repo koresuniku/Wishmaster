@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class DashboardNetworkInteractorI @Inject constructor(
+class DashboardNetworkInteractor @Inject constructor(
         apiService: BoardsApiService,
         private val responseParser: BoardsResponseParser,
         compositeDisposable: CompositeDisposable):

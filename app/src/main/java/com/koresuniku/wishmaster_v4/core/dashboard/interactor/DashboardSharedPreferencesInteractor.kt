@@ -9,7 +9,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 
-class DashboardSharedPreferencesInteractorI(
+class DashboardSharedPreferencesInteractor(
         storage: ISharedPreferencesStorage,
         compositeDisposable: CompositeDisposable):
         BaseRxSharedPreferencesInteractorI<IDashboardPresenterI>(storage, compositeDisposable) {

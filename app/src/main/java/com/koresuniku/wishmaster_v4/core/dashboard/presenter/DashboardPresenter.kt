@@ -1,10 +1,10 @@
 package com.koresuniku.wishmaster_v4.core.dashboard.presenter
 
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardDatabaseInteractorI
-import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardNetworkInteractorI
-import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSearchInteractorI
-import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSharedPreferencesInteractorI
+import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardDatabaseInteractor
+import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardNetworkInteractor
+import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSearchInteractor
+import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSharedPreferencesInteractor
 import com.koresuniku.wishmaster_v4.core.dashboard.view.DashboardViewI
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardModel
@@ -18,13 +18,13 @@ import javax.inject.Inject
  * Created by koresuniku on 03.10.17.
  */
 
-class DashboardPresenterI @Inject constructor(private val injector: IWishmasterDaggerInjector,
-                                              networkInteractor: DashboardNetworkInteractorI,
-                                              databaseInteractor: DashboardDatabaseInteractorI,
-                                              searchInteractor: DashboardSearchInteractorI,
-                                              sharedPreferencesInteractor: DashboardSharedPreferencesInteractorI):
+class DashboardPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector,
+                                             networkInteractor: DashboardNetworkInteractor,
+                                             databaseInteractor: DashboardDatabaseInteractor,
+                                             searchInteractor: DashboardSearchInteractor,
+                                             sharedPreferencesInteractor: DashboardSharedPreferencesInteractor):
         BaseDashboardPresenterI(networkInteractor, databaseInteractor, searchInteractor, sharedPreferencesInteractor) {
-    private val LOG_TAG = DashboardPresenterI::class.java.simpleName
+    private val LOG_TAG = DashboardPresenter::class.java.simpleName
 
     override fun bindView(mvpView: DashboardViewI<IDashboardPresenterI>) {
         super.bindView(mvpView)

@@ -13,9 +13,9 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
-class DashboardDatabaseInteractorI @Inject constructor(private val boardsRepository: BoardsRepository,
-                                                       databaseHelper: DatabaseHelper,
-                                                       compositeDisposable: CompositeDisposable):
+class DashboardDatabaseInteractor @Inject constructor(private val boardsRepository: BoardsRepository,
+                                                      databaseHelper: DatabaseHelper,
+                                                      compositeDisposable: CompositeDisposable):
         BaseRxDatabaseInteractorI<IDashboardPresenterI, BoardListData>(databaseHelper, compositeDisposable) {
 
     override fun getDataFromDatabase(): Single<BoardListData> {

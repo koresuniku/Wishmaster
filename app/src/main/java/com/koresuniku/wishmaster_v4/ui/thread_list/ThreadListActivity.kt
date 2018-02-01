@@ -21,7 +21,7 @@ import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.application.IntentKeystore
 import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
-import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListPresenterI
+import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListPresenter
 import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListViewI
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterActivity
@@ -34,10 +34,10 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListActivity : BaseWishmasterActivity<ThreadListPresenterI>(), ThreadListViewI<ThreadListPresenterI> {
+class ThreadListActivity : BaseWishmasterActivity<ThreadListPresenter>(), ThreadListViewI<ThreadListPresenter> {
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
-    @Inject override lateinit var presenter: ThreadListPresenterI
+    @Inject override lateinit var presenter: ThreadListPresenter
     @Inject lateinit var ISharedPreferencesStorage: ISharedPreferencesStorage
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar

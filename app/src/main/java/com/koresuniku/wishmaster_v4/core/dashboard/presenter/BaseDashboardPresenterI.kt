@@ -1,19 +1,19 @@
 package com.koresuniku.wishmaster_v4.core.dashboard.presenter
 
 import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxPresenterI
-import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardDatabaseInteractorI
-import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardNetworkInteractorI
-import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSearchInteractorI
-import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSharedPreferencesInteractorI
+import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardDatabaseInteractor
+import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardNetworkInteractor
+import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSearchInteractor
+import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSharedPreferencesInteractor
 import com.koresuniku.wishmaster_v4.core.dashboard.view.BoardListViewI
 import com.koresuniku.wishmaster_v4.core.dashboard.view.DashboardViewI
 import com.koresuniku.wishmaster_v4.core.dashboard.view.FavouriteBoardsViewI
 
 
-abstract class BaseDashboardPresenterI(protected val networkInteractor: DashboardNetworkInteractorI,
-                                       protected val databaseInteractor: DashboardDatabaseInteractorI,
-                                       protected val searchInteractor: DashboardSearchInteractorI,
-                                       protected val sharedPreferencesInteractor: DashboardSharedPreferencesInteractorI):
+abstract class BaseDashboardPresenterI(protected val networkInteractor: DashboardNetworkInteractor,
+                                       protected val databaseInteractor: DashboardDatabaseInteractor,
+                                       protected val searchInteractor: DashboardSearchInteractor,
+                                       protected val sharedPreferencesInteractor: DashboardSharedPreferencesInteractor):
         BaseRxPresenterI<DashboardViewI<IDashboardPresenterI>>(), IDashboardPresenterI {
 
     protected var dashboardBoardListView: BoardListViewI<IDashboardPresenterI>? = null
