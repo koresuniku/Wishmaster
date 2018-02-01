@@ -11,9 +11,9 @@ import android.view.ViewGroup
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.core.dashboard.view.FavouriteBoardsView
-import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
-import com.koresuniku.wishmaster_v4.core.data.boards.BoardModel
+import com.koresuniku.wishmaster_v4.core.dashboard.view.FavouriteBoardsViewI
+import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenterI
+import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterFragment
 import com.koresuniku.wishmaster_v4.ui.dashboard.DashboardActivity
 import com.koresuniku.wishmaster_v4.ui.view.drag_and_swipe_recycler_view.OnStartDragListener
@@ -25,10 +25,10 @@ import javax.inject.Inject
  */
 
 class FavouriteBoardsFragment : BaseWishmasterFragment(),
-        OnStartDragListener, FavouriteBoardsView<IDashboardPresenter> {
+        OnStartDragListener, FavouriteBoardsViewI<IDashboardPresenterI> {
     private val LOG_TAG = FavouriteBoardsFragment::class.java.simpleName
 
-    @Inject override lateinit var presenter: IDashboardPresenter
+    @Inject override lateinit var presenter: IDashboardPresenterI
 
     override lateinit var rootView: View
     @BindView(R.id.favourites_recycler_view) lateinit var recyclerView: RecyclerView

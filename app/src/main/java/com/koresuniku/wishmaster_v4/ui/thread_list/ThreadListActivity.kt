@@ -21,8 +21,8 @@ import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.application.IntentKeystore
 import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
-import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListPresenter
-import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListView
+import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListPresenterI
+import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListViewI
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster_v4.ui.view.widget.LinearLayoutManagerWrapper
@@ -34,10 +34,10 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListActivity : BaseWishmasterActivity<ThreadListPresenter>(), ThreadListView<ThreadListPresenter> {
+class ThreadListActivity : BaseWishmasterActivity<ThreadListPresenterI>(), ThreadListViewI<ThreadListPresenterI> {
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
-    @Inject override lateinit var presenter: ThreadListPresenter
+    @Inject override lateinit var presenter: ThreadListPresenterI
     @Inject lateinit var ISharedPreferencesStorage: ISharedPreferencesStorage
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
@@ -48,7 +48,7 @@ class ThreadListActivity : BaseWishmasterActivity<ThreadListPresenter>(), Thread
     @BindView(R.id.thread_list) lateinit var mThreadListRecyclerView: RecyclerView
     @BindView(R.id.background) lateinit var mBackground: ImageView
 
-    private lateinit var mThreadListRecyclerViewAdapter: ThreadListRecyclerViewAdapter
+    private lateinit var mThreadListRecyclerViewAdapter: ThreadListRecyclerViewAdapterI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,7 +101,7 @@ class ThreadListActivity : BaseWishmasterActivity<ThreadListPresenter>(), Thread
     }
 
     private fun setupRecyclerView() {
-        mThreadListRecyclerViewAdapter = ThreadListRecyclerViewAdapter(this, presenter)
+        mThreadListRecyclerViewAdapter = ThreadListRecyclerViewAdapterI(this, presenter)
         mThreadListRecyclerView.adapter = mThreadListRecyclerViewAdapter
         mThreadListRecyclerView.layoutManager = LinearLayoutManagerWrapper(
                 this, LinearLayoutManager.VERTICAL, false)

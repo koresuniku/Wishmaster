@@ -4,10 +4,9 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
-import com.koresuniku.wishmaster_v4.core.data.boards.BoardListData
-import com.koresuniku.wishmaster_v4.core.data.boards.BoardListsObject
-import com.koresuniku.wishmaster_v4.core.data.boards.BoardModel
-import com.koresuniku.wishmaster_v4.core.data.boards.BoardsMapper
+import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardListData
+import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardListsObject
+import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseContract
 import java.util.ArrayList
 import javax.inject.Inject

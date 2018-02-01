@@ -2,7 +2,7 @@ package com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scope
 
 import com.koresuniku.wishmaster_v4.core.dagger.scope.ForDashboardView
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListPresenter
+import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListPresenterI
 import dagger.Module
 import dagger.Provides
 
@@ -15,5 +15,5 @@ class ThreadListModule {
 
     @Provides
     @ForDashboardView
-    fun provideThreadListPresenter(injector: IWishmasterDaggerInjector): ThreadListPresenter = ThreadListPresenter(injector)
+    fun provideThreadListPresenter(injector: IWishmasterDaggerInjector): ThreadListPresenterI = ThreadListPresenterI(injector)
 }

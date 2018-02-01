@@ -7,7 +7,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.application.SharedPreferencesKeystore
 import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
-import com.koresuniku.wishmaster_v4.core.data.threads.File
+import com.koresuniku.wishmaster_v4.core.data.model.threads.File
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import com.koresuniku.wishmaster_v4.ui.util.UiUtils
 import io.reactivex.Single

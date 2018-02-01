@@ -1,7 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.thread_list
 
 import android.text.Spanned
-import com.koresuniku.wishmaster_v4.core.base.mvp.MvpView
 import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
 
 /**

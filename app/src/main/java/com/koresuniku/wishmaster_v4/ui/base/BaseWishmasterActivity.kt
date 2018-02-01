@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.support.annotation.LayoutRes
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.application.WishmasterDaggerApplication
-import com.koresuniku.wishmaster_v4.core.base.mvp.MvpPresenter
-import com.koresuniku.wishmaster_v4.core.base.mvp.MvpView
+import com.koresuniku.wishmaster_v4.core.base.mvp.IMvpPresenter
+import com.koresuniku.wishmaster_v4.core.base.mvp.IMvpView
 
 /**
  * Created by koresuniku on 12.01.18.
  */
 
-abstract class BaseWishmasterActivity<P : MvpPresenter<*>> : BaseDrawerActivity(), IWishamsterActivity, MvpView<P> {
+abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> : BaseDrawerActivity(), IWishamsterActivity, IMvpView<P> {
 
     protected var isActivityDestroyed = false
 
