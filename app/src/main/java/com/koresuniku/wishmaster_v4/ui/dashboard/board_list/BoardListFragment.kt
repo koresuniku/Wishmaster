@@ -26,10 +26,10 @@ import javax.inject.Inject
  * Created by koresuniku on 10.11.17.
  */
 
-class BoardListFragment : Fragment(), BoardListView {
+class BoardListFragment : Fragment(), BoardListView<IDashboardPresenter> {
     private val LOG_TAG = BoardListFragment::class.java.simpleName
 
-    @Inject lateinit var presenter: IDashboardPresenter
+    @Inject override lateinit var presenter: IDashboardPresenter
 
     private lateinit var mRootView: View
     @BindView(R.id.board_list) lateinit var mBoardList: ExpandableListView

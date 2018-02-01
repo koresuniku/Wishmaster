@@ -1,7 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.base.mvp
 
 
-abstract class BaseInteractor<P : MvpPresenter<*>> : MvpInteractor<P> {
+abstract class BaseMvpInteractor<P : MvpPresenter<*>> : MvpInteractor<P> {
 
     protected var presenter: P? = null
 

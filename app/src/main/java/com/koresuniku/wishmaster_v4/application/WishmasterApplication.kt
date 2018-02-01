@@ -4,6 +4,7 @@ import android.app.Application
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
+import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterInjector
 import com.koresuniku.wishmaster_v4.core.dagger.component.DaggerApplicationComponent
 import com.koresuniku.wishmaster_v4.core.dagger.component.DaggerDashboardPresenterComponent
 import com.koresuniku.wishmaster_v4.core.dagger.component.DaggerDashboardViewComponent
@@ -27,17 +28,12 @@ import javax.inject.Inject
  * но хочу сразу предостеречь пытливых - стоп. Остальные просто не найдут.
  */
 
-class WishmasterApplication : Application() {
+class WishmasterApplication : Application(), IWishmasterInjector {
 
     private lateinit var mDaggerDashboardViewComponent: DaggerDashboardViewComponent
     private lateinit var mDaggerDashboardPresenterComponent: DaggerDashboardPresenterComponent
     private lateinit var mDaggerThreadListComponent: DaggerThreadListViewComponent
     private lateinit var mDaggerApplicationComponent: DaggerApplicationComponent
-
-    private lateinit var mApplicationModule: ApplicationModule
-    private lateinit var mNetworkModule: NetworkModule
-    private lateinit var mDatabaseModule: DatabaseModule
-    private lateinit var mSharedPreferencesModule: SharedPreferencesModule
 
     @Inject lateinit var okHttpClient: OkHttpClient
     @Inject lateinit var ISharedPreferencesStorage: ISharedPreferencesStorage
@@ -48,23 +44,15 @@ class WishmasterApplication : Application() {
 
         if (!LeakCanary.isInAnalyzerProcess(this)) LeakCanary.install(this)
 
-        mApplicationModule = ApplicationModule(this)
-        mNetworkModule = NetworkModule(Dvach.BASE_URL)
-        mDatabaseModule = DatabaseModule()
-        mSharedPreferencesModule = SharedPreferencesModule()
-
         mDaggerApplicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(mApplicationModule)
-                .networkModule(mNetworkModule)
-                .sharedPreferencesModule(mSharedPreferencesModule)
+                .applicationModule( ApplicationModule(this))
+                .injectorModule(InjectorModule(this))
+                .networkModule(NetworkModule(Dvach.BASE_URL))
+                .sharedPreferencesModule(SharedPreferencesModule())
                 .build() as DaggerApplicationComponent
         mDaggerApplicationComponent.inject(this)
 
         SharedPreferencesHelper.onApplicationCreate(this, ISharedPreferencesStorage, retrofitHolder)
-
-        mDaggerDashboardViewComponent = DaggerDashboardViewComponent.builder()
-                .dashboardViewModule(DashboardViewModule())
-                .build() as DaggerDashboardViewComponent
 
         mDaggerDashboardPresenterComponent = DaggerDashboardPresenterComponent.builder()
                 .applicationComponent(mDaggerApplicationComponent)
@@ -74,15 +62,22 @@ class WishmasterApplication : Application() {
                 .searchModule(SearchModule())
                 .build() as DaggerDashboardPresenterComponent
 
-//        mDaggerThreadListComponent = DaggerThreadListViewComponent.builder()
-//                .applicationComponent(mDaggerApplicationComponent)
-//                .threadListModule(ThreadListModule())
-//                .build() as DaggerThreadListViewComponent
+        mDaggerDashboardViewComponent = DaggerDashboardViewComponent.builder()
+                .dashboardPresenterComponent(mDaggerDashboardPresenterComponent)
+                .dashboardViewModule(DashboardViewModule())
+                .build() as DaggerDashboardViewComponent
+
+        mDaggerThreadListComponent = DaggerThreadListViewComponent.builder()
+                .applicationComponent(mDaggerApplicationComponent)
+                .threadListModule(ThreadListModule())
+                .build() as DaggerThreadListViewComponent
 
         Glide.get(this).register(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
     }
 
     fun getDashboardViewComponent() = mDaggerDashboardViewComponent
-    fun getDashboardPresenterComponent() = mDaggerDashboardPresenterComponent
-    fun getThreadListComponent() = mDaggerThreadListComponent
+    override fun getDashboardPresenterComponent() = mDaggerDashboardPresenterComponent
+    override fun getThreadListComponent() = mDaggerThreadListComponent
+
+
 }

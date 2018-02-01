@@ -34,10 +34,10 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListActivity : BaseWishmasterActivity(), ThreadListView {
+class ThreadListActivity : BaseWishmasterActivity(), ThreadListView<ThreadListPresenter> {
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
-    @Inject lateinit var presenter: ThreadListPresenter
+    @Inject override lateinit var presenter: ThreadListPresenter
     @Inject lateinit var ISharedPreferencesStorage: ISharedPreferencesStorage
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar

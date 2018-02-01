@@ -6,7 +6,7 @@ import com.koresuniku.wishmaster_v4.core.data.boards.BoardModel
 import io.reactivex.Single
 
 
-interface IDashboardPresenter : MvpPresenter<DashboardView> {
+interface IDashboardPresenter : MvpPresenter<DashboardView<IDashboardPresenter>> {
 
     fun loadBoards()
     fun shouldLaunchThreadListActivity(boardId: String)
@@ -16,8 +16,8 @@ interface IDashboardPresenter : MvpPresenter<DashboardView> {
     fun switchBoardFavourability(boardId: String)
     fun getDashboardFavouriteTabPosition()
 
-    fun bindDashboardBoardListView(dashboardBoardListView: BoardListView)
-    fun bindFavouriteBoardsView(favouriteBoardsView: FavouriteBoardsView)
+    fun bindDashboardBoardListView(dashboardBoardListView: BoardListView<IDashboardPresenter>)
+    fun bindFavouriteBoardsView(favouriteBoardsView: FavouriteBoardsView<IDashboardPresenter>)
 
     fun unbindDashboardBoardListView()
     fun unbindFavouriteBoardsView()

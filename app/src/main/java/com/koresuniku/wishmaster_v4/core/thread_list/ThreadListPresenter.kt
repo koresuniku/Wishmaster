@@ -3,6 +3,7 @@ package com.koresuniku.wishmaster_v4.core.thread_list
 import android.util.Log
 import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxPresenter
+import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterInjector
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper
 import com.koresuniku.wishmaster_v4.core.data.threads.ThreadListData
 import com.koresuniku.wishmaster_v4.core.data.threads.ThreadsMapper
@@ -20,7 +21,8 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListPresenter @Inject constructor(): BaseRxPresenter<ThreadListView>() {
+class ThreadListPresenter @Inject constructor(private val injector: IWishmasterInjector):
+        BaseRxPresenter<ThreadListView<ThreadListPresenter>>() {
     private val LOG_TAG = ThreadListPresenter::class.java.simpleName
 
     @Inject lateinit var threadListApiService: ThreadListApiService
@@ -29,11 +31,11 @@ class ThreadListPresenter @Inject constructor(): BaseRxPresenter<ThreadListView>
 
     private lateinit var mLoadThreadListSingle: Single<ThreadListData>
     private var mActualThreadListData: ThreadListData? = null
-    private var mThreadListAdapterView: ThreadListAdapterView? = null
+    private var mThreadListAdapterView: ThreadListAdapterView<ThreadListPresenter>? = null
 
-    override fun bindView(mvpView: ThreadListView) {
+    override fun bindView(mvpView: ThreadListView<ThreadListPresenter>) {
         super.bindView(mvpView)
-        mvpView.getWishmasterApplication().getThreadListComponent().inject(this)
+        injector.getThreadListComponent().inject(this)
 
         mActualThreadListData = ThreadListData.emptyData()
 
@@ -41,7 +43,7 @@ class ThreadListPresenter @Inject constructor(): BaseRxPresenter<ThreadListView>
         mLoadThreadListSingle = mLoadThreadListSingle.cache()
     }
 
-    fun bindThreadListAdapterView(threadListAdapterView: ThreadListAdapterView) {
+    fun bindThreadListAdapterView(threadListAdapterView: ThreadListAdapterView<ThreadListPresenter>) {
         this.mThreadListAdapterView = threadListAdapterView
     }
 

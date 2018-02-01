@@ -1,5 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.dashboard
 
+import com.koresuniku.wishmaster_v4.core.base.mvp.MvpView
 import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxPresenter
 
 
@@ -7,12 +8,12 @@ abstract class BaseDashboardPresenter(protected val networkInteractor: Dashboard
                                       protected val databaseInteractor: DashboardDatabaseInteractor,
                                       protected val searchInteractor: DashboardSearchInteractor,
                                       protected val sharedPreferencesInteractor: DashboardSharedPreferencesInteractor):
-        BaseRxPresenter<DashboardView>(), IDashboardPresenter {
+        BaseRxPresenter<DashboardView<IDashboardPresenter>>(), IDashboardPresenter {
 
-    internal var dashboardBoardListView: BoardListView? = null
-    internal var favouriteBoardsView: FavouriteBoardsView? = null
+    protected var dashboardBoardListView: BoardListView<IDashboardPresenter>? = null
+    protected var favouriteBoardsView: FavouriteBoardsView<IDashboardPresenter>? = null
 
-    override fun bindView(mvpView: DashboardView) {
+    override fun bindView(mvpView: DashboardView<IDashboardPresenter>) {
         super.bindView(mvpView)
         networkInteractor.bindPresenter(this)
         databaseInteractor.bindPresenter(this)
@@ -20,11 +21,11 @@ abstract class BaseDashboardPresenter(protected val networkInteractor: Dashboard
         sharedPreferencesInteractor.bindPresenter(this)
     }
 
-    override fun bindDashboardBoardListView(dashboardBoardListView: BoardListView) {
+    override fun bindDashboardBoardListView(dashboardBoardListView: BoardListView<IDashboardPresenter>) {
         this.dashboardBoardListView = dashboardBoardListView
     }
 
-    override fun bindFavouriteBoardsView(favouriteBoardsView: FavouriteBoardsView) {
+    override fun bindFavouriteBoardsView(favouriteBoardsView: FavouriteBoardsView<IDashboardPresenter>) {
         this.favouriteBoardsView = favouriteBoardsView
     }
 

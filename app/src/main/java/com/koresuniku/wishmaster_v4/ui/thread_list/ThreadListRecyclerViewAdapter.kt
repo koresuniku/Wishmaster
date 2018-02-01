@@ -20,13 +20,13 @@ import javax.inject.Inject
  * Created by koresuniku on 07.01.18.
  */
 
-class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolder>(), ThreadListAdapterView {
+class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolder>(), ThreadListAdapterView<ThreadListPresenter> {
     private val LOG_TAG = ThreadListRecyclerViewAdapter::class.java.simpleName
 
     @Inject lateinit var retrofitHolder: RetrofitHolder
 
     private lateinit var activity: WeakReference<Activity>
-    private lateinit var presenter: ThreadListPresenter
+    override lateinit var presenter: ThreadListPresenter
 
     constructor(activity: BaseWishmasterActivity, presenter: ThreadListPresenter) : this() {
         activity.getWishmasterApplication().getThreadListComponent().inject(this)

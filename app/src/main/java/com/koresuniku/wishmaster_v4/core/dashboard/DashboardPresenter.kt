@@ -1,5 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.dashboard
 
+import android.util.Log
+import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterInjector
 import com.koresuniku.wishmaster_v4.core.data.boards.*
 import com.koresuniku.wishmaster_v4.core.util.search.SearchInputMatcher
 import io.reactivex.*
@@ -12,7 +14,8 @@ import javax.inject.Inject
  * Created by koresuniku on 03.10.17.
  */
 
-class DashboardPresenter @Inject constructor(networkInteractor: DashboardNetworkInteractor,
+class DashboardPresenter @Inject constructor(private val injector: IWishmasterInjector,
+                                             networkInteractor: DashboardNetworkInteractor,
                                              databaseInteractor: DashboardDatabaseInteractor,
                                              searchInteractor: DashboardSearchInteractor,
                                              sharedPreferencesInteractor: DashboardSharedPreferencesInteractor):
@@ -28,9 +31,9 @@ class DashboardPresenter @Inject constructor(networkInteractor: DashboardNetwork
 //    private var dashboardBoardListView: BoardListView? = null
 //    private var favouriteBoardsView: FavouriteBoardsView? = null
 
-    override fun bindView(mvpView: DashboardView) {
+    override fun bindView(mvpView: DashboardView<IDashboardPresenter>) {
         super.bindView(mvpView)
-        mvpView.getWishmasterApplication().getDashboardPresenterComponent().inject(this)
+        injector.getDashboardPresenterComponent().inject(this)
 
         //mLoadBoardObservable = getNewLoadBoardsObservable()
         //mLoadBoardObservable = mLoadBoardObservable.cache()
@@ -49,14 +52,17 @@ class DashboardPresenter @Inject constructor(networkInteractor: DashboardNetwork
    // fun reloadBoards() { mLoadBoardObservable = getNewLoadBoardsObservable().cache() }
 
     override fun loadBoards() {
-        Single.create(this::loadFromDatabase)
+        compositeDisposable.add(Single.create(this::loadFromDatabase)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    mView?.onBoardListReceived(it)
-                    //dashboardBoardListView?.onBoardListsObjectReceived(it)
-                    mapToBoardsDataByCategory(it)
-                }, { mView?.onBoardListError(it); it.printStackTrace() })
+//                .subscribe(
+//                    mView?.onBoardListReceived(it)
+//                    mapToBoardsDataByCategory(it)
+//                })
+                .subscribe { boardList ->
+                    mView?.onBoardListReceived(boardList)
+                    mapToBoardsDataByCategory(boardList)
+                })
     }
 
     private fun loadFromDatabase(e: SingleEmitter<BoardListData>) {
@@ -64,7 +70,7 @@ class DashboardPresenter @Inject constructor(networkInteractor: DashboardNetwork
                 .subscribe({
                     if (it.getBoardList().isEmpty()) loadFromNetwork(e)
                     else { e.onSuccess(it) }
-                }, { it.printStackTrace() }))
+                }, { it.printStackTrace(); mView?.onBoardListError(it) }))
     }
 
     private fun loadFromNetwork(e: SingleEmitter<BoardListData>) {
@@ -73,7 +79,7 @@ class DashboardPresenter @Inject constructor(networkInteractor: DashboardNetwork
                 .subscribe({
                     databaseInteractor.insertAllBoardsIntoDatabase(it).subscribe()
                     e.onSuccess(it)
-                }, { it.printStackTrace() }))
+                }, { it.printStackTrace(); mView?.onBoardListError(it) }))
     }
 
 
@@ -122,18 +128,36 @@ class DashboardPresenter @Inject constructor(networkInteractor: DashboardNetwork
 //    }
 
     override fun switchBoardFavourability(boardId: String) {
-        compositeDisposable.add(Single.zip(
-                databaseInteractor.switchBoardFavourability(boardId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()),
-                databaseInteractor.getFavouriteBoardModelListAscending()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()),
-                BiFunction({ newFavouritePosition: Int, boardModelList: List<BoardModel> ->
-                    dashboardBoardListView?.onBoardFavourabilityChanged(boardId, newFavouritePosition)
-                    favouriteBoardsView?.onFavouriteBoardListChanged(boardModelList)
-                    return@BiFunction
-                })).subscribe())
+ //       compositeDisposable.add(Single.zip(
+//                databaseInteractor.switchBoardFavourability(boardId)
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread()),
+//                databaseInteractor.getFavouriteBoardModelListAscending()
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread()),
+//                BiFunction({ newFavouritePosition: Int, boardModelList: List<BoardModel> ->
+//                    //dashboardBoardListView?.onBoardFavourabilityChanged(boardId, newFavouritePosition)
+//                    //favouriteBoardsView?.onFavouriteBoardListChanged(boardModelList)
+//                    //return@BiFunction
+//                    return [newFavouritePosition, boardModelList]
+//                })).subscribe())
+//        compositeDisposable.add(zipSwitchBoardFavourabilitySingle(boardId)
+//                .subscribe({
+//                    dashboardBoardListView?.onBoardFavourabilityChanged(boardId, it.first)
+//                    favouriteBoardsView?.onFavouriteBoardListChanged(it.second)
+//                }, { it.printStackTrace()}))
+        compositeDisposable.add(databaseInteractor.switchBoardFavourability(boardId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    dashboardBoardListView?.onBoardFavourabilityChanged(boardId, it)
+                    compositeDisposable.add(databaseInteractor.getFavouriteBoardModelListAscending()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    { favouriteBoardsView?.onFavouriteBoardListChanged(it) },
+                                    { it.printStackTrace() }))
+                }, { it.printStackTrace() }))
     }
 
     private fun mapToBoardsDataByCategory(boardListData: BoardListData) {

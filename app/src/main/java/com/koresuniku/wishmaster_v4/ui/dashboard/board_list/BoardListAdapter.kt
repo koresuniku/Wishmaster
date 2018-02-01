@@ -1,6 +1,7 @@
 package com.koresuniku.wishmaster_v4.ui.dashboard.board_list
 
 import android.content.Context
+import android.database.DataSetObserver
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -99,9 +100,11 @@ class BoardListAdapter (private val mContext: WeakReference<Context>,
         mBoardsListsObject.boardLists.forEach {
             it.second.firstOrNull { it.getBoardId() == boardId }?.let {
                 Log.d("BLA", "foundBoardId: ${it.getBoardId()}")
-                if (newFavouritePosition == BoardsRepository.FAVOURITE_POSITION_DEFAULT)
-                    R.drawable.ic_favorite_border_gray_24dp
-                else R.drawable.ic_favorite_gray_24dp
+                it.setFavouritePosition(newFavouritePosition)
+                this.notifyDataSetChanged()
+//                if (newFavouritePosition == BoardsRepository.FAVOURITE_POSITION_DEFAULT)
+//                    R.drawable.ic_favorite_border_gray_24dp
+//                else R.drawable.ic_favorite_gray_24dp
             }
         }
     }

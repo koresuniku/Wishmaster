@@ -104,7 +104,7 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
             insertBoard(database, it.getBoardId(), it.getBoardName(), it.getBoardCategory())
         }
 
-        database.close()
+       // database.close()
     }
 
     private fun insertBoard(database: SQLiteDatabase, boardId: String, boardName: String, category: String) {
@@ -121,7 +121,7 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
 
         resultData.forEach { deleteBoard(database, it.getBoardId()) }
 
-        database.close()
+        //database.close()
     }
 
     private fun deleteBoard(database: SQLiteDatabase, boardId: String) {
@@ -145,7 +145,8 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
         }
 
         cursor.close()
-        database.close()
+        //database.close()
+        Log.d("BR", "newPosition: $newPosition")
 
         return newPosition
     }
@@ -200,10 +201,11 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
                 null,
                 null,
                 DatabaseContract.BoardsEntry.COLUMN_FAVOURITE_POSITION + " ASC")
-
+               // null)
+        Log.d("BR", "cursor.count: ${cursor.count}")
         val boardList = boardsMapper.mapCursorToBoardModelList(cursor)
         cursor.close()
-        database.close()
+       // database.close()
 
         return boardList
     }

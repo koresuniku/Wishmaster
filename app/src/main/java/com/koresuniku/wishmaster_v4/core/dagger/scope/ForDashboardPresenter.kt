@@ -1,4 +1,4 @@
-package com.koresuniku.wishmaster_v4.core.dagger
+package com.koresuniku.wishmaster_v4.core.dagger.scope
 
 import javax.inject.Scope
 

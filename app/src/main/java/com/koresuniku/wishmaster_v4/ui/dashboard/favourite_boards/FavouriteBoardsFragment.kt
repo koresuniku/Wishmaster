@@ -28,10 +28,10 @@ import javax.inject.Inject
  * Created by koresuniku on 10.11.17.
  */
 
-class FavouriteBoardsFragment : Fragment(), OnStartDragListener, FavouriteBoardsView {
+class FavouriteBoardsFragment : Fragment(), OnStartDragListener, FavouriteBoardsView<IDashboardPresenter> {
     private val LOG_TAG = FavouriteBoardsFragment::class.java.simpleName
 
-    @Inject lateinit var presenter: IDashboardPresenter
+    @Inject override lateinit var presenter: IDashboardPresenter
 
     private lateinit var mRootView: View
     @BindView(R.id.favourites_recycler_view) lateinit var recyclerView: RecyclerView
@@ -49,8 +49,6 @@ class FavouriteBoardsFragment : Fragment(), OnStartDragListener, FavouriteBoards
                 .getDashboardViewComponent()
                 .inject(this)
         presenter.bindFavouriteBoardsView(this)
-
-       // mCompositeDisposable = CompositeDisposable()
 
         initRecyclerView()
         loadFavouriteBoardsList()

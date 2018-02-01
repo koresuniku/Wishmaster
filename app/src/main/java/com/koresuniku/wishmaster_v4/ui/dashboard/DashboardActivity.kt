@@ -32,11 +32,10 @@ import com.koresuniku.wishmaster_v4.core.dashboard.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster_v4.ui.thread_list.ThreadListActivity
 
-class DashboardActivity : BaseWishmasterActivity(), DashboardView {
+class DashboardActivity : BaseWishmasterActivity(), DashboardView<IDashboardPresenter> {
     private val LOG_TAG = DashboardActivity::class.java.simpleName
 
-    @Inject lateinit var presenter: IDashboardPresenter
-   // @Inject lateinit var ISharedPreferencesStorage: ISharedPreferencesStorage
+    @Inject override lateinit var presenter: IDashboardPresenter
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.tab_layout) lateinit var mTabLayout: TabLayout
@@ -110,6 +109,7 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView {
 
     override fun onBoardListError(t: Throwable) {
         //t.printStackTrace()
+        Log.d(LOG_TAG, "onBoardListError from view")
         hideLoading()
         showError(t)
     }
