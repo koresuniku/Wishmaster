@@ -17,22 +17,19 @@ import butterknife.BindView
 import butterknife.ButterKnife
 
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.application.SharedPreferencesKeystore
-import com.koresuniku.wishmaster_v4.core.dashboard.DashboardView
+import com.koresuniku.wishmaster_v4.core.dashboard.view.DashboardView
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardListData
 import com.koresuniku.wishmaster_v4.ui.util.ViewUtils
 import com.koresuniku.wishmaster_v4.ui.view.widget.DashboardViewPager
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 import javax.inject.Inject
 import android.support.v7.widget.SearchView
 import com.koresuniku.wishmaster_v4.application.IntentKeystore
-import com.koresuniku.wishmaster_v4.core.dashboard.IDashboardPresenter
+import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster_v4.ui.thread_list.ThreadListActivity
 
-class DashboardActivity : BaseWishmasterActivity(), DashboardView<IDashboardPresenter> {
+class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), DashboardView<IDashboardPresenter> {
     private val LOG_TAG = DashboardActivity::class.java.simpleName
 
     @Inject override lateinit var presenter: IDashboardPresenter
@@ -57,7 +54,7 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView<IDashboardPres
         setupViewPager()
         setupTabLayout()
 
-        loadBoards()
+        presenter.loadBoards()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -82,79 +79,38 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView<IDashboardPres
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        presenter.unbindView()
-    }
-
-    private fun loadBoards() {
-//        val loadBoardsObservable = presenter.getLoadBoardsObservable()
-//        mCompositeDisposable.add(loadBoardsObservable
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe( { boardListData: BoardListData ->
-//                    Log.d(LOG_TAG, "received board data: " + boardListData.getBoardList().size)
-//                    hideLoading()
-//                }, { throwable: Throwable ->
-//                    throwable.printStackTrace()
-//                    hideLoading()
-//                    showError(throwable)
-//                }))
-        presenter.loadBoards()
-    }
-
-    override fun onBoardListReceived(boardListData: BoardListData) {
-        hideLoading()
-    }
-
-    override fun onBoardListError(t: Throwable) {
-        //t.printStackTrace()
-        Log.d(LOG_TAG, "onBoardListError from view")
-        hideLoading()
-        showError(t)
-    }
+    override fun onBoardListReceived(boardListData: BoardListData) { hideLoading() }
+    override fun onBoardListError(t: Throwable) { hideLoading(); showError(t) }
 
     @LayoutRes override fun provideContentLayoutResource(): Int = R.layout.activity_dashboard
 
     override fun showLoading() {
-        runOnUiThread {
-            mLoadingLayout.visibility = View.VISIBLE
-            mViewPager.setPagingEnabled(false)
-            val rotationAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_infinitely)
-            mYobaImage.startAnimation(rotationAnimation)
-        }
+        mLoadingLayout.visibility = View.VISIBLE
+        mViewPager.setPagingEnabled(false)
+        val rotationAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_infinitely)
+        mYobaImage.startAnimation(rotationAnimation)
     }
 
     private fun hideLoading() {
-        runOnUiThread {
-            mViewPager.setPagingEnabled(true)
-            ViewUtils.enableTabLayout(mTabLayout)
-            mYobaImage.clearAnimation()
-            mLoadingLayout.visibility = View.GONE
-        }
+        mViewPager.setPagingEnabled(true)
+        ViewUtils.enableTabLayout(mTabLayout)
+        mYobaImage.clearAnimation()
+        mLoadingLayout.visibility = View.GONE
     }
 
     private fun showError(throwable: Throwable) {
-        runOnUiThread {
-            mErrorLayout.visibility = View.VISIBLE
-            mViewPager.setPagingEnabled(false)
-            ViewUtils.disableTabLayout(mTabLayout)
-            val snackbar = Snackbar.make(mErrorLayout, throwable.message.toString(), Snackbar.LENGTH_INDEFINITE)
-            snackbar.setAction(R.string.bljad, { snackbar.dismiss() })
-            snackbar.show()
-            mTryAgainButton.setOnClickListener {
-                snackbar.dismiss()
-                hideError()
-                showLoading()
-                //presenter.reloadBoards()
-                loadBoards()
-            }
+        mErrorLayout.visibility = View.VISIBLE
+        mViewPager.setPagingEnabled(false)
+        ViewUtils.disableTabLayout(mTabLayout)
+        val snackbar = Snackbar.make(mErrorLayout, throwable.message.toString(), Snackbar.LENGTH_INDEFINITE)
+        snackbar.setAction(R.string.bljad, { snackbar.dismiss() })
+        snackbar.show()
+        mTryAgainButton.setOnClickListener {
+            snackbar.dismiss(); hideError(); showLoading(); presenter.loadBoards()
         }
     }
 
-    private fun hideError() {
-        runOnUiThread { mErrorLayout.visibility = View.GONE }
-    }
+    private fun hideError() { mErrorLayout.visibility = View.GONE }
 
     private fun setupTabLayout() {
         mTabLayout.setupWithViewPager(mViewPager)
@@ -171,12 +127,6 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView<IDashboardPres
         mViewPagerAdapter = DashboardViewPagerAdapter(supportFragmentManager)
         mViewPager.adapter = mViewPagerAdapter
         mViewPager.offscreenPageLimit = 2
-//        mCompositeDisposable.add(sharedPreferencesStorage.readInt(
-//                SharedPreferencesKeystore.DASHBOARD_PREFERRED_TAB_POSITION_KEY,
-//                SharedPreferencesKeystore.DASHBOARD_PREFERRED_TAB_POSITION_DEFAULT)
-//                .observeOn(Schedulers.io())
-//                .subscribeOn(AndroidSchedulers.mainThread())
-//                .subscribe { value -> mViewPager.currentItem = value })
         presenter.getDashboardFavouriteTabPosition()
     }
 
@@ -185,7 +135,6 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView<IDashboardPres
     }
 
     override fun launchThreadListActivity(boardId: String) {
-        Log.d(LOG_TAG, "received boardId: $boardId")
         val intent = Intent(this, ThreadListActivity::class.java)
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, boardId)
         startActivity(intent)
@@ -196,10 +145,5 @@ class DashboardActivity : BaseWishmasterActivity(), DashboardView<IDashboardPres
         val snackbar = Snackbar.make(mErrorLayout, getString(R.string.unknown_address), Snackbar.LENGTH_INDEFINITE)
         snackbar.setAction(R.string.bljad, { snackbar.dismiss() })
         snackbar.show()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.unbindView()
     }
 }

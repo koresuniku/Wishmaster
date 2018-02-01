@@ -34,7 +34,7 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListActivity : BaseWishmasterActivity(), ThreadListView<ThreadListPresenter> {
+class ThreadListActivity : BaseWishmasterActivity<ThreadListPresenter>(), ThreadListView<ThreadListPresenter> {
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
     @Inject override lateinit var presenter: ThreadListPresenter

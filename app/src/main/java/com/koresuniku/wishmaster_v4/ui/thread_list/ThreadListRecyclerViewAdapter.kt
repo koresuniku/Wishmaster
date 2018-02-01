@@ -8,11 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.core.data.threads.ThreadListData
-import com.koresuniku.wishmaster_v4.core.domain.client.RetrofitHolder
+import com.koresuniku.wishmaster_v4.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListAdapterView
 import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListPresenter
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterActivity
-import retrofit2.Retrofit
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 

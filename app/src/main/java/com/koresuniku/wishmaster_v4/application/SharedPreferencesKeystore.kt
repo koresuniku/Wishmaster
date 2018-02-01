@@ -1,9 +1,6 @@
 package com.koresuniku.wishmaster_v4.application
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
-import com.koresuniku.wishmaster_v4.core.domain.Dvach
+import com.koresuniku.wishmaster_v4.core.network.Dvach
 
 /**
  * Created by koresuniku on 12.11.17.

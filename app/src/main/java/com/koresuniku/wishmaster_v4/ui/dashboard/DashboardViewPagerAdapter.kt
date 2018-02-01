@@ -26,6 +26,4 @@ class DashboardViewPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter
     }
 
     override fun getCount(): Int = COUNT
-
-
 }

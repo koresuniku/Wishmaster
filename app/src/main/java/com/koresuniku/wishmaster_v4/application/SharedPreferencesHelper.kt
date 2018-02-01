@@ -2,7 +2,7 @@ package com.koresuniku.wishmaster_v4.application
 
 import android.content.Context
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.core.domain.client.RetrofitHolder
+import com.koresuniku.wishmaster_v4.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster_v4.ui.util.DeviceUtils
 import com.koresuniku.wishmaster_v4.ui.util.UiUtils
 import io.reactivex.Completable

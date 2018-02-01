@@ -1,6 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.util.search
 
-import com.koresuniku.wishmaster_v4.core.domain.Dvach
+import com.koresuniku.wishmaster_v4.core.network.Dvach
 import java.util.regex.Pattern
 
 /**

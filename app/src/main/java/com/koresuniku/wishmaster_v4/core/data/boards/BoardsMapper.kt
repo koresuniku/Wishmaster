@@ -85,48 +85,5 @@ class BoardsMapper @Inject constructor() {
         return boardsDataResult
     }
 
-    fun mapToBoardsDataByCategory(boardListData: BoardListData): BoardListsObject {
-        val resultList = ArrayList<Pair<String, ArrayList<BoardModel>>>()
 
-        var currentCategory = boardListData.getBoardList()[0].getBoardCategory()
-        var currentArrayListOfNames = ArrayList<BoardModel>()
-        (0 until boardListData.getBoardList().size)
-                .asSequence()
-                .map { boardListData.getBoardList()[it] }
-                .forEach {
-                    if (it.getBoardCategory() == currentCategory) {
-                        currentArrayListOfNames.add(it)
-                    } else {
-                        resultList.add(Pair(currentCategory, currentArrayListOfNames))
-                        currentArrayListOfNames = ArrayList()
-                        currentArrayListOfNames.add(it)
-                        currentCategory = it.getBoardCategory()
-                    }
-                }
-        resultList.add(Pair(currentCategory, currentArrayListOfNames))
-
-        return BoardListsObject(resultList)
-    }
-
-    fun mapCursorToBoardModelList(cursor: Cursor): List<BoardModel> {
-        val boardList = ArrayList<BoardModel>()
-
-        cursor.moveToFirst()
-        if (cursor.count != 0) do {
-            val boardId = cursor.getString(cursor.getColumnIndex(DatabaseContract.BoardsEntry.COLUMN_BOARD_ID))
-            val boardName = cursor.getString(cursor.getColumnIndex(DatabaseContract.BoardsEntry.COLUMN_BOARD_NAME))
-            val boardCategory = cursor.getString(cursor.getColumnIndex(DatabaseContract.BoardsEntry.COLUMN_BOARD_CATEGORY))
-            val favouritePosition = cursor.getInt(cursor.getColumnIndex(DatabaseContract.BoardsEntry.COLUMN_FAVOURITE_POSITION))
-
-            val boardModel = BoardModel()
-            boardModel.setBoardId(boardId)
-            boardModel.setBoardName(boardName)
-            boardModel.setBoardCategory(boardCategory)
-            boardModel.setFavouritePosition(favouritePosition)
-
-            boardList.add(boardModel)
-        } while (cursor.moveToNext())
-
-        return boardList
-    }
 }

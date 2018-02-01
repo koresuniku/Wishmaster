@@ -1,6 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.base.rx
 
-import com.koresuniku.wishmaster_v4.core.base.INetworkInteractor
+import com.koresuniku.wishmaster_v4.core.base.interactor.INetworkInteractor
 import com.koresuniku.wishmaster_v4.core.base.mvp.MvpPresenter
 import io.reactivex.disposables.CompositeDisposable
 

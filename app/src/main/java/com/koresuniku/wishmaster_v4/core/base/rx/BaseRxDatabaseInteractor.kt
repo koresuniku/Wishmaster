@@ -1,7 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.base.rx
 
 import android.database.sqlite.SQLiteDatabase
-import com.koresuniku.wishmaster_v4.core.base.IDatabaseInteractor
+import com.koresuniku.wishmaster_v4.core.base.interactor.IDatabaseInteractor
 import com.koresuniku.wishmaster_v4.core.base.mvp.MvpPresenter
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper
 import io.reactivex.disposables.CompositeDisposable

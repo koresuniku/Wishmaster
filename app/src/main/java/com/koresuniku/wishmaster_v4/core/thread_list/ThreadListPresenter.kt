@@ -3,13 +3,13 @@ package com.koresuniku.wishmaster_v4.core.thread_list
 import android.util.Log
 import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxPresenter
-import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterInjector
+import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper
 import com.koresuniku.wishmaster_v4.core.data.threads.ThreadListData
 import com.koresuniku.wishmaster_v4.core.data.threads.ThreadsMapper
-import com.koresuniku.wishmaster_v4.core.domain.thread_list_api.ThreadListApiService
-import com.koresuniku.wishmaster_v4.core.domain.thread_list_api.ThreadListJsonSchemaCatalogResponse
-import com.koresuniku.wishmaster_v4.core.domain.thread_list_api.ThreadListJsonSchemaPageResponse
+import com.koresuniku.wishmaster_v4.core.network.thread_list_api.ThreadListApiService
+import com.koresuniku.wishmaster_v4.core.network.thread_list_api.ThreadListJsonSchemaCatalogResponse
+import com.koresuniku.wishmaster_v4.core.network.thread_list_api.ThreadListJsonSchemaPageResponse
 import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import io.reactivex.Single
@@ -21,7 +21,7 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListPresenter @Inject constructor(private val injector: IWishmasterInjector):
+class ThreadListPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector):
         BaseRxPresenter<ThreadListView<ThreadListPresenter>>() {
     private val LOG_TAG = ThreadListPresenter::class.java.simpleName
 

@@ -1,7 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.dagger.component
 
 import com.koresuniku.wishmaster_v4.core.dagger.scope.ForDashboardView
-import com.koresuniku.wishmaster_v4.core.dagger.module.*
+import com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scope.ThreadListModule
 import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListPresenter
 import com.koresuniku.wishmaster_v4.ui.thread_list.ThreadListActivity
 import com.koresuniku.wishmaster_v4.ui.thread_list.ThreadListRecyclerViewAdapter

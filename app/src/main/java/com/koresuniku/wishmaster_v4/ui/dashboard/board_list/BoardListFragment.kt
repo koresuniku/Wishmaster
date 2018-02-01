@@ -1,7 +1,6 @@
 package com.koresuniku.wishmaster_v4.ui.dashboard.board_list
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,16 +8,11 @@ import android.widget.ExpandableListView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.core.dashboard.BoardListView
-import com.koresuniku.wishmaster_v4.core.dashboard.DashboardPresenter
-import com.koresuniku.wishmaster_v4.core.dashboard.IDashboardPresenter
-import com.koresuniku.wishmaster_v4.core.data.boards.BoardListData
+import com.koresuniku.wishmaster_v4.core.dashboard.view.BoardListView
+import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardListsObject
-import com.koresuniku.wishmaster_v4.core.data.boards.BoardsMapper
+import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterFragment
 import com.koresuniku.wishmaster_v4.ui.dashboard.DashboardActivity
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -26,48 +20,31 @@ import javax.inject.Inject
  * Created by koresuniku on 10.11.17.
  */
 
-class BoardListFragment : Fragment(), BoardListView<IDashboardPresenter> {
+class BoardListFragment : BaseWishmasterFragment(), BoardListView<IDashboardPresenter> {
     private val LOG_TAG = BoardListFragment::class.java.simpleName
 
     @Inject override lateinit var presenter: IDashboardPresenter
 
-    private lateinit var mRootView: View
+    override lateinit var rootView: View
     @BindView(R.id.board_list) lateinit var mBoardList: ExpandableListView
 
     private lateinit var mBoardListAdapter: BoardListAdapter
-   // private lateinit var mCompositeDisposable: CompositeDisposable
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mRootView = inflater.inflate(R.layout.fragment_board_list, container, false)
-        ButterKnife.bind(this, mRootView)
+        rootView = inflater.inflate(R.layout.fragment_board_list, container, false)
+        ButterKnife.bind(this, rootView)
         (activity as DashboardActivity)
                 .getWishmasterApplication()
                 .getDashboardViewComponent()
                 .inject(this)
         presenter.bindDashboardBoardListView(this)
 
-       // mCompositeDisposable = CompositeDisposable()
-        //loadBoards()
-
-        return mRootView
+        return rootView
     }
-
-//    fun onBoardListReceived(boardListData: BoardListData) {
-//        val boardLists = BoardsMapper.mapToBoardsDataByCategory(boardListData)
-//        activity?.runOnUiThread { setupBoardListAdapter(boardLists) }
-//    }
 
     override fun onBoardListsObjectReceived(boardListsObject: BoardListsObject) {
         setupBoardListAdapter(boardListsObject)
     }
-
-//    private fun loadBoards() {
-//        mCompositeDisposable.add(presenter.getLoadBoardsObservable()
-//                .subscribeOn(Schedulers.newThread())
-//                .map(BoardsMapper::mapToBoardsDataByCategory)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(this::setupBoardListAdapter, { e -> e.printStackTrace() }))
-//    }
 
     private fun setupBoardListAdapter(boardListsObject: BoardListsObject) {
         context?.let {
@@ -75,7 +52,8 @@ class BoardListFragment : Fragment(), BoardListView<IDashboardPresenter> {
             mBoardList.setAdapter(mBoardListAdapter)
             mBoardList.setGroupIndicator(null)
             mBoardList.setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
-                presenter.shouldLaunchThreadListActivity(boardListsObject.boardLists[groupPosition].second[childPosition].getBoardId())
+                presenter.shouldLaunchThreadListActivity(
+                        boardListsObject.boardLists[groupPosition].second[childPosition].getBoardId())
                 false
             }
         }
@@ -88,6 +66,5 @@ class BoardListFragment : Fragment(), BoardListView<IDashboardPresenter> {
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.unbindDashboardBoardListView()
-        //mCompositeDisposable.clear()
     }
 }

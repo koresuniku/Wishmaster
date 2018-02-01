@@ -5,14 +5,14 @@ import android.content.Context
 import com.google.gson.Gson
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
-import com.koresuniku.wishmaster_v4.application.WishmasterApplication
-import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterInjector
-import com.koresuniku.wishmaster_v4.core.dagger.module.ApplicationModule
-import com.koresuniku.wishmaster_v4.core.dagger.module.InjectorModule
-import com.koresuniku.wishmaster_v4.core.dagger.module.NetworkModule
-import com.koresuniku.wishmaster_v4.core.dagger.module.SharedPreferencesModule
+import com.koresuniku.wishmaster_v4.application.WishmasterDaggerApplication
+import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.ApplicationModule
+import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.InjectorModule
+import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.NetworkModule
+import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.SharedPreferencesModule
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper
-import com.koresuniku.wishmaster_v4.core.domain.thread_list_api.ThreadListApiService
+import com.koresuniku.wishmaster_v4.core.network.thread_list_api.ThreadListApiService
 import dagger.Component
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
@@ -29,7 +29,7 @@ interface ApplicationComponent {
     //Application
     fun application(): Application
     fun context(): Context
-    fun injector(): IWishmasterInjector
+    fun injector(): IWishmasterDaggerInjector
 
     //SharedPreferences
     fun sharedPreferencesStorage(): ISharedPreferencesStorage
@@ -43,6 +43,6 @@ interface ApplicationComponent {
     fun boardsApiServide(): BoardsApiService
     fun threadListApiService(): ThreadListApiService
 
-    fun inject(application: WishmasterApplication)
+    fun inject(application: WishmasterDaggerApplication)
 
 }

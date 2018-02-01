@@ -1,7 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.base.rx
 
 import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
-import com.koresuniku.wishmaster_v4.core.base.ISharedPreferencesInteractor
+import com.koresuniku.wishmaster_v4.core.base.interactor.ISharedPreferencesInteractor
 import com.koresuniku.wishmaster_v4.core.base.mvp.MvpPresenter
 import io.reactivex.disposables.CompositeDisposable
 

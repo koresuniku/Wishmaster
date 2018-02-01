@@ -1,7 +1,6 @@
 package com.koresuniku.wishmaster_v4.ui.dashboard.board_list
 
 import android.content.Context
-import android.database.DataSetObserver
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +9,9 @@ import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.core.dashboard.DashboardPresenter
-import com.koresuniku.wishmaster_v4.core.dashboard.IDashboardPresenter
+import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardListsObject
 import com.koresuniku.wishmaster_v4.core.data.database.repository.BoardsRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import java.lang.ref.WeakReference
 
 /**
@@ -77,22 +72,11 @@ class BoardListAdapter (private val mContext: WeakReference<Context>,
                     R.drawable.ic_favorite_border_gray_24dp
                 else
                     R.drawable.ic_favorite_gray_24dp)
-//        makeFavouriteButton?.setOnClickListener { mCompositeDisposable.add(
-//                mPresenter.switchBoardFavourability(boardModel.getBoardId())
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe({ newPosition ->
-//                            boardModel.setFavouritePosition(newPosition)
-//                            makeFavouriteButton.setImageResource(
-//                                    if (newPosition == BoardsRepository.FAVOURITE_POSITION_DEFAULT)
-//                                        R.drawable.ic_favorite_border_gray_24dp
-//                                    else
-//                                        R.drawable.ic_favorite_gray_24dp)
-//                            //mPresenter.reloadBoards()
-//                        }, { e -> e.printStackTrace()}))}
+
         makeFavouriteButton?.setOnClickListener({
             mPresenter.switchBoardFavourability(boardModel.getBoardId())
         })
+
         return newConvertView!!
     }
 
@@ -102,9 +86,6 @@ class BoardListAdapter (private val mContext: WeakReference<Context>,
                 Log.d("BLA", "foundBoardId: ${it.getBoardId()}")
                 it.setFavouritePosition(newFavouritePosition)
                 this.notifyDataSetChanged()
-//                if (newFavouritePosition == BoardsRepository.FAVOURITE_POSITION_DEFAULT)
-//                    R.drawable.ic_favorite_border_gray_24dp
-//                else R.drawable.ic_favorite_gray_24dp
             }
         }
     }

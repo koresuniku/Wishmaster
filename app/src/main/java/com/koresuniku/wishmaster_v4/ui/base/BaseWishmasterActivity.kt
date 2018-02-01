@@ -4,24 +4,32 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.application.WishmasterApplication
+import com.koresuniku.wishmaster_v4.application.WishmasterDaggerApplication
+import com.koresuniku.wishmaster_v4.core.base.mvp.MvpPresenter
+import com.koresuniku.wishmaster_v4.core.base.mvp.MvpView
 
 /**
  * Created by koresuniku on 12.01.18.
  */
 
-abstract class BaseWishmasterActivity : BaseDrawerActivity(), IWishamsterActivity {
+abstract class BaseWishmasterActivity<P : MvpPresenter<*>> : BaseDrawerActivity(), IWishamsterActivity, MvpView<P> {
 
     protected var isActivityDestroyed = false
+
 
     @LayoutRes
     abstract override fun provideContentLayoutResource(): Int
 
-    override fun getWishmasterApplication(): WishmasterApplication = application as WishmasterApplication
+    override fun getWishmasterApplication(): WishmasterDaggerApplication = application as WishmasterDaggerApplication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         isActivityDestroyed = false
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        presenter.unbindView()
     }
 
     override fun finish() {
@@ -44,6 +52,7 @@ abstract class BaseWishmasterActivity : BaseDrawerActivity(), IWishamsterActivit
 
     override fun onDestroy() {
         super.onDestroy()
+        presenter.unbindView()
         isActivityDestroyed = true
     }
 }

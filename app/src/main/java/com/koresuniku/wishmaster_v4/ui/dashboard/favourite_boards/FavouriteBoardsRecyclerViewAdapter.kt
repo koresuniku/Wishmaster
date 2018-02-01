@@ -5,17 +5,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.core.dashboard.DashboardPresenter
-import com.koresuniku.wishmaster_v4.core.dashboard.IDashboardPresenter
+import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.boards.BoardModel
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import com.koresuniku.wishmaster_v4.ui.view.drag_and_swipe_recycler_view.ItemTouchHelperAdapter
 import com.koresuniku.wishmaster_v4.ui.view.drag_and_swipe_recycler_view.OnStartDragListener
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Created by koresuniku on 13.11.17.
@@ -62,18 +57,11 @@ class FavouriteBoardsRecyclerViewAdapter(
 
         mFavouriteBoards.forEachIndexed { index, boardModel -> boardModel.setFavouritePosition(index) }
 
-//        mCompositeDisposable.add(mPresenter.reorderFavouriteBoardList(mFavouriteBoards)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe())
         mPresenter.reorderFavouriteBoardList(mFavouriteBoards)
 
         notifyItemMoved(fromPosition, toPosition)
     }
 
-    override fun onItemRemoved(position: Int) {
-    }
-
-    override fun onSelectedChanged(actionState: Int) {
-    }
+    override fun onItemRemoved(position: Int) {}
+    override fun onSelectedChanged(actionState: Int) {}
 }

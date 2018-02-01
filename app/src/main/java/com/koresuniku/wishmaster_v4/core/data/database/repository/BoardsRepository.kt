@@ -16,7 +16,7 @@ import javax.inject.Inject
  * Created by koresuniku on 03.10.17.
  */
 
-class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMapper) {
+class BoardsRepository @Inject constructor() {
 
     private val mBoardsProjection = arrayOf(
             DatabaseContract.BoardsEntry.COLUMN_BOARD_ID,
@@ -38,8 +38,6 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
                 " INTEGER DEFAULT " + FAVOURITE_POSITION_DEFAULT + ";"
     }
 
-
-
     fun getBoardsDataFromDatabase(database: SQLiteDatabase): BoardListData {
         val data = BoardListData()
         val boardList = ArrayList<BoardModel>()
@@ -47,8 +45,6 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
         val cursor: Cursor = database.query(
                 DatabaseContract.BoardsEntry.TABLE_NAME, mBoardsProjection,
                 null, null, null, null, null)
-
-        //if (cursor.count == 0) return data
 
         val columnBoardId = cursor.getColumnIndex(
                 DatabaseContract.BoardsEntry.COLUMN_BOARD_ID)
@@ -103,8 +99,6 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
         resultData.forEach {
             insertBoard(database, it.getBoardId(), it.getBoardName(), it.getBoardCategory())
         }
-
-       // database.close()
     }
 
     private fun insertBoard(database: SQLiteDatabase, boardId: String, boardName: String, category: String) {
@@ -120,8 +114,6 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
         val resultData = existingBoardsData.getBoardList().subtract(inputData.getBoardList())
 
         resultData.forEach { deleteBoard(database, it.getBoardId()) }
-
-        //database.close()
     }
 
     private fun deleteBoard(database: SQLiteDatabase, boardId: String) {
@@ -145,8 +137,6 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
         }
 
         cursor.close()
-        //database.close()
-        Log.d("BR", "newPosition: $newPosition")
 
         return newPosition
     }
@@ -203,9 +193,8 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
                 DatabaseContract.BoardsEntry.COLUMN_FAVOURITE_POSITION + " ASC")
                // null)
         Log.d("BR", "cursor.count: ${cursor.count}")
-        val boardList = boardsMapper.mapCursorToBoardModelList(cursor)
+        val boardList = mapCursorToBoardModelList(cursor)
         cursor.close()
-       // database.close()
 
         return boardList
     }
@@ -223,6 +212,47 @@ class BoardsRepository @Inject constructor(private val boardsMapper: BoardsMappe
     }
 
     fun mapToBoardsDataByCategory(boardListData: BoardListData): BoardListsObject {
-        return boardsMapper.mapToBoardsDataByCategory(boardListData)
+        val resultList = ArrayList<Pair<String, ArrayList<BoardModel>>>()
+
+        var currentCategory = boardListData.getBoardList()[0].getBoardCategory()
+        var currentArrayListOfNames = ArrayList<BoardModel>()
+        (0 until boardListData.getBoardList().size)
+                .asSequence()
+                .map { boardListData.getBoardList()[it] }
+                .forEach {
+                    if (it.getBoardCategory() == currentCategory) {
+                        currentArrayListOfNames.add(it)
+                    } else {
+                        resultList.add(Pair(currentCategory, currentArrayListOfNames))
+                        currentArrayListOfNames = ArrayList()
+                        currentArrayListOfNames.add(it)
+                        currentCategory = it.getBoardCategory()
+                    }
+                }
+        resultList.add(Pair(currentCategory, currentArrayListOfNames))
+
+        return BoardListsObject(resultList)
+    }
+
+    private fun mapCursorToBoardModelList(cursor: Cursor): List<BoardModel> {
+        val boardList = ArrayList<BoardModel>()
+
+        cursor.moveToFirst()
+        if (cursor.count != 0) do {
+            val boardId = cursor.getString(cursor.getColumnIndex(DatabaseContract.BoardsEntry.COLUMN_BOARD_ID))
+            val boardName = cursor.getString(cursor.getColumnIndex(DatabaseContract.BoardsEntry.COLUMN_BOARD_NAME))
+            val boardCategory = cursor.getString(cursor.getColumnIndex(DatabaseContract.BoardsEntry.COLUMN_BOARD_CATEGORY))
+            val favouritePosition = cursor.getInt(cursor.getColumnIndex(DatabaseContract.BoardsEntry.COLUMN_FAVOURITE_POSITION))
+
+            val boardModel = BoardModel()
+            boardModel.setBoardId(boardId)
+            boardModel.setBoardName(boardName)
+            boardModel.setBoardCategory(boardCategory)
+            boardModel.setFavouritePosition(favouritePosition)
+
+            boardList.add(boardModel)
+        } while (cursor.moveToNext())
+
+        return boardList
     }
 }
