@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.application.WishmasterDaggerApplication
+import com.koresuniku.wishmaster_v4.application.WishmasterApplication
 import com.koresuniku.wishmaster_v4.core.base.mvp.IMvpPresenter
 import com.koresuniku.wishmaster_v4.core.base.mvp.IMvpView
 
@@ -16,11 +16,10 @@ abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> : BaseDrawerActivity
 
     protected var isActivityDestroyed = false
 
-
     @LayoutRes
     abstract override fun provideContentLayoutResource(): Int
 
-    override fun getWishmasterApplication(): WishmasterDaggerApplication = application as WishmasterDaggerApplication
+    override fun getWishmasterApplication(): WishmasterApplication = application as WishmasterApplication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

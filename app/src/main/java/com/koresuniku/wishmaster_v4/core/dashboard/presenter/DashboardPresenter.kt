@@ -11,6 +11,7 @@ import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster_v4.core.util.search.SearchInputMatcher
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -19,16 +20,18 @@ import javax.inject.Inject
  */
 
 class DashboardPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector,
+                                             compositeDisposable: CompositeDisposable,
                                              networkInteractor: DashboardNetworkInteractor,
                                              databaseInteractor: DashboardDatabaseInteractor,
                                              searchInteractor: DashboardSearchInteractor,
                                              sharedPreferencesInteractor: DashboardSharedPreferencesInteractor):
-        BaseDashboardPresenter(networkInteractor, databaseInteractor, searchInteractor, sharedPreferencesInteractor) {
+        BaseDashboardPresenter(compositeDisposable, networkInteractor, databaseInteractor,
+                searchInteractor, sharedPreferencesInteractor) {
     private val LOG_TAG = DashboardPresenter::class.java.simpleName
 
     override fun bindView(mvpView: DashboardView<IDashboardPresenter>) {
         super.bindView(mvpView)
-        injector.getDashboardPresenterComponent().inject(this)
+        injector.daggerDashboardPresenterComponent.inject(this)
     }
 
     override fun loadBoards() {

@@ -8,13 +8,16 @@ import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSharedPre
 import com.koresuniku.wishmaster_v4.core.dashboard.view.BoardListView
 import com.koresuniku.wishmaster_v4.core.dashboard.view.DashboardView
 import com.koresuniku.wishmaster_v4.core.dashboard.view.FavouriteBoardsView
+import io.reactivex.disposables.CompositeDisposable
 
 
-abstract class BaseDashboardPresenter(protected val networkInteractor: DashboardNetworkInteractor,
+abstract class BaseDashboardPresenter(compositeDisposable: CompositeDisposable,
+                                      protected val networkInteractor: DashboardNetworkInteractor,
                                       protected val databaseInteractor: DashboardDatabaseInteractor,
                                       protected val searchInteractor: DashboardSearchInteractor,
                                       protected val sharedPreferencesInteractor: DashboardSharedPreferencesInteractor):
-        BaseRxPresenter<DashboardView<IDashboardPresenter>>(), IDashboardPresenter {
+        BaseRxPresenter<DashboardView<IDashboardPresenter>>(compositeDisposable),
+        IDashboardPresenter {
 
     protected var dashboardBoardListView: BoardListView<IDashboardPresenter>? = null
     protected var favouriteBoardsView: FavouriteBoardsView<IDashboardPresenter>? = null

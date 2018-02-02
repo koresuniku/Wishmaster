@@ -6,6 +6,8 @@ import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadListView
 
 
 interface IThreadListPresenter : IMvpPresenter<ThreadListView<IThreadListPresenter>> {
+    var threadListAdapterView: ThreadListAdapterView<IThreadListPresenter>?
+
     fun loadThreadList()
     fun getBoardId(): String
     fun getThreadListDataSize(): Int

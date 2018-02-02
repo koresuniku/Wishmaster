@@ -6,10 +6,10 @@ import com.koresuniku.wishmaster_v4.core.base.mvp.IMvpPresenter
 import io.reactivex.disposables.CompositeDisposable
 
 
-abstract class BaseRxSharedPreferencesInteractorI<P : IMvpPresenter<*>>(
+abstract class BaseRxSharedPreferencesInteractor<P : IMvpPresenter<*>>(
         private val storage: ISharedPreferencesStorage,
         compositeDisposable: CompositeDisposable):
-        BaseRxInteractorI<P>(compositeDisposable), ISharedPreferencesInteractor {
+        BaseRxInteractor<P>(compositeDisposable), ISharedPreferencesInteractor {
 
     override fun getSharedPreferencesStorage(): ISharedPreferencesStorage = storage
 }

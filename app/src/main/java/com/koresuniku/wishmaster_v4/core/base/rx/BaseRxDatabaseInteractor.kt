@@ -7,9 +7,9 @@ import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper
 import io.reactivex.disposables.CompositeDisposable
 
 
-abstract class BaseRxDatabaseInteractorI<P : IMvpPresenter<*>, M>(
+abstract class BaseRxDatabaseInteractor<P : IMvpPresenter<*>, M>(
         private val databaseHelper: DatabaseHelper,
-        compositeDisposable: CompositeDisposable) : BaseRxInteractorI<P>(compositeDisposable), IDatabaseInteractor<M> {
+        compositeDisposable: CompositeDisposable) : BaseRxInteractor<P>(compositeDisposable), IDatabaseInteractor<M> {
 
     override fun getWritableDatabase(): SQLiteDatabase = databaseHelper.writableDatabase
     override fun getReadableDatabase(): SQLiteDatabase = databaseHelper.readableDatabase

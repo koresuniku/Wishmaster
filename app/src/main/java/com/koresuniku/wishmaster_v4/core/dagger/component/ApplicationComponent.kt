@@ -5,7 +5,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster_v4.application.shared_preferences.ISharedPreferencesStorage
-import com.koresuniku.wishmaster_v4.application.WishmasterDaggerApplication
+import com.koresuniku.wishmaster_v4.application.WishmasterApplication
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.ApplicationModule
 import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.InjectorModule
@@ -43,6 +43,6 @@ interface ApplicationComponent {
     fun boardsApiServide(): BoardsApiService
     fun threadListApiService(): ThreadListApiService
 
-    fun inject(application: WishmasterDaggerApplication)
+    fun inject(application: WishmasterApplication)
 
 }

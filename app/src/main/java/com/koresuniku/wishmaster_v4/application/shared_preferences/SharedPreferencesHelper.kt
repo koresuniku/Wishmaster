@@ -212,11 +212,4 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                     .subscribe(e::onSuccess)
         })
     }
-
-//    private data class SharedPreferencesUIParams(val imageWidth: Int,
-//                                                        val threadPostItemHorizontalWidth: Int,
-//                                                        val threadPostItemVerticalWidth: Int,
-//                                                        val threadPostItemSingleImageHorizontalWidth: Int,
-//                                                        val threadPostItemSingleImageVerticalWidth: Int)
-
 }

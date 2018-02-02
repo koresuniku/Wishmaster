@@ -34,7 +34,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
     @Inject override lateinit var presenter: IThreadListPresenter
-   // @Inject lateinit var ISharedPreferencesStorage: ISharedPreferencesStorage
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup
@@ -48,7 +47,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getWishmasterApplication().getThreadListViewComponent().inject(this)
+        getWishmasterApplication().daggerThreadListViewComponent.inject(this)
         ButterKnife.bind(this)
         presenter.bindView(this)
 
@@ -57,7 +56,8 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         setupRecyclerView()
 
         showLoading(true)
-        loadThreads(true)
+//        loadThreads(true)
+        presenter.loadThreadList()
     }
 
     override fun onBackPressed() {
@@ -114,14 +114,11 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
                 }
             }
         })
-//        mThreadListRecyclerView.setItemViewCacheSize(1024)
-//        mThreadListRecyclerView.isDrawingCacheEnabled = true
-//        mThreadListRecyclerView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
         presenter.bindThreadListAdapterView(mThreadListRecyclerViewAdapter)
     }
 
-    private fun loadThreads(first: Boolean) {
-//        presenter.reloadThreads()
+//    private fun loadThreads(first: Boolean) {
+//       // presenter.reloadThreads()
 //        mCompositeDisposable.add(presenter.getLoadThreadsSingle()
 //                .subscribeOn(Schedulers.newThread())
 //                .observeOn(AndroidSchedulers.mainThread())
@@ -134,63 +131,62 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 //                            if (first) showThreadList()
 //                        }, { e -> e.printStackTrace(); hideLoading(); showError(e) })
 //        )
+//    }
+
+
+
+    override fun onThreadListReceived(boardName: String) {
+        hideLoading()
+        setupTitle(boardName)
     }
 
     private fun showLoading(delay: Boolean) {
-        runOnUiThread {
-            mLoadingLayout.visibility = View.VISIBLE
-            supportActionBar?.title = getString(R.string.loading_text)
-            mYobaImage.setLayerType(View.LAYER_TYPE_HARDWARE, null)
-            val rotationAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_infinitely)
-            Handler().postDelayed(
-                    { mYobaImage.startAnimation(rotationAnimation) },
-                    if (delay) resources.getInteger(R.integer.slide_anim_duration).toLong() else 0)
-        }
+        mLoadingLayout.visibility = View.VISIBLE
+        supportActionBar?.title = getString(R.string.loading_text)
+        mYobaImage.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+        val rotationAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_infinitely)
+        Handler().postDelayed(
+                { mYobaImage.startAnimation(rotationAnimation) },
+                if (delay) resources.getInteger(R.integer.slide_anim_duration).toLong() else 0)
     }
 
     private fun hideLoading() {
-        runOnUiThread {
-            mYobaImage.clearAnimation()
-            mYobaImage.setLayerType(View.LAYER_TYPE_NONE, null)
-            mLoadingLayout.visibility = View.GONE
-        }
+        mYobaImage.clearAnimation()
+        mYobaImage.setLayerType(View.LAYER_TYPE_NONE, null)
+        mLoadingLayout.visibility = View.GONE
     }
 
-    private fun showError(throwable: Throwable) {
-        runOnUiThread {
-            mThreadListRecyclerView.visibility = View.GONE
-            mErrorLayout.visibility = View.VISIBLE
-            supportActionBar?.title = getString(R.string.error)
-            val snackBar = Snackbar.make(mErrorLayout, throwable.message.toString(), Snackbar.LENGTH_INDEFINITE)
-            snackBar.setAction(R.string.bljad, { snackBar.dismiss() })
-            snackBar.show()
-            mTryAgainButton.setOnClickListener {
-                snackBar.dismiss()
-                hideError()
-                showLoading(false)
-                loadThreads(false)
-            }
+    override fun showError(message: String?) {
+        mThreadListRecyclerView.visibility = View.GONE
+        mErrorLayout.visibility = View.VISIBLE
+        supportActionBar?.title = getString(R.string.error)
+        val snackBar = Snackbar.make(
+                mErrorLayout,
+                message?:getString(R.string.error),
+                Snackbar.LENGTH_INDEFINITE)
+        snackBar.setAction(R.string.bljad, { snackBar.dismiss() })
+        snackBar.show()
+        mTryAgainButton.setOnClickListener {
+            snackBar.dismiss()
+            hideError()
+            showLoading(false)
+            presenter.loadThreadList()
         }
     }
 
     private fun hideError() {
-        runOnUiThread {
-            mErrorLayout.visibility = View.GONE
-            mThreadListRecyclerView.visibility = View.VISIBLE
-        }
+        mErrorLayout.visibility = View.GONE
+        mThreadListRecyclerView.visibility = View.VISIBLE
     }
 
-    private fun showThreadList() {
-        runOnUiThread {
-            val alpha = AlphaAnimation(0f, 1f)
-            alpha.duration = resources.getInteger(R.integer.showing_list_duration).toLong()
-            mThreadListRecyclerView.startAnimation(alpha)
-        }
+    override fun showThreadList() {
+        val alpha = AlphaAnimation(0f, 1f)
+        alpha.duration = resources.getInteger(R.integer.showing_list_duration).toLong()
+        mThreadListRecyclerView.startAnimation(alpha)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         presenter.unbindThreadListAdapterView()
-        presenter.unbindView()
     }
 }

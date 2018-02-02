@@ -7,6 +7,7 @@ import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadItemView
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadListView
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -15,23 +16,25 @@ import javax.inject.Inject
  */
 
 class ThreadListPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector,
-                                              private val threadListNetworkInteractor: ThreadListNetworkInteractor):
-        BaseThreadListPresenter() {
+                                              compositeDisposable: CompositeDisposable,
+                                              threadListNetworkInteractor: ThreadListNetworkInteractor):
+        BaseThreadListPresenter(compositeDisposable, threadListNetworkInteractor) {
     private val LOG_TAG = ThreadListPresenter::class.java.simpleName
 
-   // @Inject lateinit var threadListApiService: ThreadListApiService
+
+    // @Inject lateinit var threadListApiService: ThreadListApiService
     //@Inject lateinit var databaseHelper: DatabaseHelper
     //@Inject lateinit var sharedPreferencesStorage: sharedPreferencesStorage
 
     //private lateinit var mLoadThreadListSingle: Single<ThreadListData>
-    private var mActualThreadListData: ThreadListData? = null
+    //private var mActualThreadListData: ThreadListData? = null
     //private var mThreadListAdapterView: ThreadListAdapterView<ThreadListPresenter>? = null
 
     override fun bindView(mvpView: ThreadListView<IThreadListPresenter>) {
         super.bindView(mvpView)
-        injector.getThreadListPresenterComponent().inject(this)
+        injector.daggerThreadListPresenterComponent.inject(this)
 
-        mActualThreadListData = ThreadListData.emptyData()
+        //mActualThreadListData = ThreadListData.emptyData()
 //
 //        mLoadThreadListSingle = getNewLoadThreadListSingle()
 //        mLoadThreadListSingle = mLoadThreadListSingle.cache()
@@ -48,9 +51,10 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    mActualThreadListData = it
+                    //mActualThreadListData = it
+                    presenterData = it
                     threadListAdapterView?.onThreadListDataChanged(it)
-                }, { it.printStackTrace() }))
+                }, { it.printStackTrace(); mView?.showError(it.message) }))
     }
 
 
@@ -120,7 +124,7 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
 //    }
 
     fun bindThreadItemViewByPosition(threadItemView: ThreadItemView, position: Int) {
-        mActualThreadListData?.getThreadList()?.let {
+        presenterData.getThreadList()?.let {
             val thread = it[position]
             mView?.let {
                 threadItemView.setSubject(WishmasterTextUtils.getSubjectSpanned(
@@ -149,7 +153,7 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
             }
     }
 
-    override fun getThreadListDataSize() = mActualThreadListData?.getThreadList()?.size ?: 0
+    override fun getThreadListDataSize() = presenterData.getThreadList()?.size ?: 0
 
     companion object {
         val ERROR_CODE = -1
@@ -159,7 +163,7 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
     }
 
     fun getThreadItemType(position: Int): Int {
-        mActualThreadListData?.let {
+        presenterData.let {
             it.getThreadList()[position].files?.let {
                 return when (it.size) {
                     0 -> NO_IMAGES_CODE

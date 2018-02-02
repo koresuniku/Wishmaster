@@ -1,8 +1,8 @@
 package com.koresuniku.wishmaster_v4.ui.base
 
-import com.koresuniku.wishmaster_v4.application.WishmasterDaggerApplication
+import com.koresuniku.wishmaster_v4.application.WishmasterApplication
 
 
 interface IWishamsterActivity {
-    fun getWishmasterApplication(): WishmasterDaggerApplication
+    fun getWishmasterApplication(): WishmasterApplication
 }

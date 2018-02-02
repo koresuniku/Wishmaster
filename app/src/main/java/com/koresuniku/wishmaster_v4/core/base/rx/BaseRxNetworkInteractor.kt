@@ -7,7 +7,7 @@ import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseRxNetworkInteractor<P : IMvpPresenter<*>, out S, M>(
         private val api: S, compositeDisposable: CompositeDisposable):
-        BaseRxInteractorI<P>(compositeDisposable), INetworkInteractor<S, M> {
+        BaseRxInteractor<P>(compositeDisposable), INetworkInteractor<S, M> {
 
     override fun getService(): S = api
 

@@ -7,6 +7,7 @@ import com.koresuniku.wishmaster_v4.core.thread_list.presenter.IThreadListPresen
 import com.koresuniku.wishmaster_v4.core.thread_list.presenter.ThreadListPresenter
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Created by koresuniku on 01.01.18.
@@ -18,7 +19,8 @@ class ThreadListViewModule {
     @Provides
     @ForThreadListView
     fun provideThreadListPresenter(injector: IWishmasterDaggerInjector,
+                                   compositeDisposable: CompositeDisposable,
                                    networkInteractor: ThreadListNetworkInteractor): IThreadListPresenter {
-        return ThreadListPresenter(injector, networkInteractor)
+        return ThreadListPresenter(injector, compositeDisposable, networkInteractor)
     }
 }

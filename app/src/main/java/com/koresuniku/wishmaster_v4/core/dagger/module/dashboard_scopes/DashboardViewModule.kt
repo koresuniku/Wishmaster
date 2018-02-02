@@ -10,6 +10,7 @@ import com.koresuniku.wishmaster_v4.core.dashboard.presenter.DashboardPresenter
 import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Created by koresuniku on 05.10.17.
@@ -21,10 +22,11 @@ class DashboardViewModule {
     @Provides
     @ForDashboardView
     fun provideDashboardPresenter(injector: IWishmasterDaggerInjector,
+                                  compositeDisposable: CompositeDisposable,
                                   dashboardNetworkInteractor: DashboardNetworkInteractor,
                                   dashboardDatabaseInteractor: DashboardDatabaseInteractor,
                                   dashboardSearchInteractor: DashboardSearchInteractor,
                                   dashboardSharedPreferencesInteractor: DashboardSharedPreferencesInteractor): IDashboardPresenter {
-        return DashboardPresenter(injector, dashboardNetworkInteractor, dashboardDatabaseInteractor, dashboardSearchInteractor, dashboardSharedPreferencesInteractor)
+        return DashboardPresenter(injector, compositeDisposable, dashboardNetworkInteractor, dashboardDatabaseInteractor, dashboardSearchInteractor, dashboardSharedPreferencesInteractor)
     }
 }

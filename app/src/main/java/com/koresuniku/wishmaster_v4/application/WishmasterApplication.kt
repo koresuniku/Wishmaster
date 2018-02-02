@@ -35,7 +35,7 @@ import javax.inject.Inject
  * но хочу сразу предостеречь пытливых - стоп. Остальные просто не найдут.
  */
 
-class WishmasterDaggerApplication : Application(), IWishmasterDaggerInjector {
+class WishmasterApplication : Application(), IWishmasterDaggerInjector {
 
     private val mDaggerApplicationComponent: DaggerApplicationComponent by lazy {
         DaggerApplicationComponent.builder()

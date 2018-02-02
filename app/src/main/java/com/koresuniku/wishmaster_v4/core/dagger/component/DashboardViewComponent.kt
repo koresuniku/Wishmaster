@@ -1,5 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.dagger.component
 
+import com.koresuniku.wishmaster_v4.core.dagger.module.RxModule
 import com.koresuniku.wishmaster_v4.core.dagger.scope.ForDashboardView
 import com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scopes.DashboardViewModule
 import com.koresuniku.wishmaster_v4.ui.dashboard.DashboardActivity
@@ -12,7 +13,7 @@ import dagger.Component
  */
 
 @ForDashboardView
-@Component (dependencies = [DashboardPresenterComponent::class], modules = [DashboardViewModule::class])
+@Component (dependencies = [DashboardPresenterComponent::class], modules = [(DashboardViewModule::class), (RxModule::class)])
 interface DashboardViewComponent {
 
     fun inject(activity: DashboardActivity)

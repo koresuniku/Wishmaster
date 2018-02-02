@@ -24,7 +24,7 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
     override lateinit var presenter: IThreadListPresenter
 
     constructor(activity: BaseWishmasterActivity<IThreadListPresenter>) : this() {
-        activity.getWishmasterApplication().getThreadListViewComponent().inject(this)
+        activity.getWishmasterApplication().daggerThreadListViewComponent.inject(this)
         this.activity = WeakReference(activity)
     }
 
