@@ -37,11 +37,42 @@ import javax.inject.Inject
 
 class WishmasterDaggerApplication : Application(), IWishmasterDaggerInjector {
 
-    private lateinit var mDaggerApplicationComponent: DaggerApplicationComponent
-    private lateinit var mDaggerDashboardPresenterComponent: DaggerDashboardPresenterComponent
-    private lateinit var mDaggerDashboardViewComponent: DaggerDashboardViewComponent
-    private lateinit var mDaggerThreadListPresenterComponent: DaggerThreadListPresenterComponent
-    private lateinit var mDaggerThreadListViewComponent: DaggerThreadListViewComponent
+    private val mDaggerApplicationComponent: DaggerApplicationComponent by lazy {
+        DaggerApplicationComponent.builder()
+                .applicationModule(ApplicationModule(this))
+                .injectorModule(InjectorModule(this))
+                .networkModule(NetworkModule(Dvach.BASE_URL))
+                .sharedPreferencesModule(SharedPreferencesModule())
+                .build() as DaggerApplicationComponent
+    }
+    override val daggerDashboardPresenterComponent: DaggerDashboardPresenterComponent by lazy {
+        DaggerDashboardPresenterComponent.builder()
+                .applicationComponent(mDaggerApplicationComponent)
+                .dashboardPresenterModule(DashboardPresenterModule())
+                .rxModule(RxModule())
+                .boardsModule(BoardsModule())
+                .searchModule(SearchModule())
+                .build() as DaggerDashboardPresenterComponent
+    }
+    override val daggerDashboardViewComponent: DaggerDashboardViewComponent by lazy {
+        DaggerDashboardViewComponent.builder()
+                .dashboardPresenterComponent(daggerDashboardPresenterComponent)
+                .dashboardViewModule(DashboardViewModule())
+                .build() as DaggerDashboardViewComponent
+    }
+    override val daggerThreadListPresenterComponent: DaggerThreadListPresenterComponent by lazy {
+        DaggerThreadListPresenterComponent.builder()
+                .applicationComponent(mDaggerApplicationComponent)
+                .threadListPresenterModule(ThreadListPresenterModule())
+                .rxModule(RxModule())
+                .build() as DaggerThreadListPresenterComponent
+    }
+    override val daggerThreadListViewComponent: DaggerThreadListViewComponent by lazy {
+        DaggerThreadListViewComponent.builder()
+                .threadListPresenterComponent(daggerThreadListPresenterComponent)
+                .threadListViewModule(ThreadListViewModule())
+                .build() as DaggerThreadListViewComponent
+    }
 
     @Inject lateinit var okHttpClient: OkHttpClient
     @Inject lateinit var sharedPreferencesStorage: ISharedPreferencesStorage
@@ -54,46 +85,46 @@ class WishmasterDaggerApplication : Application(), IWishmasterDaggerInjector {
 
         if (!LeakCanary.isInAnalyzerProcess(this)) LeakCanary.install(this)
 
-        mDaggerApplicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(ApplicationModule(this))
-                .injectorModule(InjectorModule(this))
-                .networkModule(NetworkModule(Dvach.BASE_URL))
-                .sharedPreferencesModule(SharedPreferencesModule())
-                .build() as DaggerApplicationComponent
+//        mDaggerApplicationComponent = DaggerApplicationComponent.builder()
+//                .applicationModule(ApplicationModule(this))
+//                .injectorModule(InjectorModule(this))
+//                .networkModule(NetworkModule(Dvach.BASE_URL))
+//                .sharedPreferencesModule(SharedPreferencesModule())
+//                .build() as DaggerApplicationComponent
         mDaggerApplicationComponent.inject(this)
 
         sharedPreferencesHelper.onApplicationCreate(
                 this, sharedPreferencesStorage, retrofitHolder, sharedPreferencesUiParams)
 
-        mDaggerDashboardPresenterComponent = DaggerDashboardPresenterComponent.builder()
-                .applicationComponent(mDaggerApplicationComponent)
-                .dashboardPresenterModule(DashboardPresenterModule())
-                .rxModule(RxModule())
-                .boardsModule(BoardsModule())
-                .searchModule(SearchModule())
-                .build() as DaggerDashboardPresenterComponent
+//        daggerDashboardPresenterComponent = DaggerDashboardPresenterComponent.builder()
+//                .applicationComponent(mDaggerApplicationComponent)
+//                .dashboardPresenterModule(DashboardPresenterModule())
+//                .rxModule(RxModule())
+//                .boardsModule(BoardsModule())
+//                .searchModule(SearchModule())
+//                .build() as DaggerDashboardPresenterComponent
 
-        mDaggerDashboardViewComponent = DaggerDashboardViewComponent.builder()
-                .dashboardPresenterComponent(mDaggerDashboardPresenterComponent)
-                .dashboardViewModule(DashboardViewModule())
-                .build() as DaggerDashboardViewComponent
+//        mDaggerDashboardViewComponent = DaggerDashboardViewComponent.builder()
+//                .dashboardPresenterComponent(daggerDashboardPresenterComponent)
+//                .dashboardViewModule(DashboardViewModule())
+//                .build() as DaggerDashboardViewComponent
 
-        mDaggerThreadListPresenterComponent = DaggerThreadListPresenterComponent.builder()
-                .applicationComponent(mDaggerApplicationComponent)
-                .threadListPresenterModule(ThreadListPresenterModule())
-                .rxModule(RxModule())
-                .build() as DaggerThreadListPresenterComponent
+//        mDaggerThreadListPresenterComponent = DaggerThreadListPresenterComponent.builder()
+//                .applicationComponent(mDaggerApplicationComponent)
+//                .threadListPresenterModule(ThreadListPresenterModule())
+//                .rxModule(RxModule())
+//                .build() as DaggerThreadListPresenterComponent
 
-        mDaggerThreadListViewComponent = DaggerThreadListViewComponent.builder()
-                .threadListPresenterComponent(mDaggerThreadListPresenterComponent)
-                .threadListViewModule(ThreadListViewModule())
-                .build() as DaggerThreadListViewComponent
+//        mDaggerThreadListViewComponent = DaggerThreadListViewComponent.builder()
+//                .threadListPresenterComponent(mDaggerThreadListPresenterComponent)
+//                .threadListViewModule(ThreadListViewModule())
+//                .build() as DaggerThreadListViewComponent
 
         Glide.get(this).register(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
     }
 
-    fun getDashboardViewComponent() = mDaggerDashboardViewComponent
-    override fun getDashboardPresenterComponent() = mDaggerDashboardPresenterComponent
-    override fun getThreadListViewComponent() = mDaggerThreadListViewComponent
-    override fun getThreadListPresenterComponent() = mDaggerThreadListPresenterComponent
+    fun getDashboardViewComponent() = daggerDashboardViewComponent
+//    override fun getDashboardPresenterComponent() = daggerDashboardPresenterComponent
+//    override fun getThreadListViewComponent() = mDaggerThreadListViewComponent
+//    override fun getThreadListPresenterComponent() = mDaggerThreadListPresenterComponent
 }
