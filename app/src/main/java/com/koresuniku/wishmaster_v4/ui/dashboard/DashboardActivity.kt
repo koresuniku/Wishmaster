@@ -16,7 +16,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.core.dashboard.view.DashboardViewI
+import com.koresuniku.wishmaster_v4.core.dashboard.view.DashboardView
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster_v4.ui.util.ViewUtils
 import com.koresuniku.wishmaster_v4.ui.view.widget.DashboardViewPager
@@ -24,14 +24,14 @@ import com.koresuniku.wishmaster_v4.ui.view.widget.DashboardViewPager
 import javax.inject.Inject
 import android.support.v7.widget.SearchView
 import com.koresuniku.wishmaster_v4.application.IntentKeystore
-import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenterI
+import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster_v4.ui.thread_list.ThreadListActivity
 
-class DashboardActivity : BaseWishmasterActivity<IDashboardPresenterI>(), DashboardViewI<IDashboardPresenterI> {
+class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), DashboardView<IDashboardPresenter> {
     private val LOG_TAG = DashboardActivity::class.java.simpleName
 
-    @Inject override lateinit var presenter: IDashboardPresenterI
+    @Inject override lateinit var presenter: IDashboardPresenter
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.tab_layout) lateinit var mTabLayout: TabLayout

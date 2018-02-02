@@ -12,7 +12,7 @@ import butterknife.ButterKnife
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
 import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
-import com.koresuniku.wishmaster_v4.core.thread_list.ThreadItemView
+import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadItemView
 import com.koresuniku.wishmaster_v4.ui.dashboard.gallery.preview.PreviewImageGridAdapter
 import com.koresuniku.wishmaster_v4.ui.util.ViewUtils
 import com.koresuniku.wishmaster_v4.ui.view.widget.ExpandableHeightGridView

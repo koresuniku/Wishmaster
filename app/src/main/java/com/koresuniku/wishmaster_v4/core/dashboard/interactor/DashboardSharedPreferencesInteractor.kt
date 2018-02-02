@@ -1,9 +1,9 @@
 package com.koresuniku.wishmaster_v4.core.dashboard.interactor
 
-import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
-import com.koresuniku.wishmaster_v4.application.SharedPreferencesKeystore
+import com.koresuniku.wishmaster_v4.application.shared_preferences.ISharedPreferencesStorage
+import com.koresuniku.wishmaster_v4.application.shared_preferences.SharedPreferencesKeystore
 import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxSharedPreferencesInteractorI
-import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenterI
+import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers
 class DashboardSharedPreferencesInteractor(
         storage: ISharedPreferencesStorage,
         compositeDisposable: CompositeDisposable):
-        BaseRxSharedPreferencesInteractorI<IDashboardPresenterI>(storage, compositeDisposable) {
+        BaseRxSharedPreferencesInteractorI<IDashboardPresenter>(storage, compositeDisposable) {
 
     fun getDashboardFavouriteTabPosition(): Single<Int> {
         return Single.create({

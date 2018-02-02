@@ -9,7 +9,7 @@ import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenterI
+import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardListsObject
 import com.koresuniku.wishmaster_v4.core.data.database.repository.BoardsRepository
 import java.lang.ref.WeakReference
@@ -20,7 +20,7 @@ import java.lang.ref.WeakReference
 
 class BoardListAdapter (private val mContext: WeakReference<Context>,
                         private val mBoardsListsObject: BoardListsObject,
-                        private val mPresenter: IDashboardPresenterI)
+                        private val mPresenter: IDashboardPresenter)
     : BaseExpandableListAdapter() {
 
     override fun getGroup(groupPosition: Int): Any = mBoardsListsObject.boardLists[groupPosition].second

@@ -4,20 +4,19 @@ import android.app.Application
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
+import com.koresuniku.wishmaster_v4.application.shared_preferences.*
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster_v4.core.dagger.component.DaggerApplicationComponent
-import com.koresuniku.wishmaster_v4.core.dagger.component.DaggerDashboardPresenterComponent
-import com.koresuniku.wishmaster_v4.core.dagger.component.DaggerDashboardViewComponent
-import com.koresuniku.wishmaster_v4.core.dagger.component.DaggerThreadListViewComponent
+import com.koresuniku.wishmaster_v4.core.dagger.component.*
 import com.koresuniku.wishmaster_v4.core.dagger.module.*
 import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.ApplicationModule
 import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.InjectorModule
 import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.NetworkModule
 import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.SharedPreferencesModule
-import com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scope.BoardsModule
-import com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scope.DashboardPresenterModule
-import com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scope.DashboardViewModule
-import com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scope.ThreadListViewModule
+import com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scopes.BoardsModule
+import com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scopes.DashboardPresenterModule
+import com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scopes.DashboardViewModule
+import com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scopes.ThreadListPresenterModule
+import com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scopes.ThreadListViewModule
 import com.koresuniku.wishmaster_v4.core.network.Dvach
 import com.koresuniku.wishmaster_v4.core.network.client.RetrofitHolder
 import com.squareup.leakcanary.LeakCanary
@@ -38,13 +37,16 @@ import javax.inject.Inject
 
 class WishmasterDaggerApplication : Application(), IWishmasterDaggerInjector {
 
-    private lateinit var mDaggerDashboardViewComponent: DaggerDashboardViewComponent
-    private lateinit var mDaggerDashboardPresenterComponent: DaggerDashboardPresenterComponent
-    private lateinit var mDaggerThreadListComponent: DaggerThreadListViewComponent
     private lateinit var mDaggerApplicationComponent: DaggerApplicationComponent
+    private lateinit var mDaggerDashboardPresenterComponent: DaggerDashboardPresenterComponent
+    private lateinit var mDaggerDashboardViewComponent: DaggerDashboardViewComponent
+    private lateinit var mDaggerThreadListPresenterComponent: DaggerThreadListPresenterComponent
+    private lateinit var mDaggerThreadListViewComponent: DaggerThreadListViewComponent
 
     @Inject lateinit var okHttpClient: OkHttpClient
-    @Inject lateinit var ISharedPreferencesStorage: ISharedPreferencesStorage
+    @Inject lateinit var sharedPreferencesStorage: ISharedPreferencesStorage
+    @Inject lateinit var sharedPreferencesUiParams: ISharedPreferencesUiParams
+    @Inject lateinit var sharedPreferencesHelper: ISharedPreferencesHelper
     @Inject lateinit var retrofitHolder: RetrofitHolder
 
     override fun onCreate() {
@@ -60,7 +62,8 @@ class WishmasterDaggerApplication : Application(), IWishmasterDaggerInjector {
                 .build() as DaggerApplicationComponent
         mDaggerApplicationComponent.inject(this)
 
-        SharedPreferencesHelper.onApplicationCreate(this, ISharedPreferencesStorage, retrofitHolder)
+        sharedPreferencesHelper.onApplicationCreate(
+                this, sharedPreferencesStorage, retrofitHolder, sharedPreferencesUiParams)
 
         mDaggerDashboardPresenterComponent = DaggerDashboardPresenterComponent.builder()
                 .applicationComponent(mDaggerApplicationComponent)
@@ -75,9 +78,15 @@ class WishmasterDaggerApplication : Application(), IWishmasterDaggerInjector {
                 .dashboardViewModule(DashboardViewModule())
                 .build() as DaggerDashboardViewComponent
 
-        mDaggerThreadListComponent = DaggerThreadListViewComponent.builder()
+        mDaggerThreadListPresenterComponent = DaggerThreadListPresenterComponent.builder()
                 .applicationComponent(mDaggerApplicationComponent)
-                .threadListModule(ThreadListViewModule())
+                .threadListPresenterModule(ThreadListPresenterModule())
+                .rxModule(RxModule())
+                .build() as DaggerThreadListPresenterComponent
+
+        mDaggerThreadListViewComponent = DaggerThreadListViewComponent.builder()
+                .threadListPresenterComponent(mDaggerThreadListPresenterComponent)
+                .threadListViewModule(ThreadListViewModule())
                 .build() as DaggerThreadListViewComponent
 
         Glide.get(this).register(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
@@ -85,7 +94,6 @@ class WishmasterDaggerApplication : Application(), IWishmasterDaggerInjector {
 
     fun getDashboardViewComponent() = mDaggerDashboardViewComponent
     override fun getDashboardPresenterComponent() = mDaggerDashboardPresenterComponent
-    override fun getThreadListComponent() = mDaggerThreadListComponent
-
-
+    override fun getThreadListViewComponent() = mDaggerThreadListViewComponent
+    override fun getThreadListPresenterComponent() = mDaggerThreadListPresenterComponent
 }

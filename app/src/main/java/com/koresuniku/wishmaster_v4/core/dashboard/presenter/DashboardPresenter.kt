@@ -5,7 +5,7 @@ import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardDatabaseI
 import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardNetworkInteractor
 import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSearchInteractor
 import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardSharedPreferencesInteractor
-import com.koresuniku.wishmaster_v4.core.dashboard.view.DashboardViewI
+import com.koresuniku.wishmaster_v4.core.dashboard.view.DashboardView
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster_v4.core.util.search.SearchInputMatcher
@@ -23,10 +23,10 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
                                              databaseInteractor: DashboardDatabaseInteractor,
                                              searchInteractor: DashboardSearchInteractor,
                                              sharedPreferencesInteractor: DashboardSharedPreferencesInteractor):
-        BaseDashboardPresenterI(networkInteractor, databaseInteractor, searchInteractor, sharedPreferencesInteractor) {
+        BaseDashboardPresenter(networkInteractor, databaseInteractor, searchInteractor, sharedPreferencesInteractor) {
     private val LOG_TAG = DashboardPresenter::class.java.simpleName
 
-    override fun bindView(mvpView: DashboardViewI<IDashboardPresenterI>) {
+    override fun bindView(mvpView: DashboardView<IDashboardPresenter>) {
         super.bindView(mvpView)
         injector.getDashboardPresenterComponent().inject(this)
     }

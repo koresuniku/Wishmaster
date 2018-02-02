@@ -8,8 +8,8 @@ import android.widget.ExpandableListView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.core.dashboard.view.BoardListViewI
-import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenterI
+import com.koresuniku.wishmaster_v4.core.dashboard.view.BoardListView
+import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardListsObject
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterFragment
 import com.koresuniku.wishmaster_v4.ui.dashboard.DashboardActivity
@@ -20,10 +20,10 @@ import javax.inject.Inject
  * Created by koresuniku on 10.11.17.
  */
 
-class BoardListFragment : BaseWishmasterFragment(), BoardListViewI<IDashboardPresenterI> {
+class BoardListFragment : BaseWishmasterFragment(), BoardListView<IDashboardPresenter> {
     private val LOG_TAG = BoardListFragment::class.java.simpleName
 
-    @Inject override lateinit var presenter: IDashboardPresenterI
+    @Inject override lateinit var presenter: IDashboardPresenter
 
     override lateinit var rootView: View
     @BindView(R.id.board_list) lateinit var mBoardList: ExpandableListView

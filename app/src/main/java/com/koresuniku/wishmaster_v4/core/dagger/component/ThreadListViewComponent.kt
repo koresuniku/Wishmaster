@@ -1,11 +1,9 @@
 package com.koresuniku.wishmaster_v4.core.dagger.component
 
-import com.koresuniku.wishmaster_v4.core.dagger.scope.ForDashboardView
-import com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scope.ThreadListViewModule
+import com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scopes.ThreadListViewModule
 import com.koresuniku.wishmaster_v4.core.dagger.scope.ForThreadListView
-import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListPresenter
 import com.koresuniku.wishmaster_v4.ui.thread_list.ThreadListActivity
-import com.koresuniku.wishmaster_v4.ui.thread_list.ThreadListRecyclerViewAdapterI
+import com.koresuniku.wishmaster_v4.ui.thread_list.ThreadListRecyclerViewAdapter
 import dagger.Component
 
 /**
@@ -13,11 +11,11 @@ import dagger.Component
  */
 
 @ForThreadListView
-@Component(dependencies = [(ApplicationComponent::class)], modules = [(ThreadListViewModule::class)])
+@Component(dependencies = [(ThreadListPresenterComponent::class)], modules = [(ThreadListViewModule::class)])
 interface ThreadListViewComponent {
 
-    fun inject(presenter: ThreadListPresenter)
+   // fun inject(presenter: ThreadListPresenter)
     fun inject(activity: ThreadListActivity)
-    fun inject(threadListAdapterView: ThreadListRecyclerViewAdapterI)
+    fun inject(threadListAdapterView: ThreadListRecyclerViewAdapter)
 
 }

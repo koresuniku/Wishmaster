@@ -1,7 +1,7 @@
-package com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scope
+package com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scopes
 
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
-import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
+import com.koresuniku.wishmaster_v4.application.shared_preferences.ISharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.core.dagger.scope.ForDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardDatabaseInteractor
 import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardNetworkInteractor

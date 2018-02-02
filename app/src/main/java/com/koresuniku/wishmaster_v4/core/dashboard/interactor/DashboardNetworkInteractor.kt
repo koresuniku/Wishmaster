@@ -1,8 +1,8 @@
 package com.koresuniku.wishmaster_v4.core.dashboard.interactor
 
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
-import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxNetworkInteractorI
-import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenterI
+import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxNetworkInteractor
+import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster_v4.core.network.boards_api.BoardsResponseParser
 import io.reactivex.Single
@@ -15,7 +15,7 @@ class DashboardNetworkInteractor @Inject constructor(
         apiService: BoardsApiService,
         private val responseParser: BoardsResponseParser,
         compositeDisposable: CompositeDisposable):
-        BaseRxNetworkInteractorI<IDashboardPresenterI, BoardsApiService, BoardListData>(apiService, compositeDisposable) {
+        BaseRxNetworkInteractor<IDashboardPresenter, BoardsApiService, BoardListData>(apiService, compositeDisposable) {
 
 
     override fun getDataFromNetwork(): Single<BoardListData> {

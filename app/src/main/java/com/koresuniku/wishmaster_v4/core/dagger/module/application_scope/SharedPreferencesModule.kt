@@ -1,8 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.dagger.module.application_scope
 
 import android.content.Context
-import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
-import com.koresuniku.wishmaster_v4.application.SharedPreferencesStorage
+import com.koresuniku.wishmaster_v4.application.shared_preferences.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -19,4 +18,12 @@ class SharedPreferencesModule {
     fun provideSharedPreferencesStorage(context: Context): ISharedPreferencesStorage {
         return SharedPreferencesStorage(context)
     }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferencesUiParams(): ISharedPreferencesUiParams = SharedPreferencesUiParams()
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferencesHelper(): ISharedPreferencesHelper = SharedPreferencesHelper()
 }

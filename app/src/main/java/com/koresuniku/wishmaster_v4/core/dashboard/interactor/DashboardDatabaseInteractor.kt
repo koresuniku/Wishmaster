@@ -1,7 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.dashboard.interactor
 
 import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxDatabaseInteractorI
-import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenterI
+import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardListsObject
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardModel
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class DashboardDatabaseInteractor @Inject constructor(private val boardsRepository: BoardsRepository,
                                                       databaseHelper: DatabaseHelper,
                                                       compositeDisposable: CompositeDisposable):
-        BaseRxDatabaseInteractorI<IDashboardPresenterI, BoardListData>(databaseHelper, compositeDisposable) {
+        BaseRxDatabaseInteractorI<IDashboardPresenter, BoardListData>(databaseHelper, compositeDisposable) {
 
     override fun getDataFromDatabase(): Single<BoardListData> {
         return Single.create({

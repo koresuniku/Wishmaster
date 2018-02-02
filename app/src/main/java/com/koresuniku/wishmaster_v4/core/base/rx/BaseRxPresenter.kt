@@ -8,7 +8,7 @@ import io.reactivex.disposables.CompositeDisposable
  * Created by koresuniku on 12.11.17.
  */
 
-abstract class BaseRxPresenterI<V: IMvpView<*>> : BaseIMvpPresenter<V>() {
+abstract class BaseRxPresenter<V: IMvpView<*>> : BaseIMvpPresenter<V>() {
     protected lateinit var compositeDisposable: CompositeDisposable
 
     override fun bindView(mvpView: V) {

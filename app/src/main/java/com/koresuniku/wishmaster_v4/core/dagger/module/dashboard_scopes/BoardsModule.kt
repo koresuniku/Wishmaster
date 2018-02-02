@@ -1,4 +1,4 @@
-package com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scope
+package com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scopes
 
 import com.koresuniku.wishmaster_v4.core.dagger.scope.ForDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.database.repository.BoardsRepository

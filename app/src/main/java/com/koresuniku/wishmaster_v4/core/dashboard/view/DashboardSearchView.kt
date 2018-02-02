@@ -6,7 +6,7 @@ import com.koresuniku.wishmaster_v4.core.base.mvp.IMvpView
  * Created by koresuniku on 04.01.18.
  */
 
-interface DashboardSearchViewI<P> : IMvpView<P> {
+interface DashboardSearchView<P> : IMvpView<P> {
     fun launchThreadListActivity(boardId: String)
     fun showUnknownInput()
 }

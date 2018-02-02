@@ -50,7 +50,7 @@ class NetworkModule(val mBaseUrl: String) {
 
     @Provides
     @Singleton
-    fun provideRetrofit(retrofitHolder: RetrofitHolder): Retrofit = retrofitHolder.getRetrofit()
+    fun provideRetrofit(retrofitHolder: RetrofitHolder): Retrofit = retrofitHolder.getObject()
 
     @Provides
     @Singleton

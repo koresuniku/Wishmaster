@@ -1,4 +1,4 @@
-package com.koresuniku.wishmaster_v4.core.thread_list
+package com.koresuniku.wishmaster_v4.core.thread_list.view
 
 import android.text.Spanned
 import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData

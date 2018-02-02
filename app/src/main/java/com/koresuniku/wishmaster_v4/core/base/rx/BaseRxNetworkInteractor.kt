@@ -5,7 +5,7 @@ import com.koresuniku.wishmaster_v4.core.base.mvp.IMvpPresenter
 import io.reactivex.disposables.CompositeDisposable
 
 
-abstract class BaseRxNetworkInteractorI<P : IMvpPresenter<*>, out S, M>(
+abstract class BaseRxNetworkInteractor<P : IMvpPresenter<*>, out S, M>(
         private val api: S, compositeDisposable: CompositeDisposable):
         BaseRxInteractorI<P>(compositeDisposable), INetworkInteractor<S, M> {
 

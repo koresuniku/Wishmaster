@@ -1,4 +1,4 @@
-package com.koresuniku.wishmaster_v4.application
+package com.koresuniku.wishmaster_v4.application.shared_preferences
 
 import android.content.Context
 import io.reactivex.Observable

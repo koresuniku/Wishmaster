@@ -6,7 +6,6 @@ import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -20,25 +19,22 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.application.IntentKeystore
-import com.koresuniku.wishmaster_v4.application.ISharedPreferencesStorage
-import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListPresenter
-import com.koresuniku.wishmaster_v4.core.thread_list.ThreadListViewI
+import com.koresuniku.wishmaster_v4.core.thread_list.presenter.IThreadListPresenter
+import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadListView
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster_v4.ui.view.widget.LinearLayoutManagerWrapper
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListActivity : BaseWishmasterActivity<ThreadListPresenter>(), ThreadListViewI<ThreadListPresenter> {
+class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), ThreadListView<IThreadListPresenter> {
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
-    @Inject override lateinit var presenter: ThreadListPresenter
-    @Inject lateinit var ISharedPreferencesStorage: ISharedPreferencesStorage
+    @Inject override lateinit var presenter: IThreadListPresenter
+   // @Inject lateinit var ISharedPreferencesStorage: ISharedPreferencesStorage
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup
@@ -48,11 +44,11 @@ class ThreadListActivity : BaseWishmasterActivity<ThreadListPresenter>(), Thread
     @BindView(R.id.thread_list) lateinit var mThreadListRecyclerView: RecyclerView
     @BindView(R.id.background) lateinit var mBackground: ImageView
 
-    private lateinit var mThreadListRecyclerViewAdapter: ThreadListRecyclerViewAdapterI
+    private lateinit var mThreadListRecyclerViewAdapter: ThreadListRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getWishmasterApplication().getThreadListComponent().inject(this)
+        getWishmasterApplication().getThreadListViewComponent().inject(this)
         ButterKnife.bind(this)
         presenter.bindView(this)
 
@@ -101,17 +97,11 @@ class ThreadListActivity : BaseWishmasterActivity<ThreadListPresenter>(), Thread
     }
 
     private fun setupRecyclerView() {
-        mThreadListRecyclerViewAdapter = ThreadListRecyclerViewAdapterI(this, presenter)
+        mThreadListRecyclerViewAdapter = ThreadListRecyclerViewAdapter(this)
         mThreadListRecyclerView.adapter = mThreadListRecyclerViewAdapter
         mThreadListRecyclerView.layoutManager = LinearLayoutManagerWrapper(
                 this, LinearLayoutManager.VERTICAL, false)
         mThreadListRecyclerView.addItemDecoration(ThreadItemDividerDecoration(this))
-//        mThreadListRecyclerView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-//            override fun onGlobalLayout() {
-//                mThreadListRecyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-//                mThreadListRecyclerView.scrollToPosition(0)
-//            }
-//        })
         mThreadListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -131,19 +121,19 @@ class ThreadListActivity : BaseWishmasterActivity<ThreadListPresenter>(), Thread
     }
 
     private fun loadThreads(first: Boolean) {
-        presenter.reloadThreads()
-        mCompositeDisposable.add(presenter.getLoadThreadsSingle()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { threadListData ->
-                            Log.d(LOG_TAG, "data size: ${threadListData.getThreadList().size}")
-                            //Log.d(LOG_TAG, "first thread: ${threadListData.getThreadList()[0]}")
-                            hideLoading()
-                            setupTitle(threadListData.getBoardName())
-                            if (first) showThreadList()
-                        }, { e -> e.printStackTrace(); hideLoading(); showError(e) })
-        )
+//        presenter.reloadThreads()
+//        mCompositeDisposable.add(presenter.getLoadThreadsSingle()
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                        { threadListData ->
+//                            Log.d(LOG_TAG, "data size: ${threadListData.getThreadList().size}")
+//                            //Log.d(LOG_TAG, "first thread: ${threadListData.getThreadList()[0]}")
+//                            hideLoading()
+//                            setupTitle(threadListData.getBoardName())
+//                            if (first) showThreadList()
+//                        }, { e -> e.printStackTrace(); hideLoading(); showError(e) })
+//        )
     }
 
     private fun showLoading(delay: Boolean) {

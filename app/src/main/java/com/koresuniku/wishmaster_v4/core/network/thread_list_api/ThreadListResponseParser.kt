@@ -1,14 +1,15 @@
-package com.koresuniku.wishmaster_v4.core.data.model.threads
+package com.koresuniku.wishmaster_v4.core.network.thread_list_api
 
 import com.koresuniku.wishmaster_v4.core.data.model.single_thread.Post
-import com.koresuniku.wishmaster_v4.core.network.thread_list_api.ThreadListJsonSchemaCatalogResponse
-import com.koresuniku.wishmaster_v4.core.network.thread_list_api.ThreadListJsonSchemaPageResponse
+import com.koresuniku.wishmaster_v4.core.data.model.threads.Thread
+import com.koresuniku.wishmaster_v4.core.data.model.threads.ThreadListData
+import javax.inject.Inject
 
 /**
  * Created by koresuniku on 01.01.18.
  */
 
-object ThreadsMapper {
+class ThreadListResponseParser @Inject constructor() {
 
     fun mapCatalogResponseToThreadListData(schemaCatalog: ThreadListJsonSchemaCatalogResponse): ThreadListData {
         val threadListData = ThreadListData()
