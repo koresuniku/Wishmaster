@@ -3,7 +3,7 @@ package com.koresuniku.wishmaster_v4.application.shared_preferences
 import javax.inject.Inject
 
 
-class SharedPreferencesUiParams @Inject constructor() : ISharedPreferencesUiParams {
+class SharedPreferencesUiDimens @Inject constructor() : ISharedPreferencesUiDimens {
     override var imageWidth: Int = SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_DEFAULT
     override var minImageHeight: Int = SharedPreferencesKeystore.MINIMUM_IMAGE_HEIGHT_IN_DP_DEFAULT
     override var maxImageHeight: Int = SharedPreferencesKeystore.MAXIMUM_IMAGE_HEIGHT_IN_DP_DEFAULT

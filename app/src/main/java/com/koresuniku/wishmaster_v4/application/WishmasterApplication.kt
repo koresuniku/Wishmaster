@@ -76,7 +76,7 @@ class WishmasterApplication : Application(), IWishmasterDaggerInjector {
 
     @Inject lateinit var okHttpClient: OkHttpClient
     @Inject lateinit var sharedPreferencesStorage: ISharedPreferencesStorage
-    @Inject lateinit var sharedPreferencesUiParams: ISharedPreferencesUiParams
+    @Inject lateinit var sharedPreferencesUiDimens: ISharedPreferencesUiDimens
     @Inject lateinit var sharedPreferencesHelper: ISharedPreferencesHelper
     @Inject lateinit var retrofitHolder: RetrofitHolder
 
@@ -94,7 +94,7 @@ class WishmasterApplication : Application(), IWishmasterDaggerInjector {
         mDaggerApplicationComponent.inject(this)
 
         sharedPreferencesHelper.onApplicationCreate(
-                this, sharedPreferencesStorage, retrofitHolder, sharedPreferencesUiParams)
+                this, sharedPreferencesStorage, retrofitHolder, sharedPreferencesUiDimens)
 
 //        daggerDashboardPresenterComponent = DaggerDashboardPresenterComponent.builder()
 //                .applicationComponent(mDaggerApplicationComponent)

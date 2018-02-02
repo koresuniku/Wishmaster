@@ -6,12 +6,13 @@ import android.widget.TextView
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster_v4.core.data.model.threads.File
 import com.koresuniku.wishmaster_v4.ui.util.ViewUtils
+import javax.inject.Inject
 
 /**
  * Created by koresuniku on 04.01.18.
  */
 
-object WishmasterTextUtils {
+class WishmasterTextUtils @Inject constructor() {
 
     fun obtainBoardIdDashName(boardModel: BoardModel): String {
         return "/${boardModel.getBoardId()}/ - ${boardModel.getBoardName()}"

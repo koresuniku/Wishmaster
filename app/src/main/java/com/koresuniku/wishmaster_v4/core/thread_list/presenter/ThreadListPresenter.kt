@@ -1,11 +1,10 @@
 package com.koresuniku.wishmaster_v4.core.thread_list.presenter
 
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster_v4.core.data.model.threads.ThreadListData
+import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListAdapterViewInteractor
 import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListNetworkInteractor
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadItemView
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadListView
-import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -17,8 +16,9 @@ import javax.inject.Inject
 
 class ThreadListPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector,
                                               compositeDisposable: CompositeDisposable,
-                                              threadListNetworkInteractor: ThreadListNetworkInteractor):
-        BaseThreadListPresenter(compositeDisposable, threadListNetworkInteractor) {
+                                              threadListNetworkInteractor: ThreadListNetworkInteractor,
+                                              threadListAdapterViewInteractor: ThreadListAdapterViewInteractor):
+        BaseThreadListPresenter(compositeDisposable, threadListNetworkInteractor, threadListAdapterViewInteractor) {
     private val LOG_TAG = ThreadListPresenter::class.java.simpleName
 
 
@@ -51,8 +51,9 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    //mActualThreadListData = it
+                    if (presenterData.getThreadList().isEmpty()) mView?.showThreadList()
                     presenterData = it
+                    mView?.onThreadListReceived(it.getBoardName())
                     threadListAdapterView?.onThreadListDataChanged(it)
                 }, { it.printStackTrace(); mView?.showError(it.message) }))
     }
@@ -123,66 +124,50 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
 //        }})
 //    }
 
-    fun bindThreadItemViewByPosition(threadItemView: ThreadItemView, position: Int) {
-        presenterData.getThreadList()?.let {
-            val thread = it[position]
-            mView?.let {
-                threadItemView.setSubject(WishmasterTextUtils.getSubjectSpanned(
-                        thread.subject ?: "", it.getBoardId()),
-                        thread.files?.isNotEmpty() ?: false)
-                threadItemView.setComment(WishmasterTextUtils.getSpannedFromHtml(thread.comment ?: ""))
-                threadItemView.setResumeInfo(WishmasterTextUtils.getResumeInfo(thread.postsCount, thread.filesCount))
-                thread.files?.let {
-//                    when (getThreadItemType(position)) {
-//                        SINGLE_IMAGE_CODE ->
-//                            compositeDisposable.add(WishmasterImageUtils
-//                                    .getImageItemData(it[0], ISharedPreferencesStorage, compositeDisposable)
-//                                    .subscribeOn(Schedulers.computation())
-//                                    .observeOn(AndroidSchedulers.mainThread())
-//                                    .subscribe(threadItemView::setSingleImage))
-//                        MULTIPLE_IMAGES_CODE ->
-//                            compositeDisposable.add(WishmasterImageUtils
-//                                    .getImageItemData(it, ISharedPreferencesStorage, compositeDisposable)
-//                                    .subscribeOn(Schedulers.computation())
-//                                    .observeOn(AndroidSchedulers.mainThread())
-//                                    .subscribe(threadItemView::setMultipleImages))
-//                        else -> {}
-//                    }
-                    }
-                }
-            }
-    }
-
-    override fun getThreadListDataSize() = presenterData.getThreadList()?.size ?: 0
-
-    companion object {
-        val ERROR_CODE = -1
-        val NO_IMAGES_CODE = 0
-        val SINGLE_IMAGE_CODE = 1
-        val MULTIPLE_IMAGES_CODE = 2
-    }
-
-    fun getThreadItemType(position: Int): Int {
-        presenterData.let {
-            it.getThreadList()[position].files?.let {
-                return when (it.size) {
-                    0 -> NO_IMAGES_CODE
-                    1 -> SINGLE_IMAGE_CODE
-                    else -> MULTIPLE_IMAGES_CODE
-                }
-            }
-            return NO_IMAGES_CODE
+    override fun setItemViewData(threadItemView: ThreadItemView, position: Int) {
+        threadListAdapterView?.let {
+            threadListAdapterViewInteractor.setItemViewData(
+                    it, threadItemView, presenterData.getThreadList()[position], position)
         }
-        return ERROR_CODE
+//        presenterData.getThreadList()?.let {
+//            val thread = it[position]
+//            mView?.let {
+//                threadItemView.setSubject(WishmasterTextUtils.getSubjectSpanned(
+//                        thread.subject ?: "", it.getBoardId()),
+//                        thread.files?.isNotEmpty() ?: false)
+//                threadItemView.setComment(WishmasterTextUtils.getSpannedFromHtml(thread.comment ?: ""))
+//                threadItemView.setResumeInfo(WishmasterTextUtils.getResumeInfo(thread.postsCount, thread.filesCount))
+//                thread.files?.let {
+////                    when (getThreadItemType(position)) {
+////                        SINGLE_IMAGE_CODE ->
+////                            compositeDisposable.add(WishmasterImageUtils
+////                                    .getImageItemData(it[0], ISharedPreferencesStorage, compositeDisposable)
+////                                    .subscribeOn(Schedulers.computation())
+////                                    .observeOn(AndroidSchedulers.mainThread())
+////                                    .subscribe(threadItemView::setSingleImage))
+////                        MULTIPLE_IMAGES_CODE ->
+////                            compositeDisposable.add(WishmasterImageUtils
+////                                    .getImageItemData(it, ISharedPreferencesStorage, compositeDisposable)
+////                                    .subscribeOn(Schedulers.computation())
+////                                    .observeOn(AndroidSchedulers.mainThread())
+////                                    .subscribe(threadItemView::setMultipleImages))
+////                        else -> {}
+////                    }
+//                    }
+//                }
+//            }
     }
-//
-//    override fun unbindView() {
-//        super.unbindView()
-//        //reloadThreads()
-//        //databaseHelper.readableDatabase.close()
-//    }
 
-//    fun unbindThreadListAdapterView() {
-//        this.mThreadListAdapterView = null
-//    }
+    override fun getThreadListDataSize() = presenterData.getThreadList().size
+
+    override fun getThreadItemType(position: Int): Int {
+        presenterData.getThreadList()[position].files?.let {
+                return when (it.size) {
+                    0 -> threadListAdapterView?.NO_IMAGES_CODE ?: -1
+                    1 -> threadListAdapterView?.SINGLE_IMAGE_CODE ?: -1
+                    else -> threadListAdapterView?.MULTIPLE_IMAGES_CODE ?: -1
+                }
+            }
+        return threadListAdapterView?.NO_IMAGES_CODE ?: -1
+    }
 }

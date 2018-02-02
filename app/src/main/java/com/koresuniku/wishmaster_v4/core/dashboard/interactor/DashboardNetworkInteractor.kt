@@ -26,7 +26,7 @@ class DashboardNetworkInteractor @Inject constructor(
                     .map(responseParser::parseResponse)
                     .subscribe({ boardListData: BoardListData ->
                         e.onSuccess(boardListData)
-                    }, { throwable: Throwable -> e.onError(throwable) }))
+                    }, { it.printStackTrace() }))
         }})
 
     }

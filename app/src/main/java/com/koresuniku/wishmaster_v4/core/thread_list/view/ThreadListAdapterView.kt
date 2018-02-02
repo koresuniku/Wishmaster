@@ -8,5 +8,8 @@ import com.koresuniku.wishmaster_v4.core.data.model.threads.ThreadListData
  */
 
 interface ThreadListAdapterView<P> : IMvpView<P> {
+    val NO_IMAGES_CODE: Int
+    val SINGLE_IMAGE_CODE: Int
+    val MULTIPLE_IMAGES_CODE: Int
     fun onThreadListDataChanged(newThreadListData: ThreadListData)
 }

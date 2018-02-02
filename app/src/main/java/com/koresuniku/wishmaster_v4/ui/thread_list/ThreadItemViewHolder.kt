@@ -1,5 +1,6 @@
 package com.koresuniku.wishmaster_v4.ui.thread_list
 
+import android.support.annotation.Nullable
 import android.support.v7.widget.RecyclerView
 import android.text.Spanned
 import android.view.View
@@ -11,9 +12,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
-import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadItemView
-import com.koresuniku.wishmaster_v4.ui.dashboard.gallery.preview.PreviewImageGridAdapter
 import com.koresuniku.wishmaster_v4.ui.util.ViewUtils
 import com.koresuniku.wishmaster_v4.ui.view.widget.ExpandableHeightGridView
 
@@ -21,13 +20,13 @@ import com.koresuniku.wishmaster_v4.ui.view.widget.ExpandableHeightGridView
  * Created by koresuniku on 07.01.18.
  */
 
-class ThreadItemViewHolder(itemView: View, private val mBaseUrl: String) :
+class ThreadItemViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView), ThreadItemView {
     private val LOG_TAG = ThreadItemViewHolder::class.java.simpleName
 
-    @BindView(R.id.subject) lateinit var mSubject: TextView
-    @BindView(R.id.comment) lateinit var mComment: TextView
-    @BindView(R.id.resume) lateinit var mResume: TextView
+    @Nullable @BindView(R.id.subject) lateinit var mSubject: TextView
+    @Nullable @BindView(R.id.comment) lateinit var mComment: TextView
+    @Nullable @BindView(R.id.resume) lateinit var mResume: TextView
 
     private lateinit var mSubjectString: Spanned
 
@@ -60,8 +59,9 @@ class ThreadItemViewHolder(itemView: View, private val mBaseUrl: String) :
                    itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
                else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
 
+
         imageSummary.text = imageItemData.summary
-        WishmasterImageUtils.loadImageThumbnail(imageItemData, image, mBaseUrl)
+      //  WishmasterImageUtils.loadImageThumbnail(imageItemData, image, mBaseUrl)
     }
 
     override fun setMultipleImages(imageItemDataList: List<ImageItemData>) {
@@ -70,12 +70,12 @@ class ThreadItemViewHolder(itemView: View, private val mBaseUrl: String) :
                 if (mSubjectString.isEmpty())
                     itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
                 else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
-        imageGrid.columnWidth = imageItemDataList[0].configuration.widthInPx
-        imageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, mBaseUrl)
+        imageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
+       // imageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, mBaseUrl)
 
         val summaryTextView = imageGrid.adapter.getView(0, null, imageGrid).findViewById<TextView>(R.id.summary)
         ViewUtils.measureView(summaryTextView)
         ViewUtils.setGridViewHeight(
-                imageGrid, imageItemDataList, imageItemDataList[0].configuration.widthInPx, summaryTextView.measuredHeight)
+                imageGrid, imageItemDataList, imageItemDataList[0].dimensions.widthInPx, summaryTextView.measuredHeight)
     }
 }

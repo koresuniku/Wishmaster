@@ -3,19 +3,12 @@ package com.koresuniku.wishmaster_v4.ui.util
 import android.content.Context
 import android.support.design.widget.TabLayout
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
 import android.widget.LinearLayout
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.GridView
-import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
-import android.opengl.ETC1.getWidth
 import io.reactivex.Completable
-import io.reactivex.Scheduler
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -80,7 +73,7 @@ object ViewUtils {
 
         val calculation = Completable.create { e -> kotlin.run {
             imageItemDataList.forEachIndexed({ position, data ->
-                var itemHeight = data.configuration.heightInPx + summaryHeight
+                var itemHeight = data.dimensions.heightInPx + summaryHeight
                 if (position / columnCount > 1) itemHeight += verticalSpacing
                 if (position == 0 || (position >= columnCount && columnCount % position == 0)) {
                     if (position != 0) lastRowHeight = finalHeight

@@ -1,16 +1,8 @@
 package com.koresuniku.wishmaster_v4.ui.view.widget
 
-import android.annotation.SuppressLint
-import android.app.Application
-import android.content.ComponentCallbacks2
 import android.content.Context
-import android.graphics.Canvas
 import android.util.AttributeSet
-import android.util.Log
-import android.view.View
-import android.view.ViewGroup
 import android.widget.GridView
-import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
 
 /**
  * Created by koresuniku on 18.01.18.

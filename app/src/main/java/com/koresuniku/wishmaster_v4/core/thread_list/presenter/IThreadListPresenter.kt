@@ -1,6 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.thread_list.presenter
 
 import com.koresuniku.wishmaster_v4.core.base.mvp.IMvpPresenter
+import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadItemView
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadListAdapterView
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadListView
 
@@ -11,6 +12,8 @@ interface IThreadListPresenter : IMvpPresenter<ThreadListView<IThreadListPresent
     fun loadThreadList()
     fun getBoardId(): String
     fun getThreadListDataSize(): Int
+    fun getThreadItemType(position: Int): Int
+    fun setItemViewData(threadItemView: ThreadItemView, position: Int)
 
     fun bindThreadListAdapterView(threadListAdapterView: ThreadListAdapterView<IThreadListPresenter>)
     fun unbindThreadListAdapterView()

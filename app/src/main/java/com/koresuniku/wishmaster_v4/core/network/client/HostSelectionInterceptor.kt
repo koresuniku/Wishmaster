@@ -22,7 +22,6 @@ class HostSelectionInterceptor @Inject constructor(): Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
         var request = chain.request()
-        val reqUrl = request.url().host()
 
         val host = this.host
         if (host != null) {

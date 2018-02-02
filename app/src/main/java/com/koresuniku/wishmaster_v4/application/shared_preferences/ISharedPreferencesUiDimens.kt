@@ -1,7 +1,7 @@
 package com.koresuniku.wishmaster_v4.application.shared_preferences
 
 
-interface ISharedPreferencesUiParams {
+interface ISharedPreferencesUiDimens {
     var imageWidth: Int
     var minImageHeight: Int
     var maxImageHeight: Int

@@ -14,11 +14,11 @@ import javax.inject.Inject
  * Created by koresuniku on 15.01.18.
  */
 
-class RetrofitHolder @Inject constructor(private val gson: Gson,
-                                         private val okHttpClient: OkHttpClient): BaseDaggerMutableHolder<Retrofit>() {
+class RetrofitHolder @Inject constructor(val gson: Gson, val okHttpClient: OkHttpClient) {
+    private var mRetrofit: Retrofit
 
-    override fun initObject(): Retrofit {
-        return Retrofit.Builder()
+    init {
+        mRetrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(Dvach.BASE_URL)
@@ -26,15 +26,17 @@ class RetrofitHolder @Inject constructor(private val gson: Gson,
                 .build()
     }
 
+    fun getRetrofit() = mRetrofit
+
     fun changeBaseUrl(newBaseUrl: String) {
-         setObject(Retrofit.Builder()
+        mRetrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(newBaseUrl)
                 .client(okHttpClient)
-                .build())
+                .build()
     }
 
-    fun getBaseUrl(): String = getObject().baseUrl().let { return@let "${it.scheme()}://${it.host()}"}
+    fun getBaseUrl(): String = mRetrofit.baseUrl().let { return@let "${it.scheme()}://${it.host()}"}
 
 }

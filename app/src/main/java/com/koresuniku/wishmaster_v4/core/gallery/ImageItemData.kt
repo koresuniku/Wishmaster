@@ -7,5 +7,5 @@ import com.koresuniku.wishmaster_v4.core.data.model.threads.File
  */
 
 data class ImageItemData(val file: File,
-                         val configuration: ImageLayoutConfiguration,
+                         val dimensions: ImageLayoutDimensions,
                          val summary: String)

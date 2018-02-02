@@ -2,6 +2,7 @@ package com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scopes
 
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.dagger.scope.ForThreadListView
+import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListAdapterViewInteractor
 import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListNetworkInteractor
 import com.koresuniku.wishmaster_v4.core.thread_list.presenter.IThreadListPresenter
 import com.koresuniku.wishmaster_v4.core.thread_list.presenter.ThreadListPresenter
@@ -20,7 +21,8 @@ class ThreadListViewModule {
     @ForThreadListView
     fun provideThreadListPresenter(injector: IWishmasterDaggerInjector,
                                    compositeDisposable: CompositeDisposable,
-                                   networkInteractor: ThreadListNetworkInteractor): IThreadListPresenter {
-        return ThreadListPresenter(injector, compositeDisposable, networkInteractor)
+                                   networkInteractor: ThreadListNetworkInteractor,
+                                   adapterViewInteractor: ThreadListAdapterViewInteractor): IThreadListPresenter {
+        return ThreadListPresenter(injector, compositeDisposable, networkInteractor, adapterViewInteractor)
     }
 }

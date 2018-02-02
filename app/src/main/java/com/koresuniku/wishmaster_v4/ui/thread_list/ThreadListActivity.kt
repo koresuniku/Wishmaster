@@ -56,7 +56,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         setupRecyclerView()
 
         showLoading(true)
-//        loadThreads(true)
         presenter.loadThreadList()
     }
 

@@ -21,7 +21,7 @@ class SharedPreferencesModule {
 
     @Provides
     @Singleton
-    fun provideSharedPreferencesUiParams(): ISharedPreferencesUiParams = SharedPreferencesUiParams()
+    fun provideSharedPreferencesUiParams(): ISharedPreferencesUiDimens = SharedPreferencesUiDimens()
 
     @Provides
     @Singleton
