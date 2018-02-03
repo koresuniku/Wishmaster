@@ -44,12 +44,19 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
                 })
     }
 
+    override fun onNetworkError(t: Throwable) {
+       compositeDisposable.add(Completable.fromCallable {  }
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe({ t.printStackTrace(); mView?.onBoardListError(t) }))
+    }
+
     private fun loadFromDatabase(e: SingleEmitter<BoardListData>) {
         compositeDisposable.add(databaseInteractor.getDataFromDatabase()
                 .subscribe({
                     if (it.getBoardList().isEmpty()) loadFromNetwork(e)
                     else e.onSuccess(it)
-                }, { it.printStackTrace(); mView?.onBoardListError(it) }))
+                }, { it.printStackTrace() }))
     }
 
     private fun loadFromNetwork(e: SingleEmitter<BoardListData>) {
@@ -58,7 +65,7 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
                 .subscribe({
                     databaseInteractor.insertAllBoardsIntoDatabase(it).subscribe()
                     e.onSuccess(it)
-                }, { it.printStackTrace(); mView?.onBoardListError(it) }))
+                }, { it.printStackTrace() }))
     }
 
     override fun switchBoardFavourability(boardId: String) {

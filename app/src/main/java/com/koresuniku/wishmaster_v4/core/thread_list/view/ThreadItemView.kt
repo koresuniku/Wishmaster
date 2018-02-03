@@ -8,9 +8,10 @@ import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
  */
 
 interface ThreadItemView {
+    fun switchSubjectVisibility(visible: Boolean)
     fun setSubject(subject: Spanned, hasImages: Boolean)
     fun setComment(comment: Spanned)
-    fun setResumeInfo(resume: String)
+    fun setThreadShortInfo(info: String)
     fun setSingleImage(imageItemData: ImageItemData)
     fun setMultipleImages(imageItemDataList: List<ImageItemData>)
 }

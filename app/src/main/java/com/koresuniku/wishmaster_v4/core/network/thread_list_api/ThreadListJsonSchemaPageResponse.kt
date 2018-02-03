@@ -10,6 +10,10 @@ import com.koresuniku.wishmaster_v4.core.data.model.threads.Thread
 
 class ThreadListJsonSchemaPageResponse {
 
+    @SerializedName("Board")
+    @Expose
+    lateinit var boardId: String
+
     @SerializedName("BoardName")
     @Expose
     lateinit var boardName: String

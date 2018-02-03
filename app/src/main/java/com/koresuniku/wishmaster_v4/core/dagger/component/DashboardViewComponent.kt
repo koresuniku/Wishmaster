@@ -6,6 +6,7 @@ import com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scopes.Dashboar
 import com.koresuniku.wishmaster_v4.ui.dashboard.DashboardActivity
 import com.koresuniku.wishmaster_v4.ui.dashboard.board_list.BoardListFragment
 import com.koresuniku.wishmaster_v4.ui.dashboard.favourite_boards.FavouriteBoardsFragment
+import com.koresuniku.wishmaster_v4.ui.dashboard.favourite_boards.FavouriteBoardsRecyclerViewAdapter
 import dagger.Component
 
 /**
@@ -19,4 +20,5 @@ interface DashboardViewComponent {
     fun inject(activity: DashboardActivity)
     fun inject(boardListFragment: BoardListFragment)
     fun inject(favouriteBoardsFragment: FavouriteBoardsFragment)
+    fun inject(favouriteBoardsRecyclerViewAdapter: FavouriteBoardsRecyclerViewAdapter)
 }

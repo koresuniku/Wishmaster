@@ -6,6 +6,7 @@ import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster_v4.core.network.boards_api.BoardsResponseParser
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -24,9 +25,10 @@ class DashboardNetworkInteractor @Inject constructor(
             compositeDisposable.add(boardsObservable
                     .subscribeOn(Schedulers.newThread())
                     .map(responseParser::parseResponse)
+                    //.observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ boardListData: BoardListData ->
                         e.onSuccess(boardListData)
-                    }, { it.printStackTrace() }))
+                    }, { presenter?.onNetworkError(it) }))
         }})
 
     }

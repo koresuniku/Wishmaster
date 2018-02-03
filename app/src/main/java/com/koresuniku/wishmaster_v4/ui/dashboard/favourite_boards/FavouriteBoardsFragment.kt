@@ -14,6 +14,7 @@ import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.core.dashboard.view.FavouriteBoardsView
 import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardModel
+import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterFragment
 import com.koresuniku.wishmaster_v4.ui.dashboard.DashboardActivity
 import com.koresuniku.wishmaster_v4.ui.view.drag_and_swipe_recycler_view.OnStartDragListener
@@ -53,7 +54,7 @@ class FavouriteBoardsFragment : BaseWishmasterFragment(),
     }
 
     private fun setupRecyclerView() {
-        mRecyclerViewAdapter = FavouriteBoardsRecyclerViewAdapter(this, presenter)
+        mRecyclerViewAdapter = FavouriteBoardsRecyclerViewAdapter(activity as BaseWishmasterActivity<IDashboardPresenter>, this)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = mRecyclerViewAdapter
         context?.let { recyclerView.addItemDecoration(FavouriteBoardsItemDividerDecoration(it)) }

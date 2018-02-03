@@ -17,6 +17,8 @@ interface IDashboardPresenter : IMvpPresenter<DashboardView<IDashboardPresenter>
     fun switchBoardFavourability(boardId: String)
     fun getDashboardFavouriteTabPosition()
 
+    fun onNetworkError(t: Throwable)
+
     fun bindDashboardBoardListView(dashboardBoardListView: BoardListView<IDashboardPresenter>)
     fun bindFavouriteBoardsView(favouriteBoardsView: FavouriteBoardsView<IDashboardPresenter>)
 

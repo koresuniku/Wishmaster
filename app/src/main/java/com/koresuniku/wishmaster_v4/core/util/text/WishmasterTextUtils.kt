@@ -48,7 +48,7 @@ class WishmasterTextUtils @Inject constructor() {
                 0, if (staticLayout.lineCount > 6) staticLayout.getLineEnd(5) else comment.length))
     }
 
-    fun getResumeInfo(postCount: Int, fileCount: Int): String {
+    fun getShortInfo(postCount: Int, fileCount: Int): String {
         var result = ""
         result += getCorrectRussianEndings(
                 count = postCount, stringForZeroOrMultiple = "постов",

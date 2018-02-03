@@ -50,9 +50,6 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
                             R.layout.thread_item_multiple_images, parent, false))
             else -> ThreadItemViewHolder(View(parent?.context))
         }
-//
-//        //TODO: REMOVE!!!
-//        return ThreadItemViewHolder(View(parent?.context), String())
     }
 
     override fun onThreadListDataChanged(newThreadListData: ThreadListData) {
@@ -62,4 +59,6 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
     override fun getItemViewType(position: Int): Int = presenter.getThreadItemType(position)
     override fun getItemCount(): Int = presenter.getThreadListDataSize()
     override fun getItemId(position: Int): Long = position.toLong()
+
+
 }

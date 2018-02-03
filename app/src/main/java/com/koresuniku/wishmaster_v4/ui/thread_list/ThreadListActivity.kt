@@ -34,6 +34,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
     @Inject override lateinit var presenter: IThreadListPresenter
+    @Inject lateinit var textUtils: WishmasterTextUtils
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup
@@ -92,7 +93,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     }
 
     private fun setupTitle(boardName: String) {
-        supportActionBar?.title = WishmasterTextUtils.obtainBoardIdDashName(getBoardId(), boardName)
+        supportActionBar?.title = textUtils.obtainBoardIdDashName(getBoardId(), boardName)
     }
 
     private fun setupRecyclerView() {

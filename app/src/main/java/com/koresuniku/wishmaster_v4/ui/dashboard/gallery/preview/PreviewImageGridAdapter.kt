@@ -31,7 +31,7 @@ class PreviewImageGridAdapter(private val imageItemDataList: List<ImageItemData>
                 val imageSummary = it.findViewById<TextView>(R.id.summary)
 
                 imageSummary.text = imageItemData.summary
-                WishmasterImageUtils.loadImageThumbnail(imageItemData, image, baseUrl)
+                //WishmasterImageUtils.loadImageThumbnail(imageItemData, image, baseUrl)
 
             }
         }

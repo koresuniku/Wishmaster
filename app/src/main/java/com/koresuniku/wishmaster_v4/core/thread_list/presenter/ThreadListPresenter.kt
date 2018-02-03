@@ -126,8 +126,7 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
 
     override fun setItemViewData(threadItemView: ThreadItemView, position: Int) {
         threadListAdapterView?.let {
-            threadListAdapterViewInteractor.setItemViewData(
-                    it, threadItemView, presenterData.getThreadList()[position], position)
+            threadListAdapterViewInteractor.setItemViewData(it, threadItemView, presenterData, position)
         }
 //        presenterData.getThreadList()?.let {
 //            val thread = it[position]
@@ -136,7 +135,7 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
 //                        thread.subject ?: "", it.getBoardId()),
 //                        thread.files?.isNotEmpty() ?: false)
 //                threadItemView.setComment(WishmasterTextUtils.getSpannedFromHtml(thread.comment ?: ""))
-//                threadItemView.setResumeInfo(WishmasterTextUtils.getResumeInfo(thread.postsCount, thread.filesCount))
+//                threadItemView.setThreadShortInfo(WishmasterTextUtils.getShortInfo(thread.postsCount, thread.filesCount))
 //                thread.files?.let {
 ////                    when (getThreadItemType(position)) {
 ////                        SINGLE_IMAGE_CODE ->
