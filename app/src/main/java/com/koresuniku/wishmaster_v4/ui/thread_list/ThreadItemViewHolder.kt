@@ -3,6 +3,7 @@ package com.koresuniku.wishmaster_v4.ui.thread_list
 import android.support.annotation.Nullable
 import android.support.v7.widget.RecyclerView
 import android.text.Spanned
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
@@ -43,48 +44,39 @@ class ThreadItemViewHolder(itemView: View) :
     init { ButterKnife.bind(this, itemView) }
 
     override fun switchSubjectVisibility(visible: Boolean) {
+        Log.d(LOG_TAG, "visible: $visible")
         mSubject.visibility = if (visible) View.VISIBLE else View.GONE
         mIsSubjectVisible = visible
     }
 
-    override fun setSubject(subject: Spanned, hasImages: Boolean) {
-//        mSubjectString = subject
-//        if (subject.isEmpty()) {
-//            mSubject.visibility = View.GONE
-//        } else {
-//            mSubject.visibility = View.VISIBLE
-//            mSubject.text = subject
-//        }
-        mSubject.text = subject
-    }
-
+    override fun setSubject(subject: Spanned) { mSubject.text = subject }
     override fun setComment(comment: Spanned) { mComment.text = comment }
     override fun setThreadShortInfo(info: String) { mResume.text = info }
 
     override fun setSingleImage(imageItemData: ImageItemData) {
-////        val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)
-////        val image = imageLayout.findViewById<ImageView>(R.id.image)
-////        val imageCommentContainer = itemView.findViewById<ViewGroup>(R.id.image_comment_container)
-////        val imageSummary = itemView.findViewById<TextView>(R.id.summary)
-//
-//        (mImageCommentContainer.layoutParams as RelativeLayout.LayoutParams).topMargin =
-//               if (mIsSubjectVisible)
-//                   itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
-//               else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
-//
-//
-//        mImageSummary.text = imageItemData.summary
-//      //  WishmasterImageUtils.loadImageThumbnail(imageItemData, image, mBaseUrl)
+//        val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)
+//        val image = imageLayout.findViewById<ImageView>(R.id.image)
+//        val imageCommentContainer = itemView.findViewById<ViewGroup>(R.id.image_comment_container)
+//        val imageSummary = itemView.findViewById<TextView>(R.id.summary)
+
+        (mImageCommentContainer.layoutParams as RelativeLayout.LayoutParams).topMargin =
+               if (mIsSubjectVisible)
+                   itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
+               else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
+
+
+        mImageSummary.text = imageItemData.summary
+      //  WishmasterImageUtils.loadImageThumbnail(imageItemData, image, mBaseUrl)
     }
 
     override fun setMultipleImages(imageItemDataList: List<ImageItemData>) {
-//
-//        (mImageGrid.layoutParams as RelativeLayout.LayoutParams).topMargin =
-//                if (mIsSubjectVisible)
-//                    itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
-//                else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
-//        mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
-//        //imageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, url)
+
+        (mImageGrid.layoutParams as RelativeLayout.LayoutParams).topMargin =
+                if (mIsSubjectVisible)
+                    itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
+                else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
+        mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
+        //imageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, url)
 //
 //        val summaryTextView = mImageGrid.adapter.getView(0, null, mImageGrid).findViewById<TextView>(R.id.summary)
 //        ViewUtils.measureView(summaryTextView)

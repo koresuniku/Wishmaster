@@ -83,7 +83,8 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 
     private fun setupBackground() {
         if (BoardsBackgrounds.backgrounds.containsKey(getBoardId())) {
-            BoardsBackgrounds.backgrounds[getBoardId()]?.let { mBackground.setImageResource(it) }
+            mBackground.setImageResource(
+                    BoardsBackgrounds.backgrounds[getBoardId()] ?: R.color.colorBackground)
         } else mBackground.setImageResource(R.color.colorBackground)
     }
 

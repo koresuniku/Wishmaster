@@ -71,7 +71,7 @@ class WishmasterTextUtils @Inject constructor() {
             signsCount = count.toString().length
             lastNumber = Integer.parseInt(count.toString().substring(signsCount - 1, signsCount))
         }
-        if (count in 10..20) {
+        if (signsCount >= 2 && count.toString().substring(signsCount - 2, signsCount).matches(Regex("1[0-9]"))) {
             return count.toString() + " " + stringForZeroOrMultiple
         }
         if (lastNumber == 1) {

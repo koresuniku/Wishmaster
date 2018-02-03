@@ -32,10 +32,9 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
 
         //Subject
         thread.subject?.let {
-            view.setSubject(textUtils.getSubjectSpanned(
-                    it, data.getBoardId()), thread.files?.isNotEmpty() ?: false)
+            view.setSubject(textUtils.getSubjectSpanned(it, data.getBoardId()))
         }
-        view.switchSubjectVisibility((thread.subject != null && thread.subject?.isNotEmpty() == true))
+        view.switchSubjectVisibility((thread.subject.isNullOrEmpty()))
 
         //Comment
         thread.comment?.let { view.setComment(textUtils.getSpannedFromHtml(it)) }
