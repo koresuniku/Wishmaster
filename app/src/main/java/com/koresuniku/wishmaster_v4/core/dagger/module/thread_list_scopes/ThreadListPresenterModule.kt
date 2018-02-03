@@ -2,6 +2,7 @@ package com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scopes
 
 import com.koresuniku.wishmaster_v4.core.dagger.scope.ForThreadListPresenter
 import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
+import com.koresuniku.wishmaster_v4.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster_v4.core.network.thread_list_api.ThreadListResponseParser
 import com.koresuniku.wishmaster_v4.core.network.thread_list_api.ThreadListApiService
 import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListAdapterViewInteractor
@@ -26,9 +27,10 @@ class ThreadListPresenterModule {
     @Provides
     @ForThreadListPresenter
     fun provideThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
+                                               retrofitHolder: RetrofitHolder,
                                                imageUtils: WishmasterImageUtils,
                                                textUtils: WishmasterTextUtils):
             ThreadListAdapterViewInteractor {
-        return ThreadListAdapterViewInteractor(compositeDisposable, imageUtils, textUtils)
+        return ThreadListAdapterViewInteractor(compositeDisposable, retrofitHolder, imageUtils, textUtils)
     }
 }

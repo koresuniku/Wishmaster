@@ -1,6 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.gallery
 
 import android.net.Uri
+import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -112,11 +113,14 @@ class WishmasterImageUtils @Inject constructor(private val textUtils: Wishmaster
 //    private data class ImageSharedPreferencesConfiguration(val width: Int, val min: Int, val max: Int)
 
     fun loadImageThumbnail(imageItemData: ImageItemData, image: ImageView, baseUrl: String) {
+
+        Log.d("WIU", "imageItgemData: ${imageItemData.dimensions.widthInPx}")
         image.layoutParams.width = imageItemData.dimensions.widthInPx
         image.layoutParams.height = imageItemData.dimensions.heightInPx
         image.setImageBitmap(null)
         image.animation?.cancel()
         image.setBackgroundColor(image.context.resources.getColor(R.color.colorBackgroundDark))
+
 
         Glide.with(image.context)
                 .load(Uri.parse(baseUrl + imageItemData.file.thumbnail))

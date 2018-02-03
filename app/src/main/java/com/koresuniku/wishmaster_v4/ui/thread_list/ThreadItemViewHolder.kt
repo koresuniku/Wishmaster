@@ -14,6 +14,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
+import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadItemView
 import com.koresuniku.wishmaster_v4.ui.dashboard.gallery.preview.PreviewImageGridAdapter
 import com.koresuniku.wishmaster_v4.ui.util.ViewUtils
@@ -53,11 +54,13 @@ class ThreadItemViewHolder(itemView: View) :
     override fun setComment(comment: Spanned) { mComment.text = comment }
     override fun setThreadShortInfo(info: String) { mResume.text = info }
 
-    override fun setSingleImage(imageItemData: ImageItemData) {
-//        val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)
-//        val image = imageLayout.findViewById<ImageView>(R.id.image)
+    override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {
+        val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)
+        val image = imageLayout.findViewById<ImageView>(R.id.image)
 //        val imageCommentContainer = itemView.findViewById<ViewGroup>(R.id.image_comment_container)
 //        val imageSummary = itemView.findViewById<TextView>(R.id.summary)
+
+        Log.d(LOG_TAG, "url: $url")
 
         (mImageCommentContainer.layoutParams as RelativeLayout.LayoutParams).topMargin =
                if (mIsSubjectVisible)
@@ -66,10 +69,10 @@ class ThreadItemViewHolder(itemView: View) :
 
 
         mImageSummary.text = imageItemData.summary
-      //  WishmasterImageUtils.loadImageThumbnail(imageItemData, image, mBaseUrl)
+        imageUtils.loadImageThumbnail(imageItemData, image, url)
     }
 
-    override fun setMultipleImages(imageItemDataList: List<ImageItemData>) {
+    override fun setMultipleImages(imageItemDataList: List<ImageItemData>, url: String, imageUtils: WishmasterImageUtils) {
 
         (mImageGrid.layoutParams as RelativeLayout.LayoutParams).topMargin =
                 if (mIsSubjectVisible)

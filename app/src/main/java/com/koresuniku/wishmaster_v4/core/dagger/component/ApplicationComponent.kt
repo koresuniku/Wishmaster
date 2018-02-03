@@ -11,6 +11,7 @@ import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.*
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper
 import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
+import com.koresuniku.wishmaster_v4.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster_v4.core.network.thread_list_api.ThreadListApiService
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import dagger.Component
@@ -39,6 +40,7 @@ interface ApplicationComponent {
     fun databaseHelper(): DatabaseHelper
 
     //Network
+    fun retrofitHolder(): RetrofitHolder
     fun okHttpClient(): OkHttpClient
     fun gson(): Gson
     fun boardsApiServide(): BoardsApiService
