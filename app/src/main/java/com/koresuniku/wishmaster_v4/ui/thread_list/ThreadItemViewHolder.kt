@@ -35,7 +35,7 @@ class ThreadItemViewHolder(itemView: View) :
     @Nullable @BindView(R.id.image_comment_container) lateinit var mImageCommentContainer: ViewGroup
     @Nullable @BindView(R.id.summary) lateinit var mImageSummary: TextView
 
-    @Nullable @BindView(R.id.image_grid) lateinit var mImagegrid: GridView
+    @Nullable @BindView(R.id.image_grid) lateinit var mImageGrid: GridView
 
    // private lateinit var mSubjectString: Spanned
     private var mIsSubjectVisible = true
@@ -62,33 +62,33 @@ class ThreadItemViewHolder(itemView: View) :
     override fun setThreadShortInfo(info: String) { mResume.text = info }
 
     override fun setSingleImage(imageItemData: ImageItemData) {
-//        val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)
-//        val image = imageLayout.findViewById<ImageView>(R.id.image)
-//        val imageCommentContainer = itemView.findViewById<ViewGroup>(R.id.image_comment_container)
-//        val imageSummary = itemView.findViewById<TextView>(R.id.summary)
-
-        (mImageCommentContainer.layoutParams as RelativeLayout.LayoutParams).topMargin =
-               if (mIsSubjectVisible)
-                   itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
-               else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
-
-
-        mImageSummary.text = imageItemData.summary
-      //  WishmasterImageUtils.loadImageThumbnail(imageItemData, image, mBaseUrl)
+////        val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)
+////        val image = imageLayout.findViewById<ImageView>(R.id.image)
+////        val imageCommentContainer = itemView.findViewById<ViewGroup>(R.id.image_comment_container)
+////        val imageSummary = itemView.findViewById<TextView>(R.id.summary)
+//
+//        (mImageCommentContainer.layoutParams as RelativeLayout.LayoutParams).topMargin =
+//               if (mIsSubjectVisible)
+//                   itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
+//               else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
+//
+//
+//        mImageSummary.text = imageItemData.summary
+//      //  WishmasterImageUtils.loadImageThumbnail(imageItemData, image, mBaseUrl)
     }
 
     override fun setMultipleImages(imageItemDataList: List<ImageItemData>) {
-        val imageGrid = itemView.findViewById<ExpandableHeightGridView>(R.id.image_grid)
-        (imageGrid.layoutParams as RelativeLayout.LayoutParams).topMargin =
-                if (mIsSubjectVisible)
-                    itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
-                else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
-        imageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
-        //imageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, url)
-
-        val summaryTextView = imageGrid.adapter.getView(0, null, imageGrid).findViewById<TextView>(R.id.summary)
-        ViewUtils.measureView(summaryTextView)
-        ViewUtils.setGridViewHeight(
-                imageGrid, imageItemDataList, imageItemDataList[0].dimensions.widthInPx, summaryTextView.measuredHeight)
+//
+//        (mImageGrid.layoutParams as RelativeLayout.LayoutParams).topMargin =
+//                if (mIsSubjectVisible)
+//                    itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
+//                else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
+//        mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
+//        //imageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, url)
+//
+//        val summaryTextView = mImageGrid.adapter.getView(0, null, mImageGrid).findViewById<TextView>(R.id.summary)
+//        ViewUtils.measureView(summaryTextView)
+//        ViewUtils.setGridViewHeight(mImageGrid, imageItemDataList,
+//                imageItemDataList[0].dimensions.widthInPx, summaryTextView.measuredHeight)
     }
 }
