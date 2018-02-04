@@ -7,6 +7,7 @@ import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster_v4.application.shared_preferences.ISharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.application.WishmasterApplication
 import com.koresuniku.wishmaster_v4.application.shared_preferences.ISharedPreferencesUiDimens
+import com.koresuniku.wishmaster_v4.application.shared_preferences.SharedPreferencesUiDimens
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.*
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper
@@ -34,7 +35,7 @@ interface ApplicationComponent {
 
     //SharedPreferences
     fun sharedPreferencesStorage(): ISharedPreferencesStorage
-    fun sharedPreferencesUiDimens(): ISharedPreferencesUiDimens
+    fun sharedPreferencesUiDimens(): SharedPreferencesUiDimens
 
     //Database
     fun databaseHelper(): DatabaseHelper

@@ -76,7 +76,7 @@ class WishmasterApplication : Application(), IWishmasterDaggerInjector {
 
     @Inject lateinit var okHttpClient: OkHttpClient
     @Inject lateinit var sharedPreferencesStorage: ISharedPreferencesStorage
-    @Inject lateinit var sharedPreferencesUiDimens: ISharedPreferencesUiDimens
+    @Inject lateinit var sharedPreferencesUiDimens: SharedPreferencesUiDimens
     @Inject lateinit var sharedPreferencesHelper: ISharedPreferencesHelper
     @Inject lateinit var retrofitHolder: RetrofitHolder
 

@@ -1,6 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.thread_list.interactor
 
 import android.text.Html
+import android.util.Log
 import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxAdapterViewInteractor
 import com.koresuniku.wishmaster_v4.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
@@ -33,10 +34,8 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
         val thread = data.getThreadList()[position]
 
         //Subject
-        thread.subject?.let {
-            view.setSubject(textUtils.getSubjectSpanned(it, data.getBoardId()))
-        }
-        view.switchSubjectVisibility((thread.subject.isNullOrEmpty()))
+        thread.subject?.let { view.setSubject(textUtils.getSubjectSpanned(it, data.getBoardId())) }
+        view.switchSubjectVisibility(!thread.subject.isNullOrBlank() && data.getBoardId() != "b")
 
         //Comment
         thread.comment?.let { view.setComment(textUtils.getSpannedFromHtml(it)) }
@@ -52,16 +51,16 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                             .subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
-                                    { view.setSingleImage(it, retrofitHolder.getBaseUrl(), imageUtils)},
-                                    { it.printStackTrace()}))
+                                    { view.setSingleImage(it, retrofitHolder.getBaseUrl(), imageUtils) },
+                                    { it.printStackTrace() }))
                 }
                 adapterView.MULTIPLE_IMAGES_CODE -> {
                     compositeDisposable.add(imageUtils.getImageItemData(it)
                             .subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
-                                    { view.setMultipleImages(it, retrofitHolder.getBaseUrl(), imageUtils)},
-                                    { it.printStackTrace()}))
+                                    { view.setMultipleImages(it, retrofitHolder.getBaseUrl(), imageUtils) },
+                                    { it.printStackTrace() }))
                 }
                 else -> {}
             }

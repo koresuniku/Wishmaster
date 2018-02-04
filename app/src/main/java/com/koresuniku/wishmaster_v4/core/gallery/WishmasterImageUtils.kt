@@ -26,6 +26,7 @@ class WishmasterImageUtils @Inject constructor(private val textUtils: Wishmaster
         private val sharedPreferencesUiDimens: SharedPreferencesUiDimens) {
 
     fun getImageItemData(file: File): Single<ImageItemData> {
+        Log.d("WIU", "SPUID: ${sharedPreferencesUiDimens}")
         return Single.create({
             it.onSuccess(ImageItemData(
                     file,
@@ -56,10 +57,10 @@ class WishmasterImageUtils @Inject constructor(private val textUtils: Wishmaster
         val fileHeight = file.height.toInt()
         val aspectRatio: Float = fileWidth.toFloat() / fileHeight.toFloat()
 
-        val actualWidth = sharedPreferencesUiDimens.imageWidth
+        val actualWidth = UiUtils.convertDpToPixel(sharedPreferencesUiDimens.imageWidth.toFloat()).toInt()
         var actualHeight = Math.ceil((actualWidth/ aspectRatio).toDouble()).toInt()
-        val min = sharedPreferencesUiDimens.minImageHeight
-        val max = sharedPreferencesUiDimens.maxImageHeight
+        val min = UiUtils.convertDpToPixel(sharedPreferencesUiDimens.minImageHeight.toFloat()).toInt()
+        val max = UiUtils.convertDpToPixel(sharedPreferencesUiDimens.maxImageHeight.toFloat()).toInt()
 
         if (min > actualHeight) actualHeight = min
         if (max < actualHeight) actualHeight = max

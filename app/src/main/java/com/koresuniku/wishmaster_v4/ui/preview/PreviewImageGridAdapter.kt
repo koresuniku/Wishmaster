@@ -1,4 +1,4 @@
-package com.koresuniku.wishmaster_v4.ui.dashboard.gallery.preview
+package com.koresuniku.wishmaster_v4.ui.preview
 
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +15,8 @@ import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
  */
 
 class PreviewImageGridAdapter(private val imageItemDataList: List<ImageItemData>,
-                              private val baseUrl: String) : BaseAdapter() {
+                              private val url: String,
+                              private val imageUtils: WishmasterImageUtils) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var returnView: View? = convertView
@@ -31,7 +32,7 @@ class PreviewImageGridAdapter(private val imageItemDataList: List<ImageItemData>
                 val imageSummary = it.findViewById<TextView>(R.id.summary)
 
                 imageSummary.text = imageItemData.summary
-                //WishmasterImageUtils.loadImageThumbnail(imageItemData, image, baseUrl)
+                imageUtils.loadImageThumbnail(imageItemData, image, url)
 
             }
         }

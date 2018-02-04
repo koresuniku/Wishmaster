@@ -24,8 +24,8 @@ class SharedPreferencesUiDimens @Inject constructor() : ISharedPreferencesUiDime
 
     override fun toString(): String {
         return "imageWidthInDp: $imageWidth, " +
-                "minImageHeightInDp: $minImageHeight" +
-                "maxImageHeightInDp: $maxImageHeight" +
+                "minImageHeightInDp: $minImageHeight, " +
+                "maxImageHeightInDp: $maxImageHeight, " +
                 "threadPostItemHorizontalWidth: $threadPostItemHorizontalWidth, " +
                 "threadPostItemVerticalWidth: $threadPostItemVerticalWidth, " +
                 "threadPostItemSingleImageHorizontalWidth: $threadPostItemSingleImageHorizontalWidth, " +

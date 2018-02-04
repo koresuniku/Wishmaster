@@ -9,4 +9,5 @@ interface ISharedPreferencesUiDimens {
     var threadPostItemVerticalWidth: Int
     var threadPostItemSingleImageHorizontalWidth: Int
     var threadPostItemSingleImageVerticalWidth: Int
+
 }

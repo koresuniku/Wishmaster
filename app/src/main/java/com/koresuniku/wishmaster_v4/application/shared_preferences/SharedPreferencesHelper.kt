@@ -20,14 +20,14 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
     override fun onApplicationCreate(context: Context,
                                      sharedPreferencesStorage: ISharedPreferencesStorage,
                                      retrofitHolder: RetrofitHolder,
-                                     sharedPreferencesUIDimens: ISharedPreferencesUiDimens) {
+                                     sharedPreferencesUIDimens: SharedPreferencesUiDimens) {
         setDefaultImageWidth(context, sharedPreferencesStorage, sharedPreferencesUIDimens)
         setRetrofitBaseUrl(sharedPreferencesStorage, retrofitHolder)
     }
 
     private fun setDefaultImageWidth(context: Context,
                                      sharedPreferencesStorage: ISharedPreferencesStorage,
-                                     sharedPreferencesUIDimens: ISharedPreferencesUiDimens) {
+                                     sharedPreferencesUIDimens: SharedPreferencesUiDimens) {
         readDefaultImageWidthDependentValues(sharedPreferencesStorage)
                 .subscribeOn(Schedulers.io())
                 .subscribe( { values ->
@@ -49,7 +49,7 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                                 .subscribeOn(Schedulers.computation())
                                 .subscribe()
                     } else {
-                        Log.d("SPI", values.imageWidth.toString())
+                        //Log.d("SPI", values.imageWidth.toString())
                         sharedPreferencesUIDimens.imageWidth = values.imageWidth
                         sharedPreferencesUIDimens.minImageHeight = values.minImageHeight
                         sharedPreferencesUIDimens.maxImageHeight = values.maxImageHeight
@@ -57,8 +57,10 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                         sharedPreferencesUIDimens.threadPostItemVerticalWidth = values.threadPostItemVerticalWidth
                         sharedPreferencesUIDimens.threadPostItemSingleImageHorizontalWidth = values.threadPostItemSingleImageHorizontalWidth
                         sharedPreferencesUIDimens.threadPostItemSingleImageVerticalWidth = values.threadPostItemSingleImageVerticalWidth
+                        Log.d("SPUID", "${sharedPreferencesUIDimens.hashCode()}")
                     }
                 })
+
     }
 
     private fun readDefaultImageWidthDependentValues(
@@ -98,7 +100,7 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
 
     private fun computeThreadPostItemWidth(context: Context,
                                            sharedPreferencesStorage: ISharedPreferencesStorage,
-                                           sharedPreferencesUIDimens: ISharedPreferencesUiDimens): Completable {
+                                           sharedPreferencesUIDimens: SharedPreferencesUiDimens): Completable {
         return Completable.create({ e -> kotlin.run {
             var displayWidth = DeviceUtils.getDisplayWidth(context)
             var displayHeight = DeviceUtils.getDisplayHeight(context)
