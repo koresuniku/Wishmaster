@@ -41,6 +41,8 @@ class ThreadItemViewHolder(itemView: View) :
 
     init { ButterKnife.bind(this, itemView) }
 
+
+
     override fun switchSubjectVisibility(visible: Boolean) {
         mSubject.visibility = if (visible) View.VISIBLE else View.GONE
         mIsSubjectVisible = visible
@@ -66,7 +68,6 @@ class ThreadItemViewHolder(itemView: View) :
     }
 
     override fun setMultipleImages(imageItemDataList: List<ImageItemData>, url: String, imageUtils: WishmasterImageUtils) {
-
         (mImageGrid.layoutParams as RelativeLayout.LayoutParams).topMargin =
                 if (mIsSubjectVisible) itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
                 else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()

@@ -32,7 +32,7 @@ class FavouriteBoardsRecyclerViewAdapter():
 
     constructor(activity: BaseWishmasterActivity<IDashboardPresenter>,
                 onStartDragListener: OnStartDragListener) : this() {
-        activity.getWishmasterApplication().getDashboardViewComponent().inject(this)
+        activity.getWishmasterApplication().daggerDashboardViewComponent.inject(this)
         this.mActivity = WeakReference(activity)
         this.mOnStartDragListener = onStartDragListener
     }

@@ -1,8 +1,10 @@
 package com.koresuniku.wishmaster_v4.core.util.text
 
+import android.graphics.Paint
 import android.text.*
 import android.util.Log
 import android.widget.TextView
+import com.koresuniku.wishmaster_v4.application.shared_preferences.SharedPreferencesUiDimens
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster_v4.core.data.model.threads.File
 import com.koresuniku.wishmaster_v4.ui.util.ViewUtils
@@ -38,14 +40,15 @@ class WishmasterTextUtils @Inject constructor() {
         return getSpannedFromHtml(if (boardId == "b") "" else subject)
     }
 
-    fun cutComment(comment: Spanned, textView: TextView): Spannable {
-        ViewUtils.measureView(textView)
-        val staticLayout = StaticLayout(comment, textView.paint, textView.measuredWidth,
-                Layout.Alignment.ALIGN_NORMAL, 1.0f, 0f, false)
-        Log.d("WTU", "static layout lines: ${staticLayout.lineCount}")
-
-        return SpannableString(comment.subSequence(
-                0, if (staticLayout.lineCount > 6) staticLayout.getLineEnd(5) else comment.length))
+    fun cutComment(comment: String, uiDimens: SharedPreferencesUiDimens, isFlowingImage: Boolean): Spannable {
+//
+//        val staticLayout = StaticLayout(comment, textView.paint, if (isFlowingImage) uiDimens.,
+//                Layout.Alignment.ALIGN_NORMAL, 1.0f, 0f, false)
+//        Log.d("WTU", "static layout lines: ${staticLayout.lineCount}")
+//
+//        return SpannableString(comment.subSequence(
+//                0, if (staticLayout.lineCount > 6) staticLayout.getLineEnd(5) else comment.length))
+        return SpannableString("")
     }
 
     fun getShortInfo(postCount: Int, fileCount: Int): String {

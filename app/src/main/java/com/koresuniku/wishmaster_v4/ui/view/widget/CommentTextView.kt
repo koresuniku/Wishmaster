@@ -2,6 +2,7 @@ package com.koresuniku.wishmaster_v4.ui.view.widget
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import android.util.AttributeSet
 import android.widget.TextView
@@ -10,7 +11,7 @@ import android.widget.TextView
  * Created by koresuniku on 05.01.18.
  */
 
-class NoScrollTextView : TextView {
+class CommentTextView : TextView {
 
     constructor(context: Context) : super(context)
 
@@ -24,4 +25,5 @@ class NoScrollTextView : TextView {
     override fun scrollTo(x: Int, y: Int) {
         //do nothing
     }
+
 }

@@ -118,23 +118,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         presenter.bindThreadListAdapterView(mThreadListRecyclerViewAdapter)
     }
 
-//    private fun loadThreads(first: Boolean) {
-//       // presenter.reloadThreads()
-//        mCompositeDisposable.add(presenter.getLoadThreadsSingle()
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        { threadListData ->
-//                            Log.d(LOG_TAG, "data size: ${threadListData.getThreadList().size}")
-//                            //Log.d(LOG_TAG, "first thread: ${threadListData.getThreadList()[0]}")
-//                            hideLoading()
-//                            setupTitle(threadListData.getBoardName())
-//                            if (first) showThreadList()
-//                        }, { e -> e.printStackTrace(); hideLoading(); showError(e) })
-//        )
-//    }
-
-
 
     override fun onThreadListReceived(boardName: String) {
         hideLoading()
@@ -158,6 +141,8 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     }
 
     override fun showError(message: String?) {
+        hideLoading()
+
         mThreadListRecyclerView.visibility = View.GONE
         mErrorLayout.visibility = View.VISIBLE
         supportActionBar?.title = getString(R.string.error)

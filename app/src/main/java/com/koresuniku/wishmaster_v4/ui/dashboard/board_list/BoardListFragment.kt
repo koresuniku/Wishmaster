@@ -35,7 +35,7 @@ class BoardListFragment : BaseWishmasterFragment(), BoardListView<IDashboardPres
         ButterKnife.bind(this, rootView)
         (activity as DashboardActivity)
                 .getWishmasterApplication()
-                .getDashboardViewComponent()
+                .daggerDashboardViewComponent
                 .inject(this)
         presenter.bindDashboardBoardListView(this)
 

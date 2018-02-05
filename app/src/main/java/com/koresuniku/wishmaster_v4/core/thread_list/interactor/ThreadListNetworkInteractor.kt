@@ -21,32 +21,34 @@ class ThreadListNetworkInteractor @Inject constructor(apiService: ThreadListApiS
 
     override fun getDataFromNetwork(): Single<ThreadListData> {
         return Single.create({ e ->
-            compositeDisposable.add(loadThreadListDirectly()
+            compositeDisposable.add(loadThreadListFromCatalog()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         if (it.threads.isEmpty()) {
-                            compositeDisposable.add(loadThreadListByPages()
+                            compositeDisposable.add(loadThreadListFromPages()
                                     .subscribeOn(Schedulers.newThread())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe({
                                         e.onSuccess(responseParser.mapPageResponseToThreadListData(it))
-                                    }, { it.printStackTrace() }))
+                                    }, { presenter?.onNetworkError(it) }))
                         } else e.onSuccess(responseParser.mapCatalogResponseToThreadListData(it))
-                    }, { it.printStackTrace() }))
+                    }, { presenter?.onNetworkError(it) }))
         })
     }
 
-    private fun loadThreadListDirectly(): Single<ThreadListJsonSchemaCatalogResponse> {
+    private fun loadThreadListFromCatalog(): Single<ThreadListJsonSchemaCatalogResponse> {
         return Single.create({ e ->
             presenter?.let {
                 compositeDisposable.add(getService()
                         .getThreadsObservable(it.getBoardId())
-                        .subscribe({ schema -> e.onSuccess(schema) }, { it.printStackTrace() }))
+                        .subscribe(
+                                { schema -> e.onSuccess(schema) },
+                                { presenter?.onNetworkError(it) }))
             }
         })
     }
 
-    private fun loadThreadListByPages(): Single<ThreadListJsonSchemaPageResponse> {
+    private fun loadThreadListFromPages(): Single<ThreadListJsonSchemaPageResponse> {
         return Single.create({ e ->
             presenter?.let {
                 val boardId = it.getBoardId()

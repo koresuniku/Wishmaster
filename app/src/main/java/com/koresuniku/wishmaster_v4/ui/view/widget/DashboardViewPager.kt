@@ -35,4 +35,6 @@ class DashboardViewPager(context: Context, attrs: AttributeSet) : ViewPager(cont
     fun setPagingEnabled(enabled: Boolean) {
         this.pagingEnabled = enabled
     }
+
+
 }

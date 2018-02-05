@@ -45,7 +45,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getWishmasterApplication().getDashboardViewComponent().inject(this)
+        getWishmasterApplication().daggerDashboardViewComponent.inject(this)
         ButterKnife.bind(this)
         presenter.bindView(this)
 

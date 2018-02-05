@@ -26,7 +26,7 @@ class WishmasterImageUtils @Inject constructor(private val textUtils: Wishmaster
         private val sharedPreferencesUiDimens: SharedPreferencesUiDimens) {
 
     fun getImageItemData(file: File): Single<ImageItemData> {
-        Log.d("WIU", "SPUID: ${sharedPreferencesUiDimens}")
+        //Log.d("WIU", "SPUID: ${sharedPreferencesUiDimens}")
         return Single.create({
             it.onSuccess(ImageItemData(
                     file,

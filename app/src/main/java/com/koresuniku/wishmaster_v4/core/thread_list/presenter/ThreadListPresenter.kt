@@ -5,6 +5,7 @@ import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListAdapte
 import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListNetworkInteractor
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadItemView
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadListView
+import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -21,28 +22,10 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
         BaseThreadListPresenter(compositeDisposable, threadListNetworkInteractor, threadListAdapterViewInteractor) {
     private val LOG_TAG = ThreadListPresenter::class.java.simpleName
 
-
-    // @Inject lateinit var threadListApiService: ThreadListApiService
-    //@Inject lateinit var databaseHelper: DatabaseHelper
-    //@Inject lateinit var sharedPreferencesStorage: sharedPreferencesStorage
-
-    //private lateinit var mLoadThreadListSingle: Single<ThreadListData>
-    //private var mActualThreadListData: ThreadListData? = null
-    //private var mThreadListAdapterView: ThreadListAdapterView<ThreadListPresenter>? = null
-
     override fun bindView(mvpView: ThreadListView<IThreadListPresenter>) {
         super.bindView(mvpView)
         injector.daggerThreadListPresenterComponent.inject(this)
-
-        //mActualThreadListData = ThreadListData.emptyData()
-//
-//        mLoadThreadListSingle = getNewLoadThreadListSingle()
-//        mLoadThreadListSingle = mLoadThreadListSingle.cache()
     }
-//
-//    fun bindThreadListAdapterView(threadListAdapterView: ThreadListAdapterView<ThreadListPresenter>) {
-//        this.mThreadListAdapterView = threadListAdapterView
-//    }
 
     override fun getBoardId(): String = mView?.getBoardId() ?: String()
 
@@ -58,71 +41,12 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
                 }, { it.printStackTrace(); mView?.showError(it.message) }))
     }
 
-
-//
-//    fun getLoadThreadsSingle(): Single<ThreadListData> = mLoadThreadListSingle
-//
-//    fun reloadThreads() { mLoadThreadListSingle = getNewLoadThreadListSingle().cache() }
-
-//    private fun getNewLoadThreadListSingle(): Single<ThreadListData> {
-//        return Single.create({ e -> kotlin.run {
-//            compositeDisposable.add(loadThreadListDirectly()
-//                    .subscribe({ schemaCatalog: ThreadListJsonSchemaCatalogResponse ->
-//                        if (schemaCatalog.threads.isEmpty()) {
-//                            Log.d(LOG_TAG, "schemaCatalog threads is empty!")
-//                            compositeDisposable.add(loadThreadListByPages()
-//                                    .subscribe(
-//                                            { schemaByPages -> kotlin.run {
-//                                                //val oldThreadListData = mActualThreadListData ?: ThreadListData.emptyData()
-//                                                mActualThreadListData = ThreadListResponseParser.mapPageResponseToThreadListData(schemaByPages)
-//                                                mActualThreadListData?.let {
-//                                                    e.onSuccess(it)
-//                                                    threadListAdapterView?.onThreadListDataChanged(it)
-//                                                }
-//                                            } },
-//                                            { t -> e.onError(t) }))
-//                        } else {
-//                            ///val oldThreadListData = mActualThreadListData ?: ThreadListData.emptyData()
-//                            mActualThreadListData = ThreadListResponseParser.mapCatalogResponseToThreadListData(schemaCatalog)
-//                            mActualThreadListData?.let {
-//                                e.onSuccess(it)
-//                                threadListAdapterView?.onThreadListDataChanged(it)
-//                            }
-//                        }
-//                    }, { t -> e.onError(t) }))
-//        }})
-//    }
-
-//    private fun loadThreadListDirectly(): Single<ThreadListJsonSchemaCatalogResponse> {
-//        return Single.create({ e -> kotlin.run {
-//            mView?.let { compositeDisposable.add(
-//                    threadListApiService.getThreadsObservable(it.getBoardId())
-//                    .subscribe(
-//                            { schema -> e.onSuccess(schema) },
-//                            { throwable: Throwable -> e.onError(throwable) }
-//                    ))
-//            }
-//        }})
-//    }
-//
-//    private fun loadThreadListByPages(): Single<ThreadListJsonSchemaPageResponse> {
-//        return Single.create({ e -> kotlin.run { mView?.let {
-//            val boardId = it.getBoardId()
-//            val indexResponse = threadListApiService.getThreadsByPageCall(boardId, "index").execute()
-//            indexResponse.body()?.let {
-//                Log.d(LOG_TAG, "raw pages: ${it.pages}")
-//                it.threads = arrayListOf()
-//                //Абу, почини API!
-//                for (i in 1 until it.pages.size - 1) {
-//                    val nextPageResponse = threadListApiService.getThreadsByPageCall(boardId, i.toString()).execute()
-//                    Log.d(LOG_TAG, "inside pages count: $i, threads: ${nextPageResponse.body()?.threads?.size}")
-//                    it.threads.addAll(nextPageResponse.body()?.threads ?: emptyList())
-//                }
-//                e.onSuccess(it)
-//            }
-//        }
-//        }})
-//    }
+    override fun onNetworkError(t: Throwable) {
+        compositeDisposable.add(Completable.fromCallable {  }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ t.printStackTrace(); mView?.showError(t.message)}))
+    }
 
     override fun setItemViewData(threadItemView: ThreadItemView, position: Int) {
         threadListAdapterView?.let {

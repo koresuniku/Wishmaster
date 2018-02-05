@@ -33,7 +33,10 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
         this.activity = WeakReference(activity)
     }
 
+
+
     override fun onBindViewHolder(holder: ThreadItemViewHolder?, position: Int) {
+        Log.d(LOG_TAG, "onBindViewHolder: $position")
         holder?.let { presenter.setItemViewData(it, position) }
     }
 

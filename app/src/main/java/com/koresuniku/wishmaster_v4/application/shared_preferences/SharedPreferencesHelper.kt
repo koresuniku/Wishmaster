@@ -21,7 +21,6 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                                      sharedPreferencesStorage: ISharedPreferencesStorage,
                                      retrofitHolder: RetrofitHolder,
                                      sharedPreferencesUIDimens: SharedPreferencesUiDimens) {
-        Log.d("SPUID on app create", "$sharedPreferencesUIDimens")
         setDefaultImageWidth(context, sharedPreferencesStorage, sharedPreferencesUIDimens)
         setRetrofitBaseUrl(sharedPreferencesStorage, retrofitHolder)
     }
@@ -50,7 +49,6 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                                 .subscribeOn(Schedulers.computation())
                                 .subscribe()
                     } else {
-                        //Log.d("SPI", values.imageWidth.toString())
                         sharedPreferencesUIDimens.imageWidth = values.imageWidth
                         sharedPreferencesUIDimens.minImageHeight = values.minImageHeight
                         sharedPreferencesUIDimens.maxImageHeight = values.maxImageHeight
@@ -58,8 +56,6 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                         sharedPreferencesUIDimens.threadPostItemVerticalWidth = values.threadPostItemVerticalWidth
                         sharedPreferencesUIDimens.threadPostItemSingleImageHorizontalWidth = values.threadPostItemSingleImageHorizontalWidth
                         sharedPreferencesUIDimens.threadPostItemSingleImageVerticalWidth = values.threadPostItemSingleImageVerticalWidth
-                        Log.d("SPUID", "${values}")
-                        Log.d("SPUID", "${sharedPreferencesUIDimens}")
                     }
                 })
 
@@ -85,8 +81,6 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                     params.threadPostItemVerticalWidth = vw
                     params.threadPostItemSingleImageHorizontalWidth = sihw
                     params.threadPostItemSingleImageVerticalWidth = sivw
-
-                    Log.d("SPH", "sihw: $sihw, sivw: $sivw")
                      params }
                 }))
     }
@@ -144,8 +138,6 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                         sharedPreferencesUIDimens.threadPostItemVerticalWidth = threadPostItemVerticalWidth
                         sharedPreferencesUIDimens.threadPostItemSingleImageHorizontalWidth = threadPostItemSingleImageHorizontal
                         sharedPreferencesUIDimens.threadPostItemSingleImageVerticalWidth = threadPostItemSingleImageVertical
-
-                        Log.d("SPH", "spUiD: $sharedPreferencesUIDimens")
 
                         e.onComplete()
                     })

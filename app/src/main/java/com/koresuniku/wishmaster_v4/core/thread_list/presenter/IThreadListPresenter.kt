@@ -15,6 +15,8 @@ interface IThreadListPresenter : IMvpPresenter<ThreadListView<IThreadListPresent
     fun getThreadItemType(position: Int): Int
     fun setItemViewData(threadItemView: ThreadItemView, position: Int)
 
+    fun onNetworkError(t: Throwable)
+
     fun bindThreadListAdapterView(threadListAdapterView: ThreadListAdapterView<IThreadListPresenter>)
     fun unbindThreadListAdapterView()
 }

@@ -1,6 +1,8 @@
 package com.koresuniku.wishmaster_v4.application
 
 import android.app.Application
+import android.content.res.Configuration
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
@@ -85,46 +87,16 @@ class WishmasterApplication : Application(), IWishmasterDaggerInjector {
 
         if (!LeakCanary.isInAnalyzerProcess(this)) LeakCanary.install(this)
 
-//        mDaggerApplicationComponent = DaggerApplicationComponent.builder()
-//                .applicationModule(ApplicationModule(this))
-//                .injectorModule(InjectorModule(this))
-//                .networkModule(NetworkModule(Dvach.BASE_URL))
-//                .sharedPreferencesModule(SharedPreferencesModule())
-//                .build() as DaggerApplicationComponent
         mDaggerApplicationComponent.inject(this)
 
         sharedPreferencesHelper.onApplicationCreate(
                 this, sharedPreferencesStorage, retrofitHolder, sharedPreferencesUiDimens)
 
-//        daggerDashboardPresenterComponent = DaggerDashboardPresenterComponent.builder()
-//                .applicationComponent(mDaggerApplicationComponent)
-//                .dashboardPresenterModule(DashboardPresenterModule())
-//                .rxModule(RxModule())
-//                .boardsModule(BoardsModule())
-//                .searchModule(SearchModule())
-//                .build() as DaggerDashboardPresenterComponent
-
-//        mDaggerDashboardViewComponent = DaggerDashboardViewComponent.builder()
-//                .dashboardPresenterComponent(daggerDashboardPresenterComponent)
-//                .dashboardViewModule(DashboardViewModule())
-//                .build() as DaggerDashboardViewComponent
-
-//        mDaggerThreadListPresenterComponent = DaggerThreadListPresenterComponent.builder()
-//                .applicationComponent(mDaggerApplicationComponent)
-//                .threadListPresenterModule(ThreadListPresenterModule())
-//                .rxModule(RxModule())
-//                .build() as DaggerThreadListPresenterComponent
-
-//        mDaggerThreadListViewComponent = DaggerThreadListViewComponent.builder()
-//                .threadListPresenterComponent(mDaggerThreadListPresenterComponent)
-//                .threadListViewModule(ThreadListViewModule())
-//                .build() as DaggerThreadListViewComponent
-
         Glide.get(this).register(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
     }
 
-    fun getDashboardViewComponent() = daggerDashboardViewComponent
-//    override fun getDashboardPresenterComponent() = daggerDashboardPresenterComponent
-//    override fun getThreadListViewComponent() = mDaggerThreadListViewComponent
-//    override fun getThreadListPresenterComponent() = mDaggerThreadListPresenterComponent
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        Log.d("WA", newConfig?.orientation.toString())
+    }
 }

@@ -38,7 +38,8 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
         view.switchSubjectVisibility(!thread.subject.isNullOrBlank() && data.getBoardId() != "b")
 
         //Comment
-        thread.comment?.let { view.setComment(textUtils.getSpannedFromHtml(it)) }
+        Log.d("TLAVI", "just before setting comment")
+       // thread.comment?.let { view.setComment(textUtils.cutComment()) }
 
         //ShortInfo
         view.setThreadShortInfo(textUtils.getShortInfo(thread.postsCount, thread.filesCount))
