@@ -11,24 +11,12 @@ class SharedPreferencesUiDimens @Inject constructor() : ISharedPreferencesUiDime
     override var threadPostItemVerticalWidth: Int = SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_DEFAULT
     override var threadPostItemSingleImageHorizontalWidth: Int = SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_SINGLE_IMAGE_DEFAULT
     override var threadPostItemSingleImageVerticalWidth: Int = SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_SINGLE_IMAGE_DEFAULT
-//
-//    constructor(iw: Int, mih: Int, Mih: Int, hw: Int, vw: Int, sihv: Int, sivw: Int): this() {
-//        this.imageWidth = iw
-//        this.minImageHeight = mih
-//        this.maxImageHeight = Mih
-//        this.threadPostItemHorizontalWidth = hw
-//        this.threadPostItemVerticalWidth = vw
-//        this.threadPostItemSingleImageHorizontalWidth = sihv
-//        this.threadPostItemSingleImageVerticalWidth = sivw
-//    }
 
-    override fun toString(): String {
-        return "imageWidthInDp: $imageWidth, " +
+    override fun toString() = "imageWidthInDp: $imageWidth, " +
                 "minImageHeightInDp: $minImageHeight, " +
                 "maxImageHeightInDp: $maxImageHeight, " +
                 "threadPostItemHorizontalWidth: $threadPostItemHorizontalWidth, " +
                 "threadPostItemVerticalWidth: $threadPostItemVerticalWidth, " +
                 "threadPostItemSingleImageHorizontalWidth: $threadPostItemSingleImageHorizontalWidth, " +
                 "threadPostItemSingleImageVerticalWidth: $threadPostItemSingleImageVerticalWidth"
-    }
 }

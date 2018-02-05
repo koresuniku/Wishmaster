@@ -21,6 +21,7 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                                      sharedPreferencesStorage: ISharedPreferencesStorage,
                                      retrofitHolder: RetrofitHolder,
                                      sharedPreferencesUIDimens: SharedPreferencesUiDimens) {
+        Log.d("SPUID on app create", "$sharedPreferencesUIDimens")
         setDefaultImageWidth(context, sharedPreferencesStorage, sharedPreferencesUIDimens)
         setRetrofitBaseUrl(sharedPreferencesStorage, retrofitHolder)
     }
@@ -34,7 +35,7 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                     if (values.imageWidth == SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_DEFAULT) {
                         val newImageWidth = UiUtils.getDefaultImageWidthInDp(
                                 DeviceUtils.getMaximumDisplayWidthInPx(context), context)
-                        values.imageWidth = newImageWidth
+                        sharedPreferencesUIDimens.imageWidth = newImageWidth
                         if (sharedPreferencesStorage.writeIntSameThread(
                                         SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_KEY, newImageWidth)) {
                             computeThreadPostItemWidth(context, sharedPreferencesStorage, sharedPreferencesUIDimens)
@@ -57,7 +58,8 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                         sharedPreferencesUIDimens.threadPostItemVerticalWidth = values.threadPostItemVerticalWidth
                         sharedPreferencesUIDimens.threadPostItemSingleImageHorizontalWidth = values.threadPostItemSingleImageHorizontalWidth
                         sharedPreferencesUIDimens.threadPostItemSingleImageVerticalWidth = values.threadPostItemSingleImageVerticalWidth
-                        Log.d("SPUID", "${sharedPreferencesUIDimens.hashCode()}")
+                        Log.d("SPUID", "${values}")
+                        Log.d("SPUID", "${sharedPreferencesUIDimens}")
                     }
                 })
 
@@ -83,8 +85,9 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                     params.threadPostItemVerticalWidth = vw
                     params.threadPostItemSingleImageHorizontalWidth = sihw
                     params.threadPostItemSingleImageVerticalWidth = sivw
-                     params
-                }
+
+                    Log.d("SPH", "sihw: $sihw, sivw: $sivw")
+                     params }
                 }))
     }
 
@@ -119,7 +122,8 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                     SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_KEY,
                     SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_DEFAULT)
                     .subscribeOn(Schedulers.io())
-                    .subscribe({ value -> kotlin.run {
+                    .map({ UiUtils.convertDpToPixel(it.toFloat()).toInt() })
+                    .subscribe({ value ->
                         val threadPostItemSingleImageHorizontal = threadPostItemHorizontalWidth - value - sideMargin
                         val threadPostItemSingleImageVertical = threadPostItemVerticalWidth - value - sideMargin
 
@@ -141,8 +145,10 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                         sharedPreferencesUIDimens.threadPostItemSingleImageHorizontalWidth = threadPostItemSingleImageHorizontal
                         sharedPreferencesUIDimens.threadPostItemSingleImageVerticalWidth = threadPostItemSingleImageVertical
 
+                        Log.d("SPH", "spUiD: $sharedPreferencesUIDimens")
+
                         e.onComplete()
-                    }})
+                    })
         }})
     }
 
