@@ -51,6 +51,10 @@ class WishmasterTextUtils @Inject constructor() {
         return SpannableString("")
     }
 
+    fun getComment(rawComment: String, uiDimens: SharedPreferencesUiDimens, isFlowingImage: Boolean) {
+
+    }
+
     fun getShortInfo(postCount: Int, fileCount: Int): String {
         var result = ""
         result += getCorrectRussianEndings(
@@ -74,7 +78,9 @@ class WishmasterTextUtils @Inject constructor() {
             signsCount = count.toString().length
             lastNumber = Integer.parseInt(count.toString().substring(signsCount - 1, signsCount))
         }
-        if (signsCount >= 2 && count.toString().substring(signsCount - 2, signsCount).matches(Regex("1[0-9]"))) {
+        if (signsCount >= 2 && count.toString()
+                        .substring(signsCount - 2, signsCount)
+                        .matches(Regex("1[0-9]"))) {
             return count.toString() + " " + stringForZeroOrMultiple
         }
         if (lastNumber == 1) {

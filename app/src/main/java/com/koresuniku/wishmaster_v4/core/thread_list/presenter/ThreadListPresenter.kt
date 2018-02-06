@@ -52,33 +52,6 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
         threadListAdapterView?.let {
             threadListAdapterViewInteractor.setItemViewData(it, threadItemView, presenterData, position)
         }
-//        presenterData.getThreadList()?.let {
-//            val thread = it[position]
-//            mView?.let {
-//                threadItemView.setSubject(WishmasterTextUtils.getSubjectSpanned(
-//                        thread.subject ?: "", it.getBoardId()),
-//                        thread.files?.isNotEmpty() ?: false)
-//                threadItemView.setComment(WishmasterTextUtils.getSpannedFromHtml(thread.comment ?: ""))
-//                threadItemView.setThreadShortInfo(WishmasterTextUtils.getShortInfo(thread.postsCount, thread.filesCount))
-//                thread.files?.let {
-////                    when (getThreadItemType(position)) {
-////                        SINGLE_IMAGE_CODE ->
-////                            compositeDisposable.add(WishmasterImageUtils
-////                                    .getImageItemData(it[0], ISharedPreferencesStorage, compositeDisposable)
-////                                    .subscribeOn(Schedulers.computation())
-////                                    .observeOn(AndroidSchedulers.mainThread())
-////                                    .subscribe(threadItemView::setSingleImage))
-////                        MULTIPLE_IMAGES_CODE ->
-////                            compositeDisposable.add(WishmasterImageUtils
-////                                    .getImageItemData(it, ISharedPreferencesStorage, compositeDisposable)
-////                                    .subscribeOn(Schedulers.computation())
-////                                    .observeOn(AndroidSchedulers.mainThread())
-////                                    .subscribe(threadItemView::setMultipleImages))
-////                        else -> {}
-////                    }
-//                    }
-//                }
-//            }
     }
 
     override fun getThreadListDataSize() = presenterData.getThreadList().size
