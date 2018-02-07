@@ -10,4 +10,5 @@
     <dimen name="thread_post_side_margin_default">10dp</dimen>
     <dimen name="thread_item_image_comment_no_subject_top_margin">7dp</dimen>
     <dimen name="thread_item_image_comment_is_subject_top_margin">3dp</dimen>
+    <dimen name="thread_post_short_info_text_size">10sp</dimen>
 </resources>

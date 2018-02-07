@@ -6,16 +6,11 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.application.shared_preferences.SharedPreferencesKeystore
-import com.koresuniku.wishmaster_v4.application.shared_preferences.ISharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.application.shared_preferences.SharedPreferencesUiDimens
 import com.koresuniku.wishmaster_v4.core.data.model.threads.File
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import com.koresuniku.wishmaster_v4.ui.util.UiUtils
 import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Function3
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
@@ -57,10 +52,10 @@ class WishmasterImageUtils @Inject constructor(private val textUtils: Wishmaster
         val fileHeight = file.height.toInt()
         val aspectRatio: Float = fileWidth.toFloat() / fileHeight.toFloat()
 
-        val actualWidth = UiUtils.convertDpToPixel(sharedPreferencesUiDimens.imageWidth.toFloat()).toInt()
+        val actualWidth = UiUtils.convertDpToPixel(sharedPreferencesUiDimens.imageWidthDp.toFloat()).toInt()
         var actualHeight = Math.ceil((actualWidth/ aspectRatio).toDouble()).toInt()
-        val min = UiUtils.convertDpToPixel(sharedPreferencesUiDimens.minImageHeight.toFloat()).toInt()
-        val max = UiUtils.convertDpToPixel(sharedPreferencesUiDimens.maxImageHeight.toFloat()).toInt()
+        val min = UiUtils.convertDpToPixel(sharedPreferencesUiDimens.minImageHeightDp.toFloat()).toInt()
+        val max = UiUtils.convertDpToPixel(sharedPreferencesUiDimens.maxImageHeightDp.toFloat()).toInt()
 
         if (min > actualHeight) actualHeight = min
         if (max < actualHeight) actualHeight = max

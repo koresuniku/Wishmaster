@@ -36,4 +36,7 @@ object SharedPreferencesKeystore {
     const val THREAD_POST_ITEM_WIDTH_SINGLE_IMAGE_HORIZONTAL_IN_PX_KEY = "thread_post_item_width_single_image_horizontal_in_px"
     const val THREAD_POST_ITEM_WIDTH_SINGLE_IMAGE_VERTICAL_IN_PX_KEY = "thread_post_item_width_single_image_vertical_in_px"
     const val THREAD_POST_ITEM_WIDTH_SINGLE_IMAGE_DEFAULT = 0
+
+    const val THREAD_POST_ITEM_SHORT_INFO_HEIGHT_IN_PX_KEY = "thread_post_item_short_info_height_in_px"
+    const val THREAD_POST_ITEM_SHORT_INFO_HEIGHT_DEFAULT = 0
 }

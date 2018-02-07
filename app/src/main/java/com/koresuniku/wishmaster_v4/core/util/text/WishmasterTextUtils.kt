@@ -1,13 +1,13 @@
 package com.koresuniku.wishmaster_v4.core.util.text
 
-import android.graphics.Paint
+import android.content.Context
+import android.support.v7.widget.ViewUtils
 import android.text.*
-import android.util.Log
 import android.widget.TextView
+import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.application.shared_preferences.SharedPreferencesUiDimens
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster_v4.core.data.model.threads.File
-import com.koresuniku.wishmaster_v4.ui.util.ViewUtils
 import javax.inject.Inject
 
 /**
@@ -52,6 +52,7 @@ class WishmasterTextUtils @Inject constructor() {
     }
 
     fun getComment(rawComment: String, uiDimens: SharedPreferencesUiDimens, isFlowingImage: Boolean) {
+
 
     }
 

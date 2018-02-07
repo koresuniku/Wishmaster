@@ -89,7 +89,6 @@ object ViewUtils {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe( { gridView.layoutParams.height = finalHeight })
 
-
         Log.d("ViewUtils", "finalHeight: $finalHeight")
         //gridView.post { gridView.layoutParams.height = finalHeight }
 
