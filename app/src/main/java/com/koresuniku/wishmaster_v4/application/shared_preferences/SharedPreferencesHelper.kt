@@ -1,6 +1,7 @@
 package com.koresuniku.wishmaster_v4.application.shared_preferences
 
 import android.content.Context
+import android.util.Log
 import android.widget.TextView
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.core.network.client.RetrofitHolder
@@ -108,6 +109,7 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     val height = computeShortInfoHeight(context)
+                    Log.d("SPH", "height $height")
                     sharedPreferencesStorage.writeIntBackground(
                             SharedPreferencesKeystore.THREAD_POST_ITEM_SHORT_INFO_HEIGHT_IN_PX_KEY,
                             height)
