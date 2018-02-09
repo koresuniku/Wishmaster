@@ -10,4 +10,5 @@ interface ISharedPreferencesUiDimens {
     var threadPostItemSingleImageHorizontalWidth: Int
     var threadPostItemSingleImageVerticalWidth: Int
     var threadPostItemShortInfoHeight: Int
+    var commentMaxLines: Int
 }

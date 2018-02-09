@@ -27,6 +27,7 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
         setDefaultImageWidth(context, sharedPreferencesStorage, sharedPreferencesUIDimens)
         setRetrofitBaseUrl(sharedPreferencesStorage, retrofitHolder)
         setShortInfoHeight(context, sharedPreferencesStorage, sharedPreferencesUIDimens)
+        setMaxLines(sharedPreferencesStorage, sharedPreferencesUIDimens)
     }
 
     private fun setDefaultImageWidth(context: Context,
@@ -116,6 +117,17 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                             height)
                     sharedPreferencesUIDimens.threadPostItemShortInfoHeight = height
                 }, { it.printStackTrace() })
+    }
+
+    private fun setMaxLines(sharedPreferencesStorage: ISharedPreferencesStorage,
+                            sharedPreferencesUIDimens: SharedPreferencesUiDimens) {
+        sharedPreferencesStorage.readInt(
+                SharedPreferencesKeystore.COMMENT_MAX_MAX_LINES_KEY,
+                SharedPreferencesKeystore.COMMENT_MAX_MAX_LINES_DEFAULT)
+                .subscribeOn(Schedulers.io())
+                .subscribe(
+                        { sharedPreferencesUIDimens.threadPostItemShortInfoHeight = it },
+                        { it.printStackTrace() })
     }
 
     private fun computeShortInfoHeight(context: Context): Int {

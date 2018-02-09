@@ -2,6 +2,7 @@ package com.koresuniku.wishmaster_v4.core.thread_list.interactor
 
 import android.text.Html
 import android.util.Log
+import com.koresuniku.wishmaster_v4.application.shared_preferences.SharedPreferencesUiDimens
 import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxAdapterViewInteractor
 import com.koresuniku.wishmaster_v4.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
@@ -18,6 +19,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by koresuniku on 02.02.18.
  */
 class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
+                                      private val sharedPreferencesUiDimens: SharedPreferencesUiDimens,
                                       private val retrofitHolder: RetrofitHolder,
                                       private val imageUtils: WishmasterImageUtils,
                                       private val textUtils: WishmasterTextUtils):
@@ -39,7 +41,10 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
 
         //Comment
         Log.d("TLAVI", "just before setting comment")
-       // thread.comment?.let { view.setComment(textUtils.cutComment()) }
+        thread.comment?.let {
+            if (thread.files == null || thread.files?.size != 1)
+                view.setComment(textUtils.getCommentDefault(it, sharedPreferencesUiDimens))
+        }
 
         //ShortInfo
         view.setThreadShortInfo(textUtils.getShortInfo(thread.postsCount, thread.filesCount))
@@ -52,8 +57,10 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                             .subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
-                                    { view.setSingleImage(it, retrofitHolder.getBaseUrl(), imageUtils) },
-                                    { it.printStackTrace() }))
+                                    { view.setSingleImage(it, retrofitHolder.getBaseUrl(), imageUtils)
+                                      view.setComment(textUtils.getCommentForSingleImageItem(
+                                              thread.comment?:String(), sharedPreferencesUiDimens))
+                                    }, { it.printStackTrace() }))
                 }
                 adapterView.MULTIPLE_IMAGES_CODE -> {
                     compositeDisposable.add(imageUtils.getImageItemData(it)

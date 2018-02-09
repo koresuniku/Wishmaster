@@ -12,6 +12,7 @@ class SharedPreferencesUiDimens @Inject constructor() : ISharedPreferencesUiDime
     override var threadPostItemSingleImageHorizontalWidth: Int = SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_SINGLE_IMAGE_DEFAULT
     override var threadPostItemSingleImageVerticalWidth: Int = SharedPreferencesKeystore.THREAD_POST_ITEM_WIDTH_SINGLE_IMAGE_DEFAULT
     override var threadPostItemShortInfoHeight: Int = SharedPreferencesKeystore.THREAD_POST_ITEM_SHORT_INFO_HEIGHT_DEFAULT
+    override var commentMaxLines: Int = SharedPreferencesKeystore.COMMENT_MAX_MAX_LINES_DEFAULT
 
     override fun toString() = "imageWidthInDp: $imageWidthDp, " +
             "minImageHeightInDp: $minImageHeightDp, " +
@@ -19,6 +20,7 @@ class SharedPreferencesUiDimens @Inject constructor() : ISharedPreferencesUiDime
             "threadPostItemHorizontalWidth: $threadPostItemHorizontalWidth, " +
             "threadPostItemVerticalWidth: $threadPostItemVerticalWidth, " +
             "threadPostItemSingleImageHorizontalWidth: $threadPostItemSingleImageHorizontalWidth, " +
-            "threadPostItemSingleImageVerticalWidth: $threadPostItemSingleImageVerticalWidth" +
-            "threadPostItemShortInfoHeight: $threadPostItemShortInfoHeight"
+            "threadPostItemSingleImageVerticalWidth: $threadPostItemSingleImageVerticalWidth, " +
+            "threadPostItemShortInfoHeight: $threadPostItemShortInfoHeight, " +
+            "commentMaxLines: $commentMaxLines"
 }

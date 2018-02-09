@@ -66,8 +66,6 @@ class ThreadItemViewHolder(itemView: View) :
                else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
 
         mImageSummary.text = imageItemData.summary
-        ViewUtils.measureView(mImageSummary)
-        Log.d(LOG_TAG, "summary single image: ${mImageSummary.measuredHeight}")
         imageUtils.loadImageThumbnail(imageItemData, image, url)
     }
 

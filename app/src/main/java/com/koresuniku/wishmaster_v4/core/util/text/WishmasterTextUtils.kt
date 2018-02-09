@@ -51,8 +51,12 @@ class WishmasterTextUtils @Inject constructor() {
         return SpannableString("")
     }
 
-    fun getComment(rawComment: String, uiDimens: SharedPreferencesUiDimens, isFlowingImage: Boolean) {
+    fun getCommentForSingleImageItem(rawComment: String, uiDimens: SharedPreferencesUiDimens):Spannable {
 
+
+    }
+
+    fun getCommentDefault(rawComment: String, uiDimens: SharedPreferencesUiDimens): Spannable {
 
     }
 

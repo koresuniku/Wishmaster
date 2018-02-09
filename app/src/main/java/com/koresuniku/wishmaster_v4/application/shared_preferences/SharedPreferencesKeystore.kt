@@ -39,4 +39,7 @@ object SharedPreferencesKeystore {
 
     const val THREAD_POST_ITEM_SHORT_INFO_HEIGHT_IN_PX_KEY = "thread_post_item_short_info_height_in_px"
     const val THREAD_POST_ITEM_SHORT_INFO_HEIGHT_DEFAULT = 0
+
+    const val COMMENT_MAX_MAX_LINES_KEY = "comment_max_lines"
+    const val COMMENT_MAX_MAX_LINES_DEFAULT = 6
 }
