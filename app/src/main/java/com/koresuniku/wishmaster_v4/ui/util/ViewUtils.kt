@@ -69,7 +69,7 @@ object ViewUtils {
         var finalHeight = 0
         val columnCount = getGridViewColumnNumber(gridView, columnWidth)
         val verticalSpacing = gridView.verticalSpacing
-        Log.d("ViewUtils", "gridView.numColumns: $columnCount")
+        //Log.d("ViewUtils", "gridView.numColumns: $columnCount")
 
         val calculation = Completable.create { e -> kotlin.run {
             imageItemDataList.forEachIndexed({ position, data ->
@@ -89,7 +89,7 @@ object ViewUtils {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe( { gridView.layoutParams.height = finalHeight })
 
-        Log.d("ViewUtils", "finalHeight: $finalHeight")
+        //Log.d("ViewUtils", "finalHeight: $finalHeight")
         //gridView.post { gridView.layoutParams.height = finalHeight }
 
     }

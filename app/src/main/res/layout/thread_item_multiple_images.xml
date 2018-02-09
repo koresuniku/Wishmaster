@@ -94,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/image_grid"
-            android:maxLines="6"
+            android:maxLines="15"
             android:text="@string/le_batya"
             android:textColor="@color/colorText"/>
 
