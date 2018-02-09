@@ -52,5 +52,7 @@ abstract class BaseDashboardPresenter(compositeDisposable: CompositeDisposable,
         databaseInteractor.unbindPresenter()
         searchInteractor.unbindPresenter()
         sharedPreferencesInteractor.unbindPresenter()
+        unbindDashboardBoardListView()
+        unbindFavouriteBoardsView()
     }
 }

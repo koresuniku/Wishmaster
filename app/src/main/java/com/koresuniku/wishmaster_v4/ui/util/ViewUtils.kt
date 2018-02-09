@@ -1,6 +1,7 @@
 package com.koresuniku.wishmaster_v4.ui.util
 
 import android.content.Context
+import android.os.Build
 import android.support.design.widget.TabLayout
 import android.util.Log
 import android.view.View
@@ -68,7 +69,12 @@ object ViewUtils {
         var lastRowHeight = 0
         var finalHeight = 0
         val columnCount = getGridViewColumnNumber(gridView, columnWidth)
-        val verticalSpacing = gridView.verticalSpacing
+        val verticalSpacing = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            gridView.verticalSpacing
+        } else {
+            0
+
+        }
         //Log.d("ViewUtils", "gridView.numColumns: $columnCount")
 
         val calculation = Completable.create { e -> kotlin.run {
@@ -95,7 +101,11 @@ object ViewUtils {
     }
 
     private fun getGridViewColumnNumber(gridView: GridView, columnWidth: Int): Int {
-        return DeviceUtils.getDisplayWidth(gridView.context) / (columnWidth + gridView.horizontalSpacing)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            DeviceUtils.getDisplayWidth(gridView.context) / (columnWidth + gridView.horizontalSpacing)
+        } else {
+            DeviceUtils.getDisplayWidth(gridView.context) / (columnWidth)
+        }
     }
 
 }

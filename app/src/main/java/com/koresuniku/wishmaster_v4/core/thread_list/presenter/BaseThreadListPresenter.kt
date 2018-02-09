@@ -28,6 +28,7 @@ abstract class BaseThreadListPresenter(compositeDisposable: CompositeDisposable,
         super.unbindView()
         threadListNetworkInteractor.unbindPresenter()
         threadListAdapterViewInteractor.unbindPresenter()
+        unbindThreadListAdapterView()
     }
 
     override fun bindThreadListAdapterView(threadListAdapterView: ThreadListAdapterView<IThreadListPresenter>) {

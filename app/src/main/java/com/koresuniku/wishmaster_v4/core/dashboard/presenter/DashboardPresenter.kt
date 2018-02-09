@@ -60,7 +60,9 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
     }
 
     private fun loadFromNetwork(e: SingleEmitter<BoardListData>) {
-        mView?.showLoading()
+        compositeDisposable.add(Completable.fromCallable {  }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ mView?.showLoading() }))
         compositeDisposable.add(networkInteractor.getDataFromNetwork()
                 .subscribe({
                     databaseInteractor.insertAllBoardsIntoDatabase(it).subscribe()

@@ -39,24 +39,14 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
         view.switchSubjectVisibility(!thread.subject.isNullOrBlank() && data.getBoardId() != "b")
 
         //Comment
-        //Log.d("TLAVI", "just before setting comment")
         thread.comment?.let {
-            if (thread.files == null)
+            if (thread.files == null || thread.files?.size != 1)
                 compositeDisposable.add(textUtils.getCommentDefault(it, uiParams)
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ view.setComment(it) }, { it.printStackTrace() }))
-            else {
-                val comment = it
-                thread.files?.let {
-                    if (it.size != 1) compositeDisposable.add(textUtils.getCommentDefault(comment, uiParams)
-                            .subscribeOn(Schedulers.computation())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({ view.setComment(it) }, { it.printStackTrace() }))
-                }
-            }
         }
-        if (thread.comment == null) Log.d("TLAVI", "THREAD COMMENT NULL")
+        Log.d("TLAVI", "uiDimenswidths: ${uiParams.threadPostItemVerticalWidth}, ${uiParams.threadPostItemHorizontalWidth}")
 
         //ShortInfo
         view.setThreadShortInfo(textUtils.getShortInfo(thread.postsCount, thread.filesCount))

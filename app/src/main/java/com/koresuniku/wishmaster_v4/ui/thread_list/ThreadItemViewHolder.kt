@@ -49,15 +49,18 @@ class ThreadItemViewHolder(itemView: View) :
     }
 
     override fun setSubject(subject: Spanned) { mSubject.text = subject }
-    override fun setComment(comment: Spanned) { mComment.post { mComment.text = comment } }
+    override fun setComment(comment: Spanned) {
+        mComment.post {
+            mComment.text = comment
+            ViewUtils.measureView(mComment)
+            Log.d("TIVH", "actual comment width: ${mComment.measuredWidth}")
+        }
+    }
     override fun setThreadShortInfo(info: String) { mResume.text = info }
 
     override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {
         val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)
         val image = imageLayout.findViewById<ImageView>(R.id.image)
-//        val imageCommentContainer = itemView.findViewById<ViewGroup>(R.id.image_comment_container)
-//        val imageSummary = itemView.findViewById<TextView>(R.id.summary)
-
 
         (mImageCommentContainer.layoutParams as RelativeLayout.LayoutParams).topMargin =
                if (mIsSubjectVisible) itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
@@ -74,7 +77,7 @@ class ThreadItemViewHolder(itemView: View) :
 
         mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
         mImageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, url, imageUtils)
-//
+
         val summaryTextView = mImageGrid.adapter.getView(0, null, mImageGrid).findViewById<TextView>(R.id.summary)
         ViewUtils.measureView(summaryTextView)
         ViewUtils.setGridViewHeight(mImageGrid, imageItemDataList,
