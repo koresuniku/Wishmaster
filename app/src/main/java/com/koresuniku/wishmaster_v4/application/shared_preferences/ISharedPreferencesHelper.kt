@@ -8,5 +8,5 @@ interface ISharedPreferencesHelper {
     fun onApplicationCreate(context: Context,
                             sharedPreferencesStorage: ISharedPreferencesStorage,
                             retrofitHolder: RetrofitHolder,
-                            sharedPreferencesUIDimens: SharedPreferencesUiDimens)
+                            UIParams: UiParams)
 }

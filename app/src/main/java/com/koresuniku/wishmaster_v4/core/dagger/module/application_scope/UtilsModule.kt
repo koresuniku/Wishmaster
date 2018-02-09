@@ -1,11 +1,10 @@
 package com.koresuniku.wishmaster_v4.core.dagger.module.application_scope
 
-import com.koresuniku.wishmaster_v4.application.shared_preferences.SharedPreferencesUiDimens
+import com.koresuniku.wishmaster_v4.application.shared_preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 /**
@@ -21,8 +20,8 @@ class UtilsModule {
 
     @Provides
     @Singleton
-    fun provideImageUtils(textUtils: WishmasterTextUtils, sharedPreferencesUiDimens: SharedPreferencesUiDimens):
+    fun provideImageUtils(textUtils: WishmasterTextUtils, uiParams: UiParams):
             WishmasterImageUtils {
-        return WishmasterImageUtils(textUtils, sharedPreferencesUiDimens)
+        return WishmasterImageUtils(textUtils, uiParams)
     }
 }

@@ -1,8 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.thread_list.interactor
 
-import android.text.Html
 import android.util.Log
-import com.koresuniku.wishmaster_v4.application.shared_preferences.SharedPreferencesUiDimens
+import com.koresuniku.wishmaster_v4.application.shared_preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxAdapterViewInteractor
 import com.koresuniku.wishmaster_v4.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
@@ -19,7 +18,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by koresuniku on 02.02.18.
  */
 class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
-                                      private val sharedPreferencesUiDimens: SharedPreferencesUiDimens,
+                                      private val uiParams: UiParams,
                                       private val retrofitHolder: RetrofitHolder,
                                       private val imageUtils: WishmasterImageUtils,
                                       private val textUtils: WishmasterTextUtils):
@@ -40,11 +39,24 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
         view.switchSubjectVisibility(!thread.subject.isNullOrBlank() && data.getBoardId() != "b")
 
         //Comment
-        Log.d("TLAVI", "just before setting comment")
+        //Log.d("TLAVI", "just before setting comment")
         thread.comment?.let {
-            if (thread.files == null || thread.files?.size != 1)
-                view.setComment(textUtils.getCommentDefault(it, sharedPreferencesUiDimens))
+            if (thread.files == null)
+                compositeDisposable.add(textUtils.getCommentDefault(it, uiParams)
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ view.setComment(it) }, { it.printStackTrace() }))
+            else {
+                val comment = it
+                thread.files?.let {
+                    if (it.size != 1) compositeDisposable.add(textUtils.getCommentDefault(comment, uiParams)
+                            .subscribeOn(Schedulers.computation())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({ view.setComment(it) }, { it.printStackTrace() }))
+                }
+            }
         }
+        if (thread.comment == null) Log.d("TLAVI", "THREAD COMMENT NULL")
 
         //ShortInfo
         view.setThreadShortInfo(textUtils.getShortInfo(thread.postsCount, thread.filesCount))
@@ -58,8 +70,11 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
                                     { view.setSingleImage(it, retrofitHolder.getBaseUrl(), imageUtils)
-                                      view.setComment(textUtils.getCommentForSingleImageItem(
-                                              thread.comment?:String(), sharedPreferencesUiDimens))
+                                      compositeDisposable.add(textUtils.getCommentForSingleImageItemTemp(
+                                              thread.comment?:String(), uiParams, it)
+                                              .subscribeOn(Schedulers.computation())
+                                              .observeOn(AndroidSchedulers.mainThread())
+                                              .subscribe({ view.setComment(it) }, { it.printStackTrace() }))
                                     }, { it.printStackTrace() }))
                 }
                 adapterView.MULTIPLE_IMAGES_CODE -> {

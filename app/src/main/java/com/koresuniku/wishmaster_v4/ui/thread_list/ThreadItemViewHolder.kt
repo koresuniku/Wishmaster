@@ -43,15 +43,13 @@ class ThreadItemViewHolder(itemView: View) :
 
     init { ButterKnife.bind(this, itemView) }
 
-
-
     override fun switchSubjectVisibility(visible: Boolean) {
         mSubject.visibility = if (visible) View.VISIBLE else View.GONE
         mIsSubjectVisible = visible
     }
 
     override fun setSubject(subject: Spanned) { mSubject.text = subject }
-    override fun setComment(comment: Spanned) { mComment.text = comment }
+    override fun setComment(comment: Spanned) { mComment.post { mComment.text = comment } }
     override fun setThreadShortInfo(info: String) { mResume.text = info }
 
     override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {

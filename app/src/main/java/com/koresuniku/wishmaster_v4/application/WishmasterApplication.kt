@@ -78,7 +78,7 @@ class WishmasterApplication : Application(), IWishmasterDaggerInjector {
 
     @Inject lateinit var okHttpClient: OkHttpClient
     @Inject lateinit var sharedPreferencesStorage: ISharedPreferencesStorage
-    @Inject lateinit var sharedPreferencesUiDimens: SharedPreferencesUiDimens
+    @Inject lateinit var uiParams: UiParams
     @Inject lateinit var sharedPreferencesHelper: ISharedPreferencesHelper
     @Inject lateinit var retrofitHolder: RetrofitHolder
 
@@ -89,14 +89,15 @@ class WishmasterApplication : Application(), IWishmasterDaggerInjector {
 
         mDaggerApplicationComponent.inject(this)
 
+        uiParams.orientation = resources.configuration.orientation
         sharedPreferencesHelper.onApplicationCreate(
-                this, sharedPreferencesStorage, retrofitHolder, sharedPreferencesUiDimens)
+                this, sharedPreferencesStorage, retrofitHolder, uiParams)
 
         Glide.get(this).register(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
-        Log.d("WA", newConfig?.orientation.toString())
+        newConfig?.let { uiParams.orientation = it.orientation }
     }
 }

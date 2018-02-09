@@ -54,7 +54,7 @@
                 android:layout_below="@+id/subject"
                 android:maxLines="6"
                 android:text="@string/le_batya"
-                android:textColor="@color/colorText" />
+                android:textColor="@color/colorText"/>
         </FrameLayout>
 
         <TextView

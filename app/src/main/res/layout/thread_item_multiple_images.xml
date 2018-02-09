@@ -96,7 +96,7 @@
             android:layout_below="@+id/image_grid"
             android:maxLines="6"
             android:text="@string/le_batya"
-            android:textColor="@color/colorText" />
+            android:textColor="@color/colorText"/>
 
         <TextView
             android:id="@+id/resume"

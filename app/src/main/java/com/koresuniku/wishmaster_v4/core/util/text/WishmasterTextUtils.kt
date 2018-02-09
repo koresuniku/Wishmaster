@@ -1,13 +1,15 @@
 package com.koresuniku.wishmaster_v4.core.util.text
 
-import android.content.Context
-import android.support.v7.widget.ViewUtils
+import android.content.res.Configuration
 import android.text.*
-import android.widget.TextView
-import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.application.shared_preferences.SharedPreferencesUiDimens
+import android.text.style.LeadingMarginSpan
+import android.util.Log
+import com.koresuniku.wishmaster_v4.application.shared_preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster_v4.core.data.model.threads.File
+import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
+import com.koresuniku.wishmaster_v4.ui.util.UiUtils
+import io.reactivex.Single
 import javax.inject.Inject
 
 /**
@@ -40,24 +42,89 @@ class WishmasterTextUtils @Inject constructor() {
         return getSpannedFromHtml(if (boardId == "b") "" else subject)
     }
 
-    fun cutComment(comment: String, uiDimens: SharedPreferencesUiDimens, isFlowingImage: Boolean): Spannable {
-//
-//        val staticLayout = StaticLayout(comment, textView.paint, if (isFlowingImage) uiDimens.,
-//                Layout.Alignment.ALIGN_NORMAL, 1.0f, 0f, false)
-//        Log.d("WTU", "static layout lines: ${staticLayout.lineCount}")
-//
-//        return SpannableString(comment.subSequence(
-//                0, if (staticLayout.lineCount > 6) staticLayout.getLineEnd(5) else comment.length))
-        return SpannableString("")
+    fun getCommentForSingleImageItem(rawComment: String,
+                                     uiParams: UiParams,
+                                     imageItemData: ImageItemData): Single<Spannable> {
+        return Single.create({
+            val comment = Html.fromHtml(rawComment)
+            Log.d("WTU", "comment: ${comment.subSequence(0, 10)}")
+            val layout = StaticLayout(comment, TextPaint(),
+                    if (uiParams.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                        uiParams.threadPostItemSingleImageHorizontalWidth
+                    else uiParams.threadPostItemSingleImageVerticalWidth,
+                    Layout.Alignment.ALIGN_NORMAL,
+                    1.0f, 0f, false)
+            val lineHeight = layout.height / layout.lineCount
+            val linesToSpan =
+                    (imageItemData.dimensions.heightInPx + uiParams.threadPostItemShortInfoHeight) /
+                    UiUtils.convertDpToPixel(lineHeight.toFloat()).toInt()
+//            Log.d("WTU", "imageLayoutHeight: ${imageItemData.dimensions.heightInPx + uiParams.threadPostItemShortInfoHeight}," +
+//                    "shortInfoHeight: ${uiParams.threadPostItemShortInfoHeight}" +
+//                    " lineHeight: $lineHeight, linesToSpan: $linesToSpan")
+            val endIndex = try { layout.getLineEnd(uiParams.commentMaxLines - 1) }
+            catch (e: ArrayIndexOutOfBoundsException) { comment.length }
+
+            val cutComment = comment.substring(0, endIndex)
+            val endMarginIndex =
+                    try { layout.getLineEnd(linesToSpan - 1) }
+                    catch (e: ArrayIndexOutOfBoundsException) { cutComment.length }
+//            val cutCommentCopy = cutComment
+//            cutComment = cutComment.substring(0, endMarginIndex)
+//            cutComment += "\n"
+//            cutComment += cutCommentCopy.substring(endMarginIndex, cutCommentCopy.length)
+            val commentSpannable = SpannableString(cutComment)
+            commentSpannable.setSpan(
+                    LeadingMarginSpan.Standard(uiParams.commentMarginWidth),
+                    0, endMarginIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            it.onSuccess(commentSpannable)
+        })
     }
 
-    fun getCommentForSingleImageItem(rawComment: String, uiDimens: SharedPreferencesUiDimens):Spannable {
+    fun getCommentForSingleImageItemTemp(rawComment: String,
+                                     uiParams: UiParams,
+                                     imageItemData: ImageItemData): Single<Spannable> {
+        return Single.create({
+            val comment = SpannableString(Html.fromHtml(rawComment))
+            val layout = StaticLayout(comment, TextPaint(),
+                    if (uiParams.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                        uiParams.threadPostItemSingleImageHorizontalWidth
+                    else uiParams.threadPostItemSingleImageVerticalWidth,
+                    Layout.Alignment.ALIGN_NORMAL,
+                    1.0f, 0f, false)
+            val endIndex = try {
+                if (layout.lineCount < uiParams.commentMaxLines) comment.length
+                else layout.getLineEnd(uiParams.commentMaxLines - 1)
+            } catch (e: ArrayIndexOutOfBoundsException) { comment.length }
+
+            val cutComment = SpannableString(comment.subSequence(0, endIndex))
+
+            val commentSpannable = SpannableString(cutComment)
+            commentSpannable.setSpan(
+                    LeadingMarginSpan.Standard(uiParams.commentMarginWidth),
+                    0, cutComment.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
 
+            it.onSuccess(commentSpannable)
+        })
     }
 
-    fun getCommentDefault(rawComment: String, uiDimens: SharedPreferencesUiDimens): Spannable {
-
+    fun getCommentDefault(rawComment: String, uiParams: UiParams): Single<Spannable> {
+        return Single.create({
+            val comment = SpannableString(Html.fromHtml(rawComment))
+            val layout = StaticLayout(comment, TextPaint(),
+                if (uiParams.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                    uiParams.threadPostItemHorizontalWidth
+                else uiParams.threadPostItemVerticalWidth,
+                Layout.Alignment.ALIGN_NORMAL,
+                1.0f, 0f, false)
+        try {
+            val endIndex = if (layout.lineCount < uiParams.commentMaxLines) comment.length
+            else layout.getLineEnd(uiParams.commentMaxLines - 1)
+            it.onSuccess(SpannableString(comment.subSequence(0, endIndex)))
+        } catch (e: ArrayIndexOutOfBoundsException) {
+            it.onSuccess(comment)
+        }})
     }
 
     fun getShortInfo(postCount: Int, fileCount: Int): String {

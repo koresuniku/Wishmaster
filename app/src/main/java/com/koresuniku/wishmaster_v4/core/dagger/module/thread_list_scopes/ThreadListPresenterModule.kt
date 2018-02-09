@@ -1,6 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scopes
 
-import com.koresuniku.wishmaster_v4.application.shared_preferences.SharedPreferencesUiDimens
+import com.koresuniku.wishmaster_v4.application.shared_preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.dagger.scope.ForThreadListPresenter
 import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
 import com.koresuniku.wishmaster_v4.core.network.client.RetrofitHolder
@@ -28,12 +28,12 @@ class ThreadListPresenterModule {
     @Provides
     @ForThreadListPresenter
     fun provideThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
-                                               sharedPreferencesUiDimens: SharedPreferencesUiDimens,
+                                               uiParams: UiParams,
                                                retrofitHolder: RetrofitHolder,
                                                imageUtils: WishmasterImageUtils,
                                                textUtils: WishmasterTextUtils):
             ThreadListAdapterViewInteractor {
         return ThreadListAdapterViewInteractor(
-                compositeDisposable, sharedPreferencesUiDimens, retrofitHolder, imageUtils, textUtils)
+                compositeDisposable, uiParams, retrofitHolder, imageUtils, textUtils)
     }
 }
