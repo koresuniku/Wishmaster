@@ -2,6 +2,7 @@ package com.koresuniku.wishmaster_v4.application.shared_preferences
 
 import android.content.Context
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.TextView
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.core.network.client.RetrofitHolder
@@ -118,10 +119,12 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
     }
 
     private fun computeShortInfoHeight(context: Context): Int {
-        val testTextView = TextView(context)
-        testTextView.setLines(2)
-        ViewUtils.measureView(testTextView)
-        return testTextView.measuredHeight
+        val testImageLayout = LayoutInflater
+                .from(context)
+                .inflate(R.layout.image_layout, null, false)
+        val testShortInfoTextView = testImageLayout.findViewById<TextView>(R.id.summary)
+        ViewUtils.measureView(testShortInfoTextView)
+        return testShortInfoTextView.measuredHeight
     }
 
     private fun computeThreadPostItemWidth(context: Context,

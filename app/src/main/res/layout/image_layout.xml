@@ -19,6 +19,7 @@
         android:layout_below="@+id/image"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        android:lines="2"
         android:text="1488*228\n666kb, JPG"
-        android:textSize="10sp" />
+        android:textSize="10sp"/>
 </RelativeLayout>

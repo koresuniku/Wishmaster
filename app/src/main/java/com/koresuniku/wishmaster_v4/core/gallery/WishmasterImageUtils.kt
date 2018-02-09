@@ -63,60 +63,13 @@ class WishmasterImageUtils @Inject constructor(private val textUtils: Wishmaster
         return ImageLayoutDimensions(actualWidth, actualHeight)
     }
 
-//    private fun getImageConfigurationFromSharedPreferences(ISharedPreferencesStorage: ISharedPreferencesStorage,
-//                                                           compositeDisposable: CompositeDisposable) : Single<ImageSharedPreferencesConfiguration> {
-//        return Single.zip(
-//                getDefaultImageWidthInDpSingle(ISharedPreferencesStorage, compositeDisposable).observeOn(Schedulers.computation()),
-//                getMinimumImageHeightInDpSingle(ISharedPreferencesStorage, compositeDisposable).observeOn(Schedulers.computation()),
-//                getMaximumImageHeightInDpSingle(ISharedPreferencesStorage, compositeDisposable).observeOn(Schedulers.computation()),
-//                Function3({ width, min, max -> ImageSharedPreferencesConfiguration(
-//                        UiUtils.convertDpToPixel(width.toFloat()).toInt(),
-//                        UiUtils.convertDpToPixel(min.toFloat()).toInt(),
-//                        UiUtils.convertDpToPixel(max.toFloat()).toInt())
-//                }))
-//    }
-//
-//    private fun getDefaultImageWidthInDpSingle(ISharedPreferencesStorage: ISharedPreferencesStorage,
-//                                               compositeDisposable: CompositeDisposable): Single<Int> {
-//        return Single.create({ e ->
-//            compositeDisposable.add(ISharedPreferencesStorage.readInt(
-//                    SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_KEY,
-//                    SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_DEFAULT)
-//                    .observeOn(Schedulers.io()).subscribe(e::onSuccess))
-//        })
-//    }
-//
-//    private fun getMinimumImageHeightInDpSingle(ISharedPreferencesStorage: ISharedPreferencesStorage,
-//                                                compositeDisposable: CompositeDisposable): Single<Int> {
-//        return Single.create({ e ->
-//            compositeDisposable.add(ISharedPreferencesStorage.readInt(
-//                    SharedPreferencesKeystore.MINIMUM_IMAGE_HEIGHT_IN_DP_KEY,
-//                    SharedPreferencesKeystore.MINIMUM_IMAGE_HEIGHT_IN_DP_DEFAULT)
-//                    .observeOn(Schedulers.io()).subscribe(e::onSuccess))
-//        })
-//    }
-//
-//    private fun getMaximumImageHeightInDpSingle(ISharedPreferencesStorage: ISharedPreferencesStorage,
-//                                                compositeDisposable: CompositeDisposable): Single<Int> {
-//        return Single.create({ e ->
-//            compositeDisposable.add(ISharedPreferencesStorage.readInt(
-//                    SharedPreferencesKeystore.MAXIMUM_IMAGE_HEIGHT_IN_DP_KEY,
-//                    SharedPreferencesKeystore.MAXIMUM_IMAGE_HEIGHT_IN_DP_DEFAULT)
-//                    .observeOn(Schedulers.io()).subscribe(e::onSuccess))
-//        })
-//    }
-//
-//    private data class ImageSharedPreferencesConfiguration(val width: Int, val min: Int, val max: Int)
-
     fun loadImageThumbnail(imageItemData: ImageItemData, image: ImageView, baseUrl: String) {
-
         Log.d("WIU", "imageItgemData: ${imageItemData.dimensions.widthInPx}")
         image.layoutParams.width = imageItemData.dimensions.widthInPx
         image.layoutParams.height = imageItemData.dimensions.heightInPx
         image.setImageBitmap(null)
         image.animation?.cancel()
         image.setBackgroundColor(image.context.resources.getColor(R.color.colorBackgroundDark))
-
 
         Glide.with(image.context)
                 .load(Uri.parse(baseUrl + imageItemData.file.thumbnail))

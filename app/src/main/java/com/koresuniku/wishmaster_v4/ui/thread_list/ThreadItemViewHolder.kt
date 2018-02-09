@@ -3,6 +3,7 @@ package com.koresuniku.wishmaster_v4.ui.thread_list
 import android.support.annotation.Nullable
 import android.support.v7.widget.RecyclerView
 import android.text.Spanned
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
@@ -16,6 +17,7 @@ import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
 import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadItemView
 import com.koresuniku.wishmaster_v4.ui.preview.PreviewImageGridAdapter
+import com.koresuniku.wishmaster_v4.ui.util.UiUtils
 import com.koresuniku.wishmaster_v4.ui.util.ViewUtils
 
 /**
@@ -64,6 +66,8 @@ class ThreadItemViewHolder(itemView: View) :
                else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
 
         mImageSummary.text = imageItemData.summary
+        ViewUtils.measureView(mImageSummary)
+        Log.d(LOG_TAG, "summary single image: ${mImageSummary.measuredHeight}")
         imageUtils.loadImageThumbnail(imageItemData, image, url)
     }
 
