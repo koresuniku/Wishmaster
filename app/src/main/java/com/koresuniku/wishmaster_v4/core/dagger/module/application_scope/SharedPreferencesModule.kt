@@ -15,7 +15,7 @@ class SharedPreferencesModule {
 
     @Provides
     @Singleton
-    fun provideSharedPreferencesStorage(context: Context): ISharedPreferencesStorage {
+    fun provideSharedPreferencesStorage(context: Context): SharedPreferencesStorage {
         return SharedPreferencesStorage(context)
     }
 
@@ -25,5 +25,5 @@ class SharedPreferencesModule {
 
     @Provides
     @Singleton
-    fun provideSharedPreferencesHelper(): ISharedPreferencesHelper = SharedPreferencesHelper()
+    fun provideSharedPreferencesHelper(): SharedPreferencesHelper = SharedPreferencesHelper()
 }

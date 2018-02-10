@@ -1,8 +1,7 @@
-package com.koresuniku.wishmaster_v4.ui.util
+package com.koresuniku.wishmaster_v4.ui.utils
 
 import android.app.Activity
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Point
 import android.os.Build
 import android.util.DisplayMetrics
@@ -15,7 +14,7 @@ import android.view.WindowManager
  * Created by koresuniku on 03.10.17.
  */
 
-object DeviceUtils {
+class DeviceUtils {
 
     fun deviceHasNavigationBar(context: Context): Boolean {
         val hasMenuKey = ViewConfiguration.get(context).hasPermanentMenuKey()

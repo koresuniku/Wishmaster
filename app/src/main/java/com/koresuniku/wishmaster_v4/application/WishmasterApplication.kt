@@ -22,6 +22,9 @@ import com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scopes.Thread
 import com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scopes.ThreadListViewModule
 import com.koresuniku.wishmaster_v4.core.network.Dvach
 import com.koresuniku.wishmaster_v4.core.network.client.RetrofitHolder
+import com.koresuniku.wishmaster_v4.ui.utils.DeviceUtils
+import com.koresuniku.wishmaster_v4.ui.utils.UiUtils
+import com.koresuniku.wishmaster_v4.ui.utils.ViewUtils
 import com.squareup.leakcanary.LeakCanary
 import okhttp3.OkHttpClient
 import java.io.InputStream
@@ -44,7 +47,7 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
         DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))
                 .injectorModule(InjectorModule(this))
-                .networkModule(NetworkModule(Dvach.BASE_URL))
+                .networkModule(NetworkModule())
                 .sharedPreferencesModule(SharedPreferencesModule())
                 .build() as DaggerApplicationComponent
     }
@@ -78,11 +81,14 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
     }
 
     @Inject lateinit var okHttpClient: OkHttpClient
-    @Inject lateinit var sharedPreferencesStorage: ISharedPreferencesStorage
+    @Inject lateinit var sharedPreferencesStorage: SharedPreferencesStorage
     @Inject lateinit var uiParams: UiParams
-    @Inject lateinit var sharedPreferencesHelper: ISharedPreferencesHelper
+    @Inject lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     @Inject lateinit var retrofitHolder: RetrofitHolder
     @Inject lateinit var orientationNotifier: OrientationNotifier
+    @Inject lateinit var deviceUtils: DeviceUtils
+    @Inject lateinit var uiUtils: UiUtils
+    @Inject lateinit var viewUtils: ViewUtils
 
     override fun onCreate() {
         super.onCreate()
@@ -92,8 +98,8 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
         mDaggerApplicationComponent.inject(this)
 
         uiParams.orientation = resources.configuration.orientation
-        sharedPreferencesHelper.onApplicationCreate(
-                this, sharedPreferencesStorage, retrofitHolder, uiParams)
+        sharedPreferencesHelper.onApplicationCreate(this, sharedPreferencesStorage,
+                retrofitHolder, uiParams, uiUtils, viewUtils, deviceUtils)
 
         Glide.get(this).register(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
     }

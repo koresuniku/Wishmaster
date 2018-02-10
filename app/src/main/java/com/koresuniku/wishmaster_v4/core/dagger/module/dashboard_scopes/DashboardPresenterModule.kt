@@ -2,6 +2,7 @@ package com.koresuniku.wishmaster_v4.core.dagger.module.dashboard_scopes
 
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster_v4.application.preferences.ISharedPreferencesStorage
+import com.koresuniku.wishmaster_v4.application.preferences.SharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.core.dagger.scope.ForDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardDatabaseInteractor
 import com.koresuniku.wishmaster_v4.core.dashboard.interactor.DashboardNetworkInteractor
@@ -11,6 +12,7 @@ import com.koresuniku.wishmaster_v4.core.network.boards_api.BoardsResponseParser
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper
 import com.koresuniku.wishmaster_v4.core.data.database.repository.BoardsRepository
 import com.koresuniku.wishmaster_v4.core.util.search.ISearchInputMatcher
+import com.koresuniku.wishmaster_v4.core.util.search.SearchInputMatcher
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -37,14 +39,14 @@ class DashboardPresenterModule {
 
     @Provides
     @ForDashboardPresenter
-    fun provideDashboardSearchInteractor(matcher: ISearchInputMatcher,
+    fun provideDashboardSearchInteractor(matcher: SearchInputMatcher,
                                          compositeDisposable: CompositeDisposable): DashboardSearchInteractor {
         return DashboardSearchInteractor(matcher, compositeDisposable)
     }
 
     @Provides
     @ForDashboardPresenter
-    fun provideDashboardSharedPreferencesInteractor(storage: ISharedPreferencesStorage,
+    fun provideDashboardSharedPreferencesInteractor(storage: SharedPreferencesStorage,
                                                     compositeDisposable: CompositeDisposable): DashboardSharedPreferencesInteractor {
         return DashboardSharedPreferencesInteractor(storage, compositeDisposable)
     }

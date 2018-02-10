@@ -23,6 +23,7 @@ import com.koresuniku.wishmaster_v4.core.thread_list.presenter.IThreadListPresen
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadListView
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterActivity
+import com.koresuniku.wishmaster_v4.ui.utils.UiUtils
 import com.koresuniku.wishmaster_v4.ui.view.widget.LinearLayoutManagerWrapper
 import javax.inject.Inject
 
@@ -35,6 +36,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 
     @Inject override lateinit var presenter: IThreadListPresenter
     @Inject lateinit var textUtils: WishmasterTextUtils
+    @Inject lateinit var uiUtils: UiUtils
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup
@@ -49,6 +51,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getWishmasterApplication().daggerThreadListViewComponent.inject(this)
+        uiUtils.showSystemUI(this)
         ButterKnife.bind(this)
         presenter.bindView(this)
 

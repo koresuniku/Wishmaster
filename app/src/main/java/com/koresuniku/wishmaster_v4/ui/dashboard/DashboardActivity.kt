@@ -18,7 +18,7 @@ import butterknife.ButterKnife
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.core.dashboard.view.DashboardView
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardListData
-import com.koresuniku.wishmaster_v4.ui.util.ViewUtils
+import com.koresuniku.wishmaster_v4.ui.utils.ViewUtils
 import com.koresuniku.wishmaster_v4.ui.view.widget.DashboardViewPager
 
 import javax.inject.Inject
@@ -27,11 +27,14 @@ import com.koresuniku.wishmaster_v4.application.IntentKeystore
 import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster_v4.ui.thread_list.ThreadListActivity
+import com.koresuniku.wishmaster_v4.ui.utils.UiUtils
 
 class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), DashboardView<IDashboardPresenter> {
     private val LOG_TAG = DashboardActivity::class.java.simpleName
 
     @Inject override lateinit var presenter: IDashboardPresenter
+    @Inject lateinit var uiUtils: UiUtils
+    @Inject lateinit var viewUtils: ViewUtils
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.tab_layout) lateinit var mTabLayout: TabLayout
@@ -46,6 +49,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getWishmasterApplication().daggerDashboardViewComponent.inject(this)
+        uiUtils.showSystemUI(this)
         ButterKnife.bind(this)
         presenter.bindView(this)
 
@@ -92,7 +96,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
 
     private fun hideLoading() {
         mViewPager.setPagingEnabled(true)
-        ViewUtils.enableTabLayout(mTabLayout)
+        viewUtils.enableTabLayout(mTabLayout)
         mYobaImage.clearAnimation()
         mLoadingLayout.visibility = View.GONE
     }
@@ -100,7 +104,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
     private fun showError(throwable: Throwable) {
         mErrorLayout.visibility = View.VISIBLE
         mViewPager.setPagingEnabled(false)
-        ViewUtils.disableTabLayout(mTabLayout)
+        viewUtils.disableTabLayout(mTabLayout)
         val snackbar = Snackbar.make(mErrorLayout, throwable.message.toString(), Snackbar.LENGTH_INDEFINITE)
         snackbar.setAction(R.string.bljad, { snackbar.dismiss() })
         snackbar.show()
@@ -119,7 +123,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
         mTabLayout.getTabAt(2)?.setIcon(R.drawable.ic_star_black_24dp)
         mTabLayout.getTabAt(3)?.setIcon(R.drawable.ic_history_black_24dp)
 
-        ViewUtils.disableTabLayout(mTabLayout)
+        viewUtils.disableTabLayout(mTabLayout)
     }
 
     private fun setupViewPager() {
@@ -141,7 +145,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
     }
 
     override fun showUnknownInput() {
-        val snackbar = Snackbar.make(mErrorLayout, getString(R.string.unknown_address), Snackbar.LENGTH_INDEFINITE)
+        val snackbar = Snackbar.make(mErrorLayout, getString(R.string.unknown_address), Snackbar.LENGTH_SHORT)
         snackbar.setAction(R.string.bljad, { snackbar.dismiss() })
         snackbar.show()
     }

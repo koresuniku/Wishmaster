@@ -6,7 +6,7 @@ package com.koresuniku.wishmaster_v4.core.network
 
 object Dvach {
 
-    val BASE_URL = "https://2ch.hk"
+    const val BASE_URL = "https://2ch.hk"
     val MIRRORS = arrayListOf("https://2ch.hk", "https://2ch.pm", "https://2ch.re",
             "https://2ch.tf", "https://2ch.wf", "https://2ch.yt", "https://2-ch.so")
 }

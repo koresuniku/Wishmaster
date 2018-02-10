@@ -9,6 +9,7 @@ import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListAdapte
 import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListNetworkInteractor
 import com.koresuniku.wishmaster_v4.core.thread_list.presenter.ThreadListPresenter
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
+import com.koresuniku.wishmaster_v4.ui.utils.UiUtils
 import dagger.Component
 
 
@@ -21,6 +22,7 @@ interface ThreadListPresenterComponent {
     fun threadListNetworkInteractor(): ThreadListNetworkInteractor
     fun threadListAdapterViewInteractor(): ThreadListAdapterViewInteractor
     fun textUtils(): WishmasterTextUtils
+    fun uiUtils(): UiUtils
     fun orientationNotifier(): OrientationNotifier
 
     fun inject(threadListPresenter: ThreadListPresenter)

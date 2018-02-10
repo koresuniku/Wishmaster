@@ -19,7 +19,7 @@ import javax.inject.Singleton
  */
 
 @Module
-class NetworkModule(val mBaseUrl: String) {
+class NetworkModule {
 
     @Provides
     @Singleton

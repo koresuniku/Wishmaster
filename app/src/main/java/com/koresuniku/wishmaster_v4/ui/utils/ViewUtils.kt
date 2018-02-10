@@ -1,4 +1,4 @@
-package com.koresuniku.wishmaster_v4.ui.util
+package com.koresuniku.wishmaster_v4.ui.utils
 
 import android.content.Context
 import android.os.Build
@@ -14,13 +14,14 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 
 /**
  * Created by koresuniku on 13.11.17.
  */
 
-object ViewUtils {
+class ViewUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
 
     fun disableTabLayout(tabLayout: TabLayout) {
         val tabStrip = tabLayout.getChildAt(0) as LinearLayout
@@ -128,10 +129,10 @@ object ViewUtils {
 
     private fun getGridViewColumnNumber(context: Context, columnWidth: Int): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            DeviceUtils.getDisplayWidth(context) / (columnWidth +
+            deviceUtils.getDisplayWidth(context) / (columnWidth +
                     context.resources.getDimension(R.dimen.thread_post_side_margin_default).toInt())
         } else {
-            DeviceUtils.getDisplayWidth(context) / (columnWidth)
+            deviceUtils.getDisplayWidth(context) / (columnWidth)
         }
     }
 

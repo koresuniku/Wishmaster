@@ -1,4 +1,4 @@
-package com.koresuniku.wishmaster_v4.ui.util
+package com.koresuniku.wishmaster_v4.ui.utils
 
 import android.app.Activity
 import android.content.Context
@@ -10,13 +10,13 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import com.koresuniku.wishmaster_v4.R
-import kotlin.math.roundToInt
+import javax.inject.Inject
 
 /**
  * Created by koresuniku on 03.10.17.
  */
 
-object UiUtils {
+class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
 
     fun setImageViewColorFilter(imageView: ImageView, color: Int) {
         imageView.setColorFilter(
@@ -39,7 +39,7 @@ object UiUtils {
     var isSystemUiShown: Boolean = true
 
     fun showSystemUI(activity: Activity) {
-        if (DeviceUtils.sdkIsKitkatOrHigher()) {
+        if (deviceUtils.sdkIsKitkatOrHigher()) {
             isSystemUiShown = true
             if (activity.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 activity.window.decorView.systemUiVisibility =
@@ -48,7 +48,7 @@ object UiUtils {
                                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             }
             if (activity.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                if (DeviceUtils.deviceHasNavigationBar(activity)) {
+                if (deviceUtils.deviceHasNavigationBar(activity)) {
                     activity.window.decorView.systemUiVisibility =
                             View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -63,7 +63,7 @@ object UiUtils {
     }
 
     fun hideSystemUI(activity: Activity) {
-        if (DeviceUtils.sdkIsKitkatOrHigher()) {
+        if (deviceUtils.sdkIsKitkatOrHigher()) {
             isSystemUiShown = false
             activity.window.decorView.systemUiVisibility =
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
@@ -82,7 +82,6 @@ object UiUtils {
 
     private fun setStatusBarTranslucent(activity: Activity, translucent: Boolean) {
         if (translucent) {
-            // activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         } else {
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
@@ -92,7 +91,6 @@ object UiUtils {
 
     private fun setNavigationBarTranslucent(activity: Activity, translucent: Boolean) {
         if (translucent) {
-            //activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
         } else {
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)

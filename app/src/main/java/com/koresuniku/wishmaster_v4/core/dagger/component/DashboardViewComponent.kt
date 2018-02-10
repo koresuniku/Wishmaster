@@ -14,7 +14,8 @@ import dagger.Component
  */
 
 @ForDashboardView
-@Component (dependencies = [DashboardPresenterComponent::class], modules = [(DashboardViewModule::class), (RxModule::class)])
+@Component (dependencies = [DashboardPresenterComponent::class],
+        modules = [(DashboardViewModule::class), (RxModule::class)])
 interface DashboardViewComponent {
 
     fun inject(activity: DashboardActivity)

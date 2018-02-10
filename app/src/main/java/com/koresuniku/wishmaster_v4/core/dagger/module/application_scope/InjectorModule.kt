@@ -10,6 +10,6 @@ import javax.inject.Singleton
 class InjectorModule(private val injector: IWishmasterDaggerInjector) {
 
     @Provides
-@Singleton
-fun provideInjector(): IWishmasterDaggerInjector = injector
+    @Singleton
+    fun provideInjector(): IWishmasterDaggerInjector = injector
 }

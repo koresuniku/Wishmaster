@@ -8,7 +8,7 @@ import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.application.preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.data.model.threads.File
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
-import com.koresuniku.wishmaster_v4.ui.util.UiUtils
+import com.koresuniku.wishmaster_v4.ui.utils.UiUtils
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ import javax.inject.Inject
  * Created by koresuniku on 14.01.18.
  */
 
-class WishmasterImageUtils @Inject constructor(private val textUtils: WishmasterTextUtils,
+class WishmasterImageUtils @Inject constructor(private val uiUtils: UiUtils, private val textUtils: WishmasterTextUtils,
         private val uiParams: UiParams) {
 
     fun getImageItemData(file: File): Single<ImageItemData> {
@@ -51,10 +51,10 @@ class WishmasterImageUtils @Inject constructor(private val textUtils: Wishmaster
         val fileHeight = file.height.toInt()
         val aspectRatio: Float = fileWidth.toFloat() / fileHeight.toFloat()
 
-        val actualWidth = UiUtils.convertDpToPixel(uiParams.imageWidthDp.toFloat()).toInt()
+        val actualWidth = uiUtils.convertDpToPixel(uiParams.imageWidthDp.toFloat()).toInt()
         var actualHeight = Math.ceil((actualWidth/ aspectRatio).toDouble()).toInt()
-        val min = UiUtils.convertDpToPixel(uiParams.minImageHeightDp.toFloat()).toInt()
-        val max = UiUtils.convertDpToPixel(uiParams.maxImageHeightDp.toFloat()).toInt()
+        val min = uiUtils.convertDpToPixel(uiParams.minImageHeightDp.toFloat()).toInt()
+        val max = uiUtils.convertDpToPixel(uiParams.maxImageHeightDp.toFloat()).toInt()
 
         if (min > actualHeight) actualHeight = min
         if (max < actualHeight) actualHeight = max

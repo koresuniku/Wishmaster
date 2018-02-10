@@ -7,6 +7,7 @@ import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster_v4.application.preferences.ISharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.application.WishmasterApplication
 import com.koresuniku.wishmaster_v4.application.listener.OrientationNotifier
+import com.koresuniku.wishmaster_v4.application.preferences.SharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.application.preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.*
@@ -15,6 +16,9 @@ import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
 import com.koresuniku.wishmaster_v4.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster_v4.core.network.thread_list_api.ThreadListApiService
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
+import com.koresuniku.wishmaster_v4.ui.utils.DeviceUtils
+import com.koresuniku.wishmaster_v4.ui.utils.UiUtils
+import com.koresuniku.wishmaster_v4.ui.utils.ViewUtils
 import dagger.Component
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
@@ -34,7 +38,7 @@ interface ApplicationComponent {
     fun injector(): IWishmasterDaggerInjector
 
     //SharedPreferences
-    fun sharedPreferencesStorage(): ISharedPreferencesStorage
+    fun sharedPreferencesStorage(): SharedPreferencesStorage
     fun sharedPreferencesUiDimens(): UiParams
 
     //Database
@@ -44,14 +48,19 @@ interface ApplicationComponent {
     fun retrofitHolder(): RetrofitHolder
     fun okHttpClient(): OkHttpClient
     fun gson(): Gson
-    fun boardsApiServide(): BoardsApiService
+
+    //API
+    fun boardsApiService(): BoardsApiService
     fun threadListApiService(): ThreadListApiService
 
     //Utils
     fun textUtils(): WishmasterTextUtils
     fun imageUtils(): WishmasterImageUtils
+    fun deviceUtils(): DeviceUtils
+    fun uiUtils(): UiUtils
+    fun viewUtils(): ViewUtils
 
-    //Lifecycle
+    //Notifiers
     fun orientationNotifier(): OrientationNotifier
 
     fun inject(application: WishmasterApplication)

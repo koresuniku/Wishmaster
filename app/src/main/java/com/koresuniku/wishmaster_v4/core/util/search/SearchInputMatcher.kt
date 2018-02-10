@@ -2,12 +2,13 @@ package com.koresuniku.wishmaster_v4.core.util.search
 
 import com.koresuniku.wishmaster_v4.core.network.Dvach
 import java.util.regex.Pattern
+import javax.inject.Inject
 
 /**
  * Created by koresuniku on 02.01.18.
  */
 
-class SearchInputMatcher : ISearchInputMatcher {
+class SearchInputMatcher @Inject constructor(): ISearchInputMatcher {
 
     companion object {
         const val UNKNOWN_CODE = -1

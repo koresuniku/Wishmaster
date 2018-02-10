@@ -62,5 +62,4 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
     override fun getItemViewType(position: Int): Int = presenter.getThreadItemType(position)
     override fun getItemCount(): Int = presenter.getThreadListDataSize()
     override fun getItemId(position: Int): Long = position.toLong()
-
 }

@@ -10,6 +10,7 @@ import com.koresuniku.wishmaster_v4.core.network.thread_list_api.ThreadListApiSe
 import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListAdapterViewInteractor
 import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListNetworkInteractor
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
+import com.koresuniku.wishmaster_v4.ui.utils.ViewUtils
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -33,9 +34,10 @@ class ThreadListPresenterModule {
                                                uiParams: UiParams,
                                                retrofitHolder: RetrofitHolder,
                                                imageUtils: WishmasterImageUtils,
-                                               textUtils: WishmasterTextUtils):
+                                               textUtils: WishmasterTextUtils,
+                                               viewUtils: ViewUtils):
             ThreadListAdapterViewInteractor {
         return ThreadListAdapterViewInteractor(
-                compositeDisposable, context, uiParams, retrofitHolder, imageUtils, textUtils)
+                compositeDisposable, context, uiParams, retrofitHolder, imageUtils, textUtils, viewUtils)
     }
 }
