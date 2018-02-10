@@ -45,7 +45,7 @@ class SharedPreferencesHelper : ISharedPreferencesHelper {
                 .subscribe( { values ->
                     if (values.imageWidthDp == SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_DEFAULT) {
                         val newImageWidth = uiUtils.getDefaultImageWidthInDp(
-                                deviceUtils.getMaximumDisplayWidthInPx(context), context)
+                                deviceUtils.getActualDisplayWidthInPx(context), context)
                         uiParams.imageWidthDp = newImageWidth
                         if (sharedPreferencesStorage.writeIntSameThread(
                                         SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_KEY, newImageWidth)) {

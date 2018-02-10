@@ -44,17 +44,9 @@ class DeviceUtils {
         return metrics.heightPixels
     }
 
-    fun getMaximumDisplayWidthInPx(activity: Activity): Int {
-        val display = activity.windowManager.defaultDisplay
-        val size = Point()
-        display.getSize(size)
-        val width: Int
-        width = if (size.x > size.y) {
-            size.x
-        } else size.y
-
-        return width
+    fun getActualDisplayWidthInPx(context: Context): Int {
+        val width = context.resources.displayMetrics.widthPixels
+        val height = context.resources.displayMetrics.heightPixels
+        return if (height > width) width else height
     }
-
-    fun getMaximumDisplayWidthInPx(context: Context): Int = context.resources.displayMetrics.widthPixels
 }
