@@ -1,5 +1,6 @@
 package com.koresuniku.wishmaster_v4.application.shared_preferences
 
+import android.text.TextPaint
 import javax.inject.Inject
 
 
@@ -15,6 +16,8 @@ class UiParams @Inject constructor() : IUiParams {
     override var commentMaxLines: Int = SharedPreferencesKeystore.COMMENT_MAX_MAX_LINES_DEFAULT
     override var orientation: Int = -1
     override var commentMarginWidth: Int = 0
+    override var commentTextSize: Int = SharedPreferencesKeystore.COMMENT_TEXT_SIZE_DEFAULT
+    override var commentTextPaint: TextPaint = TextPaint()
 
     override fun toString() = "imageWidthInDp: $imageWidthDp, " +
             "minImageHeightInDp: $minImageHeightDp, " +
@@ -26,5 +29,7 @@ class UiParams @Inject constructor() : IUiParams {
             "threadPostItemShortInfoHeight: $threadPostItemShortInfoHeight, " +
             "commentMaxLines: $commentMaxLines, " +
             "orientation: $orientation, " +
-            "commentMarginWidth: $commentMarginWidth"
+            "commentMarginWidth: $commentMarginWidth, " +
+            "commentTextSize: $commentTextSize, " +
+            "commentTextPaint: $commentTextPaint"
 }

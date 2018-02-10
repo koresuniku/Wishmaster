@@ -1,5 +1,7 @@
 package com.koresuniku.wishmaster_v4.application.shared_preferences
 
+import android.text.TextPaint
+
 
 interface IUiParams {
     var imageWidthDp: Int
@@ -13,4 +15,6 @@ interface IUiParams {
     var commentMaxLines: Int
     var orientation: Int
     var commentMarginWidth: Int
+    var commentTextSize: Int
+    var commentTextPaint: TextPaint
 }

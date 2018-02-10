@@ -49,13 +49,7 @@ class ThreadItemViewHolder(itemView: View) :
     }
 
     override fun setSubject(subject: Spanned) { mSubject.text = subject }
-    override fun setComment(comment: Spanned) {
-        mComment.post {
-            mComment.text = comment
-            ViewUtils.measureView(mComment)
-            Log.d("TIVH", "actual comment width: ${mComment.measuredWidth}")
-        }
-    }
+    override fun setComment(comment: Spanned) { mComment.post { mComment.text = comment } }
     override fun setThreadShortInfo(info: String) { mResume.text = info }
 
     override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {

@@ -42,4 +42,7 @@ object SharedPreferencesKeystore {
 
     const val COMMENT_MAX_MAX_LINES_KEY = "comment_max_lines"
     const val COMMENT_MAX_MAX_LINES_DEFAULT = 6
+
+    const val COMMENT_TEXT_SIZE_KEY = "comment_text_size"
+    const val COMMENT_TEXT_SIZE_DEFAULT = 14
 }

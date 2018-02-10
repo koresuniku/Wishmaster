@@ -23,11 +23,13 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
     override fun onApplicationCreate(context: Context,
                                      sharedPreferencesStorage: ISharedPreferencesStorage,
                                      retrofitHolder: RetrofitHolder,
-                                     UIParams: UiParams) {
-        setDefaultImageWidth(context, sharedPreferencesStorage, UIParams)
+                                     uiParams: UiParams) {
+        setDefaultImageWidth(context, sharedPreferencesStorage, uiParams)
         setRetrofitBaseUrl(sharedPreferencesStorage, retrofitHolder)
-        setShortInfoHeight(context, sharedPreferencesStorage, UIParams)
-        setMaxLines(sharedPreferencesStorage, UIParams)
+        setShortInfoHeight(context, sharedPreferencesStorage, uiParams)
+        setMaxLines(sharedPreferencesStorage, uiParams)
+        setCommentTextSize(sharedPreferencesStorage, uiParams)
+        setCommentTextPaint(context, uiParams)
     }
 
     private fun setDefaultImageWidth(context: Context,
@@ -134,6 +136,25 @@ class SharedPreferencesHelper : ISharedPreferencesHelper{
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         { uiParams.threadPostItemShortInfoHeight = it },
+                        { it.printStackTrace() })
+    }
+
+    private fun setCommentTextPaint(context: Context, uiParams: UiParams) {
+        val commentLayout = LayoutInflater
+                .from(context)
+                .inflate(R.layout.comment_layout, null, false)
+        val commentTextView = commentLayout.findViewById<TextView>(R.id.comment)
+        uiParams.commentTextPaint = commentTextView.paint
+    }
+
+    private fun setCommentTextSize(sharedPreferencesStorage: ISharedPreferencesStorage,
+                                   uiParams: UiParams) {
+        sharedPreferencesStorage.readInt(
+                SharedPreferencesKeystore.COMMENT_TEXT_SIZE_KEY,
+                SharedPreferencesKeystore.COMMENT_TEXT_SIZE_DEFAULT)
+                .subscribeOn(Schedulers.io())
+                .subscribe(
+                        { uiParams.commentTextSize = it },
                         { it.printStackTrace() })
     }
 

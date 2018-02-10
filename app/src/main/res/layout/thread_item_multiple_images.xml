@@ -48,55 +48,22 @@
 
         </com.koresuniku.wishmaster_v4.ui.view.widget.ExpandableHeightGridView>
 
-        <!--<RelativeLayout-->
-        <!--android:id="@+id/image_container_1"-->
-        <!--android:layout_width="100dp"-->
-        <!--android:layout_height="100dp"-->
-        <!--android:layout_alignTop="@+id/comment">-->
-
-        <!--<ImageView-->
-        <!--android:id="@+id/image_1"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
-
         <!--<TextView-->
-        <!--android:id="@+id/summary_1"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/image_1"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:text="1488*288\n666kb, JPG" />-->
-        <!--</RelativeLayout>-->
+            <!--android:id="@+id/comment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/image_grid"-->
+            <!--android:maxLines="15"-->
+            <!--android:text="@string/le_batya"-->
+            <!--android:textColor="@color/colorText"/>-->
 
-        <!--<RelativeLayout-->
-        <!--android:id="@+id/image_container_2"-->
-        <!--android:layout_width="100dp"-->
-        <!--android:layout_height="100dp"-->
-        <!--android:layout_alignTop="@+id/comment"-->
-        <!--android:layout_toRightOf="@+id/image_container_1">-->
-
-        <!--<ImageView-->
-        <!--android:id="@+id/image_2"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/summary_2"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/image_2"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:text="1488*288\n666kb, JPG" />-->
-        <!--</RelativeLayout>-->
-
-        <TextView
-            android:id="@+id/comment"
+        <include
+            android:id="@+id/comment_layout"
+            layout="@layout/comment_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/image_grid"
-            android:maxLines="15"
-            android:text="@string/le_batya"
-            android:textColor="@color/colorText"/>
+            android:layout_below="@+id/image_grid">
+        </include>
 
         <TextView
             android:id="@+id/resume"
@@ -104,20 +71,20 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/comment"
+            android:layout_below="@+id/comment_layout"
             android:text="1488 posts, 228 images"
             android:textColor="@color/colorTextSecondary"
             android:textSize="12sp"
-            android:textStyle="italic" />
-    </RelativeLayout>
+            android:textStyle="italic"/>
+</RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/thread_item_container"
-        android:background="@color/colorBackgroundDark">
+<FrameLayout
+    android:id="@+id/bottom"
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_below="@+id/thread_item_container"
+    android:background="@color/colorBackgroundDark">
 
-    </FrameLayout>
+</FrameLayout>
 
 </RelativeLayout>

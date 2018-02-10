@@ -1,13 +1,17 @@
 package com.koresuniku.wishmaster_v4.core.util.text
 
 import android.content.res.Configuration
+import android.graphics.Color
 import android.text.*
+import android.text.style.BackgroundColorSpan
+import android.text.style.ForegroundColorSpan
 import android.text.style.LeadingMarginSpan
 import android.util.Log
 import com.koresuniku.wishmaster_v4.application.shared_preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster_v4.core.data.model.threads.File
 import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
+import com.koresuniku.wishmaster_v4.core.util.text.markup.SingleImageCommentMarginSpan
 import com.koresuniku.wishmaster_v4.ui.util.UiUtils
 import io.reactivex.Single
 import javax.inject.Inject
@@ -47,7 +51,8 @@ class WishmasterTextUtils @Inject constructor() {
                                      imageItemData: ImageItemData): Single<Spannable> {
         return Single.create({
             val comment = SpannableString(Html.fromHtml(rawComment))
-            var layout = StaticLayout(comment, TextPaint(),
+
+            var layout = StaticLayout(comment, uiParams.commentTextPaint,
                     if (uiParams.orientation == Configuration.ORIENTATION_LANDSCAPE)
                         uiParams.threadPostItemSingleImageHorizontalWidth
                     else uiParams.threadPostItemSingleImageVerticalWidth,
@@ -57,37 +62,61 @@ class WishmasterTextUtils @Inject constructor() {
             val endIndex = try {
                 if (layout.lineCount < uiParams.commentMaxLines) comment.length
                 else layout.getLineEnd(uiParams.commentMaxLines - 1)
-            } catch (e: ArrayIndexOutOfBoundsException) { comment.length }
-            var cutComment = SpannableString(comment.subSequence(0, endIndex))
-
-            if (endIndex != comment.length) {
-                val builder = SpannableStringBuilder(cutComment)
-                //builder.insert(endIndex, "ХУЙ")
-
-                cutComment = SpannableString(builder)
+            } catch (e: ArrayIndexOutOfBoundsException) {
+                comment.length
             }
-            layout = StaticLayout(cutComment.toString(), TextPaint(),
-                    if (uiParams.orientation == Configuration.ORIENTATION_LANDSCAPE)
-                        uiParams.threadPostItemSingleImageHorizontalWidth
-                    else uiParams.threadPostItemSingleImageVerticalWidth,
-                    Layout.Alignment.ALIGN_NORMAL,
-                    1.0f, 0f, false)
-            val lineHeight = layout.height / layout.lineCount
-            val linesToSpan = (imageItemData.dimensions.heightInPx +
-                    uiParams.threadPostItemShortInfoHeight) / lineHeight
-            Log.d("WTU", "firstLine: ${cutComment.substring(
-                    layout.getLineStart(0),
-                    layout.getLineEnd(0))}")
+            //val cutComment = SpannableString(comment.subSequence(0, endIndex))
+            val cutComment = SpannableStringBuilder(comment)
+//            Log.d("WTU", "firstLine: ${cutComment.substring(
+//                    layout.getLineStart(0),
+//                    layout.getLineEnd(0))}")
 
-            val endMarginIndex = try {
-                if (layout.lineCount < linesToSpan) cutComment.length
-                else layout.getLineEnd(linesToSpan - 1)
-            } catch (e: ArrayIndexOutOfBoundsException) { cutComment.length }
-            cutComment.setSpan(
-                    LeadingMarginSpan.Standard(uiParams.commentMarginWidth),
-                    0, endMarginIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//            layout = StaticLayout(cutComment, TextPaint(),
+//                    if (uiParams.orientation == Configuration.ORIENTATION_LANDSCAPE)
+//                        uiParams.threadPostItemSingleImageHorizontalWidth
+//                    else uiParams.threadPostItemSingleImageVerticalWidth,
+//                    Layout.Alignment.ALIGN_NORMAL,
+//                    1.0f, 0f, false)
 
+            var linesToSpan = 0
+            while (linesToSpan < layout.lineCount &&
+                    layout.getLineBottom(linesToSpan) <
+                    imageItemData.dimensions.heightInPx +
+                    uiParams.threadPostItemShortInfoHeight) ++linesToSpan
+            ++linesToSpan
+////
+//            var linesToSpan =
+//                    (imageItemData.dimensions.heightInPx + uiParams.threadPostItemShortInfoHeight) /
+//                            UiUtils.convertDpToPixel(layout.getLineBottom(0).toFloat()).toInt()
 
+            Log.d("WTU", "linesToSpan: ${linesToSpan}")
+
+            var commentEndPosition = cutComment.length
+            if (linesToSpan < layout.lineCount) {
+                commentEndPosition = layout.getLineEnd(linesToSpan - 1)
+
+                val lastChar = cutComment.substring(commentEndPosition - 1, commentEndPosition)
+                if (lastChar != "\n" && lastChar != "\r") {
+                    if (lastChar == " ") {
+                        Log.d("WTU", "replacing \\n")
+                        cutComment.replace(commentEndPosition - 1, commentEndPosition, "\n")
+                    } else {
+                        Log.d("WTU", "inserting \\n")
+                        cutComment.insert(commentEndPosition - 1, "\n")
+                    }
+                }
+            } else Log.d("WTU", "comment is too short")
+
+            (0 until linesToSpan - 1).forEach {
+                Log.d("WTU", "$it line: ${cutComment.substring(layout.getLineStart(it), layout.getLineEnd(it))}")
+            }
+
+            cutComment.setSpan(SingleImageCommentMarginSpan(linesToSpan, uiParams.commentMarginWidth),
+                    0, commentEndPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            cutComment.setSpan(BackgroundColorSpan(Color.LTGRAY),
+                    0, commentEndPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//            cutComment.setSpan(LeadingMarginSpan.Standard(uiParams.commentMarginWidth),
+//                    0, commentEndPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
             it.onSuccess(cutComment)
         })

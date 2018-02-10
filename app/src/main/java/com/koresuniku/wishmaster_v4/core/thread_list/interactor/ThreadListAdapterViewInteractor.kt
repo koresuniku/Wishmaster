@@ -46,7 +46,9 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ view.setComment(it) }, { it.printStackTrace() }))
         }
-        Log.d("TLAVI", "uiDimenswidths: ${uiParams.threadPostItemVerticalWidth}, ${uiParams.threadPostItemHorizontalWidth}")
+        Log.d("TLAVI", "uiDimenswidths:" +
+                " ${uiParams.threadPostItemSingleImageVerticalWidth}, " +
+                "${uiParams.threadPostItemSingleImageHorizontalWidth}")
 
         //ShortInfo
         view.setThreadShortInfo(textUtils.getShortInfo(thread.postsCount, thread.filesCount))
