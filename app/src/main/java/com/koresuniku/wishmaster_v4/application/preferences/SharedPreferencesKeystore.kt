@@ -18,6 +18,10 @@ object SharedPreferencesKeystore {
     const val ENABLE_SEND_REPORTS_KEY = "enable_send_reports"
     const val ENABLE_SEND_REPORTS_DEFAULT = true
 
+    //Cache (default 10 Mb)
+    const val CACHE_SIZE_KEY = "cache_size"
+    const val CACHE_SIZE_DEFAULT = 10 * 1024 * 1024
+
     //Dashboard
     const val DASHBOARD_PREFERRED_TAB_POSITION_KEY = "dashboard_preferred_tab_position"
     const val DASHBOARD_PREFERRED_TAB_POSITION_DEFAULT = 1

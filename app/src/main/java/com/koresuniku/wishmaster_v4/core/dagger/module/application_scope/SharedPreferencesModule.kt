@@ -21,9 +21,13 @@ class SharedPreferencesModule {
 
     @Provides
     @Singleton
-    fun provideSharedPreferencesUiParams(): UiParams = UiParams()
+    fun provideUiParams(): UiParams = UiParams()
 
     @Provides
     @Singleton
     fun provideSharedPreferencesHelper(): SharedPreferencesHelper = SharedPreferencesHelper()
+
+    @Provides
+    @Singleton
+    fun provideCommonParams(): CommonParams = CommonParams()
 }

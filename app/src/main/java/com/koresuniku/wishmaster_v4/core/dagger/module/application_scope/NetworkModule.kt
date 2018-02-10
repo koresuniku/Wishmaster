@@ -5,6 +5,7 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
+import com.koresuniku.wishmaster_v4.application.preferences.CommonParams
 import com.koresuniku.wishmaster_v4.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster_v4.core.network.thread_list_api.ThreadListApiService
 import dagger.Module
@@ -23,9 +24,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideHttpCache(application: Application): Cache {
-        val cacheSize: Int = 10 * 1024 * 1024
-        return Cache(application.cacheDir, cacheSize.toLong())
+    fun provideHttpCache(application: Application, commonParams: CommonParams): Cache {
+        return Cache(application.cacheDir, commonParams.cacheSize.toLong())
     }
 
     @Provides
@@ -46,7 +46,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofitHolder(gson: Gson, okHttpClient: OkHttpClient): RetrofitHolder = RetrofitHolder(gson, okHttpClient)
+    fun provideRetrofitHolder(gson: Gson, okHttpClient: OkHttpClient): RetrofitHolder =
+            RetrofitHolder(gson, okHttpClient)
 
     @Provides
     @Singleton
