@@ -28,7 +28,7 @@ class WishmasterTextUtils @Inject constructor() {
         val format = file.thumbnail
                 .removePrefix(file.thumbnail.subSequence(0, file.thumbnail.indexOf(".") + 1))
                 .toUpperCase()
-        return "$width * $height\n$size, $format"
+        return "$width * $height\n$size kb, $format"
     }
 
     fun getSubjectSpanned(subject: String, boardId: String): Spanned {
