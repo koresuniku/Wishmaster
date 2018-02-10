@@ -1,6 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.thread_list.interactor
 
 import android.content.Context
+import android.util.Log
 import com.koresuniku.wishmaster_v4.application.preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxAdapterViewInteractor
 import com.koresuniku.wishmaster_v4.core.data.model.threads.ThreadListData
@@ -37,6 +38,8 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                                  position: Int) {
         val thread = data.getThreadList()[position]
 
+        Log.d("TLAVI", "uiParams: $uiParams")
+
         //Subject
         thread.subject?.let { view.setSubject(textUtils.getSubjectSpanned(it, data.getBoardId())) }
         view.switchSubjectVisibility(!thread.subject.isNullOrBlank() && data.getBoardId() != "b")
@@ -64,7 +67,7 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                                     { view.setSingleImage(it, retrofitHolder.getBaseUrl(), imageUtils)
                                         compositeDisposable.add(textUtils.getCommentForSingleImageItemTemp(
                                               thread.comment?:String(), uiParams, it)
-                                              .subscribeOn(Schedulers.computation())
+                                              .subscribeOn(Schedulers.newThread())
                                               .observeOn(AndroidSchedulers.mainThread())
                                               .subscribe({ view.setComment(it) }, { it.printStackTrace() }))
                                     }, { it.printStackTrace() }))
@@ -79,7 +82,7 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                                         compositeDisposable.add(viewUtils.getGridViewHeight(
                                                 context, it, it[0].dimensions.widthInPx,
                                                 uiParams.threadPostItemShortInfoHeight)
-                                                .subscribeOn(Schedulers.computation())
+                                                .subscribeOn(Schedulers.newThread())
                                                 .observeOn(AndroidSchedulers.mainThread())
                                                 .subscribe({
                                                     view.setMultipleImages(

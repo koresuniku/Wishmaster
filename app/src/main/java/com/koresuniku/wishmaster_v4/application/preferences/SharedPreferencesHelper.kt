@@ -139,7 +139,6 @@ class SharedPreferencesHelper : ISharedPreferencesHelper {
                 SharedPreferencesKeystore.THREAD_POST_ITEM_SHORT_INFO_HEIGHT_IN_PX_KEY,
                 SharedPreferencesKeystore.THREAD_POST_ITEM_SHORT_INFO_HEIGHT_DEFAULT)
                 .subscribeOn(Schedulers.io())
-                .subscribeOn(Schedulers.io())
                 .subscribe({
                     if (it == SharedPreferencesKeystore.THREAD_POST_ITEM_SHORT_INFO_HEIGHT_DEFAULT) {
                         val height = computeShortInfoHeight(context, viewUtils)
@@ -162,7 +161,7 @@ class SharedPreferencesHelper : ISharedPreferencesHelper {
                 SharedPreferencesKeystore.COMMENT_MAX_MAX_LINES_DEFAULT)
                 .subscribeOn(Schedulers.io())
                 .subscribe(
-                        { uiParams.threadPostItemShortInfoHeight = it },
+                        { uiParams.commentMaxLines = it },
                         { it.printStackTrace() })
     }
 
