@@ -1,5 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scopes
 
+import android.content.Context
 import com.koresuniku.wishmaster_v4.application.preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.dagger.scope.ForThreadListPresenter
 import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
@@ -28,12 +29,13 @@ class ThreadListPresenterModule {
     @Provides
     @ForThreadListPresenter
     fun provideThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
+                                               context: Context,
                                                uiParams: UiParams,
                                                retrofitHolder: RetrofitHolder,
                                                imageUtils: WishmasterImageUtils,
                                                textUtils: WishmasterTextUtils):
             ThreadListAdapterViewInteractor {
         return ThreadListAdapterViewInteractor(
-                compositeDisposable, uiParams, retrofitHolder, imageUtils, textUtils)
+                compositeDisposable, context, uiParams, retrofitHolder, imageUtils, textUtils)
     }
 }

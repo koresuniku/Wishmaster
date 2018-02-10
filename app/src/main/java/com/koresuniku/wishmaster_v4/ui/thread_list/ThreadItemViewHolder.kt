@@ -64,17 +64,21 @@ class ThreadItemViewHolder(itemView: View) :
         imageUtils.loadImageThumbnail(imageItemData, image, url)
     }
 
-    override fun setMultipleImages(imageItemDataList: List<ImageItemData>, url: String, imageUtils: WishmasterImageUtils) {
+    override fun setMultipleImages(imageItemDataList: List<ImageItemData>,
+                                   url: String,
+                                   imageUtils: WishmasterImageUtils,
+                                   gridViewHeight: Int) {
         (mImageGrid.layoutParams as RelativeLayout.LayoutParams).topMargin =
                 if (mIsSubjectVisible) itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
                 else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
 
         mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
         mImageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, url, imageUtils)
+        mImageGrid.layoutParams.height = gridViewHeight
 
-        val summaryTextView = mImageGrid.adapter.getView(0, null, mImageGrid).findViewById<TextView>(R.id.summary)
-        ViewUtils.measureView(summaryTextView)
-        ViewUtils.setGridViewHeight(mImageGrid, imageItemDataList,
-                imageItemDataList[0].dimensions.widthInPx, summaryTextView.measuredHeight)
+        //val summaryTextView = mImageGrid.adapter.getView(0, null, mImageGrid).findViewById<TextView>(R.id.summary)
+        //ViewUtils.measureView(summaryTextView)
+//        ViewUtils.setGridViewHeight(mImageGrid, imageItemDataList,
+//                imageItemDataList[0].dimensions.widthInPx, summaryTextView.measuredHeight)
     }
 }

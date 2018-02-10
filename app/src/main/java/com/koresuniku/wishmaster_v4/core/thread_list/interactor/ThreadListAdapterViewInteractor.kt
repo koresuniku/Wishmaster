@@ -1,5 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.thread_list.interactor
 
+import android.content.Context
 import android.util.Log
 import com.koresuniku.wishmaster_v4.application.preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxAdapterViewInteractor
@@ -10,6 +11,7 @@ import com.koresuniku.wishmaster_v4.core.thread_list.presenter.IThreadListPresen
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadItemView
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadListAdapterView
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
+import com.koresuniku.wishmaster_v4.ui.util.ViewUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -18,6 +20,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by koresuniku on 02.02.18.
  */
 class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
+                                      private val context: Context,
                                       private val uiParams: UiParams,
                                       private val retrofitHolder: RetrofitHolder,
                                       private val imageUtils: WishmasterImageUtils,
@@ -46,9 +49,6 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ view.setComment(it) }, { it.printStackTrace() }))
         }
-        Log.d("TLAVI", "uiDimenswidths:" +
-                " ${uiParams.threadPostItemSingleImageVerticalWidth}, " +
-                "${uiParams.threadPostItemSingleImageHorizontalWidth}")
 
         //ShortInfo
         view.setThreadShortInfo(textUtils.getThreadBriefInfo(thread.postsCount, thread.filesCount))
@@ -62,7 +62,7 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
                                     { view.setSingleImage(it, retrofitHolder.getBaseUrl(), imageUtils)
-                                      compositeDisposable.add(textUtils.getCommentForSingleImageItemTemp(
+                                        compositeDisposable.add(textUtils.getCommentForSingleImageItemTemp(
                                               thread.comment?:String(), uiParams, it)
                                               .subscribeOn(Schedulers.computation())
                                               .observeOn(AndroidSchedulers.mainThread())
@@ -74,8 +74,19 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                             .subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
-                                    { view.setMultipleImages(it, retrofitHolder.getBaseUrl(), imageUtils) },
-                                    { it.printStackTrace() }))
+                                    {
+                                        val imageItemData = it
+                                        compositeDisposable.add(ViewUtils.getGridViewHeight(
+                                                context, it, it[0].dimensions.widthInPx,
+                                                uiParams.threadPostItemShortInfoHeight)
+                                                .subscribeOn(Schedulers.computation())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe({
+                                                    view.setMultipleImages(
+                                                            imageItemData, retrofitHolder.getBaseUrl(),
+                                                            imageUtils, it) },
+                                                        { it.printStackTrace() }))
+                                    }, { it.printStackTrace() }))
                 }
                 else -> {}
             }

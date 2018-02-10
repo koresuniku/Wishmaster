@@ -8,8 +8,10 @@ import android.view.View
 import android.widget.LinearLayout
 import android.view.WindowManager
 import android.widget.GridView
+import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
 import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -68,14 +70,14 @@ object ViewUtils {
                           columnWidth: Int, summaryHeight: Int) {
         var lastRowHeight = 0
         var finalHeight = 0
-        val columnCount = getGridViewColumnNumber(gridView, columnWidth)
+        val columnCount = getGridViewColumnNumber(gridView.context, columnWidth)
         val verticalSpacing = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             gridView.verticalSpacing
         } else {
             0
 
         }
-        //Log.d("ViewUtils", "gridView.numColumns: $columnCount")
+        Log.d("ViewUtils", "gridView.vertical spacing: $verticalSpacing")
 
         val calculation = Completable.create { e -> kotlin.run {
             imageItemDataList.forEachIndexed({ position, data ->
@@ -100,11 +102,36 @@ object ViewUtils {
 
     }
 
-    private fun getGridViewColumnNumber(gridView: GridView, columnWidth: Int): Int {
+    fun getGridViewHeight(context: Context,
+                          imageItemDataList: List<ImageItemData>,
+                          columnWidth: Int, summaryHeight: Int): Single<Int> {
+        return Single.create({
+            var lastRowHeight = 0
+            var finalHeight = 0
+            val columnCount = getGridViewColumnNumber(context, columnWidth)
+            val verticalSpacing = context.resources.getDimension(R.dimen.thread_post_side_margin_default).toInt()
+
+            imageItemDataList.forEachIndexed({ position, data ->
+                var itemHeight = data.dimensions.heightInPx + summaryHeight
+                if (position / columnCount > 1) itemHeight += verticalSpacing
+                if (position == 0 || (position >= columnCount && columnCount % position == 0)) {
+                    if (position != 0) lastRowHeight = finalHeight
+                    finalHeight += itemHeight
+                } else if (lastRowHeight + itemHeight > finalHeight) {
+                    finalHeight = lastRowHeight + itemHeight
+                }
+            })
+
+            it.onSuccess(finalHeight)
+        })
+    }
+
+    private fun getGridViewColumnNumber(context: Context, columnWidth: Int): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            DeviceUtils.getDisplayWidth(gridView.context) / (columnWidth + gridView.horizontalSpacing)
+            DeviceUtils.getDisplayWidth(context) / (columnWidth +
+                    context.resources.getDimension(R.dimen.thread_post_side_margin_default).toInt())
         } else {
-            DeviceUtils.getDisplayWidth(gridView.context) / (columnWidth)
+            DeviceUtils.getDisplayWidth(context) / (columnWidth)
         }
     }
 
