@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.application.OrientationNotifier
-import com.koresuniku.wishmaster_v4.application.listener.OnOrientationChangedListener
 import com.koresuniku.wishmaster_v4.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster_v4.core.thread_list.presenter.IThreadListPresenter
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadListAdapterView
@@ -36,12 +34,9 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
         this.activity = WeakReference(activity)
     }
 
-    override fun onOrientationChanged(orientation: Int) {
-        Log.d("TLRVA", "orientation: $orientation")
-    }
+    override fun onOrientationChanged(orientation: Int) { notifyDataSetChanged() }
 
     override fun onBindViewHolder(holder: ThreadItemViewHolder?, position: Int) {
-        //Log.d(LOG_TAG, "onBindViewHolder: $position")
         holder?.let { presenter.setItemViewData(it, position) }
     }
 

@@ -1,6 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.dagger.component
 
-import com.koresuniku.wishmaster_v4.application.OrientationNotifier
+import com.koresuniku.wishmaster_v4.application.listener.OrientationNotifier
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.dagger.module.RxModule
 import com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scopes.ThreadListPresenterModule

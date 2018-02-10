@@ -2,9 +2,11 @@ package com.koresuniku.wishmaster_v4.application
 
 import android.app.Application
 import android.content.res.Configuration
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
+import com.koresuniku.wishmaster_v4.application.listener.OrientationNotifier
 import com.koresuniku.wishmaster_v4.application.preferences.*
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.dagger.component.*

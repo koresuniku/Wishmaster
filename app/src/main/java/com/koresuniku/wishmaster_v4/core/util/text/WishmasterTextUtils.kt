@@ -16,15 +16,12 @@ import javax.inject.Inject
 
 class WishmasterTextUtils @Inject constructor() {
 
-    fun obtainBoardIdDashName(boardModel: BoardModel): String {
-        return "/${boardModel.getBoardId()}/ - ${boardModel.getBoardName()}"
-    }
+    fun obtainBoardIdDashName(boardModel: BoardModel) =
+            "/${boardModel.getBoardId()}/ - ${boardModel.getBoardName()}"
 
-    fun obtainBoardIdDashName(boardId: String, boardName: String): String {
-        return "/$boardId/ - $boardName"
-    }
+    fun obtainBoardIdDashName(boardId: String, boardName: String) = "/$boardId/ - $boardName"
 
-    fun obtainImageResume(file: File): String {
+    fun obtainImageShortInfo(file: File): String {
         val width = file.width
         val height = file.height
         val size = file.size
@@ -34,10 +31,8 @@ class WishmasterTextUtils @Inject constructor() {
         return "$width * $height\n$size, $format"
     }
 
-    fun getSpannedFromHtml(input: String): Spanned { return Html.fromHtml(input) }
-
     fun getSubjectSpanned(subject: String, boardId: String): Spanned {
-        return getSpannedFromHtml(if (boardId == "b") "" else subject)
+        return Html.fromHtml(if (boardId == "b") "" else subject)
     }
 
     fun getCommentForSingleImageItemTemp(rawComment: String,
@@ -78,9 +73,7 @@ class WishmasterTextUtils @Inject constructor() {
 
             builder.setSpan(SingleImageCommentMarginSpan(linesToSpan, uiParams.commentMarginWidth),
                     0, commentEndPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-//            builder.setSpan(BackgroundColorSpan(Color.LTGRAY),
-//                    0, commentEndPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            //it.onSuccess(cutComment(SpannableString(builder), uiParams))
+
             it.onSuccess(builder)
         })
     }
@@ -100,12 +93,11 @@ class WishmasterTextUtils @Inject constructor() {
 
     fun getCommentDefault(rawComment: String, uiParams: UiParams): Single<Spannable> {
         return Single.create({
-            //it.onSuccess(cutComment(SpannableString(Html.fromHtml(rawComment)), uiParams))
             it.onSuccess(SpannableString(Html.fromHtml(rawComment)))
         })
     }
 
-    fun getShortInfo(postCount: Int, fileCount: Int): String {
+    fun getThreadBriefInfo(postCount: Int, fileCount: Int): String {
         var result = ""
         result += getCorrectRussianEndings(
                 count = postCount, stringForZeroOrMultiple = "постов",
@@ -122,24 +114,20 @@ class WishmasterTextUtils @Inject constructor() {
         if (count == 0) return count.toString() + " " + stringForZeroOrMultiple
         val lastNumber: Int
         var signsCount = -1
-        if (count < 10) {
-            lastNumber = count
-        } else {
+
+        if (count < 10) lastNumber = count
+        else {
             signsCount = count.toString().length
             lastNumber = Integer.parseInt(count.toString().substring(signsCount - 1, signsCount))
         }
+
         if (signsCount >= 2 && count.toString()
                         .substring(signsCount - 2, signsCount)
                         .matches(Regex("1[0-9]"))) {
             return count.toString() + " " + stringForZeroOrMultiple
-        }
-        if (lastNumber == 1) {
-            if (count >= 10 && count.toString().substring(signsCount - 2, signsCount) == "11") {
-                return count.toString() + " " + stringForZeroOrMultiple
-            }
+        } else if (lastNumber == 1) {
             return count.toString() + " " + stringForOne
-        }
-        if (lastNumber == 2 || lastNumber == 3 || lastNumber == 4) {
+        } else if (lastNumber == 2 || lastNumber == 3 || lastNumber == 4) {
             return count.toString() + " " + stringForTwoThreeFour
         }
         return count.toString() + " " + stringForZeroOrMultiple

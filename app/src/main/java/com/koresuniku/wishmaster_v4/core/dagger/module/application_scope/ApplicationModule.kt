@@ -1,8 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.dagger.module.application_scope
 
 import android.app.Application
-import com.koresuniku.wishmaster_v4.application.OrientationNotifier
-import com.koresuniku.wishmaster_v4.application.WishmasterApplication
+import com.koresuniku.wishmaster_v4.application.listener.OrientationNotifier
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

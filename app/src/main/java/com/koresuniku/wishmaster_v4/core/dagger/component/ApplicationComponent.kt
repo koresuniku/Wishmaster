@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster_v4.application.preferences.ISharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.application.WishmasterApplication
+import com.koresuniku.wishmaster_v4.application.listener.OrientationNotifier
 import com.koresuniku.wishmaster_v4.application.preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.*
@@ -49,6 +50,9 @@ interface ApplicationComponent {
     //Utils
     fun textUtils(): WishmasterTextUtils
     fun imageUtils(): WishmasterImageUtils
+
+    //Lifecycle
+    fun orientationNotifier(): OrientationNotifier
 
     fun inject(application: WishmasterApplication)
 

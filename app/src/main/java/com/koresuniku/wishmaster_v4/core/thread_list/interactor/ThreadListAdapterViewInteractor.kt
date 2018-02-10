@@ -51,7 +51,7 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                 "${uiParams.threadPostItemSingleImageHorizontalWidth}")
 
         //ShortInfo
-        view.setThreadShortInfo(textUtils.getShortInfo(thread.postsCount, thread.filesCount))
+        view.setThreadShortInfo(textUtils.getThreadBriefInfo(thread.postsCount, thread.filesCount))
 
         //Images
         thread.files?.let {

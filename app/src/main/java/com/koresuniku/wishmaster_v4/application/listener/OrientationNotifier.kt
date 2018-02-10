@@ -1,6 +1,6 @@
-package com.koresuniku.wishmaster_v4.application
+package com.koresuniku.wishmaster_v4.application.listener
 
-import com.koresuniku.wishmaster_v4.application.listener.OnOrientationChangedListener
+import android.util.Log
 import javax.inject.Inject
 
 /**
@@ -11,7 +11,11 @@ class OrientationNotifier @Inject constructor() {
     private val subscribers: MutableList<OnOrientationChangedListener> = ArrayList()
 
     fun notifyOrientation(orientation: Int) {
-        subscribers.forEach { it.onOrientationChanged(orientation) }
+        Log.d("ON", "notify orientation")
+        subscribers.forEach {
+            Log.d("ON", "notifying: $it")
+            it.onOrientationChanged(orientation)
+        }
     }
 
     fun bindListener(listener: OnOrientationChangedListener) {

@@ -25,7 +25,7 @@ class WishmasterImageUtils @Inject constructor(private val textUtils: Wishmaster
             it.onSuccess(ImageItemData(
                     file,
                     computeImageLayoutConfiguration(file, uiParams),
-                    textUtils.obtainImageResume(file)))
+                    textUtils.obtainImageShortInfo(file)))
         })
     }
 
@@ -36,7 +36,7 @@ class WishmasterImageUtils @Inject constructor(private val textUtils: Wishmaster
             val imageItemDataList: MutableList<ImageItemData> = ArrayList()
 
             files.mapTo(configs) { computeImageLayoutConfiguration(it, uiParams) }
-            files.mapTo(summaries) { textUtils.obtainImageResume(it) }
+            files.mapTo(summaries) { textUtils.obtainImageShortInfo(it) }
 
             files.mapIndexed{ index, file ->
                 imageItemDataList.add(ImageItemData(file, configs[index], summaries[index]))}

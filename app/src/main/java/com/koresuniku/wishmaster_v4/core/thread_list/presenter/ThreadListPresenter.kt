@@ -1,6 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.thread_list.presenter
 
-import com.koresuniku.wishmaster_v4.application.OrientationNotifier
+import com.koresuniku.wishmaster_v4.application.listener.OrientationNotifier
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListAdapterViewInteractor
 import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListNetworkInteractor
