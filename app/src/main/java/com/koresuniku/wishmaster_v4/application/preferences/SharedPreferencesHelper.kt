@@ -25,10 +25,12 @@ class SharedPreferencesHelper : ISharedPreferencesHelper {
                                      sharedPreferencesStorage: SharedPreferencesStorage,
                                      retrofitHolder: RetrofitHolder,
                                      uiParams: UiParams,
+                                     commonParams: CommonParams,
                                      uiUtils: UiUtils,
                                      viewUtils: ViewUtils,
                                      deviceUtils: DeviceUtils) {
         setACRA(sharedPreferencesStorage)
+        setCacheSize(sharedPreferencesStorage, commonParams)
         setDefaultImageWidth(context, sharedPreferencesStorage, uiParams, uiUtils, deviceUtils)
         setRetrofitBaseUrl(sharedPreferencesStorage, retrofitHolder)
         setShortInfoHeight(context, sharedPreferencesStorage, uiParams, viewUtils)
@@ -43,6 +45,15 @@ class SharedPreferencesHelper : ISharedPreferencesHelper {
                 SharedPreferencesKeystore.ENABLE_SEND_REPORTS_DEFAULT)
                 .subscribeOn(Schedulers.io())
                 .subscribe(ACRA.getErrorReporter()::setEnabled)
+    }
+
+    private fun setCacheSize(sharedPreferencesStorage: SharedPreferencesStorage,
+                             commonParams: CommonParams) {
+        sharedPreferencesStorage.readInt(
+                SharedPreferencesKeystore.CACHE_SIZE_KEY,
+                SharedPreferencesKeystore.CACHE_SIZE_DEFAULT)
+                .subscribeOn(Schedulers.io())
+                .subscribe({ commonParams.cacheSize = it}, { it.printStackTrace() })
     }
 
     private fun setDefaultImageWidth(context: Context,

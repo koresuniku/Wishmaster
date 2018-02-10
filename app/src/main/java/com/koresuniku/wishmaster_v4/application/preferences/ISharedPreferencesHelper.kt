@@ -12,6 +12,7 @@ interface ISharedPreferencesHelper {
                             sharedPreferencesStorage: SharedPreferencesStorage,
                             retrofitHolder: RetrofitHolder,
                             uiParams: UiParams,
+                            commonParams: CommonParams,
                             uiUtils: UiUtils,
                             viewUtils: ViewUtils,
                             deviceUtils: DeviceUtils)

@@ -99,6 +99,7 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
     @Inject lateinit var deviceUtils: DeviceUtils
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var viewUtils: ViewUtils
+    @Inject lateinit var commonParams: CommonParams
 
     override fun onCreate() {
         super.onCreate()
@@ -112,7 +113,7 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
 
         uiParams.orientation = resources.configuration.orientation
         sharedPreferencesHelper.onApplicationCreate(this, sharedPreferencesStorage,
-                retrofitHolder, uiParams, uiUtils, viewUtils, deviceUtils)
+                retrofitHolder, uiParams, commonParams, uiUtils, viewUtils, deviceUtils)
 
         Glide.get(this).register(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
     }

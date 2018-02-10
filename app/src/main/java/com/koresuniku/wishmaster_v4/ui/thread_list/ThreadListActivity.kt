@@ -102,6 +102,9 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 
     private fun setupRecyclerView() {
         mThreadListRecyclerViewAdapter = ThreadListRecyclerViewAdapter(this)
+        mThreadListRecyclerView.setItemViewCacheSize(20)
+        mThreadListRecyclerView.isDrawingCacheEnabled = true
+        mThreadListRecyclerView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
         mThreadListRecyclerView.adapter = mThreadListRecyclerViewAdapter
         mThreadListRecyclerView.layoutManager = LinearLayoutManagerWrapper(
                 this, LinearLayoutManager.VERTICAL, false)
