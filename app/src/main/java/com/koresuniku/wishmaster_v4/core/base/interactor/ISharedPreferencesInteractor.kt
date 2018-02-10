@@ -1,6 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.base.interactor
 
-import com.koresuniku.wishmaster_v4.application.shared_preferences.ISharedPreferencesStorage
+import com.koresuniku.wishmaster_v4.application.preferences.ISharedPreferencesStorage
 
 
 interface ISharedPreferencesInteractor {

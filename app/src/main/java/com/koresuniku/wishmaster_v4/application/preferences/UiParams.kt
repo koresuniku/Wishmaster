@@ -1,4 +1,4 @@
-package com.koresuniku.wishmaster_v4.application.shared_preferences
+package com.koresuniku.wishmaster_v4.application.preferences
 
 import android.text.TextPaint
 import javax.inject.Inject

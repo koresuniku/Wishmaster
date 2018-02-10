@@ -1,7 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.dagger.module.application_scope
 
 import android.content.Context
-import com.koresuniku.wishmaster_v4.application.shared_preferences.*
+import com.koresuniku.wishmaster_v4.application.preferences.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

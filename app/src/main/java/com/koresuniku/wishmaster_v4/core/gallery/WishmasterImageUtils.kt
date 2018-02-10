@@ -1,12 +1,11 @@
 package com.koresuniku.wishmaster_v4.core.gallery
 
 import android.net.Uri
-import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.application.shared_preferences.UiParams
+import com.koresuniku.wishmaster_v4.application.preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.data.model.threads.File
 import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
 import com.koresuniku.wishmaster_v4.ui.util.UiUtils

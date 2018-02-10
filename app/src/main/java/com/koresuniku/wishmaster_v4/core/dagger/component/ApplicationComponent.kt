@@ -4,9 +4,9 @@ import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
-import com.koresuniku.wishmaster_v4.application.shared_preferences.ISharedPreferencesStorage
+import com.koresuniku.wishmaster_v4.application.preferences.ISharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.application.WishmasterApplication
-import com.koresuniku.wishmaster_v4.application.shared_preferences.UiParams
+import com.koresuniku.wishmaster_v4.application.preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.*
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper

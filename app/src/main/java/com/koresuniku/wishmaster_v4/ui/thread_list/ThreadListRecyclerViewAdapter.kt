@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.koresuniku.wishmaster_v4.R
+import com.koresuniku.wishmaster_v4.application.OrientationNotifier
+import com.koresuniku.wishmaster_v4.application.listener.OnOrientationChangedListener
 import com.koresuniku.wishmaster_v4.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster_v4.core.thread_list.presenter.IThreadListPresenter
 import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadListAdapterView
@@ -18,7 +20,8 @@ import javax.inject.Inject
  * Created by koresuniku on 07.01.18.
  */
 
-class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolder>(), ThreadListAdapterView<IThreadListPresenter> {
+class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolder>(),
+        ThreadListAdapterView<IThreadListPresenter> {
     private val LOG_TAG = ThreadListRecyclerViewAdapter::class.java.simpleName
 
     override val NO_IMAGES_CODE = 0
@@ -33,7 +36,9 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
         this.activity = WeakReference(activity)
     }
 
-
+    override fun onOrientationChanged(orientation: Int) {
+        Log.d("TLRVA", "orientation: $orientation")
+    }
 
     override fun onBindViewHolder(holder: ThreadItemViewHolder?, position: Int) {
         //Log.d(LOG_TAG, "onBindViewHolder: $position")
@@ -62,6 +67,5 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
     override fun getItemViewType(position: Int): Int = presenter.getThreadItemType(position)
     override fun getItemCount(): Int = presenter.getThreadListDataSize()
     override fun getItemId(position: Int): Long = position.toLong()
-
 
 }

@@ -1,18 +1,12 @@
 package com.koresuniku.wishmaster_v4.core.util.text
 
 import android.content.res.Configuration
-import android.graphics.Color
 import android.text.*
-import android.text.style.BackgroundColorSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.LeadingMarginSpan
-import android.util.Log
-import com.koresuniku.wishmaster_v4.application.shared_preferences.UiParams
+import com.koresuniku.wishmaster_v4.application.preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster_v4.core.data.model.threads.File
 import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
 import com.koresuniku.wishmaster_v4.core.util.text.markup.SingleImageCommentMarginSpan
-import com.koresuniku.wishmaster_v4.ui.util.UiUtils
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -84,9 +78,8 @@ class WishmasterTextUtils @Inject constructor() {
 
             builder.setSpan(SingleImageCommentMarginSpan(linesToSpan, uiParams.commentMarginWidth),
                     0, commentEndPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            builder.setSpan(BackgroundColorSpan(Color.LTGRAY),
-                    0, commentEndPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
+//            builder.setSpan(BackgroundColorSpan(Color.LTGRAY),
+//                    0, commentEndPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             //it.onSuccess(cutComment(SpannableString(builder), uiParams))
             it.onSuccess(builder)
         })

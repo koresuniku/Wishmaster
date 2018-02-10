@@ -1,7 +1,7 @@
 package com.koresuniku.wishmaster_v4.core.thread_list.interactor
 
 import android.util.Log
-import com.koresuniku.wishmaster_v4.application.shared_preferences.UiParams
+import com.koresuniku.wishmaster_v4.application.preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.base.rx.BaseRxAdapterViewInteractor
 import com.koresuniku.wishmaster_v4.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils

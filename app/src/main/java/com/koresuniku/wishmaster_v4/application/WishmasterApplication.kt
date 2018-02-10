@@ -2,11 +2,10 @@ package com.koresuniku.wishmaster_v4.application
 
 import android.app.Application
 import android.content.res.Configuration
-import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
-import com.koresuniku.wishmaster_v4.application.shared_preferences.*
+import com.koresuniku.wishmaster_v4.application.preferences.*
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.dagger.component.*
 import com.koresuniku.wishmaster_v4.core.dagger.module.*
@@ -37,7 +36,7 @@ import javax.inject.Inject
  * но хочу сразу предостеречь пытливых - стоп. Остальные просто не найдут.
  */
 
-class WishmasterApplication : Application(), IWishmasterDaggerInjector {
+class WishmasterApplication @Inject constructor() : Application(), IWishmasterDaggerInjector {
 
     private val mDaggerApplicationComponent: DaggerApplicationComponent by lazy {
         DaggerApplicationComponent.builder()
@@ -81,6 +80,7 @@ class WishmasterApplication : Application(), IWishmasterDaggerInjector {
     @Inject lateinit var uiParams: UiParams
     @Inject lateinit var sharedPreferencesHelper: ISharedPreferencesHelper
     @Inject lateinit var retrofitHolder: RetrofitHolder
+    @Inject lateinit var orientationNotifier: OrientationNotifier
 
     override fun onCreate() {
         super.onCreate()
@@ -98,6 +98,9 @@ class WishmasterApplication : Application(), IWishmasterDaggerInjector {
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
-        newConfig?.let { uiParams.orientation = it.orientation }
+        newConfig?.let {
+            uiParams.orientation = it.orientation
+            orientationNotifier.notifyOrientation(it.orientation)
+        }
     }
 }

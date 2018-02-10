@@ -1,5 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.thread_list.presenter
 
+import com.koresuniku.wishmaster_v4.application.OrientationNotifier
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListAdapterViewInteractor
 import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListNetworkInteractor
@@ -18,8 +19,9 @@ import javax.inject.Inject
 class ThreadListPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector,
                                               compositeDisposable: CompositeDisposable,
                                               threadListNetworkInteractor: ThreadListNetworkInteractor,
-                                              threadListAdapterViewInteractor: ThreadListAdapterViewInteractor):
-        BaseThreadListPresenter(compositeDisposable, threadListNetworkInteractor, threadListAdapterViewInteractor) {
+                                              threadListAdapterViewInteractor: ThreadListAdapterViewInteractor,
+                                              orientationNotifier: OrientationNotifier):
+        BaseThreadListPresenter(compositeDisposable, threadListNetworkInteractor, threadListAdapterViewInteractor, orientationNotifier) {
     private val LOG_TAG = ThreadListPresenter::class.java.simpleName
 
     override fun bindView(mvpView: ThreadListView<IThreadListPresenter>) {
