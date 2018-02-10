@@ -13,5 +13,6 @@ interface ISharedPreferencesStorage {
     fun writeIntBackground(key: String, value: Int)
     fun writeIntSameThread(key: String, value: Int): Boolean
     fun readInt(key: String, defaultValue: Int): Single<Int>
-
+    fun writeBoolean(key: String, value: Boolean)
+    fun readBoolean(key: String, defaultValue: Boolean): Single<Boolean>
 }

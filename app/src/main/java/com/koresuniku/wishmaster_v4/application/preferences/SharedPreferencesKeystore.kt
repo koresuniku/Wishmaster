@@ -14,6 +14,10 @@ object SharedPreferencesKeystore {
     const val BASE_URL_KEY = "base_url_key"
     val BASE_URL_DEFAULT = Dvach.BASE_URL
 
+    //ACRA
+    const val ENABLE_SEND_REPORTS_KEY = "enable_send_reports"
+    const val ENABLE_SEND_REPORTS_DEFAULT = true
+
     //Dashboard
     const val DASHBOARD_PREFERRED_TAB_POSITION_KEY = "dashboard_preferred_tab_position"
     const val DASHBOARD_PREFERRED_TAB_POSITION_DEFAULT = 1

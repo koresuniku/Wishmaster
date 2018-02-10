@@ -13,6 +13,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.Function7
 import io.reactivex.schedulers.Schedulers
+import org.acra.ACRA
 
 /**
  * Created by koresuniku on 14.01.18.
@@ -21,18 +22,27 @@ import io.reactivex.schedulers.Schedulers
 class SharedPreferencesHelper : ISharedPreferencesHelper {
 
     override fun onApplicationCreate(context: Context,
-                                     sharedPreferencesStorage: ISharedPreferencesStorage,
+                                     sharedPreferencesStorage: SharedPreferencesStorage,
                                      retrofitHolder: RetrofitHolder,
                                      uiParams: UiParams,
                                      uiUtils: UiUtils,
                                      viewUtils: ViewUtils,
                                      deviceUtils: DeviceUtils) {
+        setACRA(sharedPreferencesStorage)
         setDefaultImageWidth(context, sharedPreferencesStorage, uiParams, uiUtils, deviceUtils)
         setRetrofitBaseUrl(sharedPreferencesStorage, retrofitHolder)
         setShortInfoHeight(context, sharedPreferencesStorage, uiParams, viewUtils)
         setMaxLines(sharedPreferencesStorage, uiParams)
         setCommentTextSize(sharedPreferencesStorage, uiParams)
         setCommentTextPaint(context, uiParams)
+    }
+
+    private fun setACRA(sharedPreferencesStorage: SharedPreferencesStorage) {
+        sharedPreferencesStorage.readBoolean(
+                SharedPreferencesKeystore.ENABLE_SEND_REPORTS_KEY,
+                SharedPreferencesKeystore.ENABLE_SEND_REPORTS_DEFAULT)
+                .subscribeOn(Schedulers.io())
+                .subscribe(ACRA.getErrorReporter()::setEnabled)
     }
 
     private fun setDefaultImageWidth(context: Context,

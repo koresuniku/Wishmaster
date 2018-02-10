@@ -51,4 +51,18 @@ class SharedPreferencesStorage @Inject constructor(val context: Context) : IShar
                 .putInt(key, value)
                 .commit()
     }
+
+    override fun writeBoolean(key: String, value: Boolean) {
+        context.getSharedPreferences(SharedPreferencesKeystore.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .putBoolean(key, value)
+                .apply()
+    }
+
+    override fun readBoolean(key: String, defaultValue: Boolean): Single<Boolean> {
+        return Single.fromCallable {
+            context.getSharedPreferences(SharedPreferencesKeystore.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+                    .getBoolean(key, defaultValue)
+        }
+    }
 }

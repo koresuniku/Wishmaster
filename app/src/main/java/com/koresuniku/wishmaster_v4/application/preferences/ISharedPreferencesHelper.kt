@@ -9,7 +9,7 @@ import com.koresuniku.wishmaster_v4.ui.utils.ViewUtils
 
 interface ISharedPreferencesHelper {
     fun onApplicationCreate(context: Context,
-                            sharedPreferencesStorage: ISharedPreferencesStorage,
+                            sharedPreferencesStorage: SharedPreferencesStorage,
                             retrofitHolder: RetrofitHolder,
                             uiParams: UiParams,
                             uiUtils: UiUtils,
