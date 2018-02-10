@@ -68,6 +68,9 @@ class SharedPreferencesHelper : ISharedPreferencesHelper {
                         val newImageWidth = uiUtils.getDefaultImageWidthInDp(
                                 deviceUtils.getActualDisplayWidthInPx(context), context)
                         uiParams.imageWidthDp = newImageWidth
+                        uiParams.commentMarginWidth =
+                                uiUtils.convertDpToPixel(newImageWidth.toFloat()).toInt() +
+                                context.resources.getDimension(R.dimen.thread_post_side_margin_default).toInt()
                         if (sharedPreferencesStorage.writeIntSameThread(
                                         SharedPreferencesKeystore.DEFAULT_IMAGE_WIDTH_IN_DP_KEY, newImageWidth)) {
                             computeThreadPostItemWidth(context, sharedPreferencesStorage, uiParams, uiUtils, deviceUtils)
