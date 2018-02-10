@@ -1,11 +1,18 @@
 <resources>
     <string name="app_name">Wishmaster</string>
 
+    <!--ACRA-->
+    <string name="crash_report">Crash report</string>
+    <string name="wishmaster_is_crashed">Wishmaster поломался</string>
+    <string name="send_report">Отправить отчет об ошибке</string>
+
     <!--Common-->
     <string name="loading_text">Загрузка…</string>
     <string name="bljad">Блджад</string>
     <string name="error">Ошибка</string>
     <string name="unknown_address">Неизвестный адрес!</string>
+    <string name="ok">OK</string>
+    <string name="personal_comment">Личный комментарий (можно оставить пустым)</string>
 
     <!--Dashboard-->
     <string name="more_boards_text">Нужно больше любимых борд!</string>

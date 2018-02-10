@@ -33,6 +33,7 @@ abstract class BaseThreadListPresenter(compositeDisposable: CompositeDisposable,
     }
 
     override fun unbindView() {
+        presenterData = ThreadListData.emptyData()
         super.unbindView()
         threadListNetworkInteractor.unbindPresenter()
         threadListAdapterViewInteractor.unbindPresenter()
