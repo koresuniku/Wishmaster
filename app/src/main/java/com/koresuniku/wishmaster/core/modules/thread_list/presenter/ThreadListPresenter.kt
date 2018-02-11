@@ -29,25 +29,25 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
         injector.daggerThreadListPresenterComponent.inject(this)
     }
 
-    override fun getBoardId(): String = mView?.getBoardId() ?: String()
+    override fun getBoardId(): String = mvpView?.getBoardId() ?: String()
 
     override fun loadThreadList() {
         compositeDisposable.add(threadListNetworkInteractor.getDataFromNetwork()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    if (presenterData.getThreadList().isEmpty()) mView?.showThreadList()
+                    if (presenterData.getThreadList().isEmpty()) mvpView?.showThreadList()
                     presenterData = it
-                    mView?.onThreadListReceived(it.getBoardName())
+                    mvpView?.onThreadListReceived(it.getBoardName())
                     threadListAdapterView?.onThreadListDataChanged(it)
-                }, { it.printStackTrace(); mView?.showError(it.message) }))
+                }, { it.printStackTrace(); mvpView?.showError(it.message) }))
     }
 
     override fun onNetworkError(t: Throwable) {
         compositeDisposable.add(Completable.fromCallable {  }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t.printStackTrace(); mView?.showError(t.message)}))
+                .subscribe({ t.printStackTrace(); mvpView?.showError(t.message)}))
     }
 
     override fun setItemViewData(threadItemView: ThreadItemView, position: Int) {
@@ -69,5 +69,5 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
         return threadListAdapterView?.NO_IMAGES_CODE ?: -1
     }
 
-    override fun onThreadItemClicked(threadNumber: String) { mView?.launchFullThreadActivity(threadNumber) }
+    override fun onThreadItemClicked(threadNumber: String) { mvpView?.launchFullThreadActivity(threadNumber) }
 }

@@ -13,6 +13,7 @@ import com.koresuniku.wishmaster.core.dagger.module.application_scope.*
 import com.koresuniku.wishmaster.core.data.database.DatabaseHelper
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
+import com.koresuniku.wishmaster.core.network.full_thread_api.FullThreadApiService
 import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListApiService
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
@@ -51,6 +52,7 @@ interface ApplicationComponent {
     //API
     fun boardsApiService(): BoardsApiService
     fun threadListApiService(): ThreadListApiService
+    fun fullThreadApiService(): FullThreadApiService
 
     //Utils
     fun textUtils(): WishmasterTextUtils

@@ -39,7 +39,7 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { boardList ->
-                    mView?.onBoardListReceived(boardList)
+                    mvpView?.onBoardListReceived(boardList)
                     mapToBoardsDataByCategory(boardList)
                 })
     }
@@ -48,7 +48,7 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
        compositeDisposable.add(Completable.fromCallable {  }
                .subscribeOn(Schedulers.io())
                .observeOn(AndroidSchedulers.mainThread())
-               .subscribe({ t.printStackTrace(); mView?.onBoardListError(t) }))
+               .subscribe({ t.printStackTrace(); mvpView?.onBoardListError(t) }))
     }
 
     private fun loadFromDatabase(e: SingleEmitter<BoardListData>) {
@@ -62,7 +62,7 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
     private fun loadFromNetwork(e: SingleEmitter<BoardListData>) {
         compositeDisposable.add(Completable.fromCallable {  }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ mView?.showLoading() }))
+                .subscribe({ mvpView?.showLoading() }))
         compositeDisposable.add(networkInteractor.getDataFromNetwork()
                 .subscribe({
                     databaseInteractor.insertAllBoardsIntoDatabase(it).subscribe()
@@ -114,17 +114,17 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    if (it.responseCode == SearchInputMatcher.UNKNOWN_CODE) mView?.showUnknownInput()
+                    if (it.responseCode == SearchInputMatcher.UNKNOWN_CODE) mvpView?.showUnknownInput()
                     else if (it.responseCode == SearchInputMatcher.BOARD_CODE)
-                        mView?.launchThreadListActivity(it.data) }, { it.printStackTrace()}))
+                        mvpView?.launchThreadListActivity(it.data) }, { it.printStackTrace()}))
     }
 
     override fun getDashboardFavouriteTabPosition() {
         compositeDisposable.add(sharedPreferencesInteractor.getDashboardFavouriteTabPosition()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ mView?.onFavouriteTabPositionReceived(it) }, { it.printStackTrace()}))
+                .subscribe({ mvpView?.onFavouriteTabPositionReceived(it) }, { it.printStackTrace()}))
     }
 
-    override fun shouldLaunchThreadListActivity(boardId: String) { mView?.launchThreadListActivity(boardId) }
+    override fun shouldLaunchThreadListActivity(boardId: String) { mvpView?.launchThreadListActivity(boardId) }
 }

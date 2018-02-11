@@ -8,4 +8,9 @@ import com.koresuniku.wishmaster.core.modules.full_thread.view.FullThreadView
  */
 interface IFullThreadPresenter : IMvpPresenter<FullThreadView<IFullThreadPresenter>> {
 
+    fun loadPostList()
+    fun getBoardId(): String
+    fun getThreadNumber(): String
+    fun onNetworkError(t: Throwable)
+
 }

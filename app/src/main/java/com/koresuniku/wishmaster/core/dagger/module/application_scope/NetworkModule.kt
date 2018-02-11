@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster.application.preferences.CommonParams
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
+import com.koresuniku.wishmaster.core.network.full_thread_api.FullThreadApiService
 import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListApiService
 import dagger.Module
 import dagger.Provides
@@ -62,4 +63,9 @@ class NetworkModule {
     @Singleton
     fun provideThreadListApi(retrofit: Retrofit): ThreadListApiService =
             retrofit.create(ThreadListApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideFullThreadApi(retrofit: Retrofit): FullThreadApiService =
+            retrofit.create(FullThreadApiService::class.java)
 }

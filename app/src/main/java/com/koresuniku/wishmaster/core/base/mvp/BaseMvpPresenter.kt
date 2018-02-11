@@ -5,13 +5,13 @@ package com.koresuniku.wishmaster.core.base.mvp
  */
 
 abstract class BaseMvpPresenter<V: IMvpView<*>> : IMvpPresenter<V> {
-    protected var mView: V? = null
+    protected var mvpView: V? = null
 
     override fun bindView(mvpView: V) {
-        this.mView = mvpView
+        this.mvpView = mvpView
     }
 
     override fun unbindView() {
-        this.mView = null
+        this.mvpView = null
     }
 }
