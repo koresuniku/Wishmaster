@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.koresuniku.wishmaster_v4">
+          package="com.koresuniku.wishmaster">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -9,10 +9,10 @@
         android:icon="@drawable/wishmaster_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name=".application.WishmasterApplication"
+        android:name="com.koresuniku.wishmaster.application.WishmasterApplication"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.dashboard.DashboardActivity"
+        <activity android:name="com.koresuniku.wishmaster.ui.dashboard.DashboardActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -20,10 +20,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.thread_list.ThreadListActivity"
+        <activity android:name="com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity"
             android:configChanges="orientation|screenSize"/>
 
-        <activity android:name=".ui.full_thread.FullThreadActivity"
+        <activity android:name="com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity"
                   android:configChanges="orientation|screenSize"/>
     </application>
 

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.koresuniku.wishmaster_v4.ui.dashboard.DashboardActivity">
+    tools:context="com.koresuniku.wishmaster.ui.dashboard.DashboardActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -29,12 +29,12 @@
         app:tabMode="fixed">
     </android.support.design.widget.TabLayout>
 
-    <com.koresuniku.wishmaster_v4.ui.view.widget.DashboardViewPager
+    <com.koresuniku.wishmaster.ui.view.widget.DashboardViewPager
         android:id="@+id/dashboard_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tab_layout">
-    </com.koresuniku.wishmaster_v4.ui.view.widget.DashboardViewPager>
+    </com.koresuniku.wishmaster.ui.view.widget.DashboardViewPager>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/loading_layout"

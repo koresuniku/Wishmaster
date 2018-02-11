@@ -1,0 +1,65 @@
+package com.koresuniku.wishmaster.core.dagger.module.application_scope
+
+import android.app.Application
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
+import com.koresuniku.wishmaster.application.preferences.CommonParams
+import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
+import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListApiService
+import dagger.Module
+import dagger.Provides
+import okhttp3.Cache
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import javax.inject.Singleton
+
+/**
+ * Created by koresuniku on 03.10.17.
+ */
+
+@Module
+class NetworkModule {
+
+    @Provides
+    @Singleton
+    fun provideHttpCache(application: Application, commonParams: CommonParams): Cache {
+        return Cache(application.cacheDir, commonParams.cacheSize.toLong())
+    }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        val gsonBuilder = GsonBuilder()
+        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        return gsonBuilder.create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(cache: Cache): OkHttpClient {
+        val client = OkHttpClient.Builder()
+        client.cache(cache)
+        return client.build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofitHolder(gson: Gson, okHttpClient: OkHttpClient): RetrofitHolder =
+            RetrofitHolder(gson, okHttpClient)
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(retrofitHolder: RetrofitHolder): Retrofit = retrofitHolder.getRetrofit()
+
+    @Provides
+    @Singleton
+    fun provideBoardsApi(retrofit: Retrofit): BoardsApiService =
+            retrofit.create(BoardsApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideThreadListApi(retrofit: Retrofit): ThreadListApiService =
+            retrofit.create(ThreadListApiService::class.java)
+}
