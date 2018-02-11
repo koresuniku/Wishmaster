@@ -108,9 +108,6 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
 
         mDaggerApplicationComponent.inject(this)
 
-        //ACRA.init(this)
-        //ACRA.getErrorReporter().setEnabled(false);
-
         uiParams.orientation = resources.configuration.orientation
         sharedPreferencesHelper.onApplicationCreate(this, sharedPreferencesStorage,
                 retrofitHolder, uiParams, commonParams, uiUtils, viewUtils, deviceUtils)

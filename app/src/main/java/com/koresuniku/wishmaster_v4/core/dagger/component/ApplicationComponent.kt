@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
-import com.koresuniku.wishmaster_v4.application.preferences.ISharedPreferencesStorage
 import com.koresuniku.wishmaster_v4.application.WishmasterApplication
 import com.koresuniku.wishmaster_v4.application.listener.OrientationNotifier
 import com.koresuniku.wishmaster_v4.application.preferences.SharedPreferencesStorage
@@ -12,10 +11,10 @@ import com.koresuniku.wishmaster_v4.application.preferences.UiParams
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.dagger.module.application_scope.*
 import com.koresuniku.wishmaster_v4.core.data.database.DatabaseHelper
-import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
+import com.koresuniku.wishmaster_v4.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster_v4.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster_v4.core.network.thread_list_api.ThreadListApiService
-import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
+import com.koresuniku.wishmaster_v4.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster_v4.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster_v4.ui.utils.UiUtils
 import com.koresuniku.wishmaster_v4.ui.utils.ViewUtils

@@ -3,10 +3,10 @@ package com.koresuniku.wishmaster_v4.core.dagger.module.thread_list_scopes
 import com.koresuniku.wishmaster_v4.application.listener.OrientationNotifier
 import com.koresuniku.wishmaster_v4.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster_v4.core.dagger.scope.ForThreadListView
-import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListAdapterViewInteractor
-import com.koresuniku.wishmaster_v4.core.thread_list.interactor.ThreadListNetworkInteractor
-import com.koresuniku.wishmaster_v4.core.thread_list.presenter.IThreadListPresenter
-import com.koresuniku.wishmaster_v4.core.thread_list.presenter.ThreadListPresenter
+import com.koresuniku.wishmaster_v4.core.modules.thread_list.interactor.ThreadListAdapterViewInteractor
+import com.koresuniku.wishmaster_v4.core.modules.thread_list.interactor.ThreadListNetworkInteractor
+import com.koresuniku.wishmaster_v4.core.modules.thread_list.presenter.IThreadListPresenter
+import com.koresuniku.wishmaster_v4.core.modules.thread_list.presenter.ThreadListPresenter
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable

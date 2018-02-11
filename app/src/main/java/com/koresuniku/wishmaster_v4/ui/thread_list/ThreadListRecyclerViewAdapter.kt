@@ -2,14 +2,13 @@ package com.koresuniku.wishmaster_v4.ui.thread_list
 
 import android.app.Activity
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.core.data.model.threads.ThreadListData
-import com.koresuniku.wishmaster_v4.core.thread_list.presenter.IThreadListPresenter
-import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadListAdapterView
+import com.koresuniku.wishmaster_v4.core.modules.thread_list.presenter.IThreadListPresenter
+import com.koresuniku.wishmaster_v4.core.modules.thread_list.view.ThreadListAdapterView
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterActivity
 import java.lang.ref.WeakReference
 import javax.inject.Inject

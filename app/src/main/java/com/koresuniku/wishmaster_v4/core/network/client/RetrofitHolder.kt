@@ -2,8 +2,6 @@ package com.koresuniku.wishmaster_v4.core.network.client
 
 import com.google.gson.Gson
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import com.koresuniku.wishmaster_v4.core.dagger.BaseDaggerMutableHolder
-import com.koresuniku.wishmaster_v4.core.dagger.IDaggerMutableHolder
 import com.koresuniku.wishmaster_v4.core.network.Dvach
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

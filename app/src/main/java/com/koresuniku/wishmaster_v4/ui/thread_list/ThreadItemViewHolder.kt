@@ -12,9 +12,9 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
-import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
-import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadItemView
+import com.koresuniku.wishmaster_v4.core.modules.gallery.ImageItemData
+import com.koresuniku.wishmaster_v4.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster_v4.core.modules.thread_list.view.ThreadItemView
 import com.koresuniku.wishmaster_v4.ui.preview.PreviewImageGridAdapter
 
 /**

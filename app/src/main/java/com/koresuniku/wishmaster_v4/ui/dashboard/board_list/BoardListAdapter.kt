@@ -9,7 +9,7 @@ import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
+import com.koresuniku.wishmaster_v4.core.modules.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardListsObject
 import com.koresuniku.wishmaster_v4.core.data.database.repository.BoardsRepository
 import java.lang.ref.WeakReference

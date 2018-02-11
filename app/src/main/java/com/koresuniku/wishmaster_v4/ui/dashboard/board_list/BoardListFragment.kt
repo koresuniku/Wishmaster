@@ -8,8 +8,8 @@ import android.widget.ExpandableListView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.core.dashboard.view.BoardListView
-import com.koresuniku.wishmaster_v4.core.dashboard.presenter.IDashboardPresenter
+import com.koresuniku.wishmaster_v4.core.modules.dashboard.view.BoardListView
+import com.koresuniku.wishmaster_v4.core.modules.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster_v4.core.data.model.boards.BoardListsObject
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterFragment
 import com.koresuniku.wishmaster_v4.ui.dashboard.DashboardActivity

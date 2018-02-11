@@ -9,7 +9,7 @@ import android.widget.LinearLayout
 import android.view.WindowManager
 import android.widget.GridView
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
+import com.koresuniku.wishmaster_v4.core.modules.gallery.ImageItemData
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

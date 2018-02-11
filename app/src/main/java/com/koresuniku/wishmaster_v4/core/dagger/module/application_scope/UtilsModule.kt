@@ -1,8 +1,8 @@
 package com.koresuniku.wishmaster_v4.core.dagger.module.application_scope
 
 import com.koresuniku.wishmaster_v4.application.preferences.UiParams
-import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
-import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
+import com.koresuniku.wishmaster_v4.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster_v4.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster_v4.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster_v4.ui.utils.UiUtils
 import com.koresuniku.wishmaster_v4.ui.utils.ViewUtils

@@ -19,9 +19,9 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster_v4.R
 import com.koresuniku.wishmaster_v4.application.IntentKeystore
-import com.koresuniku.wishmaster_v4.core.thread_list.presenter.IThreadListPresenter
-import com.koresuniku.wishmaster_v4.core.thread_list.view.ThreadListView
-import com.koresuniku.wishmaster_v4.core.util.text.WishmasterTextUtils
+import com.koresuniku.wishmaster_v4.core.modules.thread_list.presenter.IThreadListPresenter
+import com.koresuniku.wishmaster_v4.core.modules.thread_list.view.ThreadListView
+import com.koresuniku.wishmaster_v4.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster_v4.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster_v4.ui.utils.UiUtils
 import com.koresuniku.wishmaster_v4.ui.view.widget.LinearLayoutManagerWrapper

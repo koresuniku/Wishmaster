@@ -7,8 +7,8 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.koresuniku.wishmaster_v4.R
-import com.koresuniku.wishmaster_v4.core.gallery.ImageItemData
-import com.koresuniku.wishmaster_v4.core.gallery.WishmasterImageUtils
+import com.koresuniku.wishmaster_v4.core.modules.gallery.ImageItemData
+import com.koresuniku.wishmaster_v4.core.utils.images.WishmasterImageUtils
 
 /**
  * Created by koresuniku on 15.01.18.

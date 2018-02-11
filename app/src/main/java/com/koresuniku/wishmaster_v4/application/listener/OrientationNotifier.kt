@@ -11,11 +11,7 @@ class OrientationNotifier @Inject constructor() {
     private val subscribers: MutableList<OnOrientationChangedListener> = ArrayList()
 
     fun notifyOrientation(orientation: Int) {
-        Log.d("ON", "notify orientation")
-        subscribers.forEach {
-            Log.d("ON", "notifying: $it")
-            it.onOrientationChanged(orientation)
-        }
+        subscribers.forEach { it.onOrientationChanged(orientation) }
     }
 
     fun bindListener(listener: OnOrientationChangedListener) {
