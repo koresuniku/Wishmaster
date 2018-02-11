@@ -11,6 +11,7 @@ import com.koresuniku.wishmaster.core.modules.thread_list.presenter.ThreadListPr
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import dagger.Component
+import io.reactivex.disposables.CompositeDisposable
 
 
 @ForThreadListPresenter
@@ -24,6 +25,7 @@ interface ThreadListPresenterComponent {
     fun textUtils(): WishmasterTextUtils
     fun uiUtils(): UiUtils
     fun orientationNotifier(): OrientationNotifier
+    fun compositeDisposable(): CompositeDisposable
 
     fun inject(threadListPresenter: ThreadListPresenter)
 }

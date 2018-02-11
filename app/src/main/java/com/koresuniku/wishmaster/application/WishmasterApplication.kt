@@ -19,6 +19,8 @@ import com.koresuniku.wishmaster.core.dagger.module.application_scope.SharedPref
 import com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes.BoardsModule
 import com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes.DashboardPresenterModule
 import com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes.DashboardViewModule
+import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadPresenterModule
+import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadViewModule
 import com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes.ThreadListPresenterModule
 import com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes.ThreadListViewModule
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
@@ -86,6 +88,19 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
                 .threadListViewModule(ThreadListViewModule())
                 .build() as DaggerThreadListViewComponent
     }
+    override val daggerFullThreadPresenterComponent: DaggerFullThreadPresenterComponent by lazy {
+        DaggerFullThreadPresenterComponent.builder()
+                .applicationComponent(mDaggerApplicationComponent)
+                .fullThreadPresenterModule(FullThreadPresenterModule())
+                .rxModule(RxModule())
+                .build() as DaggerFullThreadPresenterComponent
+    }
+    override val daggerFullThreadViewComponent: DaggerFullThreadViewComponent by lazy {
+        DaggerFullThreadViewComponent.builder()
+                .fullThreadPresenterComponent(daggerFullThreadPresenterComponent)
+                .fullThreadViewModule(FullThreadViewModule())
+                .build() as DaggerFullThreadViewComponent
+    }
 
     @Inject lateinit var okHttpClient: OkHttpClient
     @Inject lateinit var sharedPreferencesStorage: SharedPreferencesStorage
@@ -100,9 +115,7 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
 
     override fun onCreate() {
         super.onCreate()
-
         if (!LeakCanary.isInAnalyzerProcess(this)) LeakCanary.install(this)
-
         mDaggerApplicationComponent.inject(this)
 
         uiParams.orientation = resources.configuration.orientation

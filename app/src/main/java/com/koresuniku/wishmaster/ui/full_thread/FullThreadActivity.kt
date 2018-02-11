@@ -38,7 +38,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getWishmasterApplication().daggerThreadListViewComponent.inject(this)
+        getWishmasterApplication().daggerFullThreadViewComponent.inject(this)
         uiUtils.showSystemUI(this)
         ButterKnife.bind(this)
         presenter.bindView(this)

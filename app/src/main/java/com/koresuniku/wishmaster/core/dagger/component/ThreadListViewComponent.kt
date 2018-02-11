@@ -12,7 +12,8 @@ import dagger.Component
  */
 
 @ForThreadListView
-@Component(dependencies = [(ThreadListPresenterComponent::class)], modules = [(ThreadListViewModule::class), (RxModule::class)])
+@Component(dependencies = [(ThreadListPresenterComponent::class)],
+        modules = [(ThreadListViewModule::class)])
 interface ThreadListViewComponent {
 
     fun inject(activity: ThreadListActivity)
