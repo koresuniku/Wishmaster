@@ -5,7 +5,7 @@ import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadPresenterModule
 import com.koresuniku.wishmaster.core.dagger.scope.ForFullThreadPresenter
-import com.koresuniku.wishmaster.core.modules.full_thread.presenter.FullThreadPresener
+import com.koresuniku.wishmaster.core.modules.full_thread.presenter.FullThreadPresenter
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import dagger.Component
@@ -26,5 +26,5 @@ interface FullThreadPresenterComponent {
     fun orientationNotifier(): OrientationNotifier
     fun compositeDisposable(): CompositeDisposable
 
-    fun inject(fullThreadPresenter: FullThreadPresener)
+    fun inject(fullThreadPresenter: FullThreadPresenter)
 }

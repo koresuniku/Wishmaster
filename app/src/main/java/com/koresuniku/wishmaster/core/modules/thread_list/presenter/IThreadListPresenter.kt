@@ -14,6 +14,7 @@ interface IThreadListPresenter : IMvpPresenter<ThreadListView<IThreadListPresent
     fun getThreadListDataSize(): Int
     fun getThreadItemType(position: Int): Int
     fun setItemViewData(threadItemView: ThreadItemView, position: Int)
+    fun onThreadItemClicked(threadNumber: String)
 
     fun onNetworkError(t: Throwable)
 

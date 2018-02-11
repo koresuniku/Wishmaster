@@ -31,7 +31,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     @BindView(R.id.yoba) lateinit var mYobaImage: ImageView
     @BindView(R.id.error_layout) lateinit var mErrorLayout: ViewGroup
     @BindView(R.id.try_again_button) lateinit var mTryAgainButton: Button
-    @BindView(R.id.thread_list) lateinit var mThreadListRecyclerView: RecyclerView
+    @BindView(R.id.post_list) lateinit var mThreadListRecyclerView: RecyclerView
     @BindView(R.id.background) lateinit var mBackground: ImageView
 
     override fun provideContentLayoutResource() = R.layout.activity_full_thread

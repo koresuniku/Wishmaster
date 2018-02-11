@@ -38,7 +38,7 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                                  position: Int) {
         val thread = data.getThreadList()[position]
 
-        Log.d("TLAVI", "uiParams: $uiParams")
+        view.setOnClickItemListener(thread.num)
 
         //Subject
         thread.subject?.let { view.setSubject(textUtils.getSubjectSpanned(it, data.getBoardId())) }

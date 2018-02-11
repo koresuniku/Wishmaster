@@ -3,6 +3,7 @@ package com.koresuniku.wishmaster.ui.thread_list
 import android.support.annotation.Nullable
 import android.support.v7.widget.RecyclerView
 import android.text.Spanned
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
@@ -12,19 +13,25 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
+import com.koresuniku.wishmaster.core.modules.thread_list.presenter.IThreadListPresenter
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.core.modules.thread_list.view.ThreadItemView
 import com.koresuniku.wishmaster.ui.preview.PreviewImageGridAdapter
+import javax.inject.Inject
 
 /**
  * Created by koresuniku on 07.01.18.
  */
 
-class ThreadItemViewHolder(itemView: View) :
+class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
         RecyclerView.ViewHolder(itemView), ThreadItemView {
     private val LOG_TAG = ThreadItemViewHolder::class.java.simpleName
 
+    @Inject lateinit var presenter: IThreadListPresenter
+
+    @BindView(R.id.item_layout) lateinit var mItemLayout: ViewGroup
     @Nullable @BindView(R.id.subject) lateinit var mSubject: TextView
     @Nullable @BindView(R.id.comment) lateinit var mComment: TextView
     @Nullable @BindView(R.id.resume) lateinit var mResume: TextView
@@ -38,7 +45,17 @@ class ThreadItemViewHolder(itemView: View) :
 
     private var mIsSubjectVisible = true
 
-    init { ButterKnife.bind(this, itemView) }
+    init {
+        ButterKnife.bind(this, itemView)
+        injector.daggerThreadListViewComponent.inject(this)
+    }
+
+    override fun setOnClickItemListener(threadNumber: String) {
+        mItemLayout.setOnClickListener {
+            Log.d(LOG_TAG, "onLayoutClicked")
+            presenter.onThreadItemClicked(threadNumber)
+        }
+    }
 
     override fun switchSubjectVisibility(visible: Boolean) {
         mSubject.visibility = if (visible) View.VISIBLE else View.GONE

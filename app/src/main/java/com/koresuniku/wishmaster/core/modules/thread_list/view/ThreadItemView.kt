@@ -9,6 +9,7 @@ import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
  */
 
 interface ThreadItemView {
+    fun setOnClickItemListener(threadNumber: String)
     fun switchSubjectVisibility(visible: Boolean)
     fun setSubject(subject: Spanned)
     fun setComment(comment: Spanned)

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorBackgroundLight">
+                android:id="@+id/item_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundLight"
+                android:clickable="true">
 
     <FrameLayout
         android:id="@+id/top"
@@ -33,7 +35,7 @@
             android:text="subject"
             android:textColor="@color/colorSubject"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <com.koresuniku.wishmaster.ui.view.widget.ExpandableHeightGridView
             android:id="@+id/image_grid"
@@ -49,13 +51,13 @@
         </com.koresuniku.wishmaster.ui.view.widget.ExpandableHeightGridView>
 
         <!--<TextView-->
-            <!--android:id="@+id/comment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/image_grid"-->
-            <!--android:maxLines="15"-->
-            <!--android:text="@string/le_batya"-->
-            <!--android:textColor="@color/colorText"/>-->
+        <!--android:id="@+id/comment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/image_grid"-->
+        <!--android:maxLines="15"-->
+        <!--android:text="@string/le_batya"-->
+        <!--android:textColor="@color/colorText"/>-->
 
         <include
             android:id="@+id/comment_layout"
@@ -76,15 +78,15 @@
             android:textColor="@color/colorTextSecondary"
             android:textSize="12sp"
             android:textStyle="italic"/>
-</RelativeLayout>
+    </RelativeLayout>
 
-<FrameLayout
-    android:id="@+id/bottom"
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:layout_below="@+id/thread_item_container"
-    android:background="@color/colorBackgroundDark">
+    <FrameLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/thread_item_container"
+        android:background="@color/colorBackgroundDark">
 
-</FrameLayout>
+    </FrameLayout>
 
 </RelativeLayout>

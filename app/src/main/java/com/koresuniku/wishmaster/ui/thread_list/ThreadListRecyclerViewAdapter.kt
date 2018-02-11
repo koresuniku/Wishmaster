@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.koresuniku.wishmaster.R
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster.core.modules.thread_list.presenter.IThreadListPresenter
 import com.koresuniku.wishmaster.core.modules.thread_list.view.ThreadListAdapterView
@@ -27,6 +28,7 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
 
     private lateinit var activity: WeakReference<Activity>
     @Inject override lateinit var presenter: IThreadListPresenter
+    @Inject lateinit var injector: IWishmasterDaggerInjector
 
     constructor(activity: BaseWishmasterActivity<IThreadListPresenter>) : this() {
         activity.getWishmasterApplication().daggerThreadListViewComponent.inject(this)
@@ -43,14 +45,14 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
         return when (viewType) {
             NO_IMAGES_CODE -> ThreadItemViewHolder(
                     LayoutInflater.from(parent?.context).inflate(
-                            R.layout.thread_item_no_images, parent, false))
+                            R.layout.thread_item_no_images, parent, false), injector)
             SINGLE_IMAGE_CODE -> ThreadItemViewHolder(
                     LayoutInflater.from(parent?.context).inflate(
-                            R.layout.thread_item_single_image, parent, false))
+                            R.layout.thread_item_single_image, parent, false), injector)
             MULTIPLE_IMAGES_CODE -> ThreadItemViewHolder(
                     LayoutInflater.from(parent?.context).inflate(
-                            R.layout.thread_item_multiple_images, parent, false))
-            else -> ThreadItemViewHolder(View(parent?.context))
+                            R.layout.thread_item_multiple_images, parent, false), injector)
+            else -> ThreadItemViewHolder(View(parent?.context), injector)
         }
     }
 

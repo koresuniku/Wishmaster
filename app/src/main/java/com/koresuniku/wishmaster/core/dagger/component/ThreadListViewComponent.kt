@@ -3,6 +3,7 @@ package com.koresuniku.wishmaster.core.dagger.component
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes.ThreadListViewModule
 import com.koresuniku.wishmaster.core.dagger.scope.ForThreadListView
+import com.koresuniku.wishmaster.ui.thread_list.ThreadItemViewHolder
 import com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity
 import com.koresuniku.wishmaster.ui.thread_list.ThreadListRecyclerViewAdapter
 import dagger.Component
@@ -18,5 +19,6 @@ interface ThreadListViewComponent {
 
     fun inject(activity: ThreadListActivity)
     fun inject(threadListAdapterView: ThreadListRecyclerViewAdapter)
+    fun inject(threadItemViewHolder: ThreadItemViewHolder)
 
 }

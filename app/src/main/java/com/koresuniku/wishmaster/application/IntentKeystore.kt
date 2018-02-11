@@ -6,4 +6,5 @@ package com.koresuniku.wishmaster.application
 
 object IntentKeystore {
     const val BOARD_ID_CODE = "board_id_code"
+    const val THREAD_NUMBER_CODE = "thread_number_code"
 }

@@ -11,4 +11,5 @@ interface ThreadListView<P> : IMvpView<P> {
     fun onThreadListReceived(boardName: String)
     fun showThreadList()
     fun showError(message: String?)
+    fun launchFullThreadActivity(threadNumber: String)
 }

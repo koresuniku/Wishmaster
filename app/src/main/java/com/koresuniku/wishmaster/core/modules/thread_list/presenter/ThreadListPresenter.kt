@@ -68,4 +68,6 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
             }
         return threadListAdapterView?.NO_IMAGES_CODE ?: -1
     }
+
+    override fun onThreadItemClicked(threadNumber: String) { mView?.launchFullThreadActivity(threadNumber) }
 }

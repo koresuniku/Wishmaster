@@ -1,5 +1,6 @@
 package com.koresuniku.wishmaster.ui.thread_list
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
@@ -23,6 +24,7 @@ import com.koresuniku.wishmaster.core.modules.thread_list.presenter.IThreadListP
 import com.koresuniku.wishmaster.core.modules.thread_list.view.ThreadListView
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
+import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.view.widget.LinearLayoutManagerWrapper
 import javax.inject.Inject
@@ -174,6 +176,13 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         val alpha = AlphaAnimation(0f, 1f)
         alpha.duration = resources.getInteger(R.integer.showing_list_duration).toLong()
         mThreadListRecyclerView.startAnimation(alpha)
+    }
+
+    override fun launchFullThreadActivity(threadNumber: String) {
+        val intent = Intent(this, FullThreadActivity::class.java)
+        intent.putExtra(IntentKeystore.BOARD_ID_CODE, getBoardId())
+        intent.putExtra(IntentKeystore.THREAD_NUMBER_CODE, threadNumber)
+        startActivity(intent)
     }
 
     override fun onDestroy() {

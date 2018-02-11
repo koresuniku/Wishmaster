@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorBackgroundLight">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/item_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundLight"
+                android:clickable="true">
 
     <FrameLayout
         android:id="@+id/top"
@@ -34,16 +36,16 @@
             android:text="subject"
             android:textColor="@color/colorSubject"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <!--<TextView-->
-            <!--android:id="@+id/comment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/subject"-->
-            <!--android:maxLines="15"-->
-            <!--android:text="@string/le_batya"-->
-            <!--android:textColor="@color/colorText"/>-->
+        <!--android:id="@+id/comment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/subject"-->
+        <!--android:maxLines="15"-->
+        <!--android:text="@string/le_batya"-->
+        <!--android:textColor="@color/colorText"/>-->
 
         <include
             android:id="@+id/comment_layout"
@@ -63,7 +65,7 @@
             android:text="1488 posts, 228 images"
             android:textColor="@color/colorTextSecondary"
             android:textSize="12sp"
-            android:textStyle="italic" />
+            android:textStyle="italic"/>
     </RelativeLayout>
 
     <FrameLayout
