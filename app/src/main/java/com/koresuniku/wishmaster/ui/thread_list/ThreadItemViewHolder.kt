@@ -31,7 +31,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
 
     @Inject lateinit var presenter: IThreadListPresenter
 
-    @BindView(R.id.item_layout) lateinit var mItemLayout: ViewGroup
+    @Nullable @BindView(R.id.item_layout) lateinit var mItemLayout: ViewGroup
     @Nullable @BindView(R.id.subject) lateinit var mSubject: TextView
     @Nullable @BindView(R.id.comment) lateinit var mComment: TextView
     @Nullable @BindView(R.id.resume) lateinit var mResume: TextView

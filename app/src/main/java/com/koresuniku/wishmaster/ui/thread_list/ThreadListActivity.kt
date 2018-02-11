@@ -1,12 +1,17 @@
 package com.koresuniku.wishmaster.ui.thread_list
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.transition.Fade
+import android.transition.Slide
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -50,12 +55,22 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 
     private lateinit var mThreadListRecyclerViewAdapter: ThreadListRecyclerViewAdapter
 
+
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        window.enterTransition.startDelay = 3000
+        window.allowEnterTransitionOverlap = false
+        val slide = Slide(Gravity.RIGHT)
+        window.returnTransition = slide
+
         getWishmasterApplication().daggerThreadListViewComponent.inject(this)
         uiUtils.showSystemUI(this)
         ButterKnife.bind(this)
         presenter.bindView(this)
+
+
 
         setupBackground()
         setupToolbar()
@@ -68,7 +83,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     override fun onBackPressed() {
         super.onBackPressed()
         presenter.unbindView()
-        overridePendingTransition(R.anim.slide_in_back, R.anim.slide_out_back)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -183,6 +197,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, getBoardId())
         intent.putExtra(IntentKeystore.THREAD_NUMBER_CODE, threadNumber)
         startActivity(intent)
+        //overridePendingTransitionEnter()
     }
 
     override fun onDestroy() {

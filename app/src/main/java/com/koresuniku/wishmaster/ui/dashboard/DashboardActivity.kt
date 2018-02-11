@@ -1,8 +1,11 @@
 package com.koresuniku.wishmaster.ui.dashboard
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.annotation.RequiresApi
 import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v7.widget.Toolbar
@@ -23,11 +26,15 @@ import com.koresuniku.wishmaster.ui.view.widget.DashboardViewPager
 
 import javax.inject.Inject
 import android.support.v7.widget.SearchView
+import android.transition.Explode
 import com.koresuniku.wishmaster.application.IntentKeystore
 import com.koresuniku.wishmaster.core.modules.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
+import android.support.v4.app.ActivityOptionsCompat
+
+
 
 class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), DashboardView<IDashboardPresenter> {
     private val LOG_TAG = DashboardActivity::class.java.simpleName
@@ -46,12 +53,21 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
 
     private lateinit var mViewPagerAdapter: DashboardViewPagerAdapter
 
+@SuppressLint("newApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         getWishmasterApplication().daggerDashboardViewComponent.inject(this)
         uiUtils.showSystemUI(this)
         ButterKnife.bind(this)
         presenter.bindView(this)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val explode = Explode()
+            explode.duration = 3000
+            explode.excludeTarget(mToolbar, true)
+            window.exitTransition = explode
+        }
 
         setSupportActionBar(mToolbar)
         setupViewPager()
@@ -140,8 +156,11 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
     override fun launchThreadListActivity(boardId: String) {
         val intent = Intent(this, ThreadListActivity::class.java)
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, boardId)
-        startActivity(intent)
-        overridePendingTransitionEnter()
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivity(intent, options.toBundle())
+        } else startActivity(intent)
+        //overridePendingTransitionEnter()
     }
 
     override fun showUnknownInput() {

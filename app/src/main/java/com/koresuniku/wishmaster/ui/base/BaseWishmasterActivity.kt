@@ -29,24 +29,20 @@ abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> : BaseDrawerActivity
     override fun onBackPressed() {
         super.onBackPressed()
         presenter.unbindView()
-    }
-
-    override fun finish() {
-        super.finish()
-        overridePendingTransitionExit()
+        //overridePendingTransitionExit()
     }
 
     override fun startActivity(intent: Intent?) {
         super.startActivity(intent)
-        overridePendingTransitionEnter()
+       // overridePendingTransitionEnter()
     }
 
     protected fun overridePendingTransitionEnter() {
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     protected fun overridePendingTransitionExit() {
-        overridePendingTransition(R.anim.slide_in_back, R.anim.slide_out_back)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     override fun onDestroy() {

@@ -1,5 +1,6 @@
 package com.koresuniku.wishmaster.ui.full_thread
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
@@ -62,6 +63,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         presenter.bindView(this)
 
 
+
         setupToolbar()
 
         showLoading(true)
@@ -71,7 +73,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     override fun onBackPressed() {
         super.onBackPressed()
         presenter.unbindView()
-        overridePendingTransition(R.anim.slide_in_back, R.anim.slide_out_back)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
