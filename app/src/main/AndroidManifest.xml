@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:name=".application.WishmasterApplication"
         android:theme="@style/AppTheme">
+
         <activity android:name=".ui.dashboard.DashboardActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
@@ -18,8 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity android:name=".ui.thread_list.ThreadListActivity"
             android:configChanges="orientation|screenSize"/>
+
+        <activity android:name=".ui.full_thread.FullThreadActivity"
+                  android:configChanges="orientation|screenSize"/>
     </application>
 
     <meta-data

@@ -66,7 +66,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     override fun onBackPressed() {
         super.onBackPressed()
         presenter.unbindView()
-        presenter.unbindThreadListAdapterView()
         overridePendingTransition(R.anim.slide_in_back, R.anim.slide_out_back)
     }
 

@@ -24,7 +24,6 @@ class ThreadListData {
     fun setPagesCount(pagesCount: Int) { this.pagesCount = pagesCount }
 
     companion object {
-
         fun emptyData(): ThreadListData {
             val data = ThreadListData()
 

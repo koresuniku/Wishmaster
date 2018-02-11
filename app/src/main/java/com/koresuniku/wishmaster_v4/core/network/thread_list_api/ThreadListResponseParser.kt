@@ -1,6 +1,6 @@
 package com.koresuniku.wishmaster_v4.core.network.thread_list_api
 
-import com.koresuniku.wishmaster_v4.core.data.model.single_thread.Post
+import com.koresuniku.wishmaster_v4.core.data.model.posts.Post
 import com.koresuniku.wishmaster_v4.core.data.model.threads.Thread
 import com.koresuniku.wishmaster_v4.core.data.model.threads.ThreadListData
 import javax.inject.Inject

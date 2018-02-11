@@ -1,4 +1,4 @@
-package com.koresuniku.wishmaster_v4.core.data.model.single_thread
+package com.koresuniku.wishmaster_v4.core.data.model.posts
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

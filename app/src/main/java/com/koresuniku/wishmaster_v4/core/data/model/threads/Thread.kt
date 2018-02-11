@@ -2,7 +2,7 @@ package com.koresuniku.wishmaster_v4.core.data.model.threads
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.koresuniku.wishmaster_v4.core.data.model.single_thread.Post
+import com.koresuniku.wishmaster_v4.core.data.model.posts.Post
 
 /**
  * Created by koresuniku on 01.01.18.
