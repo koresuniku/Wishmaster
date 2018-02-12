@@ -5,11 +5,17 @@ import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.PorterDuff
+import android.os.Build
+import android.support.annotation.RequiresApi
+import android.support.design.widget.TabLayout
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
 import com.koresuniku.wishmaster.R
+import com.koresuniku.wishmaster.ui.anim.DashboardExitTransition
 import javax.inject.Inject
 
 /**
@@ -36,7 +42,7 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
         return Math.round(px).toFloat()
     }
 
-    var isSystemUiShown: Boolean = true
+    private var isSystemUiShown: Boolean = true
 
     fun showSystemUI(activity: Activity) {
         if (deviceUtils.sdkIsKitkatOrHigher()) {
@@ -106,6 +112,25 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
         val afterConvert = convertPixelsToDp(Math.ceil(rawFloat.toDouble()).toFloat()).toInt()
         Log.d("UIU", "after: $afterConvert")
         return convertPixelsToDp(Math.ceil(rawFloat.toDouble()).toFloat()).toInt()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    fun setDashboardTransition(window: Window, toolbar: Toolbar, tabLayout: TabLayout) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val transition = DashboardExitTransition(window.context, toolbar, tabLayout)
+            window.exitTransition = transition
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun setThreadListTransition(window: Window, excludeView: View) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.allowEnterTransitionOverlap = false
+            window.enterTransition.excludeTarget(excludeView, true)
+            //val slide = Slide(Gravity.END)
+            //window.returnTransition = slide
+
+        }
     }
 
 }

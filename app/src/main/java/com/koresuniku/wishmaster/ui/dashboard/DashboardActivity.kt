@@ -1,18 +1,17 @@
 package com.koresuniku.wishmaster.ui.dashboard
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.LayoutRes
-import android.support.annotation.RequiresApi
 import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import butterknife.BindView
@@ -26,15 +25,14 @@ import com.koresuniku.wishmaster.ui.view.widget.DashboardViewPager
 
 import javax.inject.Inject
 import android.support.v7.widget.SearchView
-import android.transition.Explode
 import com.koresuniku.wishmaster.application.IntentKeystore
 import com.koresuniku.wishmaster.core.modules.dashboard.presenter.IDashboardPresenter
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import android.support.v4.app.ActivityOptionsCompat
-
-
+import android.util.Log
+import com.koresuniku.wishmaster.ui.anim.AnimationUtils
 
 class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), DashboardView<IDashboardPresenter> {
     private val LOG_TAG = DashboardActivity::class.java.simpleName
@@ -53,7 +51,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
 
     private lateinit var mViewPagerAdapter: DashboardViewPagerAdapter
 
-@SuppressLint("newApi")
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -62,12 +60,8 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
         ButterKnife.bind(this)
         presenter.bindView(this)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val explode = Explode()
-            explode.duration = 3000
-            explode.excludeTarget(mToolbar, true)
-            window.exitTransition = explode
-        }
+        //uiUtils.setDashboardTransitions(window, mToolbar, mTabLayout)
+        AnimationUtils().setDashboardTransitions(window, mToolbar, mTabLayout)
 
         setSupportActionBar(mToolbar)
         setupViewPager()
@@ -92,7 +86,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
                 query?.let { presenter.processSearchInput(it) }
                 return false
             }
-            override fun onQueryTextChange(newText: String?): Boolean = false
+            override fun onQueryTextChange(newText: String?) = false
         })
 
         return super.onCreateOptionsMenu(menu)
@@ -101,13 +95,13 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
     override fun onBoardListReceived(boardListData: BoardListData) { hideLoading() }
     override fun onBoardListError(t: Throwable) { hideLoading(); showError(t) }
 
-    @LayoutRes override fun provideContentLayoutResource(): Int = R.layout.activity_dashboard
+    @LayoutRes override fun provideContentLayoutResource() = R.layout.activity_dashboard
 
     override fun showLoading() {
         mLoadingLayout.visibility = View.VISIBLE
         mViewPager.setPagingEnabled(false)
-        val rotationAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_infinitely)
-        mYobaImage.startAnimation(rotationAnimation)
+        //val rotationAnimation = Anim.loadAnimation(this, R.anim.anim_rotate_infinitely)
+       // mYobaImage.startAnimation(rotationAnimation)
     }
 
     private fun hideLoading() {
@@ -153,19 +147,28 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
         mViewPager.currentItem = position
     }
 
+    @SuppressLint("RestrictedApi")
     override fun launchThreadListActivity(boardId: String) {
         val intent = Intent(this, ThreadListActivity::class.java)
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, boardId)
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            startActivity(intent, options.toBundle())
-        } else startActivity(intent)
-        //overridePendingTransitionEnter()
+            startActivityForResult(intent, IntentKeystore.DASHBOARD_ACTIVITY_REQUEST_CODE, options.toBundle())
+        } else startActivityForResult(intent, IntentKeystore.DASHBOARD_ACTIVITY_REQUEST_CODE)
     }
 
     override fun showUnknownInput() {
         val snackbar = Snackbar.make(mErrorLayout, getString(R.string.unknown_address), Snackbar.LENGTH_SHORT)
         snackbar.setAction(R.string.bljad, { snackbar.dismiss() })
         snackbar.show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == IntentKeystore.DASHBOARD_ACTIVITY_REQUEST_CODE
+                && resultCode == Activity.RESULT_OK) {
+            Log.d(LOG_TAG, "result ok")
+        }
     }
 }

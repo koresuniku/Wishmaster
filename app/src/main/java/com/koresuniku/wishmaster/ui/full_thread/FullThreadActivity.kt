@@ -62,8 +62,6 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         ButterKnife.bind(this)
         presenter.bindView(this)
 
-
-
         setupToolbar()
 
         showLoading(true)

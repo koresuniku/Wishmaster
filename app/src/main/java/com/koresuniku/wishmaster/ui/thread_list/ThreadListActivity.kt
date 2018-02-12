@@ -1,6 +1,7 @@
 package com.koresuniku.wishmaster.ui.thread_list
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -55,22 +56,16 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 
     private lateinit var mThreadListRecyclerViewAdapter: ThreadListRecyclerViewAdapter
 
-
-    @SuppressLint("NewApi")
+    @SuppressLint("newApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        window.enterTransition.startDelay = 3000
-        window.allowEnterTransitionOverlap = false
-        val slide = Slide(Gravity.RIGHT)
-        window.returnTransition = slide
 
         getWishmasterApplication().daggerThreadListViewComponent.inject(this)
         uiUtils.showSystemUI(this)
         ButterKnife.bind(this)
         presenter.bindView(this)
 
-
+        com.koresuniku.wishmaster.ui.anim.AnimationUtils().setThreadListTransitions(window, mToolbar)
 
         setupBackground()
         setupToolbar()
@@ -81,8 +76,9 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        setResult(Activity.RESULT_OK)
         presenter.unbindView()
+        super.onBackPressed()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
