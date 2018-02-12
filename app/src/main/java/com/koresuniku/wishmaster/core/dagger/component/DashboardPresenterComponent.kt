@@ -11,6 +11,7 @@ import com.koresuniku.wishmaster.core.modules.dashboard.interactor.DashboardNetw
 import com.koresuniku.wishmaster.core.modules.dashboard.interactor.DashboardSearchInteractor
 import com.koresuniku.wishmaster.core.modules.dashboard.interactor.DashboardSharedPreferencesInteractor
 import com.koresuniku.wishmaster.core.modules.dashboard.presenter.DashboardPresenter
+import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
 import dagger.Component
@@ -29,6 +30,7 @@ interface DashboardPresenterComponent {
     fun dashboardSharedPreferencesInteractor(): DashboardSharedPreferencesInteractor
     fun uiUtils(): UiUtils
     fun viewUtils(): ViewUtils
+    fun animationUtils(): WishmasterAnimationUtils
 
     fun inject(dashboardPresenter: DashboardPresenter)
 

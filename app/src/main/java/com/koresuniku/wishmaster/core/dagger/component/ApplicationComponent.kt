@@ -16,6 +16,7 @@ import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.network.full_thread_api.FullThreadApiService
 import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListApiService
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
@@ -60,6 +61,7 @@ interface ApplicationComponent {
     fun deviceUtils(): DeviceUtils
     fun uiUtils(): UiUtils
     fun viewUtils(): ViewUtils
+    fun animationUtils(): WishmasterAnimationUtils
 
     //Notifiers
     fun orientationNotifier(): OrientationNotifier

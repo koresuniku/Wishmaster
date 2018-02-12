@@ -9,6 +9,7 @@ import com.koresuniku.wishmaster.core.modules.thread_list.interactor.ThreadListA
 import com.koresuniku.wishmaster.core.modules.thread_list.interactor.ThreadListNetworkInteractor
 import com.koresuniku.wishmaster.core.modules.thread_list.presenter.ThreadListPresenter
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import dagger.Component
 import io.reactivex.disposables.CompositeDisposable
@@ -26,6 +27,7 @@ interface ThreadListPresenterComponent {
     fun uiUtils(): UiUtils
     fun orientationNotifier(): OrientationNotifier
     fun compositeDisposable(): CompositeDisposable
+    fun animationUtils(): WishmasterAnimationUtils
 
     fun inject(threadListPresenter: ThreadListPresenter)
 }

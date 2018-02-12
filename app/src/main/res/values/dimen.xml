@@ -6,6 +6,7 @@
     <integer name="loading_fade_duration">150</integer>
     <integer name="showing_list_duration">250</integer>
     <integer name="default_transition_duration">250</integer>
+    <integer name="yoba_disappear_duration">250</integer>
 
     <!--ThreadList-->
     <dimen name="thread_post_side_margin_default">10dp</dimen>

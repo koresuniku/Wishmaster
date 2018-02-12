@@ -32,7 +32,7 @@ import com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import android.support.v4.app.ActivityOptionsCompat
 import android.util.Log
-import com.koresuniku.wishmaster.ui.anim.AnimationUtils
+import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 
 class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), DashboardView<IDashboardPresenter> {
     private val LOG_TAG = DashboardActivity::class.java.simpleName
@@ -40,6 +40,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
     @Inject override lateinit var presenter: IDashboardPresenter
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var viewUtils: ViewUtils
+    @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.tab_layout) lateinit var mTabLayout: TabLayout
@@ -58,10 +59,8 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
         getWishmasterApplication().daggerDashboardViewComponent.inject(this)
         uiUtils.showSystemUI(this)
         ButterKnife.bind(this)
+        wishmasterAnimationUtils.setDashboardTransitions(window, mToolbar, mTabLayout)
         presenter.bindView(this)
-
-        //uiUtils.setDashboardTransitions(window, mToolbar, mTabLayout)
-        AnimationUtils().setDashboardTransitions(window, mToolbar, mTabLayout)
 
         setSupportActionBar(mToolbar)
         setupViewPager()
@@ -98,17 +97,14 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
     @LayoutRes override fun provideContentLayoutResource() = R.layout.activity_dashboard
 
     override fun showLoading() {
-        mLoadingLayout.visibility = View.VISIBLE
+        wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
         mViewPager.setPagingEnabled(false)
-        //val rotationAnimation = Anim.loadAnimation(this, R.anim.anim_rotate_infinitely)
-       // mYobaImage.startAnimation(rotationAnimation)
     }
 
     private fun hideLoading() {
         mViewPager.setPagingEnabled(true)
         viewUtils.enableTabLayout(mTabLayout)
-        mYobaImage.clearAnimation()
-        mLoadingLayout.visibility = View.GONE
+        wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     private fun showError(throwable: Throwable) {

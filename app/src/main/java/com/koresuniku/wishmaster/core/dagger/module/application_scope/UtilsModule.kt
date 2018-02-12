@@ -3,6 +3,7 @@ package com.koresuniku.wishmaster.core.dagger.module.application_scope
 import com.koresuniku.wishmaster.application.preferences.UiParams
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
@@ -40,4 +41,8 @@ class UtilsModule {
     @Provides
     @Singleton
     fun provideViewUtils(deviceUtils: DeviceUtils): ViewUtils = ViewUtils(deviceUtils)
+
+    @Provides
+    @Singleton
+    fun provideAnimationUtils(): WishmasterAnimationUtils = WishmasterAnimationUtils()
 }

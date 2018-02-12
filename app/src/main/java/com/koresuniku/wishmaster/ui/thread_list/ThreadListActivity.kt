@@ -3,21 +3,15 @@ package com.koresuniku.wishmaster.ui.thread_list
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.transition.Fade
-import android.transition.Slide
-import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
-import android.view.animation.AnimationUtils
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
@@ -29,6 +23,7 @@ import com.koresuniku.wishmaster.application.IntentKeystore
 import com.koresuniku.wishmaster.core.modules.thread_list.presenter.IThreadListPresenter
 import com.koresuniku.wishmaster.core.modules.thread_list.view.ThreadListView
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
@@ -45,6 +40,8 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     @Inject override lateinit var presenter: IThreadListPresenter
     @Inject lateinit var textUtils: WishmasterTextUtils
     @Inject lateinit var uiUtils: UiUtils
+    @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
+
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup
@@ -65,7 +62,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         ButterKnife.bind(this)
         presenter.bindView(this)
 
-        com.koresuniku.wishmaster.ui.anim.AnimationUtils().setThreadListTransitions(window, mToolbar)
+        wishmasterAnimationUtils.setThreadListTransitions(window, mToolbar)
 
         setupBackground()
         setupToolbar()
@@ -135,26 +132,18 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         presenter.bindThreadListAdapterView(mThreadListRecyclerViewAdapter)
     }
 
-
     override fun onThreadListReceived(boardName: String) {
         hideLoading()
         setupTitle(boardName)
     }
 
     private fun showLoading(delay: Boolean) {
-        mLoadingLayout.visibility = View.VISIBLE
         supportActionBar?.title = getString(R.string.loading_text)
-        mYobaImage.setLayerType(View.LAYER_TYPE_HARDWARE, null)
-        val rotationAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_infinitely)
-        Handler().postDelayed(
-                { mYobaImage.startAnimation(rotationAnimation) },
-                if (delay) resources.getInteger(R.integer.slide_anim_duration).toLong() else 0)
+        wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     private fun hideLoading() {
-        mYobaImage.clearAnimation()
-        mYobaImage.setLayerType(View.LAYER_TYPE_NONE, null)
-        mLoadingLayout.visibility = View.GONE
+        wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     override fun showError(message: String?) {
