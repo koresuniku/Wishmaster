@@ -107,7 +107,8 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
     private fun hideLoading() {
         mViewPager.setPagingEnabled(true)
         viewUtils.enableTabLayout(mTabLayout)
-        wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
+        mLoadingLayout.visibility = View.GONE
+        mYobaImage.clearAnimation()
     }
 
     private fun showError(throwable: Throwable) {
