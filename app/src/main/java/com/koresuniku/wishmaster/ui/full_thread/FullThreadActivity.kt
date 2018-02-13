@@ -77,9 +77,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun setupTitle(opComment: Spanned) {
-        supportActionBar?.title = opComment
-    }
+    private fun setupTitle(opComment: Spanned) { supportActionBar?.title = opComment }
 
     override fun showLoading() {
         supportActionBar?.title = getString(R.string.loading_text)

@@ -14,4 +14,8 @@
     <dimen name="thread_item_image_comment_is_subject_top_margin">3dp</dimen>
     <dimen name="thread_post_short_info_text_size">10sp</dimen>
 
+    <!--PostList-->
+    <dimen name="answers_layout_height">40dp</dimen>
+    <dimen name="post_item_no_answers_bottom_margin">3dp</dimen>
+
 </resources>

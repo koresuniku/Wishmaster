@@ -7,64 +7,42 @@
                 android:background="@color/colorBackgroundLight"
                 android:clickable="true">
 
-    <FrameLayout
-        android:id="@+id/top"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorBackgroundDark">
-
-    </FrameLayout>
-
     <RelativeLayout
         android:id="@+id/thread_item_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/top"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="3dp"
         android:background="@color/colorBackgroundLight">
 
         <TextView
-            android:id="@+id/subject"
+            android:id="@+id/head"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="subject"
-            android:textColor="@color/colorSubject"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:text="anonymous"
+            android:textSize="12sp"/>
 
         <include
             android:id="@+id/comment_layout"
             layout="@layout/comment_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/subject">
+            android:layout_below="@+id/head">
         </include>
 
-        <TextView
-            android:id="@+id/resume"
-            android:layout_width="wrap_content"
+        <include
+            android:id="@+id/answers_layout"
+            layout="@layout/answers_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_below="@+id/comment_layout"
-            android:text="1488 posts, 228 images"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="12sp"
-            android:textStyle="italic"/>
+            >
+
+        </include>
     </RelativeLayout>
-
-    <FrameLayout
-        android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/thread_item_container"
-        android:background="@color/colorBackgroundDark">
-
-    </FrameLayout>
 
 </RelativeLayout>
