@@ -84,7 +84,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 searchViewMenuItem.collapseActionView()
-                query?.let { presenter.processSearchInput(it) }
+                searchView.postDelayed( {query?.let { presenter.processSearchInput(it) } }, 100)
                 return false
             }
             override fun onQueryTextChange(newText: String?) = false
@@ -97,7 +97,6 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
     override fun onBoardListReceived(boardListData: BoardListData) { hideLoading() }
     override fun onBoardListError(t: Throwable) { hideLoading(); showError(t) }
     override fun provideFromActivityRequestCode() = IntentKeystore.FROM_DASHBOARD_ACTIVITY_REQUEST_CODE
-
 
     override fun showLoading() {
         wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
