@@ -28,6 +28,11 @@ abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> : BaseDrawerActivity
         isActivityDestroyed = false
     }
 
+    override fun onStop() {
+        super.onStop()
+        isActivityReentered = true
+    }
+
     override fun onBackPressed() {
         setResult(Activity.RESULT_OK)
         presenter.unbindView()

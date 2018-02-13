@@ -22,14 +22,17 @@ import android.view.animation.*
 class WishmasterAnimationUtils @Inject constructor() {
 
     fun showLoadingYoba(yoba: ImageView, loadingLayout: View) {
-        loadingLayout.visibility = View.VISIBLE
-        yoba.setLayerType(View.LAYER_TYPE_HARDWARE, null)
-        val rotationAnimation = AnimationUtils.loadAnimation(yoba.context, R.anim.anim_rotate_infinitely)
-        yoba.startAnimation(rotationAnimation)
+        yoba.post {
+            loadingLayout.visibility = View.VISIBLE
+            yoba.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+            val rotationAnimation = AnimationUtils.loadAnimation(yoba.context, R.anim.anim_rotate_infinitely)
+            yoba.startAnimation(rotationAnimation)
+        }
     }
 
     fun hideLoadingYoba(yoba: ImageView, loadingLayout: View) {
-        yoba.animate()
+        yoba.post {
+            yoba.animate()
                 .alpha(0f)
                 .setInterpolator(LinearInterpolator())
                 .setDuration(yoba.context.resources.getInteger(R.integer.yoba_disappear_duration).toLong())
@@ -44,13 +47,18 @@ class WishmasterAnimationUtils @Inject constructor() {
                     override fun onAnimationCancel(p0: Animator?) {}
                     override fun onAnimationStart(p0: Animator?) {}
                 })
-                .start()
+                .start() }
     }
 
     fun setLayoutAnimation(recyclerView: RecyclerView) {
         val context = recyclerView.context
         val controller = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_slide_from_bottom)
         recyclerView.layoutAnimation = controller
+        recyclerView.layoutAnimationListener = object : Animation.AnimationListener {
+            override fun onAnimationRepeat(p0: Animation?) {}
+            override fun onAnimationEnd(p0: Animation?) {}
+            override fun onAnimationStart(p0: Animation?) {}
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
