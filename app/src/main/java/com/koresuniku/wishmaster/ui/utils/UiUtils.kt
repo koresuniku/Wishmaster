@@ -113,24 +113,4 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
         Log.d("UIU", "after: $afterConvert")
         return convertPixelsToDp(Math.ceil(rawFloat.toDouble()).toFloat()).toInt()
     }
-
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
-    fun setDashboardTransition(window: Window, toolbar: Toolbar, tabLayout: TabLayout) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val transition = DashboardExitTransition(window.context, toolbar, tabLayout)
-            window.exitTransition = transition
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun setThreadListTransition(window: Window, excludeView: View) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.allowEnterTransitionOverlap = false
-            window.enterTransition.excludeTarget(excludeView, true)
-            //val slide = Slide(Gravity.END)
-            //window.returnTransition = slide
-
-        }
-    }
-
 }

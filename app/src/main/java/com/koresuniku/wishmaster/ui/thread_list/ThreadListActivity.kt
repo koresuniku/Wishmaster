@@ -42,7 +42,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
 
-
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup
     @BindView(R.id.yoba) lateinit var mYobaImage: ImageView

@@ -11,5 +11,5 @@ interface FullThreadView<P> : IMvpView<P> {
     fun getThreadNumber(): String
     fun onPostListReceived(opComment: Spanned)
     fun showError(message: String?)
-    fun showPostList()
+    fun showLoading()
 }

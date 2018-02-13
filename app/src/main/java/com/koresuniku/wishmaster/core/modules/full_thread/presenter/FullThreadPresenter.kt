@@ -27,11 +27,11 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
     }
 
     override fun loadPostList() {
+        mvpView?.showLoading()
         compositeDisposable.add(networkInteractor.getDataFromNetwork()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    if (presenterData.postList.isEmpty()) mvpView?.showPostList()
                     presenterData = it
                     mvpView?.onPostListReceived(Html.fromHtml(it.postList[0].comment))
                 }, { it.printStackTrace() }))

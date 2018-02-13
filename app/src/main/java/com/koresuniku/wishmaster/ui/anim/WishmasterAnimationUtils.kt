@@ -8,20 +8,11 @@ import android.support.design.widget.TabLayout
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.Window
-import android.view.animation.AnimationUtils
-import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import com.koresuniku.wishmaster.R
 import javax.inject.Inject
 import android.support.v7.widget.RecyclerView
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
-import android.view.animation.LayoutAnimationController
-
-
-
-
-
+import android.view.animation.*
 
 
 /**
@@ -66,12 +57,14 @@ class WishmasterAnimationUtils @Inject constructor() {
     fun setDashboardTransitions(window: Window, toolbar: Toolbar, tabLayout: TabLayout) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-            val transitionExit = DashboardExitTransition(window.context, toolbar, tabLayout)
+            val transitionExit = DashboardExitTransition(window.context, toolbar, tabLayout,
+                    this)
             transitionExit.excludeTarget(toolbar, true)
             transitionExit.excludeTarget(tabLayout, true)
             window.exitTransition = transitionExit
 
-            val transitionEnter = DashboardEnterTransition(window.context, toolbar, tabLayout)
+            val transitionEnter = DashboardEnterTransition(window.context, toolbar, tabLayout,
+                    this)
             transitionEnter.excludeTarget(toolbar, true)
             transitionEnter.excludeTarget(tabLayout, true)
             window.reenterTransition = transitionEnter
@@ -82,13 +75,37 @@ class WishmasterAnimationUtils @Inject constructor() {
     fun setThreadListTransitions(window: Window, toolbar: Toolbar) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-            val transitionExit = ThreadListExitTransition(window.context, toolbar)
+            val transitionExit = ThreadListExitTransition(window.context, toolbar,
+                    this)
             transitionExit.excludeTarget(toolbar, true)
             window.reenterTransition = transitionExit
 
-            val transitionEnter = ThreadListEnterTransition(window.context, toolbar)
+            val transitionEnter = ThreadListEnterTransition(window.context, toolbar,
+                    this)
             transitionEnter.excludeTarget(toolbar, true)
             window.reenterTransition = transitionEnter
         }
+    }
+
+    fun fadeOutToolbar(toolbar: Toolbar, duration: Long, interpolator: Interpolator) {
+        (0 until toolbar.childCount)
+                .map { toolbar.getChildAt(it) }
+                .forEach {
+                    it.animate().alpha(1f)
+                            .setDuration(duration)
+                            .setInterpolator(interpolator)
+                            .start()
+                }
+    }
+
+    fun fadeInToolbar(toolbar: Toolbar, duration: Long, interpolator: Interpolator) {
+        (0 until toolbar.childCount)
+                .map { toolbar.getChildAt(it) }
+                .forEach {
+                    it.animate().alpha(0f)
+                            .setDuration(duration)
+                            .setInterpolator(interpolator)
+                            .start()
+                }
     }
 }

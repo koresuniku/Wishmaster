@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.support.annotation.LayoutRes
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -22,6 +23,7 @@ import com.koresuniku.wishmaster.application.IntentKeystore
 import com.koresuniku.wishmaster.core.modules.full_thread.presenter.IFullThreadPresenter
 import com.koresuniku.wishmaster.core.modules.full_thread.view.FullThreadView
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import javax.inject.Inject
@@ -35,6 +37,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     @Inject override lateinit var presenter: IFullThreadPresenter
     @Inject lateinit var textUtils: WishmasterTextUtils
     @Inject lateinit var uiUtils: UiUtils
+    @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup
@@ -43,8 +46,6 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     @BindView(R.id.try_again_button) lateinit var mTryAgainButton: Button
     @BindView(R.id.post_list) lateinit var mPostListRecyclerView: RecyclerView
     @BindView(R.id.background) lateinit var mBackground: ImageView
-
-    override fun provideContentLayoutResource() = R.layout.activity_full_thread
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,13 +56,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
 
         setupToolbar()
 
-        showLoading(true)
         presenter.loadPostList()
-    }
-
-    override fun onBackPressed() {
-        setResult(Activity.RESULT_OK)
-        super.onBackPressed()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -75,6 +70,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     }
 
     override fun provideFromActivityRequestCode() = IntentKeystore.FROM_FULL_THREAD_ACTIVITY_REQUEST_CODE
+    @LayoutRes override fun provideContentLayoutResource() = R.layout.activity_full_thread
 
     private fun setupToolbar() {
         setSupportActionBar(mToolbar)
@@ -85,14 +81,9 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         supportActionBar?.title = opComment
     }
 
-    private fun showLoading(delay: Boolean) {
-        mLoadingLayout.visibility = View.VISIBLE
+    override fun showLoading() {
         supportActionBar?.title = getString(R.string.loading_text)
-        mYobaImage.setLayerType(View.LAYER_TYPE_HARDWARE, null)
-        val rotationAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_infinitely)
-        Handler().postDelayed(
-                { mYobaImage.startAnimation(rotationAnimation) },
-                if (delay) resources.getInteger(R.integer.slide_anim_duration).toLong() else 0)
+        wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     override fun getBoardId() = intent.getStringExtra(IntentKeystore.BOARD_ID_CODE)
@@ -103,11 +94,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         setupTitle(opComment)
     }
 
-    private fun hideLoading() {
-        mYobaImage.clearAnimation()
-        mYobaImage.setLayerType(View.LAYER_TYPE_NONE, null)
-        mLoadingLayout.visibility = View.GONE
-    }
+    private fun hideLoading() { wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout) }
 
     override fun showError(message: String?) {
         hideLoading()
@@ -121,22 +108,12 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
                 Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction(R.string.bljad, { snackBar.dismiss() })
         snackBar.show()
-        mTryAgainButton.setOnClickListener {
-            snackBar.dismiss()
-            hideError()
-            showLoading(false)
-            presenter.loadPostList()
-        }
+        mTryAgainButton.setOnClickListener { snackBar.dismiss(); hideError(); showLoading()
+            presenter.loadPostList() }
     }
 
     private fun hideError() {
         mErrorLayout.visibility = View.GONE
         mPostListRecyclerView.visibility = View.VISIBLE
-    }
-
-    override fun showPostList() {
-//        val alpha = AlphaAnimation(0f, 1f)
-//        alpha.duration = resources.getInteger(R.integer.showing_list_duration).toLong()
-//        mPostListRecyclerView.startAnimation(alpha)
     }
 }

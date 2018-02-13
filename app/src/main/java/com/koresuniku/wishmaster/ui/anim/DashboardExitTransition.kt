@@ -24,7 +24,8 @@ import android.widget.TextView
 
 class DashboardExitTransition(context: Context,
                               toolbar: Toolbar,
-                              tabLayout: TabLayout) : Fade() {
+                              tabLayout: TabLayout,
+                              private val wishmasterAnimationUtils: WishmasterAnimationUtils) : Fade() {
 
     private val contextReference = WeakReference(context)
     private val toolbarReference = WeakReference(toolbar)
@@ -39,7 +40,8 @@ class DashboardExitTransition(context: Context,
     override fun onDisappear(sceneRoot: ViewGroup?, view: View?, startValues: TransitionValues?,
                              endValues: TransitionValues?): Animator {
         animateTabLayout()
-        animateToolbar()
+        //animateToolbar()
+        toolbarReference.get()?.let { wishmasterAnimationUtils.fadeInToolbar(it, duration, interpolator) }
         return super.onDisappear(sceneRoot, view, startValues, endValues)
     }
 

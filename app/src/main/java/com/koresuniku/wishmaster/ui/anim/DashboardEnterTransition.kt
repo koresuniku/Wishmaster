@@ -23,7 +23,8 @@ import java.lang.ref.WeakReference
 
 class DashboardEnterTransition(context: Context,
                                toolbar: Toolbar,
-                               tabLayout: TabLayout) : Fade() {
+                               tabLayout: TabLayout,
+                               private val wishmasterAnimationUtils: WishmasterAnimationUtils) : Fade() {
 
     private val contextReference = WeakReference(context)
     private val toolbarReference = WeakReference(toolbar)
@@ -39,7 +40,8 @@ class DashboardEnterTransition(context: Context,
 
     override fun onAppear(sceneRoot: ViewGroup?, startValues: TransitionValues?, startVisibility: Int, endValues: TransitionValues?, endVisibility: Int): Animator {
         animateTabLayout()
-        animateToolbar()
+        //animateToolbar()
+        toolbarReference.get()?.let { wishmasterAnimationUtils.fadeOutToolbar(it, duration, interpolator) }
         return super.onAppear(sceneRoot, startValues, startVisibility, endValues, endVisibility)
     }
 
@@ -62,16 +64,16 @@ class DashboardEnterTransition(context: Context,
         tabLayoutReference.get()?.startAnimation(translateUpwards)
     }
 
-    private fun animateToolbar() {
-        toolbarReference.get()?.let {
-            for (i in 0 until it.childCount) {
-                val child = it.getChildAt(i)
-                child.alpha = 0f
-                child.animate().alpha(1f)
-                        .setDuration(duration)
-                        .setInterpolator(interpolator)
-                        .start()
-            }
-        }
-    }
+//    private fun animateToolbar() {
+//        toolbarReference.get()?.let {
+//            for (i in 0 until it.childCount) {
+//                val child = it.getChildAt(i)
+//                child.alpha = 0f
+//                child.animate().alpha(1f)
+//                        .setDuration(duration)
+//                        .setInterpolator(interpolator)
+//                        .start()
+//            }
+//        }
+//    }
 }
