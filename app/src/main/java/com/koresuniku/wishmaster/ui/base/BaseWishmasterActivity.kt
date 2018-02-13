@@ -1,9 +1,12 @@
 package com.koresuniku.wishmaster.ui.base
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.v4.app.ActivityOptionsCompat
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.WishmasterApplication
 import com.koresuniku.wishmaster.core.base.mvp.IMvpPresenter
@@ -50,5 +53,13 @@ abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> : BaseDrawerActivity
         super.onDestroy()
         presenter.unbindView()
         isActivityDestroyed = true
+    }
+
+    @SuppressLint("RestrictedApi")
+    fun launchNextActivityWithtransition(intent: Intent) {
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivityForResult(intent, provideFromActivityRequestCode(), options.toBundle())
+        } else startActivityForResult(intent, provideFromActivityRequestCode())
     }
 }

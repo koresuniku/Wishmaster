@@ -13,6 +13,7 @@ import com.koresuniku.wishmaster.R
 import javax.inject.Inject
 import android.support.v7.widget.RecyclerView
 import android.view.animation.*
+import android.widget.TextView
 
 
 /**
@@ -86,31 +87,38 @@ class WishmasterAnimationUtils @Inject constructor() {
             val transitionExit = ThreadListExitTransition(window.context, toolbar,
                     this)
             transitionExit.excludeTarget(toolbar, true)
-            window.reenterTransition = transitionExit
+            window.exitTransition = transitionExit
 
             val transitionEnter = ThreadListEnterTransition(window.context, toolbar,
+                    this)
+            transitionEnter.excludeTarget(toolbar, true)
+            window.reenterTransition = transitionEnter
+            window.allowEnterTransitionOverlap = false
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun setFullThreadTransitions(window: Window, toolbar: Toolbar) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            val transitionExit = FullThreadExitTransition(window.context, toolbar,
+                    this)
+            transitionExit.excludeTarget(toolbar, true)
+            window.exitTransition = transitionExit
+
+            val transitionEnter = FullThreadEnterTransition(window.context, toolbar,
                     this)
             transitionEnter.excludeTarget(toolbar, true)
             window.reenterTransition = transitionEnter
         }
     }
 
-    fun fadeOutToolbar(toolbar: Toolbar, duration: Long, interpolator: Interpolator) {
+    fun fadeToolbar(fade: Boolean, toolbar: Toolbar, duration: Long, interpolator: Interpolator) {
         (0 until toolbar.childCount)
                 .map { toolbar.getChildAt(it) }
+                .filter { it is TextView || it is ImageView }
                 .forEach {
-                    it.animate().alpha(1f)
-                            .setDuration(duration)
-                            .setInterpolator(interpolator)
-                            .start()
-                }
-    }
-
-    fun fadeInToolbar(toolbar: Toolbar, duration: Long, interpolator: Interpolator) {
-        (0 until toolbar.childCount)
-                .map { toolbar.getChildAt(it) }
-                .forEach {
-                    it.animate().alpha(0f)
+                    it.animate().alpha(if (fade) 0f else 1f)
                             .setDuration(duration)
                             .setInterpolator(interpolator)
                             .start()

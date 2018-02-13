@@ -1,6 +1,7 @@
 package com.koresuniku.wishmaster.core.modules.full_thread.presenter
 
 import android.text.Html
+import android.util.Log
 import com.koresuniku.wishmaster.application.listener.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.modules.full_thread.interactor.FullThreadNetworkInteractor
@@ -14,6 +15,7 @@ import javax.inject.Inject
 /**
  * Created by koresuniku on 2/11/18.
  */
+
 class FullThreadPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector,
                                               compositeDisposable: CompositeDisposable,
                                               networkInteractor: FullThreadNetworkInteractor,
@@ -32,6 +34,7 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    Log.d(LOG_TAG, "posts: ${it.postList.size}")
                     presenterData = it
                     mvpView?.onPostListReceived(Html.fromHtml(it.postList[0].comment))
                 }, { it.printStackTrace() }))

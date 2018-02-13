@@ -3,27 +3,22 @@ package com.koresuniku.wishmaster.ui.anim
 import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.design.widget.TabLayout
 import android.support.v7.widget.Toolbar
 import android.transition.Fade
 import android.transition.TransitionValues
-import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.Animation
-import android.view.animation.TranslateAnimation
-import android.widget.TextView
 import com.koresuniku.wishmaster.R
 import java.lang.ref.WeakReference
 
 @SuppressLint("NewApi")
 /**
- * Created by koresuniku on 2/12/18.
+ * Created by koresuniku on 2/13/18.
  */
 
-class ThreadListEnterTransition (context: Context,
-                                 toolbar: Toolbar,
-                                 private val wishmasterAnimationUtils: WishmasterAnimationUtils) : Fade() {
+class FullThreadExitTransition(context: Context,
+                               toolbar: Toolbar,
+                               private val wishmasterAnimationUtils: WishmasterAnimationUtils) : Fade() {
 
     private val contextReference = WeakReference(context)
     private val toolbarReference = WeakReference(toolbar)
@@ -37,7 +32,7 @@ class ThreadListEnterTransition (context: Context,
     override fun getInterpolator() = AccelerateDecelerateInterpolator()
 
     override fun onAppear(sceneRoot: ViewGroup?, startValues: TransitionValues?, startVisibility: Int, endValues: TransitionValues?, endVisibility: Int): Animator {
-        toolbarReference.get()?.let { wishmasterAnimationUtils.fadeToolbar(false, it, duration, interpolator) }
+        toolbarReference.get()?.let { wishmasterAnimationUtils.fadeToolbar(true, it, duration, interpolator) }
         return super.onAppear(sceneRoot, startValues, startVisibility, endValues, endVisibility)
     }
 }

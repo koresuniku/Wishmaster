@@ -40,8 +40,7 @@ class DashboardExitTransition(context: Context,
     override fun onDisappear(sceneRoot: ViewGroup?, view: View?, startValues: TransitionValues?,
                              endValues: TransitionValues?): Animator {
         animateTabLayout()
-        //animateToolbar()
-        toolbarReference.get()?.let { wishmasterAnimationUtils.fadeInToolbar(it, duration, interpolator) }
+        toolbarReference.get()?.let { wishmasterAnimationUtils.fadeToolbar(true ,it, duration, interpolator) }
         return super.onDisappear(sceneRoot, view, startValues, endValues)
     }
 
@@ -67,17 +66,5 @@ class DashboardExitTransition(context: Context,
             }
         })
         tabLayoutReference.get()?.startAnimation(translateUpwards)
-    }
-
-    private fun animateToolbar() {
-        toolbarReference.get()?.let {
-            for (i in 0 until it.childCount) {
-                val child = it.getChildAt(i)
-                child.animate().alpha(0f)
-                        .setDuration(duration)
-                        .setInterpolator(interpolator)
-                        .start()
-            }
-        }
     }
 }

@@ -147,14 +147,10 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
         mViewPager.currentItem = position
     }
 
-    @SuppressLint("RestrictedApi")
     override fun launchThreadListActivity(boardId: String) {
         val intent = Intent(this, ThreadListActivity::class.java)
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, boardId)
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            startActivityForResult(intent, provideFromActivityRequestCode(), options.toBundle())
-        } else startActivityForResult(intent, provideFromActivityRequestCode())
+        launchNextActivityWithtransition(intent)
     }
 
     override fun showUnknownInput() {

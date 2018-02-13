@@ -33,20 +33,7 @@ class ThreadListExitTransition(context: Context,
     override fun getInterpolator() = AccelerateDecelerateInterpolator()
 
     override fun onAppear(sceneRoot: ViewGroup?, startValues: TransitionValues?, startVisibility: Int, endValues: TransitionValues?, endVisibility: Int): Animator {
-        //animateToolbar()
-        toolbarReference.get()?.let { wishmasterAnimationUtils.fadeInToolbar(it, duration, interpolator) }
+        toolbarReference.get()?.let { wishmasterAnimationUtils.fadeToolbar(true, it, duration, interpolator) }
         return super.onAppear(sceneRoot, startValues, startVisibility, endValues, endVisibility)
-    }
-
-    private fun animateToolbar() {
-        toolbarReference.get()?.let {
-            for (i in 0 until it.childCount) {
-                val child = it.getChildAt(i)
-                child.animate().alpha(0f)
-                        .setDuration(duration)
-                        .setInterpolator(interpolator)
-                        .start()
-            }
-        }
     }
 }

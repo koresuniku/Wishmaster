@@ -3,9 +3,11 @@ package com.koresuniku.wishmaster.ui.thread_list
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.design.widget.Snackbar
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -170,7 +172,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         val intent = Intent(this, FullThreadActivity::class.java)
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, getBoardId())
         intent.putExtra(IntentKeystore.THREAD_NUMBER_CODE, threadNumber)
-        startActivityForResult(intent, provideFromActivityRequestCode())
+        launchNextActivityWithtransition(intent)
     }
 
     override fun onBackPressed() {

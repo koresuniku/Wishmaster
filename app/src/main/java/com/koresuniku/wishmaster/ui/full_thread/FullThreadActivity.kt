@@ -1,5 +1,6 @@
 package com.koresuniku.wishmaster.ui.full_thread
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
 import android.os.Bundle
@@ -47,12 +48,15 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     @BindView(R.id.post_list) lateinit var mPostListRecyclerView: RecyclerView
     @BindView(R.id.background) lateinit var mBackground: ImageView
 
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getWishmasterApplication().daggerFullThreadViewComponent.inject(this)
         uiUtils.showSystemUI(this)
         ButterKnife.bind(this)
         presenter.bindView(this)
+
+        wishmasterAnimationUtils.setFullThreadTransitions(window, mToolbar)
 
         setupToolbar()
 

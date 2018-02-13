@@ -21,7 +21,7 @@
         </activity>
 
         <activity android:name="com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity"
-            android:configChanges="orientation|screenSize"/>
+                  android:configChanges="orientation|screenSize"/>
 
         <activity android:name="com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity"
                   android:configChanges="orientation|screenSize"/>
