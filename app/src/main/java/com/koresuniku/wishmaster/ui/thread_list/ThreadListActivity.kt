@@ -4,14 +4,15 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.annotation.LayoutRes
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
@@ -27,7 +28,6 @@ import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
-import com.koresuniku.wishmaster.ui.view.widget.LinearLayoutManagerWrapper
 import javax.inject.Inject
 
 /**
@@ -68,15 +68,12 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         setupToolbar()
         setupRecyclerView()
 
-        showLoading(true)
         presenter.loadThreadList()
     }
 
-    override fun onBackPressed() {
-        setResult(Activity.RESULT_OK)
-        presenter.unbindView()
-        super.onBackPressed()
-    }
+    override fun provideFromActivityRequestCode() = IntentKeystore.FROM_THREAD_LIST_ACTIVITY_REQUEST_CODE
+    override fun getBoardId(): String = intent.getStringExtra(IntentKeystore.BOARD_ID_CODE)
+    @LayoutRes override fun provideContentLayoutResource(): Int = R.layout.activity_thread_list
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
@@ -87,10 +84,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
             else -> return super.onOptionsItemSelected(item)
         }
     }
-
-    override fun getBoardId(): String = intent.getStringExtra(IntentKeystore.BOARD_ID_CODE)
-
-    override fun provideContentLayoutResource(): Int = R.layout.activity_thread_list
 
     private fun setupBackground() {
         if (BoardsBackgrounds.backgrounds.containsKey(getBoardId())) {
@@ -110,12 +103,11 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 
     private fun setupRecyclerView() {
         mThreadListRecyclerViewAdapter = ThreadListRecyclerViewAdapter(this)
+        presenter.bindThreadListAdapterView(mThreadListRecyclerViewAdapter)
         mThreadListRecyclerView.setItemViewCacheSize(20)
         mThreadListRecyclerView.isDrawingCacheEnabled = true
         mThreadListRecyclerView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
-        mThreadListRecyclerView.adapter = mThreadListRecyclerViewAdapter
-        mThreadListRecyclerView.layoutManager = LinearLayoutManagerWrapper(
-                this, LinearLayoutManager.VERTICAL, false)
+        mThreadListRecyclerView.layoutManager = LinearLayoutManager(this)
         mThreadListRecyclerView.addItemDecoration(ThreadItemDividerDecoration(this))
         mThreadListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
@@ -129,7 +121,17 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
                 }
             }
         })
-        presenter.bindThreadListAdapterView(mThreadListRecyclerViewAdapter)
+        wishmasterAnimationUtils.setLayoutAnimation(mThreadListRecyclerView)
+        mThreadListRecyclerView.adapter = mThreadListRecyclerViewAdapter
+
+    }
+
+    override fun onEnterAnimationComplete() {
+        super.onEnterAnimationComplete()
+        mThreadListRecyclerView.post {
+            if (!isActivityReentered) mThreadListRecyclerView.scheduleLayoutAnimation()
+        }
+
     }
 
     override fun onThreadListReceived(boardName: String) {
@@ -137,14 +139,12 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         setupTitle(boardName)
     }
 
-    private fun showLoading(delay: Boolean) {
+    override fun showLoading() {
         supportActionBar?.title = getString(R.string.loading_text)
         wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
-    private fun hideLoading() {
-        wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
-    }
+    private fun hideLoading() { wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout) }
 
     override fun showError(message: String?) {
         hideLoading()
@@ -158,12 +158,8 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
                 Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction(R.string.bljad, { snackBar.dismiss() })
         snackBar.show()
-        mTryAgainButton.setOnClickListener {
-            snackBar.dismiss()
-            hideError()
-            showLoading(false)
-            presenter.loadThreadList()
-        }
+        mTryAgainButton.setOnClickListener { snackBar.dismiss(); hideError(); showLoading();
+            presenter.loadThreadList() }
     }
 
     private fun hideError() {
@@ -171,22 +167,20 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         mThreadListRecyclerView.visibility = View.VISIBLE
     }
 
-    override fun showThreadList() {
-        val alpha = AlphaAnimation(0f, 1f)
-        alpha.duration = resources.getInteger(R.integer.showing_list_duration).toLong()
-        mThreadListRecyclerView.startAnimation(alpha)
-    }
-
     override fun launchFullThreadActivity(threadNumber: String) {
         val intent = Intent(this, FullThreadActivity::class.java)
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, getBoardId())
         intent.putExtra(IntentKeystore.THREAD_NUMBER_CODE, threadNumber)
-        startActivity(intent)
-        //overridePendingTransitionEnter()
+        startActivityForResult(intent, provideFromActivityRequestCode())
+    }
+
+    override fun onBackPressed() {
+        presenter.unbindThreadListAdapterView()
+        super.onBackPressed()
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         presenter.unbindThreadListAdapterView()
+        super.onDestroy()
     }
 }

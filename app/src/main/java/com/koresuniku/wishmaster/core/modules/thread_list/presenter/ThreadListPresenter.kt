@@ -32,11 +32,11 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
     override fun getBoardId(): String = mvpView?.getBoardId() ?: String()
 
     override fun loadThreadList() {
+        mvpView?.showLoading()
         compositeDisposable.add(threadListNetworkInteractor.getDataFromNetwork()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    if (presenterData.getThreadList().isEmpty()) mvpView?.showThreadList()
                     presenterData = it
                     mvpView?.onThreadListReceived(it.getBoardName())
                     threadListAdapterView?.onThreadListDataChanged(it)

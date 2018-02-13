@@ -1,5 +1,6 @@
 package com.koresuniku.wishmaster.ui.base
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.LayoutRes
@@ -15,9 +16,10 @@ import com.koresuniku.wishmaster.core.base.mvp.IMvpView
 abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> : BaseDrawerActivity(), IWishamsterActivity, IMvpView<P> {
 
     protected var isActivityDestroyed = false
+    protected var isActivityReentered = false
 
-    @LayoutRes
-    abstract override fun provideContentLayoutResource(): Int
+    @LayoutRes abstract override fun provideContentLayoutResource(): Int
+    abstract fun provideFromActivityRequestCode(): Int
 
     override fun getWishmasterApplication(): WishmasterApplication = application as WishmasterApplication
 
@@ -27,22 +29,16 @@ abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> : BaseDrawerActivity
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        setResult(Activity.RESULT_OK)
         presenter.unbindView()
-        //overridePendingTransitionExit()
+        super.onBackPressed()
     }
 
-    override fun startActivity(intent: Intent?) {
-        super.startActivity(intent)
-       // overridePendingTransitionEnter()
-    }
-
-    protected fun overridePendingTransitionEnter() {
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-    }
-
-    protected fun overridePendingTransitionExit() {
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == provideFromActivityRequestCode() && resultCode == Activity.RESULT_OK) {
+            isActivityReentered = true
+        }
     }
 
     override fun onDestroy() {

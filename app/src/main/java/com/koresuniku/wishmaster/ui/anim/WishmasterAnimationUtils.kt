@@ -13,6 +13,16 @@ import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import com.koresuniku.wishmaster.R
 import javax.inject.Inject
+import android.support.v7.widget.RecyclerView
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.LayoutAnimationController
+
+
+
+
+
+
 
 /**
  * Created by koresuniku on 2/12/18.
@@ -44,6 +54,12 @@ class WishmasterAnimationUtils @Inject constructor() {
                     override fun onAnimationStart(p0: Animator?) {}
                 })
                 .start()
+    }
+
+    fun setLayoutAnimation(recyclerView: RecyclerView) {
+        val context = recyclerView.context
+        val controller = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_slide_from_bottom)
+        recyclerView.layoutAnimation = controller
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

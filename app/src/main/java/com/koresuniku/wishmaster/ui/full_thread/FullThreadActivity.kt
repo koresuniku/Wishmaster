@@ -1,5 +1,6 @@
 package com.koresuniku.wishmaster.ui.full_thread
 
+import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -31,27 +32,17 @@ import javax.inject.Inject
 class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullThreadView<IFullThreadPresenter> {
     private val LOG_TAG = FullThreadActivity::class.java.simpleName
 
-    @Inject
-    override lateinit var presenter: IFullThreadPresenter
-    @Inject
-    lateinit var textUtils: WishmasterTextUtils
-    @Inject
-    lateinit var uiUtils: UiUtils
+    @Inject override lateinit var presenter: IFullThreadPresenter
+    @Inject lateinit var textUtils: WishmasterTextUtils
+    @Inject lateinit var uiUtils: UiUtils
 
-    @BindView(R.id.toolbar)
-    lateinit var mToolbar: Toolbar
-    @BindView(R.id.loading_layout)
-    lateinit var mLoadingLayout: ViewGroup
-    @BindView(R.id.yoba)
-    lateinit var mYobaImage: ImageView
-    @BindView(R.id.error_layout)
-    lateinit var mErrorLayout: ViewGroup
-    @BindView(R.id.try_again_button)
-    lateinit var mTryAgainButton: Button
-    @BindView(R.id.post_list)
-    lateinit var mPostListRecyclerView: RecyclerView
-    @BindView(R.id.background)
-    lateinit var mBackground: ImageView
+    @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
+    @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup
+    @BindView(R.id.yoba) lateinit var mYobaImage: ImageView
+    @BindView(R.id.error_layout) lateinit var mErrorLayout: ViewGroup
+    @BindView(R.id.try_again_button) lateinit var mTryAgainButton: Button
+    @BindView(R.id.post_list) lateinit var mPostListRecyclerView: RecyclerView
+    @BindView(R.id.background) lateinit var mBackground: ImageView
 
     override fun provideContentLayoutResource() = R.layout.activity_full_thread
 
@@ -69,9 +60,8 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     }
 
     override fun onBackPressed() {
+        setResult(Activity.RESULT_OK)
         super.onBackPressed()
-        presenter.unbindView()
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -83,6 +73,8 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
             else -> return super.onOptionsItemSelected(item)
         }
     }
+
+    override fun provideFromActivityRequestCode() = IntentKeystore.FROM_FULL_THREAD_ACTIVITY_REQUEST_CODE
 
     private fun setupToolbar() {
         setSupportActionBar(mToolbar)
@@ -143,8 +135,8 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     }
 
     override fun showPostList() {
-        val alpha = AlphaAnimation(0f, 1f)
-        alpha.duration = resources.getInteger(R.integer.showing_list_duration).toLong()
-        mPostListRecyclerView.startAnimation(alpha)
+//        val alpha = AlphaAnimation(0f, 1f)
+//        alpha.duration = resources.getInteger(R.integer.showing_list_duration).toLong()
+//        mPostListRecyclerView.startAnimation(alpha)
     }
 }

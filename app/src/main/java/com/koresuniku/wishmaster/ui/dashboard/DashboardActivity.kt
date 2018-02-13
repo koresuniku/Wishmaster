@@ -35,6 +35,8 @@ import android.util.Log
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 
 class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), DashboardView<IDashboardPresenter> {
+
+
     private val LOG_TAG = DashboardActivity::class.java.simpleName
 
     @Inject override lateinit var presenter: IDashboardPresenter
@@ -91,10 +93,11 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
         return super.onCreateOptionsMenu(menu)
     }
 
+    @LayoutRes override fun provideContentLayoutResource() = R.layout.activity_dashboard
     override fun onBoardListReceived(boardListData: BoardListData) { hideLoading() }
     override fun onBoardListError(t: Throwable) { hideLoading(); showError(t) }
+    override fun provideFromActivityRequestCode() = IntentKeystore.FROM_DASHBOARD_ACTIVITY_REQUEST_CODE
 
-    @LayoutRes override fun provideContentLayoutResource() = R.layout.activity_dashboard
 
     override fun showLoading() {
         wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
@@ -148,23 +151,14 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
         val intent = Intent(this, ThreadListActivity::class.java)
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, boardId)
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            startActivityForResult(intent, IntentKeystore.DASHBOARD_ACTIVITY_REQUEST_CODE, options.toBundle())
-        } else startActivityForResult(intent, IntentKeystore.DASHBOARD_ACTIVITY_REQUEST_CODE)
+            startActivityForResult(intent, provideFromActivityRequestCode(), options.toBundle())
+        } else startActivityForResult(intent, provideFromActivityRequestCode())
     }
 
     override fun showUnknownInput() {
         val snackbar = Snackbar.make(mErrorLayout, getString(R.string.unknown_address), Snackbar.LENGTH_SHORT)
         snackbar.setAction(R.string.bljad, { snackbar.dismiss() })
         snackbar.show()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IntentKeystore.DASHBOARD_ACTIVITY_REQUEST_CODE
-                && resultCode == Activity.RESULT_OK) {
-            Log.d(LOG_TAG, "result ok")
-        }
     }
 }

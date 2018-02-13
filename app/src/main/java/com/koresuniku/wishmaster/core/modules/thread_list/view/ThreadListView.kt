@@ -9,7 +9,7 @@ import com.koresuniku.wishmaster.core.base.mvp.IMvpView
 interface ThreadListView<P> : IMvpView<P> {
     fun getBoardId(): String
     fun onThreadListReceived(boardName: String)
-    fun showThreadList()
     fun showError(message: String?)
+    fun showLoading()
     fun launchFullThreadActivity(threadNumber: String)
 }
