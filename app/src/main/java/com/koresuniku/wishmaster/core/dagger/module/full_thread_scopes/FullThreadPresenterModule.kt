@@ -1,8 +1,16 @@
 package com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes
 
+import android.content.Context
+import com.koresuniku.wishmaster.application.preferences.UiParams
 import com.koresuniku.wishmaster.core.dagger.scope.ForFullThreadPresenter
+import com.koresuniku.wishmaster.core.modules.full_thread.interactor.FullThreadAdapterViewInteractor
 import com.koresuniku.wishmaster.core.modules.full_thread.interactor.FullThreadNetworkInteractor
+import com.koresuniku.wishmaster.core.modules.thread_list.interactor.ThreadListAdapterViewInteractor
+import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.network.full_thread_api.FullThreadApiService
+import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.ui.utils.ViewUtils
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -16,8 +24,22 @@ class FullThreadPresenterModule {
 
     @Provides
     @ForFullThreadPresenter
-    fun provideFullThreadNetwrokInterator(fullThreadApiService: FullThreadApiService,
-                                      compositeDisposable: CompositeDisposable): FullThreadNetworkInteractor {
+    fun provideFullThreadNetworkInterator(fullThreadApiService: FullThreadApiService,
+                                          compositeDisposable: CompositeDisposable): FullThreadNetworkInteractor {
         return FullThreadNetworkInteractor(fullThreadApiService, compositeDisposable)
+    }
+
+    @Provides
+    @ForFullThreadPresenter
+    fun provideFullThreadAdapterViewInteractor(compositeDisposable: CompositeDisposable,
+                                               context: Context,
+                                               uiParams: UiParams,
+                                               retrofitHolder: RetrofitHolder,
+                                               imageUtils: WishmasterImageUtils,
+                                               textUtils: WishmasterTextUtils,
+                                               viewUtils: ViewUtils):
+            FullThreadAdapterViewInteractor {
+        return FullThreadAdapterViewInteractor(
+                compositeDisposable, context, uiParams, retrofitHolder, imageUtils, textUtils, viewUtils)
     }
 }

@@ -51,7 +51,7 @@ class FullThreadRecyclerViewAdapter() : RecyclerView.Adapter<PostItemViewHolder>
     }
 
     override fun onBindViewHolder(holder: PostItemViewHolder?, position: Int) {
-
+        holder?.let { presenter.setItemViewData(it, position) }
     }
 
     override fun onPostListDataChanged(newPostListData: PostListData) {

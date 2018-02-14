@@ -4,8 +4,10 @@ import android.text.Html
 import android.util.Log
 import com.koresuniku.wishmaster.application.listener.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.core.modules.full_thread.interactor.FullThreadAdapterViewInteractor
 import com.koresuniku.wishmaster.core.modules.full_thread.interactor.FullThreadNetworkInteractor
 import com.koresuniku.wishmaster.core.modules.full_thread.view.FullThreadView
+import com.koresuniku.wishmaster.core.modules.full_thread.view.PostItemView
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -19,8 +21,9 @@ import javax.inject.Inject
 class FullThreadPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector,
                                               compositeDisposable: CompositeDisposable,
                                               networkInteractor: FullThreadNetworkInteractor,
+                                              adapterViewInteractor: FullThreadAdapterViewInteractor,
                                               orientationNotifier: OrientationNotifier):
-        BaseFullThreadPresenter(compositeDisposable, networkInteractor, orientationNotifier) {
+        BaseFullThreadPresenter(compositeDisposable, networkInteractor, adapterViewInteractor, orientationNotifier) {
     private val LOG_TAG = FullThreadPresenter::class.java.simpleName
 
     override fun bindView(mvpView: FullThreadView<IFullThreadPresenter>) {
@@ -59,5 +62,11 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
             }
         }
         return fullThreadAdapterView?.NO_IMAGES_CODE ?: -1
+    }
+
+    override fun setItemViewData(postItemView: PostItemView, position: Int) {
+        fullThreadAdapterView?.let {
+            adapterViewInteractor.setItemViewData(it, postItemView, presenterData, position)
+        }
     }
 }

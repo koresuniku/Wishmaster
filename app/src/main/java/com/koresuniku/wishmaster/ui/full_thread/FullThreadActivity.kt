@@ -117,6 +117,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     }
 
     override fun showLoading() {
+        mFullThreadRecyclerView.post { mFullThreadRecyclerView.scheduleLayoutAnimation() }
         supportActionBar?.title = getString(R.string.loading_text)
         wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }

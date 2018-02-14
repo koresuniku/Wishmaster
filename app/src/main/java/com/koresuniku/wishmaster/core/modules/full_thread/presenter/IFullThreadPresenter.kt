@@ -5,6 +5,7 @@ import com.koresuniku.wishmaster.core.base.mvp.IMvpPresenter
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.modules.full_thread.view.FullThreadAdapterView
 import com.koresuniku.wishmaster.core.modules.full_thread.view.FullThreadView
+import com.koresuniku.wishmaster.core.modules.full_thread.view.PostItemView
 
 /**
  * Created by koresuniku on 2/11/18.
@@ -18,6 +19,7 @@ interface IFullThreadPresenter : IMvpPresenter<FullThreadView<IFullThreadPresent
     fun getThreadNumber(): String
     fun onNetworkError(t: Throwable)
     fun getPostItemType(position: Int): Int
+    fun setItemViewData(postItemView: PostItemView, position: Int)
 
     fun bindFullThreadAdapterView(fullThreadAdapterView: FullThreadAdapterView<IFullThreadPresenter>)
     fun unbindFullThreadAdapterView()

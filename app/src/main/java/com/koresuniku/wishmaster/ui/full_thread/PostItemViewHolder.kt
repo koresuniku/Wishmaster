@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -17,6 +18,7 @@ import com.koresuniku.wishmaster.core.modules.full_thread.presenter.IFullThreadP
 import com.koresuniku.wishmaster.core.modules.full_thread.view.PostItemView
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster.ui.preview.PreviewImageGridAdapter
 import javax.inject.Inject
 
 /**
@@ -63,15 +65,22 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setComment(comment: Spanned) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun setComment(comment: Spanned) { mComment.text = comment }
 
     override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)
+        val image = imageLayout.findViewById<ImageView>(R.id.image)
+
+        mImageSummary.text = imageItemData.summary
+        imageUtils.loadImageThumbnail(imageItemData, image, url)
     }
 
-    override fun setMultipleImages(imageItemDataList: List<ImageItemData>, url: String, imageUtils: WishmasterImageUtils, gridViewHeight: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun setMultipleImages(imageItemDataList: List<ImageItemData>,
+                                   url: String,
+                                   imageUtils: WishmasterImageUtils,
+                                   gridViewHeight: Int) {
+        mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
+        mImageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, url, imageUtils)
+        mImageGrid.layoutParams.height = gridViewHeight
     }
 }

@@ -140,6 +140,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     }
 
     override fun showLoading() {
+        mThreadListRecyclerView.post { mThreadListRecyclerView.scheduleLayoutAnimation() }
         supportActionBar?.title = getString(R.string.loading_text)
         wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }

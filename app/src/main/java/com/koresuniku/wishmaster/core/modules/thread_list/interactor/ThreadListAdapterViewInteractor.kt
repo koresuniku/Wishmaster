@@ -15,17 +15,18 @@ import com.koresuniku.wishmaster.ui.utils.ViewUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 /**
  * Created by koresuniku on 02.02.18.
  */
-class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
-                                      private val context: Context,
-                                      private val uiParams: UiParams,
-                                      private val retrofitHolder: RetrofitHolder,
-                                      private val imageUtils: WishmasterImageUtils,
-                                      private val textUtils: WishmasterTextUtils,
-                                      private val viewUtils: ViewUtils):
+class ThreadListAdapterViewInteractor @Inject constructor(compositeDisposable: CompositeDisposable,
+                                                          private val context: Context,
+                                                          private val uiParams: UiParams,
+                                                          private val retrofitHolder: RetrofitHolder,
+                                                          private val imageUtils: WishmasterImageUtils,
+                                                          private val textUtils: WishmasterTextUtils,
+                                                          private val viewUtils: ViewUtils):
         BaseRxAdapterViewInteractor<
         IThreadListPresenter,
         ThreadListAdapterView<IThreadListPresenter>,

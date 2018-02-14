@@ -4,6 +4,7 @@ import com.koresuniku.wishmaster.application.listener.OnOrientationChangedListen
 import com.koresuniku.wishmaster.application.listener.OrientationNotifier
 import com.koresuniku.wishmaster.core.base.rx.BaseRxDataPresenter
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
+import com.koresuniku.wishmaster.core.modules.full_thread.interactor.FullThreadAdapterViewInteractor
 import com.koresuniku.wishmaster.core.modules.full_thread.interactor.FullThreadNetworkInteractor
 import com.koresuniku.wishmaster.core.modules.full_thread.view.FullThreadAdapterView
 import com.koresuniku.wishmaster.core.modules.full_thread.view.FullThreadView
@@ -15,6 +16,7 @@ import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseFullThreadPresenter(compositeDisposable: CompositeDisposable,
                                        protected val networkInteractor: FullThreadNetworkInteractor,
+                                       protected val adapterViewInteractor: FullThreadAdapterViewInteractor,
                                        private val orientationNotifier: OrientationNotifier) :
         BaseRxDataPresenter<FullThreadView<IFullThreadPresenter>, PostListData>(compositeDisposable),
         IFullThreadPresenter, OnOrientationChangedListener {
@@ -27,6 +29,7 @@ abstract class BaseFullThreadPresenter(compositeDisposable: CompositeDisposable,
         super.bindView(mvpView)
         presenterData = PostListData.emptyData()
         networkInteractor.bindPresenter(this)
+        adapterViewInteractor.bindPresenter(this)
         orientationNotifier.bindListener(this)
     }
 
@@ -37,6 +40,7 @@ abstract class BaseFullThreadPresenter(compositeDisposable: CompositeDisposable,
     override fun unbindView() {
         super.unbindView()
         networkInteractor.unbindPresenter()
+        adapterViewInteractor.unbindPresenter()
         orientationNotifier.unbindListener(this)
     }
 
