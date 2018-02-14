@@ -31,6 +31,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
 
     @Inject lateinit var presenter: IThreadListPresenter
 
+    @Nullable @BindView(R.id.top) lateinit var mTop: View
     @Nullable @BindView(R.id.item_layout) lateinit var mItemLayout: ViewGroup
     @Nullable @BindView(R.id.subject) lateinit var mSubject: TextView
     @Nullable @BindView(R.id.comment) lateinit var mComment: TextView
@@ -47,6 +48,10 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     init {
         ButterKnife.bind(this, itemView)
         injector.daggerThreadListViewComponent.inject(this)
+    }
+
+    override fun adaptLayout(position: Int) {
+        mTop.visibility = if (position == 0) View.GONE else View.VISIBLE
     }
 
     override fun setOnClickItemListener(threadNumber: String) {

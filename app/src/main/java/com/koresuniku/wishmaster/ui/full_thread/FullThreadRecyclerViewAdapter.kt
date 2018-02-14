@@ -2,7 +2,10 @@ package com.koresuniku.wishmaster.ui.full_thread
 
 import android.app.Activity
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.modules.full_thread.presenter.IFullThreadPresenter
@@ -33,15 +36,26 @@ class FullThreadRecyclerViewAdapter() : RecyclerView.Adapter<PostItemViewHolder>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): PostItemViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return when (viewType) {
+            NO_IMAGES_CODE -> PostItemViewHolder(
+                    LayoutInflater.from(parent?.context).inflate(
+                            R.layout.post_item_no_images, parent, false), injector)
+            SINGLE_IMAGE_CODE -> PostItemViewHolder(
+                    LayoutInflater.from(parent?.context).inflate(
+                            R.layout.post_item_single_image, parent, false), injector)
+            MULTIPLE_IMAGES_CODE -> PostItemViewHolder(
+                    LayoutInflater.from(parent?.context).inflate(
+                            R.layout.post_item_multiple_images, parent, false), injector)
+            else -> PostItemViewHolder(View(parent?.context), injector)
+        }
     }
 
     override fun onBindViewHolder(holder: PostItemViewHolder?, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onPostListDataChanged(newPostListData: PostListData) {
-
+        activity.get()?.runOnUiThread({ notifyDataSetChanged() })
     }
 
     override fun onOrientationChanged(orientation: Int) {

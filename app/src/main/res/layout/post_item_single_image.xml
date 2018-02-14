@@ -7,15 +7,22 @@
                 android:background="@color/colorBackgroundLight"
                 android:clickable="true">
 
+    <include
+        android:id="@+id/top"
+        layout="@layout/line_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:visibility="gone"/>
+
     <RelativeLayout
-        android:id="@+id/thread_item_container"
+        android:id="@+id/post_item_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/top"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="3dp"
-        android:background="@color/colorBackgroundLight">
+        android:background="@color/colorBackgroundLight"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="3dp">
 
         <TextView
             android:id="@+id/head"
@@ -58,5 +65,12 @@
 
         </include>
     </RelativeLayout>
+
+    <include
+        android:id="@+id/bottom"
+        layout="@layout/line_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/post_item_container"/>
 
 </RelativeLayout>

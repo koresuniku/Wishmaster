@@ -18,16 +18,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/post_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        >
-
-    </android.support.v7.widget.RecyclerView>
+        android:background="@color/colorBackground"
+        android:scaleType="centerCrop"/>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/loading_layout"
@@ -45,9 +37,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
-            app:srcCompat="@drawable/yoba_default" />
+            app:srcCompat="@drawable/yoba_default"/>
 
     </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/post_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        >
+
+    </android.support.v7.widget.RecyclerView>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/error_layout"

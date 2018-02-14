@@ -38,6 +38,7 @@ class ThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                                  position: Int) {
         val thread = data.getThreadList()[position]
 
+        view.adaptLayout(position)
         view.setOnClickItemListener(thread.num)
 
         //Subject

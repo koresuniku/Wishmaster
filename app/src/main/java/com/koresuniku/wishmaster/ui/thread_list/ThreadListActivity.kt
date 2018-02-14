@@ -124,7 +124,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         })
         wishmasterAnimationUtils.setLayoutAnimation(mThreadListRecyclerView)
         mThreadListRecyclerView.adapter = mThreadListRecyclerViewAdapter
-
     }
 
     override fun onEnterAnimationComplete() {
@@ -133,7 +132,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
             if (!isActivityReentered || (!presenter.isDataLoaded()) && isActivityReentered)
                 mThreadListRecyclerView.scheduleLayoutAnimation()
         }
-
     }
 
     override fun onThreadListReceived(boardName: String) {

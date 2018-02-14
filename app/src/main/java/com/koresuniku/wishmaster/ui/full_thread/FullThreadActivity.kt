@@ -1,24 +1,22 @@
 package com.koresuniku.wishmaster.ui.full_thread
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.support.annotation.LayoutRes
 import android.support.design.widget.Snackbar
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.Spanned
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
-import android.view.animation.AnimationUtils
+import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.IntentKeystore
 import com.koresuniku.wishmaster.core.modules.full_thread.presenter.IFullThreadPresenter
@@ -26,6 +24,7 @@ import com.koresuniku.wishmaster.core.modules.full_thread.view.FullThreadView
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
+import com.koresuniku.wishmaster.ui.dashboard.favourite_boards.FavouriteBoardsItemDividerDecoration
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import javax.inject.Inject
 
@@ -45,8 +44,10 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     @BindView(R.id.yoba) lateinit var mYobaImage: ImageView
     @BindView(R.id.error_layout) lateinit var mErrorLayout: ViewGroup
     @BindView(R.id.try_again_button) lateinit var mTryAgainButton: Button
-    @BindView(R.id.post_list) lateinit var mPostListRecyclerView: RecyclerView
+    @BindView(R.id.post_list) lateinit var mFullThreadRecyclerView: RecyclerView
     @BindView(R.id.background) lateinit var mBackground: ImageView
+
+    private lateinit var mFullThreadRecyclerViewAdapter: FullThreadRecyclerViewAdapter
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +60,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         wishmasterAnimationUtils.setFullThreadTransitions(window, mToolbar)
 
         setupToolbar()
+        setupRecyclerView()
 
         presenter.loadPostList()
     }
@@ -83,6 +85,37 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
 
     private fun setupTitle(opComment: Spanned) { supportActionBar?.title = opComment }
 
+    private fun setupRecyclerView() {
+        mFullThreadRecyclerViewAdapter = FullThreadRecyclerViewAdapter(this)
+        presenter.bindFullThreadAdapterView(mFullThreadRecyclerViewAdapter)
+        mFullThreadRecyclerView.setItemViewCacheSize(20)
+        mFullThreadRecyclerView.isDrawingCacheEnabled = true
+        mFullThreadRecyclerView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
+        mFullThreadRecyclerView.layoutManager = LinearLayoutManager(this)
+        mFullThreadRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!isActivityDestroyed) {
+                    if (newState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
+                        Glide.with(this@FullThreadActivity).pauseRequests()
+                    } else {
+                        Glide.with(this@FullThreadActivity).resumeRequests()
+                    }
+                }
+            }
+        })
+        wishmasterAnimationUtils.setLayoutAnimation(mFullThreadRecyclerView)
+        mFullThreadRecyclerView.adapter = mFullThreadRecyclerViewAdapter
+    }
+
+    override fun onEnterAnimationComplete() {
+        super.onEnterAnimationComplete()
+        mFullThreadRecyclerView.post {
+            if (!isActivityReentered || (!presenter.isDataLoaded()) && isActivityReentered)
+                mFullThreadRecyclerView.scheduleLayoutAnimation()
+        }
+    }
+
     override fun showLoading() {
         supportActionBar?.title = getString(R.string.loading_text)
         wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
@@ -101,7 +134,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     override fun showError(message: String?) {
         hideLoading()
 
-        mPostListRecyclerView.visibility = View.GONE
+        mFullThreadRecyclerView.visibility = View.GONE
         mErrorLayout.visibility = View.VISIBLE
         supportActionBar?.title = getString(R.string.error)
         val snackBar = Snackbar.make(
@@ -116,6 +149,16 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
 
     private fun hideError() {
         mErrorLayout.visibility = View.GONE
-        mPostListRecyclerView.visibility = View.VISIBLE
+        mFullThreadRecyclerView.visibility = View.VISIBLE
+    }
+
+    override fun onBackPressed() {
+        presenter.unbindFullThreadAdapterView()
+        super.onBackPressed()
+    }
+
+    override fun onDestroy() {
+        presenter.unbindFullThreadAdapterView()
+        super.onDestroy()
     }
 }
