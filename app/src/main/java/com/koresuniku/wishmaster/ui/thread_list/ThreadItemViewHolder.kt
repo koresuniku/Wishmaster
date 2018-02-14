@@ -40,7 +40,6 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     @Nullable @BindView(R.id.image) lateinit var mImage: ImageView
     @Nullable @BindView(R.id.image_comment_container) lateinit var mImageCommentContainer: ViewGroup
     @Nullable @BindView(R.id.summary) lateinit var mImageSummary: TextView
-
     @Nullable @BindView(R.id.image_grid) lateinit var mImageGrid: GridView
 
     private var mIsSubjectVisible = true

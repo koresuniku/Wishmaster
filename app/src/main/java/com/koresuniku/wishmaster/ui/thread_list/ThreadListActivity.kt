@@ -130,7 +130,8 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
         mThreadListRecyclerView.post {
-            if (!isActivityReentered) mThreadListRecyclerView.scheduleLayoutAnimation()
+            if (!isActivityReentered || (!presenter.isDataLoaded()) && isActivityReentered)
+                mThreadListRecyclerView.scheduleLayoutAnimation()
         }
 
     }

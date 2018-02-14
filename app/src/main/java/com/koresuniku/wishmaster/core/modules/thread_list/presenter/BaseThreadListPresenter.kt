@@ -23,6 +23,9 @@ abstract class BaseThreadListPresenter(compositeDisposable: CompositeDisposable,
         threadListAdapterView?.onOrientationChanged(orientation)
     }
 
+    override fun isDataLoaded() = presenterData.getThreadList().size != 0
+    override fun getDataSize() = presenterData.getThreadList().size
+
     override fun bindView(mvpView: ThreadListView<IThreadListPresenter>) {
         super.bindView(mvpView)
         presenterData = ThreadListData.emptyData()

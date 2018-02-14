@@ -50,5 +50,14 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
     override fun getBoardId() = mvpView?.getBoardId() ?: String()
     override fun getThreadNumber() = mvpView?.getThreadNumber() ?: String()
 
-
+    override fun getPostItemType(position: Int): Int {
+        presenterData.postList[position].files?.let {
+            return when (it.size) {
+                0 -> fullThreadAdapterView?.NO_IMAGES_CODE ?: -1
+                1 -> fullThreadAdapterView?.SINGLE_IMAGE_CODE ?: -1
+                else -> fullThreadAdapterView?.MULTIPLE_IMAGES_CODE ?: -1
+            }
+        }
+        return fullThreadAdapterView?.NO_IMAGES_CODE ?: -1
+    }
 }

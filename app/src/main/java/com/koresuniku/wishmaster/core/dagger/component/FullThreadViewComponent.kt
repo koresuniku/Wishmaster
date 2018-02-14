@@ -4,6 +4,8 @@ import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadViewModule
 import com.koresuniku.wishmaster.core.dagger.scope.ForFullThreadView
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
+import com.koresuniku.wishmaster.ui.full_thread.FullThreadRecyclerViewAdapter
+import com.koresuniku.wishmaster.ui.full_thread.PostItemViewHolder
 import dagger.Component
 
 /**
@@ -16,4 +18,6 @@ import dagger.Component
 interface FullThreadViewComponent {
 
     fun inject(fullThreadActivity: FullThreadActivity)
+    fun inject(postItemViewHolder: PostItemViewHolder)
+    fun inject(fullThreadAdapterView: FullThreadRecyclerViewAdapter)
 }
