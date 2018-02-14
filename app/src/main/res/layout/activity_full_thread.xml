@@ -25,7 +25,8 @@
         android:id="@+id/loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_below="@+id/toolbar"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/yoba"
@@ -46,6 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
+        android:layoutAnimation="@anim/layout_fade_out"
         >
 
     </android.support.v7.widget.RecyclerView>

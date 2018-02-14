@@ -11,7 +11,7 @@ import com.koresuniku.wishmaster.core.data.model.threads.File
 class Post {
     @SerializedName("comment")
     @Expose
-    lateinit var comment: String
+    var comment: String? = null
 
     @SerializedName("date")
     @Expose

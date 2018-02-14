@@ -7,8 +7,6 @@
         android:id="@+id/comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="8"
-        android:text="@string/le_batya"
         android:textColor="@color/colorText"/>
 
 </FrameLayout>

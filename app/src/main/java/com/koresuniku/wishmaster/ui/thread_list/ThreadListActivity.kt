@@ -1,17 +1,13 @@
 package com.koresuniku.wishmaster.ui.thread_list
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -63,7 +59,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         ButterKnife.bind(this)
         presenter.bindView(this)
 
-        wishmasterAnimationUtils.setThreadListTransitions(window, mToolbar)
+        wishmasterAnimationUtils.setThreadListTransitions(window, mToolbar, mThreadListRecyclerView)
 
         setupBackground()
         setupToolbar()
@@ -103,6 +99,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     }
 
     private fun setupRecyclerView() {
+        wishmasterAnimationUtils.setSlideFromBottomLayoutAnimation(mThreadListRecyclerView)
         mThreadListRecyclerViewAdapter = ThreadListRecyclerViewAdapter(this)
         presenter.bindThreadListAdapterView(mThreadListRecyclerViewAdapter)
         mThreadListRecyclerView.setItemViewCacheSize(20)
@@ -122,7 +119,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
                 }
             }
         })
-        wishmasterAnimationUtils.setLayoutAnimation(mThreadListRecyclerView)
+
         mThreadListRecyclerView.adapter = mThreadListRecyclerViewAdapter
     }
 
@@ -142,10 +139,12 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     override fun showLoading() {
         mThreadListRecyclerView.post { mThreadListRecyclerView.scheduleLayoutAnimation() }
         supportActionBar?.title = getString(R.string.loading_text)
-        wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
+        //wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
-    private fun hideLoading() { wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout) }
+    private fun hideLoading() {
+        //wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
+    }
 
     override fun showError(message: String?) {
         hideLoading()

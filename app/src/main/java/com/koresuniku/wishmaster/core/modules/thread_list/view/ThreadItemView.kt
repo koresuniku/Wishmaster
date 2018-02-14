@@ -13,6 +13,7 @@ interface ThreadItemView {
     fun setOnClickItemListener(threadNumber: String)
     fun switchSubjectVisibility(visible: Boolean)
     fun setSubject(subject: Spanned)
+    fun setMaxLines(value: Int)
     fun setComment(comment: Spanned)
     fun setThreadShortInfo(info: String)
     fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils)

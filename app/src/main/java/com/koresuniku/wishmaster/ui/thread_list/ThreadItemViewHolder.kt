@@ -67,6 +67,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     }
 
     override fun setSubject(subject: Spanned) { mSubject.text = subject }
+    override fun setMaxLines(value: Int) { mComment.maxLines = value }
     override fun setComment(comment: Spanned) { mComment.text = comment }
     override fun setThreadShortInfo(info: String) { mResume.text = info }
 

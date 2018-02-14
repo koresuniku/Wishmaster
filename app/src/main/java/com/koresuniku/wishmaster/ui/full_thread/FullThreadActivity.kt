@@ -1,6 +1,7 @@
 package com.koresuniku.wishmaster.ui.full_thread
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.design.widget.Snackbar
@@ -11,6 +12,7 @@ import android.text.Spanned
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
@@ -24,7 +26,6 @@ import com.koresuniku.wishmaster.core.modules.full_thread.view.FullThreadView
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
-import com.koresuniku.wishmaster.ui.dashboard.favourite_boards.FavouriteBoardsItemDividerDecoration
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import javax.inject.Inject
 
@@ -57,12 +58,14 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         ButterKnife.bind(this)
         presenter.bindView(this)
 
-        wishmasterAnimationUtils.setFullThreadTransitions(window, mToolbar)
+        wishmasterAnimationUtils.setFullThreadTransitions(window, mToolbar, mFullThreadRecyclerView)
 
         setupToolbar()
         setupRecyclerView()
 
-        presenter.loadPostList()
+        //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            presenter.loadPostList()
+        //}
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -86,6 +89,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     private fun setupTitle(opComment: Spanned) { supportActionBar?.title = opComment }
 
     private fun setupRecyclerView() {
+        wishmasterAnimationUtils.setSlideFromBottomLayoutAnimation(mFullThreadRecyclerView)
         mFullThreadRecyclerViewAdapter = FullThreadRecyclerViewAdapter(this)
         presenter.bindFullThreadAdapterView(mFullThreadRecyclerViewAdapter)
         mFullThreadRecyclerView.setItemViewCacheSize(20)
@@ -104,22 +108,27 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
                 }
             }
         })
-        wishmasterAnimationUtils.setLayoutAnimation(mFullThreadRecyclerView)
+
         mFullThreadRecyclerView.adapter = mFullThreadRecyclerViewAdapter
+
     }
 
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
+        //presenter.loadPostList()
+//        mFullThreadRecyclerView.adapter = mFullThreadRecyclerViewAdapter
         mFullThreadRecyclerView.post {
-            if (!isActivityReentered || (!presenter.isDataLoaded()) && isActivityReentered)
+
+            if (!isActivityReentered || (!presenter.isDataLoaded()) && isActivityReentered) {
                 mFullThreadRecyclerView.scheduleLayoutAnimation()
+            }
         }
     }
 
     override fun showLoading() {
         mFullThreadRecyclerView.post { mFullThreadRecyclerView.scheduleLayoutAnimation() }
         supportActionBar?.title = getString(R.string.loading_text)
-        wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
+        //wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     override fun getBoardId() = intent.getStringExtra(IntentKeystore.BOARD_ID_CODE)
@@ -130,7 +139,9 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         setupTitle(opComment)
     }
 
-    private fun hideLoading() { wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout) }
+    private fun hideLoading() {
+        //wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
+    }
 
     override fun showError(message: String?) {
         hideLoading()

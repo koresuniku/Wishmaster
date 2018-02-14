@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.widget.Toolbar
 import android.transition.Fade
+import android.transition.Slide
 import android.transition.TransitionValues
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator

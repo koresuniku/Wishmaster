@@ -51,7 +51,7 @@ class WishmasterAnimationUtils @Inject constructor() {
                 .start() }
     }
 
-    fun setLayoutAnimation(recyclerView: RecyclerView) {
+    fun setSlideFromBottomLayoutAnimation(recyclerView: RecyclerView) {
         val context = recyclerView.context
         val controller = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_slide_from_bottom)
         recyclerView.layoutAnimation = controller
@@ -60,6 +60,21 @@ class WishmasterAnimationUtils @Inject constructor() {
             override fun onAnimationEnd(p0: Animation?) {}
             override fun onAnimationStart(p0: Animation?) {}
         }
+    }
+
+    fun setFadeOutLayoutAnimation(recyclerView: RecyclerView) {
+        val context = recyclerView.context
+        val controller = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_fade_out)
+        recyclerView.layoutAnimation = controller
+        recyclerView.layoutAnimationListener = object : Animation.AnimationListener {
+            override fun onAnimationRepeat(p0: Animation?) {}
+            override fun onAnimationEnd(p0: Animation?) {}
+            override fun onAnimationStart(p0: Animation?) {}
+        }
+    }
+
+    fun fadeOutView(view: View) {
+        view.animate().alpha(1f).setInterpolator(LinearInterpolator()).setDuration(4000).start()
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -81,7 +96,7 @@ class WishmasterAnimationUtils @Inject constructor() {
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun setThreadListTransitions(window: Window, toolbar: Toolbar) {
+    fun setThreadListTransitions(window: Window, toolbar: Toolbar, recyclerView: RecyclerView) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             val transitionExit = ThreadListExitTransition(window.context, toolbar,
@@ -93,23 +108,29 @@ class WishmasterAnimationUtils @Inject constructor() {
                     this)
             transitionEnter.excludeTarget(toolbar, true)
             window.reenterTransition = transitionEnter
-            window.allowEnterTransitionOverlap = false
+            //window.enterTransition = transitionEnter
+            //window.allowEnterTransitionOverlap = false
+            //window.enterTransition.excludeTarget(recyclerView, true)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun setFullThreadTransitions(window: Window, toolbar: Toolbar) {
+    fun setFullThreadTransitions(window: Window, toolbar: Toolbar, recyclerView: RecyclerView) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             val transitionExit = FullThreadExitTransition(window.context, toolbar,
                     this)
             transitionExit.excludeTarget(toolbar, true)
-            window.exitTransition = transitionExit
+            //window.exitTransition = transitionExit
 
             val transitionEnter = FullThreadEnterTransition(window.context, toolbar,
                     this)
             transitionEnter.excludeTarget(toolbar, true)
-            window.reenterTransition = transitionEnter
+            //window.reenterTransition = transitionEnter
+            //window.allowEnterTransitionOverlap = false
+            //window.enterTransition.excludeTarget(recyclerView, true)
+            //window.enterTransition.duration = 0
+            //window.enterTransition.excludeTarget(recyclerView, true)
         }
     }
 

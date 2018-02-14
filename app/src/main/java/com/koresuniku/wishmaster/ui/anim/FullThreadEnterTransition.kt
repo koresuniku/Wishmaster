@@ -6,6 +6,7 @@ import android.content.Context
 import android.support.design.widget.TabLayout
 import android.support.v7.widget.Toolbar
 import android.transition.Fade
+import android.transition.Slide
 import android.transition.TransitionValues
 import android.view.View
 import android.view.ViewGroup

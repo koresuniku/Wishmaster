@@ -115,7 +115,7 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
 
     override fun onCreate() {
         super.onCreate()
-        if (!LeakCanary.isInAnalyzerProcess(this)) LeakCanary.install(this)
+        //if (!LeakCanary.isInAnalyzerProcess(this)) LeakCanary.install(this)
         mDaggerApplicationComponent.inject(this)
 
         uiParams.orientation = resources.configuration.orientation
