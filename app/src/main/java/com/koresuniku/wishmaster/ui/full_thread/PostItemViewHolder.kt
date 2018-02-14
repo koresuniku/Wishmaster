@@ -35,6 +35,7 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
     @Nullable @BindView(R.id.head) lateinit var mHeader: TextView
     @Nullable @BindView(R.id.comment) lateinit var mComment: TextView
 
+    @Nullable @BindView(R.id.post_item_container) lateinit var mPostItemContainer: ViewGroup
     @Nullable @BindView(R.id.image_layout) lateinit var mImageLayout: ViewGroup
     @Nullable @BindView(R.id.image) lateinit var mImage: ImageView
     @Nullable @BindView(R.id.image_comment_container) lateinit var mImageCommentContainer: ViewGroup
@@ -58,7 +59,21 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
     }
 
     override fun switchAnswersVisibility(visible: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (visible) {
+            mAnswersLayout.visibility = View.VISIBLE
+            mPostItemContainer.setPadding(
+                    mPostItemContainer.paddingLeft,
+                    mPostItemContainer.paddingTop,
+                    mPostItemContainer.paddingRight,
+                    0)
+        } else {
+            mAnswersLayout.visibility = View.GONE
+            mPostItemContainer.setPadding(
+                    mPostItemContainer.paddingLeft,
+                    mPostItemContainer.paddingTop,
+                    mPostItemContainer.paddingRight,
+                    itemView.context.resources.getDimension(R.dimen.post_item_no_answers_bottom_padding).toInt())
+        }
     }
 
     override fun setAnswers(subject: Spanned) {

@@ -37,6 +37,10 @@ class FullThreadAdapterViewInteractor @Inject constructor(compositeDisposable: C
                                  view: PostItemView, data: PostListData, position: Int) {
         val post = data.postList[position]
 
+        //Answers
+        //TODO: count the answers!
+        view.switchAnswersVisibility(false)
+
         //Comment
         post.comment?.let {
             if (post.files == null || post.files?.size != 1)
