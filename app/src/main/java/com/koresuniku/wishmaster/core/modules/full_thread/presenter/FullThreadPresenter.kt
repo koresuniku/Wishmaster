@@ -49,4 +49,6 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
 
     override fun getBoardId() = mvpView?.getBoardId() ?: String()
     override fun getThreadNumber() = mvpView?.getThreadNumber() ?: String()
+
+
 }
