@@ -10,6 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:name="com.koresuniku.wishmaster.application.WishmasterApplication"
+        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme">
 
         <activity android:name="com.koresuniku.wishmaster.ui.dashboard.DashboardActivity"

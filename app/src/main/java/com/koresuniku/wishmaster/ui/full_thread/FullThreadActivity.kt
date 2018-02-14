@@ -1,5 +1,6 @@
 package com.koresuniku.wishmaster.ui.full_thread
 
+import android.animation.Animator
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
@@ -9,13 +10,16 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.Spanned
+import android.transition.Transition
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.animation.LinearInterpolator
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
@@ -43,6 +47,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup
     @BindView(R.id.yoba) lateinit var mYobaImage: ImageView
+   // @BindView(R.id.progress_bar) lateinit var mProgressBar: ProgressBar
     @BindView(R.id.error_layout) lateinit var mErrorLayout: ViewGroup
     @BindView(R.id.try_again_button) lateinit var mTryAgainButton: Button
     @BindView(R.id.post_list) lateinit var mFullThreadRecyclerView: RecyclerView
@@ -89,7 +94,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     private fun setupTitle(opComment: Spanned) { supportActionBar?.title = opComment }
 
     private fun setupRecyclerView() {
-        wishmasterAnimationUtils.setSlideFromBottomLayoutAnimation(mFullThreadRecyclerView)
+        wishmasterAnimationUtils.setFadeOutLayoutAnimation(mFullThreadRecyclerView)
         mFullThreadRecyclerViewAdapter = FullThreadRecyclerViewAdapter(this)
         presenter.bindFullThreadAdapterView(mFullThreadRecyclerViewAdapter)
         mFullThreadRecyclerView.setItemViewCacheSize(20)
@@ -108,17 +113,13 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
                 }
             }
         })
-
         mFullThreadRecyclerView.adapter = mFullThreadRecyclerViewAdapter
-
     }
 
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
-        //presenter.loadPostList()
-//        mFullThreadRecyclerView.adapter = mFullThreadRecyclerViewAdapter
-        mFullThreadRecyclerView.post {
 
+        mFullThreadRecyclerView.post {
             if (!isActivityReentered || (!presenter.isDataLoaded()) && isActivityReentered) {
                 mFullThreadRecyclerView.scheduleLayoutAnimation()
             }
@@ -126,9 +127,9 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     }
 
     override fun showLoading() {
-        mFullThreadRecyclerView.post { mFullThreadRecyclerView.scheduleLayoutAnimation() }
+        //mProgressBar.visibility = View.VISIBLE
         supportActionBar?.title = getString(R.string.loading_text)
-        //wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
+        wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     override fun getBoardId() = intent.getStringExtra(IntentKeystore.BOARD_ID_CODE)
@@ -140,7 +141,16 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     }
 
     private fun hideLoading() {
-        //wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
+//        mProgressBar.animate().setInterpolator(LinearInterpolator()).setDuration(100).alpha(0f)
+//                .setListener(object : Animator.AnimatorListener {
+//                    override fun onAnimationRepeat(p0: Animator?) { }
+//                    override fun onAnimationEnd(p0: Animator?) {
+//                        mProgressBar.visibility = View.GONE
+//                    }
+//                    override fun onAnimationCancel(p0: Animator?) {}
+//                    override fun onAnimationStart(p0: Animator?) {}
+//                })
+        wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     override fun showError(message: String?) {
@@ -156,7 +166,9 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         snackBar.setAction(R.string.bljad, { snackBar.dismiss() })
         snackBar.show()
         mTryAgainButton.setOnClickListener { snackBar.dismiss(); hideError(); showLoading()
-            presenter.loadPostList() }
+            presenter.loadPostList()
+            mFullThreadRecyclerView.post { mFullThreadRecyclerView.scheduleLayoutAnimation() }
+        }
     }
 
     private fun hideError() {

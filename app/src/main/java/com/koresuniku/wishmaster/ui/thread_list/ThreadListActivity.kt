@@ -1,5 +1,6 @@
 package com.koresuniku.wishmaster.ui.thread_list
 
+import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -11,9 +12,11 @@ import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
@@ -43,6 +46,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup
     @BindView(R.id.yoba) lateinit var mYobaImage: ImageView
+    @BindView(R.id.progress_bar) lateinit var mProgressBar: ProgressBar
     @BindView(R.id.error_layout) lateinit var mErrorLayout: ViewGroup
     @BindView(R.id.try_again_button) lateinit var mTryAgainButton: Button
     @BindView(R.id.thread_list) lateinit var mThreadListRecyclerView: RecyclerView
@@ -137,13 +141,22 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     }
 
     override fun showLoading() {
-        mThreadListRecyclerView.post { mThreadListRecyclerView.scheduleLayoutAnimation() }
         supportActionBar?.title = getString(R.string.loading_text)
-        //wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
+        //mProgressBar.visibility = View.VISIBLE
+        wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     private fun hideLoading() {
-        //wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
+//        mProgressBar.animate().setInterpolator(LinearInterpolator()).setDuration(100).alpha(0f)
+//                .setListener(object : Animator.AnimatorListener {
+//                    override fun onAnimationRepeat(p0: Animator?) { }
+//                    override fun onAnimationEnd(p0: Animator?) {
+//                        mProgressBar.visibility = View.GONE
+//                    }
+//                    override fun onAnimationCancel(p0: Animator?) {}
+//                    override fun onAnimationStart(p0: Animator?) {}
+//                })
+        wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     override fun showError(message: String?) {
@@ -158,8 +171,9 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
                 Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction(R.string.bljad, { snackBar.dismiss() })
         snackBar.show()
-        mTryAgainButton.setOnClickListener { snackBar.dismiss(); hideError(); showLoading();
-            presenter.loadThreadList() }
+        mTryAgainButton.setOnClickListener { snackBar.dismiss(); hideError(); showLoading()
+            presenter.loadThreadList();
+            mThreadListRecyclerView.post { mThreadListRecyclerView.scheduleLayoutAnimation() } }
     }
 
     private fun hideError() {

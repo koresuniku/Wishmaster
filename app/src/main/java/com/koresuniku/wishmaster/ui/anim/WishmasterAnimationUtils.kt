@@ -27,6 +27,7 @@ class WishmasterAnimationUtils @Inject constructor() {
             loadingLayout.visibility = View.VISIBLE
             yoba.setLayerType(View.LAYER_TYPE_HARDWARE, null)
             val rotationAnimation = AnimationUtils.loadAnimation(yoba.context, R.anim.anim_rotate_infinitely)
+            rotationAnimation.interpolator = LinearInterpolator()
             yoba.startAnimation(rotationAnimation)
         }
     }
