@@ -21,10 +21,10 @@ import java.lang.ref.WeakReference
  * Created by koresuniku on 2/12/18.
  */
 
-class DashboardEnterTransition(context: Context,
-                               toolbar: Toolbar,
-                               tabLayout: TabLayout,
-                               private val wishmasterAnimationUtils: WishmasterAnimationUtils) : Fade() {
+class DashboardReenterTransition(context: Context,
+                                 toolbar: Toolbar,
+                                 tabLayout: TabLayout,
+                                 private val wishmasterAnimationUtils: WishmasterAnimationUtils) : Fade() {
 
     private val contextReference = WeakReference(context)
     private val toolbarReference = WeakReference(toolbar)
@@ -40,7 +40,7 @@ class DashboardEnterTransition(context: Context,
 
     override fun onAppear(sceneRoot: ViewGroup?, startValues: TransitionValues?, startVisibility: Int, endValues: TransitionValues?, endVisibility: Int): Animator {
         animateTabLayout()
-        toolbarReference.get()?.let { wishmasterAnimationUtils.fadeToolbar(false, it, duration, interpolator) }
+        //toolbarReference.get()?.let { wishmasterAnimationUtils.fadeToolbar(false, it, duration, interpolator) }
         return super.onAppear(sceneRoot, startValues, startVisibility, endValues, endVisibility)
     }
 

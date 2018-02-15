@@ -40,7 +40,7 @@ class DashboardExitTransition(context: Context,
     override fun onDisappear(sceneRoot: ViewGroup?, view: View?, startValues: TransitionValues?,
                              endValues: TransitionValues?): Animator {
         animateTabLayout()
-        toolbarReference.get()?.let { wishmasterAnimationUtils.fadeToolbar(true ,it, duration, interpolator) }
+        //toolbarReference.get()?.let { wishmasterAnimationUtils.fadeToolbar(true ,it, duration, interpolator) }
         return super.onDisappear(sceneRoot, view, startValues, endValues)
     }
 

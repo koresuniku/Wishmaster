@@ -6,6 +6,7 @@ import android.text.Spannable
 import android.text.Spanned
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
 import android.widget.GridView
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -80,7 +81,14 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun setComment(comment: Spanned) { mComment.text = comment }
+    override fun setComment(comment: Spanned) {
+        mComment.post {
+            mComment.alpha = 0f
+            mComment.text = comment
+            mComment.animate().alpha(1f).setDuration(100).setInterpolator(LinearInterpolator()).start()
+        }
+
+    }
 
     override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {
         val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)

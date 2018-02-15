@@ -89,12 +89,13 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     private fun setupToolbar() {
         setSupportActionBar(mToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        wishmasterAnimationUtils.fadeToolbar(false, mToolbar)
     }
 
     private fun setupTitle(opComment: Spanned) { supportActionBar?.title = opComment }
 
     private fun setupRecyclerView() {
-        wishmasterAnimationUtils.setFadeOutLayoutAnimation(mFullThreadRecyclerView)
+        wishmasterAnimationUtils.setSlideFromRightLayoutAnimation(mFullThreadRecyclerView, this)
         mFullThreadRecyclerViewAdapter = FullThreadRecyclerViewAdapter(this)
         presenter.bindFullThreadAdapterView(mFullThreadRecyclerViewAdapter)
         mFullThreadRecyclerView.setItemViewCacheSize(20)
@@ -120,7 +121,8 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         super.onEnterAnimationComplete()
 
         mFullThreadRecyclerView.post {
-            if (!isActivityReentered || (!presenter.isDataLoaded()) && isActivityReentered) {
+            if (!presenter.isDataLoaded()) {
+                Glide.with(this).pauseRequests()
                 mFullThreadRecyclerView.scheduleLayoutAnimation()
             }
         }
@@ -178,6 +180,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
 
     override fun onBackPressed() {
         presenter.unbindFullThreadAdapterView()
+        //wishmasterAnimationUtils.slideToRight(mFullThreadRecyclerView)
         super.onBackPressed()
     }
 

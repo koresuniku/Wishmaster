@@ -32,7 +32,7 @@ class FullThreadExitTransition(context: Context,
     override fun getInterpolator() = AccelerateDecelerateInterpolator()
 
     override fun onAppear(sceneRoot: ViewGroup?, startValues: TransitionValues?, startVisibility: Int, endValues: TransitionValues?, endVisibility: Int): Animator {
-        toolbarReference.get()?.let { wishmasterAnimationUtils.fadeToolbar(true, it, duration, interpolator) }
+        //toolbarReference.get()?.let { wishmasterAnimationUtils.fadeToolbar(true, it, duration, interpolator) }
         return super.onAppear(sceneRoot, startValues, startVisibility, endValues, endVisibility)
     }
 }

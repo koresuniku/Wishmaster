@@ -37,7 +37,7 @@ class ThreadListEnterTransition (context: Context,
     override fun getInterpolator() = AccelerateDecelerateInterpolator()
 
     override fun onAppear(sceneRoot: ViewGroup?, startValues: TransitionValues?, startVisibility: Int, endValues: TransitionValues?, endVisibility: Int): Animator {
-        toolbarReference.get()?.let { wishmasterAnimationUtils.fadeToolbar(false, it, duration, interpolator) }
+        //toolbarReference.get()?.let { wishmasterAnimationUtils.fadeToolbar(false, it, duration, interpolator) }
         return super.onAppear(sceneRoot, startValues, startVisibility, endValues, endVisibility)
     }
 }

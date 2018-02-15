@@ -130,8 +130,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
         mThreadListRecyclerView.post {
-            if (!isActivityReentered || (!presenter.isDataLoaded()) && isActivityReentered)
-                mThreadListRecyclerView.scheduleLayoutAnimation()
+            if (!presenter.isDataLoaded()) mThreadListRecyclerView.scheduleLayoutAnimation()
         }
     }
 
@@ -186,6 +185,12 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, getBoardId())
         intent.putExtra(IntentKeystore.THREAD_NUMBER_CODE, threadNumber)
         launchNextActivityWithtransition(intent)
+    }
+
+    override fun onActivityReenter(resultCode: Int, data: Intent?) {
+        super.onActivityReenter(resultCode, data)
+        wishmasterAnimationUtils.slideFromLeft(mThreadListRecyclerView)
+        wishmasterAnimationUtils.fadeToolbar(false, mToolbar)
     }
 
     override fun onBackPressed() {

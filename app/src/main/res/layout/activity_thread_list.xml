@@ -10,7 +10,7 @@
         android:layout_height="48dp"
         android:elevation="2dp"
         android:theme="@style/DefaultToolbarStyle"
-        app:titleTextAppearance="@style/Toolbar.TitleText" />
+        app:titleTextAppearance="@style/Toolbar.TitleText"/>
 
     <ImageView
         android:id="@+id/background"

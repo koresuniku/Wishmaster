@@ -74,7 +74,6 @@ class WishmasterImageUtils @Inject constructor(private val uiUtils: UiUtils, pri
 
         Glide.with(image.context)
                 .load(Uri.parse(baseUrl + imageItemData.file.thumbnail))
-                .crossFade(200)
                 .placeholder(image.drawable)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
