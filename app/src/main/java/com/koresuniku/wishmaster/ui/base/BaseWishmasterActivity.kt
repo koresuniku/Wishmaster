@@ -62,4 +62,12 @@ abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> : BaseDrawerActivity
             startActivityForResult(intent, provideFromActivityRequestCode(), options.toBundle())
         } else startActivityForResult(intent, provideFromActivityRequestCode())
     }
+
+    fun overrideForwardPendingTransition() {
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out)
+    }
+
+    fun overrideBackwardPendingTransition() {
+        overridePendingTransition(R.anim.slide_in_back, R.anim.slide_out_back)
+    }
 }

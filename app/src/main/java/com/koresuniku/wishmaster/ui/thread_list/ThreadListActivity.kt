@@ -184,7 +184,9 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         val intent = Intent(this, FullThreadActivity::class.java)
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, getBoardId())
         intent.putExtra(IntentKeystore.THREAD_NUMBER_CODE, threadNumber)
-        launchNextActivityWithtransition(intent)
+        //launchNextActivityWithtransition(intent)
+        startActivity(intent)
+        overrideForwardPendingTransition()
     }
 
     override fun onActivityReenter(resultCode: Int, data: Intent?) {
@@ -196,6 +198,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     override fun onBackPressed() {
         presenter.unbindThreadListAdapterView()
         super.onBackPressed()
+        overrideBackwardPendingTransition()
     }
 
     override fun onDestroy() {

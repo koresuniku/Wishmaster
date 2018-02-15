@@ -6,6 +6,7 @@ import android.text.Spanned
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
 import android.widget.GridView
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -68,7 +69,14 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
 
     override fun setSubject(subject: Spanned) { mSubject.text = subject }
     override fun setMaxLines(value: Int) { mComment.maxLines = value }
-    override fun setComment(comment: Spanned) { mComment.text = comment }
+    override fun setComment(comment: Spanned) {
+        mComment.post {
+            mComment.alpha = 0f
+            mComment.text = comment
+            mComment.requestLayout()
+            mComment.animate().alpha(1f).setDuration(100).setInterpolator(LinearInterpolator()).start()
+        }
+    }
     override fun setThreadShortInfo(info: String) { mResume.text = info }
 
     override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {

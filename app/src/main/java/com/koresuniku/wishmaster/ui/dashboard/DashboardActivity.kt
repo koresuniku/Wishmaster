@@ -149,7 +149,9 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
     override fun launchThreadListActivity(boardId: String) {
         val intent = Intent(this, ThreadListActivity::class.java)
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, boardId)
-        launchNextActivityWithtransition(intent)
+        //launchNextActivityWithtransition(intent)
+        startActivity(intent)
+        overrideForwardPendingTransition()
     }
 
     override fun showUnknownInput() {

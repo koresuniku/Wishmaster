@@ -182,6 +182,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         presenter.unbindFullThreadAdapterView()
         //wishmasterAnimationUtils.slideToRight(mFullThreadRecyclerView)
         super.onBackPressed()
+        overrideBackwardPendingTransition()
     }
 
     override fun onDestroy() {

@@ -85,6 +85,7 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
         mComment.post {
             mComment.alpha = 0f
             mComment.text = comment
+            mComment.requestLayout()
             mComment.animate().alpha(1f).setDuration(100).setInterpolator(LinearInterpolator()).start()
         }
 
