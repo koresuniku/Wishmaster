@@ -2,7 +2,7 @@
 <resources>
     <!--Animations-->
     <integer name="slide_anim_duration">300</integer>
-    <integer name="slide_back_anim_duration">225</integer>
+    <integer name="slide_back_anim_duration">200</integer>
     <integer name="loading_fade_duration">150</integer>
     <integer name="showing_list_duration">250</integer>
     <integer name="default_transition_duration">200</integer>
