@@ -82,13 +82,7 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
     }
 
     override fun setComment(comment: Spanned) {
-        mComment.post {
-            mComment.alpha = 0f
-            mComment.text = comment
-            mComment.requestLayout()
-            mComment.animate().alpha(1f).setDuration(100).setInterpolator(LinearInterpolator()).start()
-        }
-
+        mComment.post { mComment.text = comment }
     }
 
     override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {

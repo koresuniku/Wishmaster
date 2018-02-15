@@ -125,6 +125,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         })
 
         mThreadListRecyclerView.adapter = mThreadListRecyclerViewAdapter
+       mThreadListRecyclerView.post { mThreadListRecyclerView.scheduleLayoutAnimation() }
     }
 
     override fun onEnterAnimationComplete() {

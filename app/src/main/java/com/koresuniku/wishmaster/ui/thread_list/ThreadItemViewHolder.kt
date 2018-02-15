@@ -34,6 +34,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
 
     @Nullable @BindView(R.id.top) lateinit var mTop: View
     @Nullable @BindView(R.id.item_layout) lateinit var mItemLayout: ViewGroup
+    @Nullable @BindView(R.id.thread_item_container) lateinit var mThreadItemContainer: ViewGroup
     @Nullable @BindView(R.id.subject) lateinit var mSubject: TextView
     @Nullable @BindView(R.id.comment) lateinit var mComment: TextView
     @Nullable @BindView(R.id.resume) lateinit var mResume: TextView
@@ -56,7 +57,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     }
 
     override fun setOnClickItemListener(threadNumber: String) {
-        mItemLayout.setOnClickListener {
+        mThreadItemContainer.setOnClickListener {
             Log.d(LOG_TAG, "onLayoutClicked")
             presenter.onThreadItemClicked(threadNumber)
         }
@@ -70,12 +71,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     override fun setSubject(subject: Spanned) { mSubject.text = subject }
     override fun setMaxLines(value: Int) { mComment.maxLines = value }
     override fun setComment(comment: Spanned) {
-        mComment.post {
-            mComment.alpha = 0f
-            mComment.text = comment
-            mComment.requestLayout()
-            mComment.animate().alpha(1f).setDuration(100).setInterpolator(LinearInterpolator()).start()
-        }
+        mComment.post { mComment.text = comment }
     }
     override fun setThreadShortInfo(info: String) { mResume.text = info }
 
@@ -95,6 +91,9 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
                                    url: String,
                                    imageUtils: WishmasterImageUtils,
                                    gridViewHeight: Int) {
+//        mImageGrid.setOnClickListener {
+//            Log.d(LOG_TAG, "onImageGrid")
+//        }
         (mImageGrid.layoutParams as RelativeLayout.LayoutParams).topMargin =
                 if (mIsSubjectVisible) itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
                 else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()

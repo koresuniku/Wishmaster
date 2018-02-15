@@ -115,6 +115,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
             }
         })
         mFullThreadRecyclerView.adapter = mFullThreadRecyclerViewAdapter
+        mFullThreadRecyclerView.post { mFullThreadRecyclerView.scheduleLayoutAnimation() }
     }
 
     override fun onEnterAnimationComplete() {
