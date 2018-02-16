@@ -97,10 +97,6 @@ class ViewUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe( { gridView.layoutParams.height = finalHeight })
-
-        //Log.d("ViewUtils", "finalHeight: $finalHeight")
-        //gridView.post { gridView.layoutParams.height = finalHeight }
-
     }
 
     fun getGridViewHeight(context: Context,
@@ -113,10 +109,11 @@ class ViewUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
             val verticalSpacing = context.resources.getDimension(R.dimen.thread_post_side_margin_default).toInt()
 
             imageItemDataList.forEachIndexed({ position, data ->
-                var itemHeight = data.dimensions.heightInPx + summaryHeight
-                if (position / columnCount > 1) itemHeight += verticalSpacing
-                if (position == 0 || (position >= columnCount && columnCount % position == 0)) {
-                    if (position != 0) lastRowHeight = finalHeight
+                val itemHeight = data.dimensions.heightInPx + summaryHeight
+                //first item in a row detected
+                if (position != 0 && position % columnCount == 0) {
+                    finalHeight += verticalSpacing
+                    lastRowHeight = finalHeight
                     finalHeight += itemHeight
                 } else if (lastRowHeight + itemHeight > finalHeight) {
                     finalHeight = lastRowHeight + itemHeight
