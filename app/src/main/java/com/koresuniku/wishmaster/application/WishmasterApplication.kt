@@ -131,6 +131,7 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
                 .setResDialogTitle(R.string.crash_report)
                 .setResDialogText(R.string.wishmaster_is_crashed)
                 .setResDialogCommentPrompt(R.string.personal_comment)
+                .setResDialogPositiveButtonText(R.string.send_text)
                 .setResNotifTickerText(R.string.app_name)
                 .setResNotifTitle(R.string.app_name)
                 .setResNotifText(R.string.send_report)

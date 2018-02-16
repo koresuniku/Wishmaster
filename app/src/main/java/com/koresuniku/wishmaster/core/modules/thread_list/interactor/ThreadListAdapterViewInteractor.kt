@@ -39,8 +39,9 @@ class ThreadListAdapterViewInteractor @Inject constructor(compositeDisposable: C
                                  position: Int) {
         val thread = data.getThreadList()[position]
 
+        view.threadNumber = thread.num
         view.adaptLayout(position)
-        view.setOnClickItemListener(thread.num)
+        view.setOnClickItemListener()
 
         //Subject
         thread.subject?.let { view.setSubject(textUtils.getSubjectSpanned(it, data.getBoardId())) }

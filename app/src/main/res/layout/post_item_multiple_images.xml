@@ -26,9 +26,9 @@
             android:text="anonymous"
             android:textSize="12sp"/>
 
-        <com.koresuniku.wishmaster.ui.view.widget.ExpandableHeightGridView
+        <com.koresuniku.wishmaster.ui.view.widget.TouchyGridView
             android:id="@+id/image_grid"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/head"
             android:horizontalSpacing="@dimen/thread_post_side_margin_default"
@@ -37,7 +37,7 @@
             android:scrollbars="none"
             android:stretchMode="columnWidth">
 
-        </com.koresuniku.wishmaster.ui.view.widget.ExpandableHeightGridView>
+        </com.koresuniku.wishmaster.ui.view.widget.TouchyGridView>
 
         <include
             android:id="@+id/comment_layout"

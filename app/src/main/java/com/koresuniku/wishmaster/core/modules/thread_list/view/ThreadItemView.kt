@@ -9,8 +9,9 @@ import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
  */
 
 interface ThreadItemView {
+    var threadNumber: String
     fun adaptLayout(position: Int)
-    fun setOnClickItemListener(threadNumber: String)
+    fun setOnClickItemListener()
     fun switchSubjectVisibility(visible: Boolean)
     fun setSubject(subject: Spanned)
     fun setMaxLines(value: Int)

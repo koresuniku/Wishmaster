@@ -5,6 +5,7 @@
     <string name="crash_report">Crash report</string>
     <string name="wishmaster_is_crashed">Wishmaster поломался</string>
     <string name="send_report">Отправить отчет об ошибке</string>
+    <string name="send_text">Отправить</string>
 
     <!--Common-->
     <string name="loading_text">Загрузка…</string>

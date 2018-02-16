@@ -20,6 +20,7 @@ import com.koresuniku.wishmaster.core.modules.thread_list.presenter.IThreadListP
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.core.modules.thread_list.view.ThreadItemView
 import com.koresuniku.wishmaster.ui.preview.PreviewImageGridAdapter
+import com.koresuniku.wishmaster.ui.view.widget.TouchyGridView
 import javax.inject.Inject
 
 /**
@@ -27,7 +28,7 @@ import javax.inject.Inject
  */
 
 class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
-        RecyclerView.ViewHolder(itemView), ThreadItemView {
+        RecyclerView.ViewHolder(itemView), ThreadItemView, TouchyGridView.OnNoItemClickListener {
     private val LOG_TAG = ThreadItemViewHolder::class.java.simpleName
 
     @Inject lateinit var presenter: IThreadListPresenter
@@ -43,9 +44,10 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     @Nullable @BindView(R.id.image) lateinit var mImage: ImageView
     @Nullable @BindView(R.id.image_comment_container) lateinit var mImageCommentContainer: ViewGroup
     @Nullable @BindView(R.id.summary) lateinit var mImageSummary: TextView
-    @Nullable @BindView(R.id.image_grid) lateinit var mImageGrid: GridView
+    @Nullable @BindView(R.id.image_grid) lateinit var mImageGrid: TouchyGridView
 
     private var mIsSubjectVisible = true
+    override lateinit var threadNumber: String
 
     init {
         ButterKnife.bind(this, itemView)
@@ -56,7 +58,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
         mTop.visibility = if (position == 0) View.GONE else View.VISIBLE
     }
 
-    override fun setOnClickItemListener(threadNumber: String) {
+    override fun setOnClickItemListener() {
         mThreadItemContainer.setOnClickListener {
             Log.d(LOG_TAG, "onLayoutClicked")
             presenter.onThreadItemClicked(threadNumber)
@@ -70,9 +72,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
 
     override fun setSubject(subject: Spanned) { mSubject.text = subject }
     override fun setMaxLines(value: Int) { mComment.maxLines = value }
-    override fun setComment(comment: Spanned) {
-        mComment.post { mComment.text = comment }
-    }
+    override fun setComment(comment: Spanned) { mComment.post { mComment.text = comment } }
     override fun setThreadShortInfo(info: String) { mResume.text = info }
 
     override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {
@@ -91,9 +91,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
                                    url: String,
                                    imageUtils: WishmasterImageUtils,
                                    gridViewHeight: Int) {
-//        mImageGrid.setOnClickListener {
-//            Log.d(LOG_TAG, "onImageGrid")
-//        }
+        mImageGrid.setOnNoItemClickListener(this)
         (mImageGrid.layoutParams as RelativeLayout.LayoutParams).topMargin =
                 if (mIsSubjectVisible) itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
                 else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
@@ -101,5 +99,9 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
         mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
         mImageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, url, imageUtils)
         mImageGrid.layoutParams.height = gridViewHeight
+    }
+
+    override fun onNoItemClick() {
+        presenter.onThreadItemClicked(threadNumber)
     }
 }
