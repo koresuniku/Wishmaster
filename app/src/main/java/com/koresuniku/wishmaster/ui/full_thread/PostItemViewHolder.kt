@@ -57,7 +57,7 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
     }
 
     override fun setHeader(head: Spannable) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mHeader.text = head
     }
 
     override fun switchAnswersVisibility(visible: Boolean) {

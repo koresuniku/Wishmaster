@@ -41,10 +41,13 @@ class FullThreadAdapterViewInteractor @Inject constructor(compositeDisposable: C
         //TODO: count the answers!
         view.switchAnswersVisibility(false)
 
+        //Header
+        view.setHeader(textUtils.obtainPostHeader(post, position, context))
+
         //Comment
         post.comment?.let {
             if (post.files == null || post.files?.size != 1)
-                compositeDisposable.add(textUtils.getCommentDefault(it, uiParams)
+                compositeDisposable.add(textUtils.getCommentDefault(it)
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ view.setComment(it) }, { it.printStackTrace() }))

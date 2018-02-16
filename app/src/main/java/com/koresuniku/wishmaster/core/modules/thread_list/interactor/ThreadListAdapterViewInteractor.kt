@@ -51,7 +51,7 @@ class ThreadListAdapterViewInteractor @Inject constructor(compositeDisposable: C
         thread.comment?.let {
             view.setMaxLines(uiParams.commentMaxLines)
             if (thread.files == null || thread.files?.size != 1)
-                compositeDisposable.add(textUtils.getCommentDefault(it, uiParams)
+                compositeDisposable.add(textUtils.getCommentDefault(it)
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ view.setComment(it) }, { it.printStackTrace() }))

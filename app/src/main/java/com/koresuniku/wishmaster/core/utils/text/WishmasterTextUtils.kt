@@ -1,10 +1,16 @@
 package com.koresuniku.wishmaster.core.utils.text
 
+import android.content.Context
 import android.content.res.Configuration
 import android.text.*
+import android.text.style.ForegroundColorSpan
+import android.util.Log
+import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.preferences.UiParams
 import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
+import com.koresuniku.wishmaster.core.data.model.posts.Post
 import com.koresuniku.wishmaster.core.data.model.threads.File
+import com.koresuniku.wishmaster.core.data.model.threads.Thread
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.utils.text.markup.SingleImageCommentMarginSpan
 import io.reactivex.Single
@@ -29,6 +35,39 @@ class WishmasterTextUtils @Inject constructor() {
                 .removePrefix(file.thumbnail.subSequence(0, file.thumbnail.indexOf(".") + 1))
                 .toUpperCase()
         return "$width * $height\n$size kb, $format"
+    }
+
+    fun obtainPostHeader(post: Post, position: Int, context: Context): SpannableString {
+        val builder = SpannableStringBuilder()
+        builder.append("#")
+        builder.append("${position + 1}")
+        if (post.op == "1") {
+            builder.append(" ")
+            builder.append("OP")
+        }
+        builder.setSpan(
+                ForegroundColorSpan(context.resources.getColor(R.color.colorOp)),
+                0, builder.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder.append(" ")
+        builder.append("№")
+        builder.append(post.num)
+        if (!post.name.isEmpty() && !post.name.isBlank()) {
+            builder.append(" ")
+            builder.append(post.name)
+        }
+        if (!post.trip.isEmpty() && !post.trip.isBlank()) {
+            val tripSpanStart = builder.length
+            builder.append(" ")
+            builder.append(post.trip)
+            builder.setSpan(
+                    ForegroundColorSpan(context.resources.getColor(R.color.colorTrip)),
+                    tripSpanStart, builder.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        builder.append(" ")
+        builder.append(post.date)
+
+
+        return SpannableString(builder)
     }
 
     fun getSubjectSpanned(subject: String, boardId: String): Spanned {
@@ -78,20 +117,7 @@ class WishmasterTextUtils @Inject constructor() {
         })
     }
 
-    private fun cutComment(comment: SpannableString, uiParams: UiParams): SpannableString {
-        val layout = StaticLayout(comment, TextPaint(),
-                if (uiParams.orientation == Configuration.ORIENTATION_LANDSCAPE)
-                    uiParams.threadPostItemHorizontalWidth
-                else uiParams.threadPostItemVerticalWidth,
-                Layout.Alignment.ALIGN_NORMAL,
-                1.0f, 0f, false)
-        val endIndex =
-            if (layout.lineCount < uiParams.commentMaxLines) comment.length
-            else layout.getLineEnd(uiParams.commentMaxLines - 1)
-        return SpannableString(comment.subSequence(0, endIndex))
-    }
-
-    fun getCommentDefault(rawComment: String, uiParams: UiParams): Single<Spannable> {
+    fun getCommentDefault(rawComment: String): Single<Spannable> {
         return Single.create({
             it.onSuccess(SpannableString(Html.fromHtml(rawComment)))
         })

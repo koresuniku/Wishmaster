@@ -11,5 +11,7 @@
     <color name="colorText">@android:color/black</color>
     <color name="colorTextSecondary">#757575</color>
     <color name="colorSubject">#212e60</color>
+    <color name="colorOp">#007002</color>
+    <color name="colorTrip">#007056</color>
 
 </resources>
