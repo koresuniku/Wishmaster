@@ -1,8 +1,6 @@
 package com.koresuniku.wishmaster.ui.full_thread
 
-import android.animation.Animator
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.design.widget.Snackbar
@@ -10,16 +8,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.Spanned
-import android.transition.Transition
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.view.animation.LinearInterpolator
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.ProgressBar
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
@@ -68,9 +62,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         setupToolbar()
         setupRecyclerView()
 
-        //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            presenter.loadPostList()
-        //}
+        presenter.loadPostList()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -92,7 +84,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         wishmasterAnimationUtils.fadeToolbar(false, mToolbar)
     }
 
-    private fun setupTitle(opComment: Spanned) { supportActionBar?.title = opComment }
+    private fun setupTitle(title:  Spanned) { supportActionBar?.title = title }
 
     private fun setupRecyclerView() {
         wishmasterAnimationUtils.setSlideFromRightLayoutAnimation(mFullThreadRecyclerView, this)
@@ -120,7 +112,6 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
 
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
-
         mFullThreadRecyclerView.post {
             if (!presenter.isDataLoaded()) {
                 Glide.with(this).pauseRequests()
@@ -138,9 +129,9 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     override fun getBoardId() = intent.getStringExtra(IntentKeystore.BOARD_ID_CODE)
     override fun getThreadNumber() = intent.getStringExtra(IntentKeystore.THREAD_NUMBER_CODE)
 
-    override fun onPostListReceived(opComment: Spanned) {
+    override fun onPostListReceived(title: Spanned) {
         hideLoading()
-        setupTitle(opComment)
+        setupTitle(title)
     }
 
     private fun hideLoading() {

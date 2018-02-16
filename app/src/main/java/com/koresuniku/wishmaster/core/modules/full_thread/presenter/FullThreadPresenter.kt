@@ -39,7 +39,10 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
                 .subscribe({
                     Log.d(LOG_TAG, "posts: ${it.postList.size}")
                     presenterData = it
-                    mvpView?.onPostListReceived(Html.fromHtml(it.postList[0].comment))
+                    it.postList[0].let {
+                        mvpView?.onPostListReceived(Html.fromHtml(
+                                if (it.subject.isBlank()) it.comment else it.subject ) )
+                    }
                 }, { it.printStackTrace() }))
     }
 
