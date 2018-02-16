@@ -51,15 +51,12 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <com.koresuniku.wishmaster.ui.view.widget.WishmasterRecyclerView
         android:id="@+id/post_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:layoutAnimation="@anim/layout_fade_out"
-        >
-
-    </android.support.v7.widget.RecyclerView>
+        android:layout_below="@+id/toolbar">
+    </com.koresuniku.wishmaster.ui.view.widget.WishmasterRecyclerView>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/error_layout"

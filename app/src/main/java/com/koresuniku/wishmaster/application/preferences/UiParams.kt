@@ -18,6 +18,7 @@ class UiParams @Inject constructor() {
     var commentMarginWidth: Int = 0
     var commentTextSize: Int = SharedPreferencesKeystore.COMMENT_TEXT_SIZE_DEFAULT
     var commentTextPaint: TextPaint = TextPaint()
+    var toolbarHeight: Int = 0
 
     override fun toString() = "imageWidthInDp: $imageWidthDp, " +
             "minImageHeightInDp: $minImageHeightDp, " +
@@ -31,5 +32,6 @@ class UiParams @Inject constructor() {
             "orientation: $orientation, " +
             "commentMarginWidth: $commentMarginWidth, " +
             "commentTextSize: $commentTextSize, " +
-            "commentTextPaint: $commentTextPaint"
+            "commentTextPaint: $commentTextPaint," +
+            "toolbarHeight: $toolbarHeight"
 }

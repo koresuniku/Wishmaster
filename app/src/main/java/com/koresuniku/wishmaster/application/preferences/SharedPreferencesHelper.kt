@@ -37,6 +37,7 @@ class SharedPreferencesHelper : ISharedPreferencesHelper {
         setMaxLines(sharedPreferencesStorage, uiParams)
         setCommentTextSize(sharedPreferencesStorage, uiParams)
         setCommentTextPaint(context, uiParams)
+        setToolbarHeight(context, uiParams)
     }
 
     private fun setACRA(sharedPreferencesStorage: SharedPreferencesStorage) {
@@ -98,6 +99,10 @@ class SharedPreferencesHelper : ISharedPreferencesHelper {
                     }
                 })
 
+    }
+
+    private fun setToolbarHeight(context: Context, uiParams: UiParams) {
+        uiParams.toolbarHeight = context.resources.getDimension(R.dimen.app_bar_height).toInt()
     }
 
     private fun readDefaultImageWidthDependentValues(

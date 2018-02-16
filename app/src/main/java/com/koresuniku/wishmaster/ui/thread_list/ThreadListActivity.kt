@@ -1,6 +1,5 @@
 package com.koresuniku.wishmaster.ui.thread_list
 
-import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +11,6 @@ import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.LinearInterpolator
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
@@ -29,6 +27,9 @@ import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
+import com.koresuniku.wishmaster.ui.view.widget.WishmasterRecyclerView
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection
 import javax.inject.Inject
 
 /**
@@ -49,7 +50,8 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     @BindView(R.id.progress_bar) lateinit var mProgressBar: ProgressBar
     @BindView(R.id.error_layout) lateinit var mErrorLayout: ViewGroup
     @BindView(R.id.try_again_button) lateinit var mTryAgainButton: Button
-    @BindView(R.id.thread_list) lateinit var mThreadListRecyclerView: RecyclerView
+    @BindView(R.id.swipy_refresh_layout) lateinit var mSwipyRefreshLayout: SwipyRefreshLayout
+    @BindView(R.id.thread_list) lateinit var mThreadListRecyclerView: WishmasterRecyclerView
     @BindView(R.id.background) lateinit var mBackground: ImageView
 
     private lateinit var mThreadListRecyclerViewAdapter: ThreadListRecyclerViewAdapter
@@ -67,6 +69,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 
         setupBackground()
         setupToolbar()
+        setupRefreshLayout()
         setupRecyclerView()
 
         presenter.loadThreadList()
@@ -102,6 +105,15 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         supportActionBar?.title = textUtils.obtainBoardIdDashName(getBoardId(), boardName)
     }
 
+    private fun setupRefreshLayout() {
+        mSwipyRefreshLayout.setDistanceToTriggerSync(100)
+        mSwipyRefreshLayout.isEnabled = true
+        mSwipyRefreshLayout.setOnRefreshListener {
+            //mSwipyRefreshLayout.postDelayed({ mSwipyRefreshLayout.isRefreshing = false}, 1000)
+            presenter.loadThreadList()
+        }
+    }
+
     private fun setupRecyclerView() {
         wishmasterAnimationUtils.setSlideFromBottomLayoutAnimation(mThreadListRecyclerView)
         mThreadListRecyclerViewAdapter = ThreadListRecyclerViewAdapter(this)
@@ -123,9 +135,25 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
                 }
             }
         })
-
+        mThreadListRecyclerView.setOnTouchListener { view, motionEvent ->
+            when (mThreadListRecyclerView.checkRefreshPossibility().possibility) {
+                WishmasterRecyclerView.RefreshPossibility.TOP -> {
+                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
+                    mSwipyRefreshLayout.isEnabled = true
+                }
+                WishmasterRecyclerView.RefreshPossibility.BOTTOM -> {
+                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTTOM
+                    mSwipyRefreshLayout.isEnabled = true
+                }
+                WishmasterRecyclerView.RefreshPossibility.BOTH -> {
+                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTH
+                    mSwipyRefreshLayout.isEnabled = true
+                }
+                else -> mSwipyRefreshLayout.isEnabled = false
+            }
+            false
+        }
         mThreadListRecyclerView.adapter = mThreadListRecyclerViewAdapter
-       mThreadListRecyclerView.post { mThreadListRecyclerView.scheduleLayoutAnimation() }
     }
 
     override fun onEnterAnimationComplete() {
@@ -143,7 +171,8 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     override fun showLoading() {
         supportActionBar?.title = getString(R.string.loading_text)
         //mProgressBar.visibility = View.VISIBLE
-        wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
+        if (!mSwipyRefreshLayout.isRefreshing)
+            wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     private fun hideLoading() {
@@ -156,7 +185,11 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 //                    override fun onAnimationCancel(p0: Animator?) {}
 //                    override fun onAnimationStart(p0: Animator?) {}
 //                })
-        wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
+        if (!mSwipyRefreshLayout.isRefreshing)
+            wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
+        if (mSwipyRefreshLayout.isRefreshing)
+            mSwipyRefreshLayout.isRefreshing = false
+
     }
 
     override fun showError(message: String?) {
