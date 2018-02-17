@@ -17,7 +17,6 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.ProgressBar
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
@@ -227,7 +226,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         val intent = Intent(this, FullThreadActivity::class.java)
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, getBoardId())
         intent.putExtra(IntentKeystore.THREAD_NUMBER_CODE, threadNumber)
-        //launchNextActivityWithtransition(intent)
         startActivity(intent)
         overrideForwardPendingTransition()
     }

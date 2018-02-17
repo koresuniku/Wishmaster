@@ -364,12 +364,17 @@ public class RecyclerFastScroller extends FrameLayout {
         RecyclerFastScrollerUtils.setViewBackground(mBar, drawable);
     }
 
+    private int mLastRvDx = 0;
+    private int mLastRvDy = 0;
+
     public void attachRecyclerView(RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                mLastRvDx = dx;
+                mLastRvDy = dy;
                 RecyclerFastScroller.this.show(true);
             }
         });
@@ -417,6 +422,8 @@ public class RecyclerFastScroller extends FrameLayout {
      */
     public void show(final boolean animate) {
         requestLayout();
+
+        if (mLastRvDx == 0 && mLastRvDy == 0) return;
 
         post(new Runnable() {
             @Override
