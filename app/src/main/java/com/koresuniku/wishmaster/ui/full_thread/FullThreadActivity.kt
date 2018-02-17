@@ -3,6 +3,8 @@ package com.koresuniku.wishmaster.ui.full_thread
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -25,6 +27,10 @@ import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
+import com.koresuniku.wishmaster.ui.view.recycler_view_fast_scroller.RecyclerFastScroller
+import com.koresuniku.wishmaster.ui.view.widget.WishmasterRecyclerView
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection
 import javax.inject.Inject
 
 /**
@@ -38,13 +44,16 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
 
+    @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
+    @BindView(R.id.app_bar_layout) lateinit var mAppBarLayout: AppBarLayout
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup
     @BindView(R.id.yoba) lateinit var mYobaImage: ImageView
-   // @BindView(R.id.progress_bar) lateinit var mProgressBar: ProgressBar
     @BindView(R.id.error_layout) lateinit var mErrorLayout: ViewGroup
     @BindView(R.id.try_again_button) lateinit var mTryAgainButton: Button
-    @BindView(R.id.post_list) lateinit var mFullThreadRecyclerView: RecyclerView
+    @BindView(R.id.swipy_refresh_layout) lateinit var mSwipyRefreshLayout: SwipyRefreshLayout
+    @BindView(R.id.post_list) lateinit var mFullThreadRecyclerView: WishmasterRecyclerView
+    @BindView(R.id.scroller) lateinit var mScroller: RecyclerFastScroller
     @BindView(R.id.background) lateinit var mBackground: ImageView
 
     private lateinit var mFullThreadRecyclerViewAdapter: FullThreadRecyclerViewAdapter
@@ -106,22 +115,41 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
                 }
             }
         })
+        mFullThreadRecyclerView.setOnTouchListener { view, motionEvent ->
+            when (mFullThreadRecyclerView.checkRefreshPossibility().possibility) {
+                WishmasterRecyclerView.RefreshPossibility.TOP -> {
+                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
+                    mSwipyRefreshLayout.isEnabled = true
+                }
+                WishmasterRecyclerView.RefreshPossibility.BOTTOM -> {
+                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTTOM
+                    mSwipyRefreshLayout.isEnabled = true
+                }
+                WishmasterRecyclerView.RefreshPossibility.BOTH -> {
+                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTH
+                    mSwipyRefreshLayout.isEnabled = true
+                }
+                else -> mSwipyRefreshLayout.isEnabled = false
+            }
+            false
+        }
         mFullThreadRecyclerView.adapter = mFullThreadRecyclerViewAdapter
-        mFullThreadRecyclerView.post { mFullThreadRecyclerView.scheduleLayoutAnimation() }
+
+        mScroller.attachRecyclerView(mFullThreadRecyclerView)
+        mScroller.attachAdapter(mFullThreadRecyclerView.adapter)
+        mScroller.attachAppBarLayout(mCoordinator, mAppBarLayout)
     }
 
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
         mFullThreadRecyclerView.post {
             if (!presenter.isDataLoaded()) {
-                Glide.with(this).pauseRequests()
                 mFullThreadRecyclerView.scheduleLayoutAnimation()
             }
         }
     }
 
     override fun showLoading() {
-        //mProgressBar.visibility = View.VISIBLE
         supportActionBar?.title = getString(R.string.loading_text)
         wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
@@ -135,16 +163,12 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     }
 
     private fun hideLoading() {
-//        mProgressBar.animate().setInterpolator(LinearInterpolator()).setDuration(100).alpha(0f)
-//                .setListener(object : Animator.AnimatorListener {
-//                    override fun onAnimationRepeat(p0: Animator?) { }
-//                    override fun onAnimationEnd(p0: Animator?) {
-//                        mProgressBar.visibility = View.GONE
-//                    }
-//                    override fun onAnimationCancel(p0: Animator?) {}
-//                    override fun onAnimationStart(p0: Animator?) {}
-//                })
-        wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
+        if (!mSwipyRefreshLayout.isRefreshing)
+            wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
+        if (mSwipyRefreshLayout.isRefreshing)
+            mSwipyRefreshLayout.isRefreshing = false
+        mFullThreadRecyclerView.scrollToPosition(0)
+        mAppBarLayout.setExpanded(true)
     }
 
     override fun showError(message: String?) {

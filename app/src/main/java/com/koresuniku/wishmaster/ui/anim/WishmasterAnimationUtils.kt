@@ -72,7 +72,7 @@ class WishmasterAnimationUtils @Inject constructor() {
         recyclerView.layoutAnimation = controller
         recyclerView.layoutAnimationListener = object : Animation.AnimationListener {
             override fun onAnimationRepeat(p0: Animation?) {}
-            override fun onAnimationEnd(p0: Animation?) { Glide.with(activity).resumeRequests() }
+            override fun onAnimationEnd(p0: Animation?) { }
             override fun onAnimationStart(p0: Animation?) { }
         }
     }
