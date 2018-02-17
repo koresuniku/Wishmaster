@@ -214,6 +214,15 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         }
     }
 
+    override fun showNewPostsError(message: String?) {
+        val snackBar = Snackbar.make(
+                mErrorLayout,
+                message ?: getString(R.string.error),
+                Snackbar.LENGTH_INDEFINITE)
+        snackBar.setAction(R.string.bljad, { snackBar.dismiss() })
+        snackBar.show()
+    }
+
     private fun hideError() {
         mErrorLayout.visibility = View.GONE
         mFullThreadRecyclerView.visibility = View.VISIBLE

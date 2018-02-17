@@ -43,7 +43,7 @@ class FullThreadNetworkInteractor @Inject constructor(apiService: FullThreadApiS
                         val data = PostListData()
                         data.postList = it
                         e.onSuccess(data)
-                    }, { presenter?.onNetworkError(it) }))
+                    }, { presenter?.onNetworkNewPostsError(it) }))
         })
     }
 

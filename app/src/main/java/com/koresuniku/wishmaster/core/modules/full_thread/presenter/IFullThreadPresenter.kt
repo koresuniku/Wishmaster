@@ -19,6 +19,7 @@ interface IFullThreadPresenter : IMvpPresenter<FullThreadView<IFullThreadPresent
     fun getBoardId(): String
     fun getThreadNumber(): String
     fun onNetworkError(t: Throwable)
+    fun onNetworkNewPostsError(t: Throwable)
     fun getPostItemType(position: Int): Int
     fun setItemViewData(postItemView: PostItemView, position: Int)
 

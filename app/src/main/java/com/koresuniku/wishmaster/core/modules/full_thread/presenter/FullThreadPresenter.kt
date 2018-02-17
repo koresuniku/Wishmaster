@@ -75,7 +75,14 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
         compositeDisposable.add(Completable.fromCallable {}
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t.printStackTrace(); mvpView?.showError(t.message)}))
+                .subscribe({ t.printStackTrace(); mvpView?.showError(t.message) }))
+    }
+
+    override fun onNetworkNewPostsError(t: Throwable) {
+        compositeDisposable.add(Completable.fromCallable {}
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ t.printStackTrace(); mvpView?.showNewPostsError(t.message) }))
     }
 
     override fun getBoardId() = mvpView?.getBoardId() ?: String()
