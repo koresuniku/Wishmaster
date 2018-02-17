@@ -46,8 +46,12 @@ class WishmasterRecyclerView : RecyclerView {
         val readyToRefreshBottom: Boolean = !canScrollVertically(1)
                 && Math.abs(mActualAppBarOffset) == mAppBarLayout?.height
 
-        if (readyToRefreshTop) return RefreshPossibility(RefreshPossibility.TOP)
-        if (readyToRefreshBottom) return RefreshPossibility(RefreshPossibility.BOTTOM)
+        if (readyToRefreshTop && readyToRefreshBottom) {
+            return RefreshPossibility(RefreshPossibility.BOTH)
+        } else {
+            if (readyToRefreshTop) return RefreshPossibility(RefreshPossibility.TOP)
+            if (readyToRefreshBottom) return RefreshPossibility(RefreshPossibility.BOTTOM)
+        }
 
         return RefreshPossibility(RefreshPossibility.NONE)
     }

@@ -150,7 +150,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
                     mSwipyRefreshLayout.isEnabled = true
                 }
                 WishmasterRecyclerView.RefreshPossibility.BOTTOM -> {
-                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTTOM
+                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTH
                     mSwipyRefreshLayout.isEnabled = true
                 }
                 WishmasterRecyclerView.RefreshPossibility.BOTH -> {
@@ -198,7 +198,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
                 mCoordinator,
                 textUtils.getNewPostsInfo(newCount - oldCount),
                 TSnackbar.LENGTH_SHORT)
-        Handler().postDelayed({ tSnackbar.dismiss() }, 1000)
+        Handler().postDelayed({ tSnackbar.dismiss() }, 2000)
         val view = tSnackbar.view
         val params = view.layoutParams as CoordinatorLayout.LayoutParams
         params.gravity = Gravity.TOP
@@ -207,25 +207,23 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         tSnackbarText.setTextColor(Color.WHITE)
         tSnackbar.show()
 
-        mFullThreadRecyclerView.scrollToPosition(mFullThreadRecyclerViewAdapter.itemCount - 1)
-
-//        if (!mFullThreadRecyclerView.canScrollVertically(1)) {
-//            mFullThreadRecyclerView.viewTreeObserver.addOnGlobalLayoutListener(
-//                    object : ViewTreeObserver.OnGlobalLayoutListener {
-//                override fun onGlobalLayout() {
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//                        mFullThreadRecyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-//                    }
-////                    mFullThreadRecyclerView.post {
-////                        val manager = (mFullThreadRecyclerView.layoutManager as LinearLayoutManager)
-////                        manager.scrollToPositionWithOffset(
-////                            mFullThreadRecyclerViewAdapter.itemCount - 1, 0)
-////                    }
-//                    mFullThreadRecyclerView.smoothScrollToPosition(
-//                            mFullThreadRecyclerViewAdapter.itemCount - 1)
-//                }
-//            })
-//        }
+        if (!mFullThreadRecyclerView.canScrollVertically(1)) {
+            mFullThreadRecyclerView.viewTreeObserver.addOnGlobalLayoutListener(
+                    object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        mFullThreadRecyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    }
+                    if (newCount - oldCount < 10) {
+                        mFullThreadRecyclerView.smoothScrollToPosition(
+                                mFullThreadRecyclerViewAdapter.itemCount - 1)
+                    } else {
+                        mFullThreadRecyclerView.scrollToPosition(
+                                mFullThreadRecyclerViewAdapter.itemCount - 1)
+                    }
+                }
+            })
+        }
 
     }
 

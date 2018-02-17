@@ -40,6 +40,7 @@ public class RecyclerFastScroller extends FrameLayout {
     private static final int DEFAULT_AUTO_HIDE_DELAY = 1000;
     private static final int DEFAULT_FLING_SCROLL_DELTA = 100;
     private static final int DEFAULT_INSTANT_SCROLL_TIMEOUT = 200;
+    private static final int DEFAULT_POST_LIMIT_SHOWING_HANDLE = 50;
 
     protected final View mBar;
     protected final View mHandle;
@@ -209,6 +210,7 @@ public class RecyclerFastScroller extends FrameLayout {
                     int dY = (int) ((deltaPressedYFromLastAdjustedToInitial / mInitialBarHeight) *
                             (mRecyclerView.computeVerticalScrollRange() + (mAppBarLayout == null ? 0 : mAppBarLayout.getTotalScrollRange())));
 
+                    Log.d(LOG_TAG, "verticalScrollRange: " + mRecyclerView.computeVerticalScrollRange());
                     if (mCoordinatorLayout != null && mAppBarLayout != null) {
                         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
                         AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
@@ -424,6 +426,7 @@ public class RecyclerFastScroller extends FrameLayout {
         requestLayout();
 
         if (mLastRvDx == 0 && mLastRvDy == 0) return;
+        if (mAdapter != null) if (mAdapter.getItemCount() < DEFAULT_POST_LIMIT_SHOWING_HANDLE) return;
 
         post(new Runnable() {
             @Override

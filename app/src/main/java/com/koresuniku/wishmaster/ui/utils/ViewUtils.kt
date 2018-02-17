@@ -108,22 +108,16 @@ class ViewUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
             val columnCount = getGridViewColumnNumber(context, columnWidth)
             val verticalSpacing = context.resources.getDimension(R.dimen.thread_post_side_margin_default).toInt()
 
-            Log.d("VU", "columnCount: $columnCount")
-            Log.d("VU", "verticalSpacing: $verticalSpacing")
-
             imageItemDataList.forEachIndexed({ position, data ->
                 val itemHeight = data.dimensions.heightInPx + summaryHeight
                 //first item in a next row detected
                 if (position != 0 && position % columnCount == 0) {
-                    Log.d("VU", "position: $position")
                     finalHeight += verticalSpacing
                     lastRowHeight = finalHeight
                     finalHeight += itemHeight
-                    Log.d("VU", "lastRowHeight: $lastRowHeight, finalHeight: $finalHeight")
                 } else if (lastRowHeight + itemHeight > finalHeight) {
                     finalHeight = lastRowHeight + itemHeight
-                    Log.d("VU", "position $position, expanding to $finalHeight")
-                } else Log.d("VU", "position $position, remaining $finalHeight")
+                }
             })
 
             it.onSuccess(finalHeight)
