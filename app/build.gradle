@@ -89,9 +89,6 @@ dependencies {
 
     //Swipe to refresh layout
     compile 'com.github.omadahealth:swipy:1.2.3@aar'
-
-    //Top snackbar
-    compile 'com.androidadvance:topsnackbar:1.1.1'
 }
 
 repositories {

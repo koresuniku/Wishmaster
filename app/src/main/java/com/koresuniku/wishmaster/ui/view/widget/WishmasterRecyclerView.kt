@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.design.widget.AppBarLayout
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
-import com.koresuniku.wishmaster.application.preferences.UiParams
 
 /**
  * Created by koresuniku on 2/16/18.

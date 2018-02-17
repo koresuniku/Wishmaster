@@ -17,10 +17,8 @@ import android.view.*
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.androidadvance.topsnackbar.TSnackbar
 import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.IntentKeystore
@@ -130,7 +128,6 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         mFullThreadRecyclerView.isDrawingCacheEnabled = true
         mFullThreadRecyclerView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
         mFullThreadRecyclerView.layoutManager = LinearLayoutManager(this)
-        //(mFullThreadRecyclerView.layoutManager as LinearLayoutManager).stackFromEnd = true
         mFullThreadRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -194,18 +191,12 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     override fun onNewPostsReceived(oldCount: Int, newCount: Int) {
         hideLoading()
         if (oldCount == newCount) return
-        val tSnackbar = TSnackbar.make(
+        val snackbar = Snackbar.make(
                 mCoordinator,
                 textUtils.getNewPostsInfo(newCount - oldCount),
-                TSnackbar.LENGTH_SHORT)
-        Handler().postDelayed({ tSnackbar.dismiss() }, 2000)
-        val view = tSnackbar.view
-        val params = view.layoutParams as CoordinatorLayout.LayoutParams
-        params.gravity = Gravity.TOP
-        view.layoutParams = params
-        val tSnackbarText = view.findViewById<TextView>(com.androidadvance.topsnackbar.R.id.snackbar_text)
-        tSnackbarText.setTextColor(Color.WHITE)
-        tSnackbar.show()
+                Snackbar.LENGTH_SHORT)
+        Handler().postDelayed({ snackbar.dismiss() }, 1000)
+        snackbar.show()
 
         if (!mFullThreadRecyclerView.canScrollVertically(1)) {
             mFullThreadRecyclerView.viewTreeObserver.addOnGlobalLayoutListener(
@@ -224,7 +215,6 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
                 }
             })
         }
-
     }
 
     private fun hideLoading() {

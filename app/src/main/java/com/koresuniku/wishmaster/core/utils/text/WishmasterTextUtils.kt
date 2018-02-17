@@ -53,6 +53,11 @@ class WishmasterTextUtils @Inject constructor() {
         builder.append(post.num)
         if (!post.name.isEmpty() && !post.name.isBlank()) {
             builder.append(" ")
+            post.name = Html.fromHtml(post.name).toString()
+            post.name.substring(post.name.length - 1, post.name.length).let {
+                if (!it.matches(Regex("\\w")))
+                    post.name = post.name.substring(0, post.name.length - 1)
+            }
             builder.append(post.name)
         }
         if (!post.trip.isEmpty() && !post.trip.isBlank()) {
@@ -65,7 +70,6 @@ class WishmasterTextUtils @Inject constructor() {
         }
         builder.append(" ")
         builder.append(post.date)
-
 
         return SpannableString(builder)
     }
