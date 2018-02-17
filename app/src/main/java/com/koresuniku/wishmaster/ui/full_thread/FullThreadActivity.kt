@@ -188,6 +188,13 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         setupTitle(title)
     }
 
+    override fun onNewPostsReceived() {
+        hideLoading()
+        mFullThreadRecyclerView.post {
+            mFullThreadRecyclerView.smoothScrollToPosition(mFullThreadRecyclerViewAdapter.itemCount - 1)
+        }
+    }
+
     private fun hideLoading() {
         activityMenu?.findItem(R.id.action_refresh)?.isEnabled = true
         if (!mSwipyRefreshLayout.isRefreshing)

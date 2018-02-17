@@ -13,4 +13,5 @@ interface FullThreadAdapterView<P> : IMvpView<P>, OnOrientationChangedListener {
     val SINGLE_IMAGE_CODE: Int
     val MULTIPLE_IMAGES_CODE: Int
     fun onPostListDataChanged(newPostListData: PostListData)
+    fun onNewPostsReceived(oldCount: Int, newCount: Int)
 }

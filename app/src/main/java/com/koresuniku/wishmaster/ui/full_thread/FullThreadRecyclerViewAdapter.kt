@@ -55,18 +55,19 @@ class FullThreadRecyclerViewAdapter() : RecyclerView.Adapter<PostItemViewHolder>
         holder?.let {
             presenter.setItemViewData(it, position)
         }
-
-
     }
 
     override fun onPostListDataChanged(newPostListData: PostListData) {
-        activity.get()?.runOnUiThread({ notifyDataSetChanged() })
+        activity.get()?.runOnUiThread { notifyDataSetChanged() }
     }
 
-    override fun onOrientationChanged(orientation: Int) {
-
+    override fun onNewPostsReceived(oldCount: Int, newCount: Int) {
+        activity.get()?.runOnUiThread {
+            notifyItemRangeInserted(oldCount , newCount - oldCount)
+        }
     }
 
+    override fun onOrientationChanged(orientation: Int) { notifyDataSetChanged() }
     override fun getItemViewType(position: Int): Int = presenter.getPostItemType(position)
     override fun getItemCount(): Int = presenter.getDataSize()
     override fun getItemId(position: Int): Long = position.toLong()
