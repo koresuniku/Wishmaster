@@ -58,6 +58,7 @@
         android:layout_below="@+id/toolbar">
     </com.koresuniku.wishmaster.ui.view.widget.WishmasterRecyclerView>
 
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/error_layout"
         android:layout_width="match_parent"

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -28,6 +30,7 @@ import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
+import com.koresuniku.wishmaster.ui.view.recycler_view_fast_scroller.RecyclerFastScroller
 import com.koresuniku.wishmaster.ui.view.widget.WishmasterRecyclerView
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection
@@ -45,14 +48,16 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
 
+    @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
+    @BindView(R.id.app_bar_layout) lateinit var mAppBarLayout: AppBarLayout
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup
     @BindView(R.id.yoba) lateinit var mYobaImage: ImageView
-    @BindView(R.id.progress_bar) lateinit var mProgressBar: ProgressBar
     @BindView(R.id.error_layout) lateinit var mErrorLayout: ViewGroup
     @BindView(R.id.try_again_button) lateinit var mTryAgainButton: Button
     @BindView(R.id.swipy_refresh_layout) lateinit var mSwipyRefreshLayout: SwipyRefreshLayout
     @BindView(R.id.thread_list) lateinit var mThreadListRecyclerView: WishmasterRecyclerView
+    @BindView(R.id.scroller) lateinit var mScroller: RecyclerFastScroller
     @BindView(R.id.background) lateinit var mBackground: ImageView
 
     private lateinit var mThreadListRecyclerViewAdapter: ThreadListRecyclerViewAdapter
@@ -92,7 +97,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
                 return true
             }
             R.id.action_refresh -> {
-                mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
+                mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTH
                 mSwipyRefreshLayout.isRefreshing = true
                 presenter.loadThreadList()
                 return true
@@ -163,6 +168,10 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
             false
         }
         mThreadListRecyclerView.adapter = mThreadListRecyclerViewAdapter
+
+        mScroller.attachRecyclerView(mThreadListRecyclerView)
+        mScroller.attachAdapter(mThreadListRecyclerView.adapter)
+        mScroller.attachAppBarLayout(mCoordinator, mAppBarLayout)
     }
 
     override fun onEnterAnimationComplete() {
@@ -179,27 +188,17 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 
     override fun showLoading() {
         supportActionBar?.title = getString(R.string.loading_text)
-        //mProgressBar.visibility = View.VISIBLE
         if (!mSwipyRefreshLayout.isRefreshing)
             wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     private fun hideLoading() {
-//        mProgressBar.animate().setInterpolator(LinearInterpolator()).setDuration(100).alpha(0f)
-//                .setListener(object : Animator.AnimatorListener {
-//                    override fun onAnimationRepeat(p0: Animator?) { }
-//                    override fun onAnimationEnd(p0: Animator?) {
-//                        mProgressBar.visibility = View.GONE
-//                    }
-//                    override fun onAnimationCancel(p0: Animator?) {}
-//                    override fun onAnimationStart(p0: Animator?) {}
-//                })
         if (!mSwipyRefreshLayout.isRefreshing)
             wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
         if (mSwipyRefreshLayout.isRefreshing)
             mSwipyRefreshLayout.isRefreshing = false
         mThreadListRecyclerView.scrollToPosition(0)
-
+        mAppBarLayout.setExpanded(true)
     }
 
     override fun showError(message: String?) {
