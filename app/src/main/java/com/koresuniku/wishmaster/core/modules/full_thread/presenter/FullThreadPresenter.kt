@@ -38,10 +38,8 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    Log.d(LOG_TAG, "posts: ${it.postList.size}")
-                    Log.d(LOG_TAG, "prelast: ${it.postList[it.postList.lastIndex - 1].comment}")
-                    Log.d(LOG_TAG, "last: ${it.postList[it.postList.lastIndex].comment}")
                     presenterData = it
+                    fullThreadAdapterView?.onPostListDataChanged(it)
                     it.postList[0].let {
                         mvpView?.onPostListReceived(Html.fromHtml(
                                 if (it.subject.isBlank()) it.comment else it.subject ) )
@@ -58,10 +56,6 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        Log.d(LOG_TAG, "new posts size: ${it.postList.size}")
-                        it.postList.forEach {
-                            Log.d(LOG_TAG, "new post: ${it.comment}")
-                        }
 //                        presenterData = it
                         presenterData.postList[0].let {
                             mvpView?.onPostListReceived(Html.fromHtml(

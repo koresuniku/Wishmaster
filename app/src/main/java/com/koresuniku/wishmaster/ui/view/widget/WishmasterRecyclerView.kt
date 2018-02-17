@@ -1,6 +1,7 @@
 package com.koresuniku.wishmaster.ui.view.widget
 
 import android.content.Context
+import android.support.design.widget.AppBarLayout
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import com.koresuniku.wishmaster.application.preferences.UiParams
@@ -15,6 +16,16 @@ class WishmasterRecyclerView : RecyclerView {
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
+    private var mAppBarLayout: AppBarLayout? = null
+    private var mActualAppBarOffset: Int = 0
+
+    fun attachAppBarLayout(appBarLayout: AppBarLayout) {
+        mAppBarLayout = appBarLayout
+        mAppBarLayout?.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            mActualAppBarOffset = verticalOffset
+        }
+    }
+
     override fun canScrollVertically(direction: Int): Boolean {
         // check if scrolling up
         if (direction < 1) {
@@ -24,10 +35,16 @@ class WishmasterRecyclerView : RecyclerView {
         return super.canScrollVertically(direction)
     }
 
-    fun checkRefreshPossibility(actualAppBarOffset: Int, uiParams: UiParams): RefreshPossibility {
-        val readyToRefreshTop: Boolean = !canScrollVertically(-1) && actualAppBarOffset == 0
+    fun checkRefreshPossibility(): RefreshPossibility {
+        return if (mAppBarLayout == null)
+            checkRefreshPossibilityDefault() else
+            checkRefreshPossibilityConsiderAppBar()
+    }
+
+    private fun checkRefreshPossibilityConsiderAppBar(): RefreshPossibility {
+        val readyToRefreshTop: Boolean = !canScrollVertically(-1) && mActualAppBarOffset == 0
         val readyToRefreshBottom: Boolean = !canScrollVertically(1)
-                && Math.abs(actualAppBarOffset) == uiParams.toolbarHeight
+                && Math.abs(mActualAppBarOffset) == mAppBarLayout?.height
 
         if (readyToRefreshTop) return RefreshPossibility(RefreshPossibility.TOP)
         if (readyToRefreshBottom) return RefreshPossibility(RefreshPossibility.BOTTOM)
@@ -35,7 +52,7 @@ class WishmasterRecyclerView : RecyclerView {
         return RefreshPossibility(RefreshPossibility.NONE)
     }
 
-    fun checkRefreshPossibility(): RefreshPossibility {
+    private fun checkRefreshPossibilityDefault(): RefreshPossibility {
         val readyToRefreshTop: Boolean = !canScrollVertically(-1)
         val readyToRefreshBottom: Boolean = !canScrollVertically(1)
 

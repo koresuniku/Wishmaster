@@ -174,7 +174,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
             false
         }
         mThreadListRecyclerView.adapter = mThreadListRecyclerViewAdapter
-
+        mThreadListRecyclerView.attachAppBarLayout(mAppBarLayout)
         mScroller.attachRecyclerView(mThreadListRecyclerView)
         mScroller.attachAdapter(mThreadListRecyclerView.adapter)
         mScroller.attachAppBarLayout(mCoordinator, mAppBarLayout)
@@ -207,6 +207,8 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
             mSwipyRefreshLayout.isRefreshing = false
         mThreadListRecyclerView.scrollToPosition(0)
         mAppBarLayout.setExpanded(true)
+        mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
+        mSwipyRefreshLayout.isEnabled = true
     }
 
     override fun showError(message: String?) {

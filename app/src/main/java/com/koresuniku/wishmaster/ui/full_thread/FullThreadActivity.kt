@@ -159,7 +159,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
             false
         }
         mFullThreadRecyclerView.adapter = mFullThreadRecyclerViewAdapter
-
+        mFullThreadRecyclerView.attachAppBarLayout(mAppBarLayout)
         mScroller.attachRecyclerView(mFullThreadRecyclerView)
         mScroller.attachAdapter(mFullThreadRecyclerView.adapter)
         mScroller.attachAppBarLayout(mCoordinator, mAppBarLayout)
