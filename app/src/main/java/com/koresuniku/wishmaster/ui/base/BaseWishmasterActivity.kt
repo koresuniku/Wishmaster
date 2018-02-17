@@ -6,7 +6,9 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.annotation.MenuRes
 import android.support.v4.app.ActivityOptionsCompat
+import android.view.Menu
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.WishmasterApplication
 import com.koresuniku.wishmaster.core.base.mvp.IMvpPresenter
@@ -16,10 +18,12 @@ import com.koresuniku.wishmaster.core.base.mvp.IMvpView
  * Created by koresuniku on 12.01.18.
  */
 
-abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> : BaseDrawerActivity(), IWishamsterActivity, IMvpView<P> {
+abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> :
+        BaseDrawerActivity(), IWishamsterActivity, IMvpView<P> {
 
     protected var isActivityDestroyed = false
     protected var isActivityReentered = false
+    protected var activityMenu: Menu? = null
 
     @LayoutRes abstract override fun provideContentLayoutResource(): Int
     abstract fun provideFromActivityRequestCode(): Int

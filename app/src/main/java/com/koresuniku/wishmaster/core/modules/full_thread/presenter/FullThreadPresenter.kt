@@ -33,11 +33,14 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
 
     override fun loadPostList() {
         mvpView?.showLoading()
-        compositeDisposable.add(networkInteractor.getDataFromNetwork()
+        compositeDisposable.add(networkInteractor
+                .getDataFromNetwork()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     Log.d(LOG_TAG, "posts: ${it.postList.size}")
+                    Log.d(LOG_TAG, "prelast: ${it.postList[it.postList.lastIndex - 1].comment}")
+                    Log.d(LOG_TAG, "last: ${it.postList[it.postList.lastIndex].comment}")
                     presenterData = it
                     it.postList[0].let {
                         mvpView?.onPostListReceived(Html.fromHtml(
@@ -46,8 +49,30 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
                 }, { it.printStackTrace() }))
     }
 
+    override fun loadNewPostList() {
+        if (presenterData.postList.isEmpty()) {
+            loadPostList()
+        } else {
+            compositeDisposable.add(networkInteractor
+                    .getPostListDataFromPosition(presenterData.postList.size - 1)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        Log.d(LOG_TAG, "new posts size: ${it.postList.size}")
+                        it.postList.forEach {
+                            Log.d(LOG_TAG, "new post: ${it.comment}")
+                        }
+//                        presenterData = it
+                        presenterData.postList[0].let {
+                            mvpView?.onPostListReceived(Html.fromHtml(
+                                    if (it.subject.isBlank()) it.comment else it.subject))
+                        }
+                    }, { it.printStackTrace() }))
+        }
+    }
+
     override fun onNetworkError(t: Throwable) {
-        compositeDisposable.add(Completable.fromCallable {  }
+        compositeDisposable.add(Completable.fromCallable {}
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t.printStackTrace(); mvpView?.showError(t.message)}))

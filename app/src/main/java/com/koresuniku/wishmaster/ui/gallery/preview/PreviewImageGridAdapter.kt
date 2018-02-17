@@ -1,4 +1,4 @@
-package com.koresuniku.wishmaster.ui.preview
+package com.koresuniku.wishmaster.ui.gallery.preview
 
 import android.view.LayoutInflater
 import android.view.View

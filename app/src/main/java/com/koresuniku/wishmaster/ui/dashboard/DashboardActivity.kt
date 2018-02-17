@@ -73,6 +73,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.dashboard_menu, menu)
+        activityMenu = menu
 
         val searchViewMenuItem = menu?.findItem(R.id.action_search)
         val searchView = searchViewMenuItem?.actionView as SearchView

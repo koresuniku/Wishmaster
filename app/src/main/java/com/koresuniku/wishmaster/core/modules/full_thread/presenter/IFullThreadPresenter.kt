@@ -15,6 +15,7 @@ interface IFullThreadPresenter : IMvpPresenter<FullThreadView<IFullThreadPresent
     var fullThreadAdapterView: FullThreadAdapterView<IFullThreadPresenter>?
 
     fun loadPostList()
+    fun loadNewPostList()
     fun getBoardId(): String
     fun getThreadNumber(): String
     fun onNetworkError(t: Throwable)

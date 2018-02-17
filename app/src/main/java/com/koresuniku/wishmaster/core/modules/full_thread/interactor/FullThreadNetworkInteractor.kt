@@ -11,7 +11,10 @@ import javax.inject.Inject
 
 class FullThreadNetworkInteractor @Inject constructor(apiService: FullThreadApiService,
                                                       compositeDisposable: CompositeDisposable):
-        BaseRxNetworkInteractor<IFullThreadPresenter, FullThreadApiService, PostListData>(apiService, compositeDisposable)  {
+        BaseRxNetworkInteractor<
+                IFullThreadPresenter,
+                FullThreadApiService,
+                PostListData>(apiService, compositeDisposable) {
 
     override fun getDataFromNetwork(): Single<PostListData> {
         return Single.create({ e ->
@@ -27,4 +30,21 @@ class FullThreadNetworkInteractor @Inject constructor(apiService: FullThreadApiS
                     }, { presenter?.onNetworkError(it) }))
         })
     }
+
+    fun getPostListDataFromPosition(position: Int): Single<PostListData> {
+        return Single.create({ e ->
+            compositeDisposable.add(getService().getPostListObservable(
+                    "get_thread",
+                    presenter?.getBoardId() ?: String(),
+                    presenter?.getThreadNumber() ?: String(),
+                    //Абу, почини API!
+                    position + 2)
+                    .subscribe({
+                        val data = PostListData()
+                        data.postList = it
+                        e.onSuccess(data)
+                    }, { presenter?.onNetworkError(it) }))
+        })
+    }
+
 }

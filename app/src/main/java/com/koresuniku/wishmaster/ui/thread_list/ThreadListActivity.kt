@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -82,6 +83,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.thread_list_menu, menu)
+        activityMenu = menu
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -90,19 +92,24 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     @LayoutRes override fun provideContentLayoutResource(): Int = R.layout.activity_thread_list
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+        return when (item?.itemId) {
             android.R.id.home -> {
                 onBackPressed()
-                return true
+                true
             }
             R.id.action_refresh -> {
                 mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTH
                 mSwipyRefreshLayout.isRefreshing = true
                 presenter.loadThreadList()
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.action_refresh)?.isEnabled = false
+        return super.onPrepareOptionsMenu(menu)
     }
 
     private fun setupBackground() {
@@ -186,12 +193,14 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     }
 
     override fun showLoading() {
+        activityMenu?.findItem(R.id.action_refresh)?.isEnabled = false
         supportActionBar?.title = getString(R.string.loading_text)
         if (!mSwipyRefreshLayout.isRefreshing)
             wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     private fun hideLoading() {
+        activityMenu?.findItem(R.id.action_refresh)?.isEnabled = true
         if (!mSwipyRefreshLayout.isRefreshing)
             wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
         if (mSwipyRefreshLayout.isRefreshing)

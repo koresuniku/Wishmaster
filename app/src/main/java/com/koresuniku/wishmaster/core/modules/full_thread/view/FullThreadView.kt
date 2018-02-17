@@ -9,7 +9,7 @@ import com.koresuniku.wishmaster.core.base.mvp.IMvpView
 interface FullThreadView<P> : IMvpView<P> {
     fun getBoardId(): String
     fun getThreadNumber(): String
-    fun onPostListReceived(opComment: Spanned)
+    fun onPostListReceived(title: Spanned)
     fun showError(message: String?)
     fun showLoading()
 }

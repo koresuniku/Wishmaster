@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.Spanned
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -69,19 +70,37 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         wishmasterAnimationUtils.setFullThreadTransitions(window, mToolbar, mFullThreadRecyclerView)
 
         setupToolbar()
+        setupRefreshLayout()
         setupRecyclerView()
 
         presenter.loadPostList()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.full_thread_menu, menu)
+        activityMenu = menu
+        return super.onCreateOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+        return when (item?.itemId) {
             android.R.id.home -> {
                 onBackPressed()
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            R.id.action_refresh -> {
+                mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTH
+                mSwipyRefreshLayout.isRefreshing = true
+                presenter.loadNewPostList()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.action_refresh)?.isEnabled = false
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun provideFromActivityRequestCode() = IntentKeystore.FROM_FULL_THREAD_ACTIVITY_REQUEST_CODE
@@ -94,6 +113,12 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     }
 
     private fun setupTitle(title:  Spanned) { supportActionBar?.title = title }
+
+    private fun setupRefreshLayout() {
+        mSwipyRefreshLayout.setDistanceToTriggerSync(100)
+        mSwipyRefreshLayout.isEnabled = true
+        mSwipyRefreshLayout.setOnRefreshListener { presenter.loadNewPostList() }
+    }
 
     private fun setupRecyclerView() {
         wishmasterAnimationUtils.setSlideFromRightLayoutAnimation(mFullThreadRecyclerView, this)
@@ -150,6 +175,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     }
 
     override fun showLoading() {
+        activityMenu?.findItem(R.id.action_refresh)?.isEnabled = false
         supportActionBar?.title = getString(R.string.loading_text)
         wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
@@ -163,12 +189,11 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     }
 
     private fun hideLoading() {
+        activityMenu?.findItem(R.id.action_refresh)?.isEnabled = true
         if (!mSwipyRefreshLayout.isRefreshing)
             wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
         if (mSwipyRefreshLayout.isRefreshing)
             mSwipyRefreshLayout.isRefreshing = false
-        mFullThreadRecyclerView.scrollToPosition(0)
-        mAppBarLayout.setExpanded(true)
     }
 
     override fun showError(message: String?) {
@@ -196,7 +221,6 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
 
     override fun onBackPressed() {
         presenter.unbindFullThreadAdapterView()
-        //wishmasterAnimationUtils.slideToRight(mFullThreadRecyclerView)
         super.onBackPressed()
         overrideBackwardPendingTransition()
     }

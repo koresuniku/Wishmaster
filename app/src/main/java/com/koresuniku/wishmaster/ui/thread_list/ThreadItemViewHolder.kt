@@ -6,8 +6,6 @@ import android.text.Spanned
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.LinearInterpolator
-import android.widget.GridView
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -19,7 +17,7 @@ import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.modules.thread_list.presenter.IThreadListPresenter
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.core.modules.thread_list.view.ThreadItemView
-import com.koresuniku.wishmaster.ui.preview.PreviewImageGridAdapter
+import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
 import com.koresuniku.wishmaster.ui.view.widget.TouchyGridView
 import javax.inject.Inject
 
