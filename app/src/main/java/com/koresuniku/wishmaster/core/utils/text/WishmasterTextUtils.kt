@@ -135,6 +135,14 @@ class WishmasterTextUtils @Inject constructor() {
         return result
     }
 
+    fun getNewPostsInfo(newPostCount: Int): String {
+        var result = ""
+        result += getCorrectRussianEndings(
+                count = newPostCount, stringForZeroOrMultiple = "новых постов",
+                stringForOne = "новый пост", stringForTwoThreeFour = "новых поста")
+        return result
+    }
+
     private fun getCorrectRussianEndings(count: Int, stringForZeroOrMultiple: String,
                                          stringForOne: String, stringForTwoThreeFour: String): String {
         if (count == 0) return count.toString() + " " + stringForZeroOrMultiple

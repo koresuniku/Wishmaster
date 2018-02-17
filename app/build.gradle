@@ -87,8 +87,11 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
-    //PSwipe to refresh layout
+    //Swipe to refresh layout
     compile 'com.github.omadahealth:swipy:1.2.3@aar'
+
+    //Top snackbar
+    compile 'com.androidadvance:topsnackbar:1.1.1'
 }
 
 repositories {

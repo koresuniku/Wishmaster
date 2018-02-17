@@ -57,12 +57,13 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         Log.d(LOG_TAG, "new posts count: ${it.postList.size}")
+                        val oldCount = presenterData.postList.size
                         if (it.postList.isNotEmpty()) {
-                            val oldCount = presenterData.postList.size
                             presenterData.postList.addAll(it.postList)
-                            fullThreadAdapterView?.onNewPostsReceived(oldCount, presenterData.postList.size)
+                            fullThreadAdapterView?.onNewPostsReceived(
+                                    oldCount, presenterData.postList.size)
                         }
-                        mvpView?.onNewPostsReceived()
+                        mvpView?.onNewPostsReceived(oldCount, presenterData.postList.size)
                     }, { it.printStackTrace() }))
         }
     }
