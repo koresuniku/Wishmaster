@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -75,6 +76,11 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         presenter.loadThreadList()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.thread_list_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
     override fun provideFromActivityRequestCode() = IntentKeystore.FROM_THREAD_LIST_ACTIVITY_REQUEST_CODE
     override fun getBoardId(): String = intent.getStringExtra(IntentKeystore.BOARD_ID_CODE)
     @LayoutRes override fun provideContentLayoutResource(): Int = R.layout.activity_thread_list
@@ -83,6 +89,12 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         when (item?.itemId) {
             android.R.id.home -> {
                 onBackPressed()
+                return true
+            }
+            R.id.action_refresh -> {
+                mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
+                mSwipyRefreshLayout.isRefreshing = true
+                presenter.loadThreadList()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
@@ -108,10 +120,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     private fun setupRefreshLayout() {
         mSwipyRefreshLayout.setDistanceToTriggerSync(100)
         mSwipyRefreshLayout.isEnabled = true
-        mSwipyRefreshLayout.setOnRefreshListener {
-            //mSwipyRefreshLayout.postDelayed({ mSwipyRefreshLayout.isRefreshing = false}, 1000)
-            presenter.loadThreadList()
-        }
+        mSwipyRefreshLayout.setOnRefreshListener { presenter.loadThreadList() }
     }
 
     private fun setupRecyclerView() {
@@ -189,6 +198,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
             wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
         if (mSwipyRefreshLayout.isRefreshing)
             mSwipyRefreshLayout.isRefreshing = false
+        mThreadListRecyclerView.scrollToPosition(0)
 
     }
 
