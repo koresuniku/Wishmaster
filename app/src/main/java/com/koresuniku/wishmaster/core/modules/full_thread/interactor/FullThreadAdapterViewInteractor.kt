@@ -61,7 +61,7 @@ class FullThreadAdapterViewInteractor @Inject constructor(compositeDisposable: C
                             .subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
-                                    { view.setSingleImage(it, retrofitHolder.getBaseUrl(), imageUtils)
+                                    { view.setSingleImage(it, retrofitHolder.getDvachBaseUrl(), imageUtils)
                                         compositeDisposable.add(textUtils.getCommentForSingleImageItemTemp(
                                                 post.comment?:String(), uiParams, it)
                                                 .subscribeOn(Schedulers.newThread())
@@ -83,7 +83,7 @@ class FullThreadAdapterViewInteractor @Inject constructor(compositeDisposable: C
                                                 .observeOn(AndroidSchedulers.mainThread())
                                                 .subscribe({
                                                     view.setMultipleImages(
-                                                            imageItemData, retrofitHolder.getBaseUrl(),
+                                                            imageItemData, retrofitHolder.getDvachBaseUrl(),
                                                             imageUtils, it) },
                                                         { it.printStackTrace() }))
                                     }, { it.printStackTrace() }))

@@ -24,7 +24,6 @@ class DashboardNetworkInteractor @Inject constructor(
             compositeDisposable.add(boardsObservable
                     .subscribeOn(Schedulers.newThread())
                     .map(responseParser::parseResponse)
-                    //.observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ boardListData: BoardListData ->
                         e.onSuccess(boardListData)
                     }, { presenter?.onNetworkError(it) }))

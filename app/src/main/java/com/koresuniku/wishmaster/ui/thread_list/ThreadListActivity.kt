@@ -95,9 +95,13 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
                 true
             }
             R.id.action_refresh -> {
-                mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
-                mSwipyRefreshLayout.isRefreshing = true
-                presenter.loadThreadList()
+                if (mErrorLayout.visibility == View.VISIBLE) {
+                    mTryAgainButton.performClick()
+                } else {
+                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
+                    mSwipyRefreshLayout.isRefreshing = true
+                    presenter.loadThreadList()
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

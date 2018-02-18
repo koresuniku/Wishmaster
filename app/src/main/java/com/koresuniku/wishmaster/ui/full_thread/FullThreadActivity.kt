@@ -90,9 +90,13 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
                 true
             }
             R.id.action_refresh -> {
-                mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
-                mSwipyRefreshLayout.isRefreshing = true
-                presenter.loadNewPostList()
+                if (mErrorLayout.visibility == View.VISIBLE) {
+                    mTryAgainButton.performClick()
+                } else {
+                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
+                    mSwipyRefreshLayout.isRefreshing = true
+                    presenter.loadNewPostList()
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

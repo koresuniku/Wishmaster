@@ -6,8 +6,11 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster.application.preferences.CommonParams
+import com.koresuniku.wishmaster.core.network.Dvach
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.network.full_thread_api.FullThreadApiService
+import com.koresuniku.wishmaster.core.network.github_api.GithubApiService
+import com.koresuniku.wishmaster.core.network.github_api.GithubHelper
 import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListApiService
 import dagger.Module
 import dagger.Provides
@@ -52,20 +55,25 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(retrofitHolder: RetrofitHolder): Retrofit = retrofitHolder.getRetrofit()
+    fun provideBoardsApi(retrofitHolder: RetrofitHolder): BoardsApiService {
+        return retrofitHolder.getDvachRetrofit().create(BoardsApiService::class.java)
+    }
 
     @Provides
     @Singleton
-    fun provideBoardsApi(retrofit: Retrofit): BoardsApiService =
-            retrofit.create(BoardsApiService::class.java)
+    fun provideThreadListApi(retrofitHolder: RetrofitHolder): ThreadListApiService {
+        return retrofitHolder.getDvachRetrofit().create(ThreadListApiService::class.java)
+    }
 
     @Provides
     @Singleton
-    fun provideThreadListApi(retrofit: Retrofit): ThreadListApiService =
-            retrofit.create(ThreadListApiService::class.java)
+    fun provideFullThreadApi(retrofitHolder: RetrofitHolder): FullThreadApiService {
+        return retrofitHolder.getDvachRetrofit().create(FullThreadApiService::class.java)
+    }
 
     @Provides
     @Singleton
-    fun provideFullThreadApi(retrofit: Retrofit): FullThreadApiService =
-            retrofit.create(FullThreadApiService::class.java)
+    fun provideGithubApi(retrofitHolder: RetrofitHolder): GithubApiService {
+        return retrofitHolder.getGithubRetrofit().create(GithubApiService::class.java)
+    }
 }

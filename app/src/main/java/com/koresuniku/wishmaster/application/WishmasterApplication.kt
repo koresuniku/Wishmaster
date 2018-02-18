@@ -12,10 +12,7 @@ import com.koresuniku.wishmaster.application.preferences.*
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.component.*
 import com.koresuniku.wishmaster.core.dagger.module.*
-import com.koresuniku.wishmaster.core.dagger.module.application_scope.ApplicationModule
-import com.koresuniku.wishmaster.core.dagger.module.application_scope.InjectorModule
-import com.koresuniku.wishmaster.core.dagger.module.application_scope.NetworkModule
-import com.koresuniku.wishmaster.core.dagger.module.application_scope.SharedPreferencesModule
+import com.koresuniku.wishmaster.core.dagger.module.application_scope.*
 import com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes.BoardsModule
 import com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes.DashboardPresenterModule
 import com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes.DashboardViewModule
@@ -24,6 +21,7 @@ import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThrea
 import com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes.ThreadListPresenterModule
 import com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes.ThreadListViewModule
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
+import com.koresuniku.wishmaster.core.network.github_api.GithubHelper
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
@@ -58,6 +56,8 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
                 .injectorModule(InjectorModule(this))
                 .networkModule(NetworkModule())
                 .sharedPreferencesModule(SharedPreferencesModule())
+                .rxModule(RxModule())
+                .githubModule(GithubModule())
                 .build() as DaggerApplicationComponent
     }
     override val daggerDashboardPresenterComponent: DaggerDashboardPresenterComponent by lazy {
@@ -112,6 +112,7 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var viewUtils: ViewUtils
     @Inject lateinit var commonParams: CommonParams
+    @Inject lateinit var githubHelper: GithubHelper
 
     override fun onCreate() {
         super.onCreate()
@@ -121,6 +122,8 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
         uiParams.orientation = resources.configuration.orientation
         sharedPreferencesHelper.onApplicationCreate(this, sharedPreferencesStorage,
                 retrofitHolder, uiParams, commonParams, uiUtils, viewUtils, deviceUtils)
+
+        githubHelper.checkForNewRelease().subscribe()
 
         Glide.get(this).register(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
     }

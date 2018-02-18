@@ -9,6 +9,7 @@ import com.koresuniku.wishmaster.application.listener.OrientationNotifier
 import com.koresuniku.wishmaster.application.preferences.SharedPreferencesStorage
 import com.koresuniku.wishmaster.application.preferences.UiParams
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.application_scope.*
 import com.koresuniku.wishmaster.core.data.database.DatabaseHelper
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
@@ -29,8 +30,14 @@ import javax.inject.Singleton
  */
 
 @Singleton
-@Component (modules = [(ApplicationModule::class), (InjectorModule::class),
-    (NetworkModule::class), (SharedPreferencesModule::class), (UtilsModule::class)])
+@Component (modules = [
+    (ApplicationModule::class),
+    (InjectorModule::class),
+    (NetworkModule::class),
+    (SharedPreferencesModule::class),
+    (UtilsModule::class),
+    (GithubModule::class),
+    (RxModule::class)])
 interface ApplicationComponent {
 
     //Application

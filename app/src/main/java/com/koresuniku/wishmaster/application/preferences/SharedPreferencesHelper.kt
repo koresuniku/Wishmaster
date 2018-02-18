@@ -136,7 +136,7 @@ class SharedPreferencesHelper : ISharedPreferencesHelper {
                 SharedPreferencesKeystore.BASE_URL_DEFAULT)
                 .subscribeOn(Schedulers.io())
                 .filter { value -> value != SharedPreferencesKeystore.BASE_URL_DEFAULT }
-                .subscribe(retrofitHolder::changeBaseUrl)
+                .subscribe(retrofitHolder::changeDvachBaseUrl)
     }
 
     private fun setShortInfoHeight(context: Context,
