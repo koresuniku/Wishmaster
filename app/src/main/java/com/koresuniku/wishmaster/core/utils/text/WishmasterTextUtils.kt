@@ -4,13 +4,11 @@ import android.content.Context
 import android.content.res.Configuration
 import android.text.*
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.application.preferences.UiParams
+import com.koresuniku.wishmaster.application.singletones.UiParams
 import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster.core.data.model.posts.Post
 import com.koresuniku.wishmaster.core.data.model.threads.File
-import com.koresuniku.wishmaster.core.data.model.threads.Thread
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.utils.text.markup.SingleImageCommentMarginSpan
 import io.reactivex.Single
@@ -79,8 +77,8 @@ class WishmasterTextUtils @Inject constructor() {
     }
 
     fun getCommentForSingleImageItemTemp(rawComment: String,
-                                     uiParams: UiParams,
-                                     imageItemData: ImageItemData): Single<Spannable> {
+                                         uiParams: UiParams,
+                                         imageItemData: ImageItemData): Single<Spannable> {
         return Single.create({
             val comment = SpannableString(Html.fromHtml(rawComment))
 

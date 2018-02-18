@@ -1,7 +1,7 @@
 package com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes
 
 import android.content.Context
-import com.koresuniku.wishmaster.application.preferences.UiParams
+import com.koresuniku.wishmaster.application.singletones.UiParams
 import com.koresuniku.wishmaster.core.dagger.scope.ForThreadListPresenter
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder

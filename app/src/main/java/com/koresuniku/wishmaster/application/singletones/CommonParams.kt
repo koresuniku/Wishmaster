@@ -1,5 +1,6 @@
-package com.koresuniku.wishmaster.application.preferences
+package com.koresuniku.wishmaster.application.singletones
 
+import com.koresuniku.wishmaster.application.preferences.SharedPreferencesKeystore
 import javax.inject.Inject
 
 /**

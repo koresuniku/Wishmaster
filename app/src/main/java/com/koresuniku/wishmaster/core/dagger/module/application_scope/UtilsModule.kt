@@ -1,6 +1,6 @@
 package com.koresuniku.wishmaster.core.dagger.module.application_scope
 
-import com.koresuniku.wishmaster.application.preferences.UiParams
+import com.koresuniku.wishmaster.application.singletones.UiParams
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils

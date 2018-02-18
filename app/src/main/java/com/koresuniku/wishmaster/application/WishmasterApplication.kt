@@ -9,6 +9,8 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.listener.OrientationNotifier
 import com.koresuniku.wishmaster.application.preferences.*
+import com.koresuniku.wishmaster.application.singletones.CommonParams
+import com.koresuniku.wishmaster.application.singletones.UiParams
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.component.*
 import com.koresuniku.wishmaster.core.dagger.module.*
@@ -25,7 +27,6 @@ import com.koresuniku.wishmaster.core.network.github_api.GithubHelper
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
-import com.squareup.leakcanary.LeakCanary
 import okhttp3.OkHttpClient
 import org.acra.ACRA
 import org.acra.ReportingInteractionMode

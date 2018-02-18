@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.TextView
 import com.koresuniku.wishmaster.R
+import com.koresuniku.wishmaster.application.singletones.CommonParams
+import com.koresuniku.wishmaster.application.singletones.UiParams
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils

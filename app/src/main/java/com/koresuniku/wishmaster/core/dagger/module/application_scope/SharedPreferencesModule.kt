@@ -2,6 +2,8 @@ package com.koresuniku.wishmaster.core.dagger.module.application_scope
 
 import android.content.Context
 import com.koresuniku.wishmaster.application.preferences.*
+import com.koresuniku.wishmaster.application.singletones.CommonParams
+import com.koresuniku.wishmaster.application.singletones.UiParams
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

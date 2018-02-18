@@ -24,4 +24,6 @@ class ApplicationModule(private val application: Application) {
     @Provides
     @Singleton
     fun provideOrientationNotifier(): OrientationNotifier = OrientationNotifier()
+
+
 }
