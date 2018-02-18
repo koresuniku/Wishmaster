@@ -42,7 +42,8 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
                     fullThreadAdapterView?.onPostListDataChanged(it)
                     it.postList[0].let {
                         mvpView?.onPostListReceived(Html.fromHtml(
-                                if (it.subject.isBlank()) it.comment else it.subject ) )
+                                if (it.subject.isBlank()) it.comment else it.subject ),
+                                presenterData.postList.size )
                     }
                 }, { it.printStackTrace() }))
     }

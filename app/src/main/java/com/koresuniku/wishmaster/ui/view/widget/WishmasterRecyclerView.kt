@@ -113,4 +113,9 @@ class WishmasterRecyclerView : RecyclerView {
             const val BOTH = 3
         }
     }
+
+    override fun onScrolled(dx: Int, dy: Int) {
+        super.onScrolled(dx, dy)
+        checkRefresh()
+    }
 }

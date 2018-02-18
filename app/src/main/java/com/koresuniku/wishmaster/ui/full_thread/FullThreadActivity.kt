@@ -16,6 +16,7 @@ import android.view.*
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
@@ -36,6 +37,7 @@ import javax.inject.Inject
 /**
  * Created by koresuniku on 2/11/18.
  */
+
 class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullThreadView<IFullThreadPresenter> {
     private val LOG_TAG = FullThreadActivity::class.java.simpleName
 
@@ -50,6 +52,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup
     @BindView(R.id.yoba) lateinit var mYobaImage: ImageView
     @BindView(R.id.error_layout) lateinit var mErrorLayout: ViewGroup
+    @BindView(R.id.failed_to_load_label) lateinit var mErrorLabel: TextView
     @BindView(R.id.try_again_button) lateinit var mTryAgainButton: Button
     @BindView(R.id.swipy_refresh_layout) lateinit var mSwipyRefreshLayout: SwipyRefreshLayout
     @BindView(R.id.recycler_view) lateinit var mRecyclerView: WishmasterRecyclerView
@@ -68,6 +71,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
 
         wishmasterAnimationUtils.setFullThreadTransitions(window, mToolbar, mRecyclerView)
 
+        setupErrorLayout()
         setupToolbar()
         setupRefreshLayout()
         setupRecyclerView()
@@ -88,7 +92,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
                 true
             }
             R.id.action_refresh -> {
-                mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTH
+                mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
                 mSwipyRefreshLayout.isRefreshing = true
                 presenter.loadNewPostList()
                 true
@@ -108,6 +112,10 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     private fun setupToolbar() {
         setSupportActionBar(mToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun setupErrorLayout() {
+        mErrorLabel.text = getString(R.string.failed_to_load_posts)
     }
 
     private fun setupTitle(title:  Spanned) { supportActionBar?.title = title }
@@ -160,6 +168,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
 
     override fun showLoading() {
         activityMenu?.findItem(R.id.action_refresh)?.isEnabled = false
+        mSwipyRefreshLayout.isEnabled = false
         supportActionBar?.title = getString(R.string.loading_text)
         wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
@@ -167,9 +176,11 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     override fun getBoardId() = intent.getStringExtra(IntentKeystore.BOARD_ID_CODE)
     override fun getThreadNumber() = intent.getStringExtra(IntentKeystore.THREAD_NUMBER_CODE)
 
-    override fun onPostListReceived(title: Spanned) {
+    override fun onPostListReceived(title: Spanned, itemCount: Int) {
         hideLoading()
         setupTitle(title)
+        mRecyclerView.isVerticalScrollBarEnabled =
+                itemCount < RecyclerFastScroller.DEFAULT_POST_LIMIT_SHOWING_HANDLE
     }
 
     override fun onNewPostsReceived(oldCount: Int, newCount: Int) {
@@ -203,6 +214,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
 
     private fun hideLoading() {
         activityMenu?.findItem(R.id.action_refresh)?.isEnabled = true
+        mSwipyRefreshLayout.isEnabled = true
         if (!mSwipyRefreshLayout.isRefreshing)
             wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
         if (mSwipyRefreshLayout.isRefreshing)

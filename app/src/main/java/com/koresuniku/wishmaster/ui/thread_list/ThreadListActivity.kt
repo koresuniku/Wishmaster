@@ -14,6 +14,7 @@ import android.view.*
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
@@ -50,6 +51,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     @BindView(R.id.loading_layout) lateinit var mLoadingLayout: ViewGroup
     @BindView(R.id.yoba) lateinit var mYobaImage: ImageView
     @BindView(R.id.error_layout) lateinit var mErrorLayout: ViewGroup
+    @BindView(R.id.failed_to_load_label) lateinit var mErrorLabel: TextView
     @BindView(R.id.try_again_button) lateinit var mTryAgainButton: Button
     @BindView(R.id.swipy_refresh_layout) lateinit var mSwipyRefreshLayout: SwipyRefreshLayout
     @BindView(R.id.recycler_view) lateinit var mRecyclerView: WishmasterRecyclerView
@@ -70,6 +72,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         wishmasterAnimationUtils.setThreadListTransitions(window, mToolbar, mRecyclerView)
 
         setupBackground()
+        setupErrorLayout()
         setupToolbar()
         setupRefreshLayout()
         setupRecyclerView()
@@ -94,7 +97,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
                 true
             }
             R.id.action_refresh -> {
-                mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTH
+                mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
                 mSwipyRefreshLayout.isRefreshing = true
                 presenter.loadThreadList()
                 true
@@ -115,6 +118,10 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         } else mBackground.setImageResource(R.color.colorBackground)
     }
 
+    private fun setupErrorLayout() {
+        mErrorLabel.text = getString(R.string.failed_to_load_threads)
+    }
+
     private fun setupToolbar() {
         setSupportActionBar(mToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -131,6 +138,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     }
 
     private fun setupRecyclerView() {
+        mRecyclerView.isVerticalScrollBarEnabled = false
         wishmasterAnimationUtils.setSlideFromBottomLayoutAnimation(mRecyclerView)
         mThreadListRecyclerViewAdapter = ThreadListRecyclerViewAdapter(this)
         presenter.bindThreadListAdapterView(mThreadListRecyclerViewAdapter)
@@ -176,6 +184,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 
     override fun showLoading() {
         activityMenu?.findItem(R.id.action_refresh)?.isEnabled = false
+        mSwipyRefreshLayout.isEnabled = false
         supportActionBar?.title = getString(R.string.loading_text)
         if (!mSwipyRefreshLayout.isRefreshing)
             wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
@@ -183,6 +192,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 
     private fun hideLoading() {
         activityMenu?.findItem(R.id.action_refresh)?.isEnabled = true
+        mSwipyRefreshLayout.isEnabled = true
         if (!mSwipyRefreshLayout.isRefreshing)
             wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
         if (mSwipyRefreshLayout.isRefreshing)

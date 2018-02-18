@@ -9,7 +9,7 @@ import com.koresuniku.wishmaster.core.base.mvp.IMvpView
 interface FullThreadView<P> : IMvpView<P> {
     fun getBoardId(): String
     fun getThreadNumber(): String
-    fun onPostListReceived(title: Spanned)
+    fun onPostListReceived(title: Spanned, itemCount: Int)
     fun onNewPostsReceived(oldCount: Int, newCount: Int)
     fun showError(message: String?)
     fun showNewPostsError(message: String?)
