@@ -5,17 +5,11 @@ import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.PorterDuff
-import android.os.Build
-import android.support.annotation.RequiresApi
-import android.support.design.widget.TabLayout
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.View
-import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.ui.anim.DashboardExitTransition
 import javax.inject.Inject
 
 /**

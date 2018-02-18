@@ -69,8 +69,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         ButterKnife.bind(this)
         presenter.bindView(this)
 
-        wishmasterAnimationUtils.setThreadListTransitions(window, mToolbar, mRecyclerView)
-
         setupBackground()
         setupErrorLayout()
         setupToolbar()
@@ -231,12 +229,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         intent.putExtra(IntentKeystore.THREAD_NUMBER_CODE, threadNumber)
         startActivity(intent)
         overrideForwardPendingTransition()
-    }
-
-    override fun onActivityReenter(resultCode: Int, data: Intent?) {
-        super.onActivityReenter(resultCode, data)
-        wishmasterAnimationUtils.slideFromLeft(mRecyclerView)
-        wishmasterAnimationUtils.fadeToolbar(false, mToolbar)
     }
 
     override fun onBackPressed() {

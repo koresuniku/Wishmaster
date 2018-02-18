@@ -69,8 +69,6 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         ButterKnife.bind(this)
         presenter.bindView(this)
 
-        wishmasterAnimationUtils.setFullThreadTransitions(window, mToolbar, mRecyclerView)
-
         setupErrorLayout()
         setupToolbar()
         setupRefreshLayout()

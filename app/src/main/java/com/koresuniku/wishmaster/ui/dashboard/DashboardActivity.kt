@@ -61,7 +61,6 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
         getWishmasterApplication().daggerDashboardViewComponent.inject(this)
         uiUtils.showSystemUI(this)
         ButterKnife.bind(this)
-        wishmasterAnimationUtils.setDashboardTransitions(window, mToolbar, mTabLayout)
         presenter.bindView(this)
 
         setSupportActionBar(mToolbar)
