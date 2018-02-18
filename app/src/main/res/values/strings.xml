@@ -14,6 +14,9 @@
     <string name="unknown_address">Неизвестный адрес!</string>
     <string name="ok">OK</string>
     <string name="personal_comment">Личный комментарий (можно оставить пустым)</string>
+    <string name="new_version_available">Доступна новая версия!</string>
+    <string name="download_text">Скачать</string>
+    <string name="cancel_text">Отмена</string>
 
     <!--Dashboard-->
     <string name="more_boards_text">Нужно больше любимых борд!</string>

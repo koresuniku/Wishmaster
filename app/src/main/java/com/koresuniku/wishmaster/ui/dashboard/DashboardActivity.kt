@@ -36,6 +36,9 @@ import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManag
 import com.koresuniku.wishmaster.application.singletones.WishmasterPermissionManager
 import com.koresuniku.wishmaster.core.network.github_api.Asset
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
+import android.content.DialogInterface
+import android.support.v7.app.AlertDialog
+
 
 class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
         DashboardView<IDashboardPresenter>, OnNewReleaseListener {
@@ -102,9 +105,15 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
         return when (item?.itemId) {
             R.id.action_download_new_version -> {
                 newReleaseNotifier.cachedAsset?.let {
-                    if (permissionManager.checkAndRequestExternalStoragePermissionForLoadNewVersion(this)) {
-                        downloadManager.downloadWithNotification(it.downloadLink, it.name)
-                    }
+                    val builder = AlertDialog.Builder(this)
+                    builder.setMessage(R.string.new_version_available)
+                            .setPositiveButton(R.string.download_text, DialogInterface.OnClickListener { dialog, id ->
+                                if (permissionManager.checkAndRequestExternalStoragePermissionForLoadNewVersion(this)) {
+                                    downloadManager.downloadWithNotification(it.downloadLink, it.name)
+                                }
+                            })
+                            .setNegativeButton(R.string.cancel_text, DialogInterface.OnClickListener { dialog, id -> })
+                    builder.create().show()
                 }
                 return true
             }
