@@ -1,7 +1,6 @@
 package com.koresuniku.wishmaster.ui.full_thread
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -53,7 +52,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     @BindView(R.id.error_layout) lateinit var mErrorLayout: ViewGroup
     @BindView(R.id.try_again_button) lateinit var mTryAgainButton: Button
     @BindView(R.id.swipy_refresh_layout) lateinit var mSwipyRefreshLayout: SwipyRefreshLayout
-    @BindView(R.id.post_list) lateinit var mFullThreadRecyclerView: WishmasterRecyclerView
+    @BindView(R.id.recycler_view) lateinit var mRecyclerView: WishmasterRecyclerView
     @BindView(R.id.scroller) lateinit var mScroller: RecyclerFastScroller
     @BindView(R.id.background) lateinit var mBackground: ImageView
 
@@ -67,7 +66,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         ButterKnife.bind(this)
         presenter.bindView(this)
 
-        wishmasterAnimationUtils.setFullThreadTransitions(window, mToolbar, mFullThreadRecyclerView)
+        wishmasterAnimationUtils.setFullThreadTransitions(window, mToolbar, mRecyclerView)
 
         setupToolbar()
         setupRefreshLayout()
@@ -109,7 +108,6 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     private fun setupToolbar() {
         setSupportActionBar(mToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        wishmasterAnimationUtils.fadeToolbar(false, mToolbar)
     }
 
     private fun setupTitle(title:  Spanned) { supportActionBar?.title = title }
@@ -121,14 +119,14 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     }
 
     private fun setupRecyclerView() {
-        wishmasterAnimationUtils.setSlideFromRightLayoutAnimation(mFullThreadRecyclerView, this)
+        wishmasterAnimationUtils.setSlideFromRightLayoutAnimation(mRecyclerView, this)
         mFullThreadRecyclerViewAdapter = FullThreadRecyclerViewAdapter(this)
         presenter.bindFullThreadAdapterView(mFullThreadRecyclerViewAdapter)
-        mFullThreadRecyclerView.setItemViewCacheSize(20)
-        mFullThreadRecyclerView.isDrawingCacheEnabled = true
-        mFullThreadRecyclerView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
-        mFullThreadRecyclerView.layoutManager = LinearLayoutManager(this)
-        mFullThreadRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        mRecyclerView.setItemViewCacheSize(20)
+        mRecyclerView.isDrawingCacheEnabled = true
+        mRecyclerView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
+        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!isActivityDestroyed) {
@@ -140,36 +138,22 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
                 }
             }
         })
-        mFullThreadRecyclerView.setOnTouchListener { view, motionEvent ->
-            when (mFullThreadRecyclerView.checkRefreshPossibility().possibility) {
-                WishmasterRecyclerView.RefreshPossibility.TOP -> {
-                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
-                    mSwipyRefreshLayout.isEnabled = true
-                }
-                WishmasterRecyclerView.RefreshPossibility.BOTTOM -> {
-                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTH
-                    mSwipyRefreshLayout.isEnabled = true
-                }
-                WishmasterRecyclerView.RefreshPossibility.BOTH -> {
-                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTH
-                    mSwipyRefreshLayout.isEnabled = true
-                }
-                else -> mSwipyRefreshLayout.isEnabled = false
-            }
-            false
+        mRecyclerView.setOnTouchListener { _, _ ->
+            mRecyclerView.checkRefresh();false
         }
-        mFullThreadRecyclerView.adapter = mFullThreadRecyclerViewAdapter
-        mFullThreadRecyclerView.attachAppBarLayout(mAppBarLayout)
-        mScroller.attachRecyclerView(mFullThreadRecyclerView)
-        mScroller.attachAdapter(mFullThreadRecyclerView.adapter)
+        mRecyclerView.adapter = mFullThreadRecyclerViewAdapter
+        mRecyclerView.attachAppBarLayout(mAppBarLayout)
+        mRecyclerView.attachSwipyRefreshLayout(mSwipyRefreshLayout)
+        mScroller.attachRecyclerView(mRecyclerView)
+        mScroller.attachAdapter(mRecyclerView.adapter)
         mScroller.attachAppBarLayout(mCoordinator, mAppBarLayout)
     }
 
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
-        mFullThreadRecyclerView.post {
+        mRecyclerView.post {
             if (!presenter.isDataLoaded()) {
-                mFullThreadRecyclerView.scheduleLayoutAnimation()
+                mRecyclerView.scheduleLayoutAnimation()
             }
         }
     }
@@ -198,18 +182,18 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         Handler().postDelayed({ snackbar.dismiss() }, 1000)
         snackbar.show()
 
-        if (!mFullThreadRecyclerView.canScrollVertically(1)) {
-            mFullThreadRecyclerView.viewTreeObserver.addOnGlobalLayoutListener(
+        if (!mRecyclerView.canScrollVertically(1)) {
+            mRecyclerView.viewTreeObserver.addOnGlobalLayoutListener(
                     object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        mFullThreadRecyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        mRecyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     }
                     if (newCount - oldCount < 10) {
-                        mFullThreadRecyclerView.smoothScrollToPosition(
+                        mRecyclerView.smoothScrollToPosition(
                                 mFullThreadRecyclerViewAdapter.itemCount - 1)
                     } else {
-                        mFullThreadRecyclerView.scrollToPosition(
+                        mRecyclerView.scrollToPosition(
                                 mFullThreadRecyclerViewAdapter.itemCount - 1)
                     }
                 }
@@ -228,7 +212,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     override fun showError(message: String?) {
         hideLoading()
 
-        mFullThreadRecyclerView.visibility = View.GONE
+        mRecyclerView.visibility = View.GONE
         mErrorLayout.visibility = View.VISIBLE
         supportActionBar?.title = getString(R.string.error)
         val snackBar = Snackbar.make(
@@ -239,7 +223,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
         snackBar.show()
         mTryAgainButton.setOnClickListener { snackBar.dismiss(); hideError(); showLoading()
             presenter.loadPostList()
-            mFullThreadRecyclerView.post { mFullThreadRecyclerView.scheduleLayoutAnimation() }
+            mRecyclerView.post { mRecyclerView.scheduleLayoutAnimation() }
         }
     }
 
@@ -254,7 +238,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
 
     private fun hideError() {
         mErrorLayout.visibility = View.GONE
-        mFullThreadRecyclerView.visibility = View.VISIBLE
+        mRecyclerView.visibility = View.VISIBLE
     }
 
     override fun onBackPressed() {

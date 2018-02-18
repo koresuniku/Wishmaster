@@ -1,9 +1,18 @@
 package com.koresuniku.wishmaster.ui.view.widget
 
+import android.app.Activity
 import android.content.Context
 import android.support.design.widget.AppBarLayout
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
+import android.util.Log
+import android.view.MotionEvent
+import android.view.View
+import android.widget.AbsListView
+import com.bumptech.glide.Glide
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection
+import java.lang.ref.WeakReference
 
 /**
  * Created by koresuniku on 2/16/18.
@@ -16,17 +25,26 @@ class WishmasterRecyclerView : RecyclerView {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
     private var mAppBarLayout: AppBarLayout? = null
-    private var mActualAppBarOffset: Int = 0
+    private var mSwipyRefreshLayout: SwipyRefreshLayout? = null
+    private var mActivityReference: WeakReference<Activity>? = null
+    private var mActualAppBarOffset: Int = -1
 
     fun attachAppBarLayout(appBarLayout: AppBarLayout) {
         mAppBarLayout = appBarLayout
-        mAppBarLayout?.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+        mAppBarLayout?.addOnOffsetChangedListener { _, verticalOffset ->
             mActualAppBarOffset = verticalOffset
         }
     }
 
+    fun attachSwipyRefreshLayout(swipyRefreshLayout: SwipyRefreshLayout) {
+        mSwipyRefreshLayout = swipyRefreshLayout
+    }
+
+    fun attachActivity(activity: Activity) {
+        mActivityReference = WeakReference(activity)
+    }
+
     override fun canScrollVertically(direction: Int): Boolean {
-        // check if scrolling up
         if (direction < 1) {
             val original = super.canScrollVertically(direction)
             return !original && getChildAt(0) != null && getChildAt(0).top < 0 || original
@@ -34,7 +52,25 @@ class WishmasterRecyclerView : RecyclerView {
         return super.canScrollVertically(direction)
     }
 
-    fun checkRefreshPossibility(): RefreshPossibility {
+    fun checkRefresh() {
+        when (checkRefreshPossibility().possibility) {
+            WishmasterRecyclerView.RefreshPossibility.TOP -> {
+                mSwipyRefreshLayout?.direction = SwipyRefreshLayoutDirection.TOP
+                mSwipyRefreshLayout?.isEnabled = true
+            }
+            WishmasterRecyclerView.RefreshPossibility.BOTTOM -> {
+                mSwipyRefreshLayout?.direction = SwipyRefreshLayoutDirection.BOTTOM
+                mSwipyRefreshLayout?.isEnabled = true
+            }
+            WishmasterRecyclerView.RefreshPossibility.BOTH -> {
+                mSwipyRefreshLayout?.direction = SwipyRefreshLayoutDirection.BOTH
+                mSwipyRefreshLayout?.isEnabled = true
+            }
+            else -> mSwipyRefreshLayout?.isEnabled = false
+        }
+    }
+
+    private fun checkRefreshPossibility(): RefreshPossibility {
         return if (mAppBarLayout == null)
             checkRefreshPossibilityDefault() else
             checkRefreshPossibilityConsiderAppBar()

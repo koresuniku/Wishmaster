@@ -10,11 +10,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
@@ -56,7 +52,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     @BindView(R.id.error_layout) lateinit var mErrorLayout: ViewGroup
     @BindView(R.id.try_again_button) lateinit var mTryAgainButton: Button
     @BindView(R.id.swipy_refresh_layout) lateinit var mSwipyRefreshLayout: SwipyRefreshLayout
-    @BindView(R.id.thread_list) lateinit var mThreadListRecyclerView: WishmasterRecyclerView
+    @BindView(R.id.recycler_view) lateinit var mRecyclerView: WishmasterRecyclerView
     @BindView(R.id.scroller) lateinit var mScroller: RecyclerFastScroller
     @BindView(R.id.background) lateinit var mBackground: ImageView
 
@@ -71,7 +67,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         ButterKnife.bind(this)
         presenter.bindView(this)
 
-        wishmasterAnimationUtils.setThreadListTransitions(window, mToolbar, mThreadListRecyclerView)
+        wishmasterAnimationUtils.setThreadListTransitions(window, mToolbar, mRecyclerView)
 
         setupBackground()
         setupToolbar()
@@ -135,15 +131,15 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     }
 
     private fun setupRecyclerView() {
-        wishmasterAnimationUtils.setSlideFromBottomLayoutAnimation(mThreadListRecyclerView)
+        wishmasterAnimationUtils.setSlideFromBottomLayoutAnimation(mRecyclerView)
         mThreadListRecyclerViewAdapter = ThreadListRecyclerViewAdapter(this)
         presenter.bindThreadListAdapterView(mThreadListRecyclerViewAdapter)
-        mThreadListRecyclerView.setItemViewCacheSize(20)
-        mThreadListRecyclerView.isDrawingCacheEnabled = true
-        mThreadListRecyclerView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
-        mThreadListRecyclerView.layoutManager = LinearLayoutManager(this)
-        mThreadListRecyclerView.addItemDecoration(ThreadItemDividerDecoration(this))
-        mThreadListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        mRecyclerView.setItemViewCacheSize(20)
+        mRecyclerView.isDrawingCacheEnabled = true
+        mRecyclerView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
+        mRecyclerView.addItemDecoration(ThreadItemDividerDecoration(this))
+        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!isActivityDestroyed) {
@@ -155,35 +151,21 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
                 }
             }
         })
-        mThreadListRecyclerView.setOnTouchListener { view, motionEvent ->
-            when (mThreadListRecyclerView.checkRefreshPossibility().possibility) {
-                WishmasterRecyclerView.RefreshPossibility.TOP -> {
-                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
-                    mSwipyRefreshLayout.isEnabled = true
-                }
-                WishmasterRecyclerView.RefreshPossibility.BOTTOM -> {
-                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTTOM
-                    mSwipyRefreshLayout.isEnabled = true
-                }
-                WishmasterRecyclerView.RefreshPossibility.BOTH -> {
-                    mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.BOTH
-                    mSwipyRefreshLayout.isEnabled = true
-                }
-                else -> mSwipyRefreshLayout.isEnabled = false
-            }
-            false
+        mRecyclerView.setOnTouchListener { _, _ ->
+            mRecyclerView.checkRefresh();false
         }
-        mThreadListRecyclerView.adapter = mThreadListRecyclerViewAdapter
-        mThreadListRecyclerView.attachAppBarLayout(mAppBarLayout)
-        mScroller.attachRecyclerView(mThreadListRecyclerView)
-        mScroller.attachAdapter(mThreadListRecyclerView.adapter)
+        mRecyclerView.adapter = mThreadListRecyclerViewAdapter
+        mRecyclerView.attachAppBarLayout(mAppBarLayout)
+        mRecyclerView.attachSwipyRefreshLayout(mSwipyRefreshLayout)
+        mScroller.attachRecyclerView(mRecyclerView)
+        mScroller.attachAdapter(mRecyclerView.adapter)
         mScroller.attachAppBarLayout(mCoordinator, mAppBarLayout)
     }
 
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
-        mThreadListRecyclerView.post {
-            if (!presenter.isDataLoaded()) mThreadListRecyclerView.scheduleLayoutAnimation()
+        mRecyclerView.post {
+            if (!presenter.isDataLoaded()) mRecyclerView.scheduleLayoutAnimation()
         }
     }
 
@@ -205,7 +187,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
             wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
         if (mSwipyRefreshLayout.isRefreshing)
             mSwipyRefreshLayout.isRefreshing = false
-        mThreadListRecyclerView.scrollToPosition(0)
+        mRecyclerView.scrollToPosition(0)
         mAppBarLayout.setExpanded(true)
         mSwipyRefreshLayout.direction = SwipyRefreshLayoutDirection.TOP
         mSwipyRefreshLayout.isEnabled = true
@@ -214,7 +196,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
     override fun showError(message: String?) {
         hideLoading()
 
-        mThreadListRecyclerView.visibility = View.GONE
+        mRecyclerView.visibility = View.GONE
         mErrorLayout.visibility = View.VISIBLE
         supportActionBar?.title = getString(R.string.error)
         val snackBar = Snackbar.make(
@@ -225,12 +207,12 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         snackBar.show()
         mTryAgainButton.setOnClickListener { snackBar.dismiss(); hideError(); showLoading()
             presenter.loadThreadList();
-            mThreadListRecyclerView.post { mThreadListRecyclerView.scheduleLayoutAnimation() } }
+            mRecyclerView.post { mRecyclerView.scheduleLayoutAnimation() } }
     }
 
     private fun hideError() {
         mErrorLayout.visibility = View.GONE
-        mThreadListRecyclerView.visibility = View.VISIBLE
+        mRecyclerView.visibility = View.VISIBLE
     }
 
     override fun launchFullThreadActivity(threadNumber: String) {
@@ -243,7 +225,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 
     override fun onActivityReenter(resultCode: Int, data: Intent?) {
         super.onActivityReenter(resultCode, data)
-        wishmasterAnimationUtils.slideFromLeft(mThreadListRecyclerView)
+        wishmasterAnimationUtils.slideFromLeft(mRecyclerView)
         wishmasterAnimationUtils.fadeToolbar(false, mToolbar)
     }
 

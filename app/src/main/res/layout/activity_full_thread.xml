@@ -20,54 +20,13 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"/>
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/coordinator"
+    <include
+        android:id="@+id/coordinator_view_kit"
+        layout="@layout/coordinator_view_kit"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-
-            >
-
-            <FrameLayout
-                android:id="@+id/toolbar_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlways">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:elevation="2dp"
-                    android:theme="@style/DefaultToolbarStyle"
-                    app:titleTextAppearance="@style/Toolbar.TitleText"/>
-
-            </FrameLayout>
-        </android.support.design.widget.AppBarLayout>
-
-        <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
-            android:id="@+id/swipy_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/toolbar"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:srl_direction="both">
-
-            <com.koresuniku.wishmaster.ui.view.widget.WishmasterRecyclerView
-                android:id="@+id/post_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </com.koresuniku.wishmaster.ui.view.widget.WishmasterRecyclerView>
-
-        </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
-
-    </android.support.design.widget.CoordinatorLayout>
+    </include>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/loading_layout"
@@ -136,16 +95,5 @@
             app:layout_constraintVertical_bias="0.13999999" />
     </android.support.constraint.ConstraintLayout>
 
-    <FrameLayout
-        android:id="@+id/scroller_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.koresuniku.wishmaster.ui.view.recycler_view_fast_scroller.RecyclerFastScroller
-            android:id="@+id/scroller"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"/>
-    </FrameLayout>
 
 </RelativeLayout>
