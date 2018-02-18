@@ -1,9 +1,7 @@
 package com.koresuniku.wishmaster.ui.dashboard
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
-import android.os.Build
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.design.widget.Snackbar
@@ -30,19 +28,26 @@ import com.koresuniku.wishmaster.core.modules.dashboard.presenter.IDashboardPres
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
-import android.support.v4.app.ActivityOptionsCompat
 import android.util.Log
+import android.view.MenuItem
+import com.koresuniku.wishmaster.application.listener.NewReleaseNotifier
+import com.koresuniku.wishmaster.application.listener.OnNewReleaseListener
+import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManager
+import com.koresuniku.wishmaster.application.singletones.WishmasterPermissionManager
+import com.koresuniku.wishmaster.core.network.github_api.Asset
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 
-class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), DashboardView<IDashboardPresenter> {
-
-
+class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
+        DashboardView<IDashboardPresenter>, OnNewReleaseListener {
     private val LOG_TAG = DashboardActivity::class.java.simpleName
 
     @Inject override lateinit var presenter: IDashboardPresenter
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var viewUtils: ViewUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
+    @Inject lateinit var newReleaseNotifier: NewReleaseNotifier
+    @Inject lateinit var downloadManager: WishmasterDownloadManager
+    @Inject lateinit var permissionManager: WishmasterPermissionManager
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.tab_layout) lateinit var mTabLayout: TabLayout
@@ -54,7 +59,6 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
 
     private lateinit var mViewPagerAdapter: DashboardViewPagerAdapter
 
-    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -62,6 +66,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
         uiUtils.showSystemUI(this)
         ButterKnife.bind(this)
         presenter.bindView(this)
+        newReleaseNotifier.bindListener(this)
 
         setSupportActionBar(mToolbar)
         setupViewPager()
@@ -91,6 +96,37 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
         })
 
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.action_download_new_version -> {
+                newReleaseNotifier.cachedAsset?.let {
+                    if (permissionManager.checkAndRequestExternalStoragePermissionForLoadNewVersion(this)) {
+                        downloadManager.downloadWithNotification(it.downloadLink, it.name)
+                    }
+                }
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+    override fun onNewRelease(asset: Asset) {
+        Log.d(LOG_TAG, "link: ${asset.downloadLink}")
+        activityMenu?.let { it.findItem(R.id.action_download_new_version).isVisible = true }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            WishmasterPermissionManager.WRITE_EXTERNAL_STORAGE_FOR_LOAD_NEW_VERSION_REQUEST_CODE -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    newReleaseNotifier.cachedAsset?.let {
+                        downloadManager.downloadWithNotification(it.downloadLink, it.name)
+                    }
+                }
+                return
+            }
+        }
     }
 
     @LayoutRes override fun provideContentLayoutResource() = R.layout.activity_dashboard
@@ -149,7 +185,6 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(), Dashboa
     override fun launchThreadListActivity(boardId: String) {
         val intent = Intent(this, ThreadListActivity::class.java)
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, boardId)
-        //launchNextActivityWithtransition(intent)
         startActivity(intent)
         overrideForwardPendingTransition()
     }

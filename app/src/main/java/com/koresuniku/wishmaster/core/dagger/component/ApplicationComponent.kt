@@ -5,9 +5,12 @@ import android.content.Context
 import com.google.gson.Gson
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster.application.WishmasterApplication
+import com.koresuniku.wishmaster.application.listener.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.listener.OrientationNotifier
 import com.koresuniku.wishmaster.application.preferences.SharedPreferencesStorage
 import com.koresuniku.wishmaster.application.singletones.UiParams
+import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManager
+import com.koresuniku.wishmaster.application.singletones.WishmasterPermissionManager
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.application_scope.*
@@ -69,9 +72,12 @@ interface ApplicationComponent {
     fun uiUtils(): UiUtils
     fun viewUtils(): ViewUtils
     fun animationUtils(): WishmasterAnimationUtils
+    fun downloadManager(): WishmasterDownloadManager
+    fun permissionManager(): WishmasterPermissionManager
 
     //Notifiers
     fun orientationNotifier(): OrientationNotifier
+    fun newReleaseNotifier(): NewReleaseNotifier
 
     fun inject(application: WishmasterApplication)
 

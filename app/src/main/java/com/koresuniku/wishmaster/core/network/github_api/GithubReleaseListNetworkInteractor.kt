@@ -1,7 +1,5 @@
 package com.koresuniku.wishmaster.core.network.github_api
 
-import android.os.Parcel
-import android.os.Parcelable
 import com.koresuniku.wishmaster.core.base.interactor.INetworkInteractor
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -14,11 +12,11 @@ import javax.inject.Inject
 
 class GithubReleaseListNetworkInteractor @Inject constructor(private val apiService: GithubApiService,
                                                              private val compositeDisposable: CompositeDisposable):
-        INetworkInteractor<GithubApiService, List<WishmasterRelease>> {
+        INetworkInteractor<GithubApiService, List<Release>> {
 
     override fun getService() = apiService
 
-    override fun getDataFromNetwork(): Single<List<WishmasterRelease>> {
+    override fun getDataFromNetwork(): Single<List<Release>> {
         return Single.create({ e ->
             compositeDisposable.add(getService()
                     .getRealeaseList()

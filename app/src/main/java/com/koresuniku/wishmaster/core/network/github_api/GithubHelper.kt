@@ -18,7 +18,7 @@ class GithubHelper @Inject constructor(private val networkInteractor: GithubRele
         const val GITHUB_BASE_URL = "https://api.github.com"
     }
 
-    fun checkForNewRelease(): Maybe<WishmasterRelease> {
+    fun checkForNewRelease(): Maybe<Asset> {
         return Maybe.create { e ->
             compositeDisposable.add(
                     networkInteractor
@@ -27,7 +27,8 @@ class GithubHelper @Inject constructor(private val networkInteractor: GithubRele
                                 Log.d("GH", "releases count: ${it.size}")
                                 when {
                                     it.isEmpty() -> e.onComplete()
-                                    compareVersionNames(BuildConfig.VERSION_NAME, it[0].tagName) -> e.onSuccess(it[0])
+                                    compareVersionNames(BuildConfig.VERSION_NAME, it[0].tagName) ->
+                                        e.onSuccess(it[0].assetList[0])
                                     else -> e.onComplete()
                                 }
                             }, { it.printStackTrace()}))

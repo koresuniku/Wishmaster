@@ -3,10 +3,12 @@ package com.koresuniku.wishmaster.application
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
 import com.koresuniku.wishmaster.R
+import com.koresuniku.wishmaster.application.listener.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.listener.OrientationNotifier
 import com.koresuniku.wishmaster.application.preferences.*
 import com.koresuniku.wishmaster.application.singletones.CommonParams
@@ -27,6 +29,7 @@ import com.koresuniku.wishmaster.core.network.github_api.GithubHelper
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
+import io.reactivex.android.schedulers.AndroidSchedulers
 import okhttp3.OkHttpClient
 import org.acra.ACRA
 import org.acra.ReportingInteractionMode
@@ -114,6 +117,7 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
     @Inject lateinit var viewUtils: ViewUtils
     @Inject lateinit var commonParams: CommonParams
     @Inject lateinit var githubHelper: GithubHelper
+    @Inject lateinit var newReleaseNotifier: NewReleaseNotifier
 
     override fun onCreate() {
         super.onCreate()
@@ -124,7 +128,9 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
         sharedPreferencesHelper.onApplicationCreate(this, sharedPreferencesStorage,
                 retrofitHolder, uiParams, commonParams, uiUtils, viewUtils, deviceUtils)
 
-        githubHelper.checkForNewRelease().subscribe()
+        githubHelper.checkForNewRelease()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { newReleaseNotifier.notifyNewVersion(it) }
 
         Glide.get(this).register(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
     }

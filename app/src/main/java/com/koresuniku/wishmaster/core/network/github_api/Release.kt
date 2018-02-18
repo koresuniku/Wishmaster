@@ -7,9 +7,13 @@ import com.google.gson.annotations.SerializedName
  * Created by koresuniku on 2/18/18.
  */
 
-class WishmasterRelease {
+class Release {
 
     @SerializedName("tag_name")
     @Expose
     lateinit var tagName: String
+
+    @SerializedName("assets")
+    @Expose
+    lateinit var assetList: List<Asset>
 }
