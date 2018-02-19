@@ -2,11 +2,16 @@ package com.koresuniku.wishmaster.ui.settings
 
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
+import android.view.MenuItem
+import android.view.ViewGroup
 import butterknife.BindView
+import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.IntentKeystore
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.modules.settings.ISettingsPresenter
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
+import com.koresuniku.wishmaster.ui.base.IWishamsterActivity
 import javax.inject.Inject
 
 /**
@@ -24,16 +29,28 @@ class SettingsActivity : BaseWishmasterActivity<ISettingsPresenter>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getWishmasterApplication().daggerSettingsViewComponent.inject(this)
+        ButterKnife.bind(this)
 
         setupToolbar()
 
         fragmentManager.beginTransaction()
-                .replace(android.R.id.content, MainPreferenceFragment())
+                .replace(R.id.preference_fragment_container, MainPreferenceFragment())
                 .commit()
     }
 
     private fun setupToolbar() {
         setSupportActionBar(mToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

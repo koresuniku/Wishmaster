@@ -12,4 +12,7 @@ interface IWishmasterDaggerInjector {
 
     val daggerFullThreadPresenterComponent: DaggerFullThreadPresenterComponent
     val daggerFullThreadViewComponent: DaggerFullThreadViewComponent
+
+    val daggerSettingsPresenterComponent: DaggerSettingsPresenterComponent
+    val daggerSettingsViewComponent: DaggerSettingsViewComponent
 }
