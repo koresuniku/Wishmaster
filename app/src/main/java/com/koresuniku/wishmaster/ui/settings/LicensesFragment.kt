@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 
 /**
  * Created by koresuniku on 2/19/18.
@@ -14,12 +14,18 @@ import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 
 class LicensesFragment : Fragment() {
 
-    lateinit var rootView: View
+    private lateinit var rootView: View
+    private lateinit var licenseList: ListView
+    private lateinit var adapter: LicenseListAdapter
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.licences_fragment, container, false)
+        rootView = inflater.inflate(R.layout.fragment_licenses, container, false)
+        licenseList = rootView.findViewById(R.id.license_list)
+        adapter = LicenseListAdapter()
+        licenseList.adapter = adapter
+
         return rootView
     }
 }

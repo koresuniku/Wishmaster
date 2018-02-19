@@ -64,13 +64,16 @@ class SettingsActivity : BaseWishmasterActivity<ISettingsPresenter>(), MainPrefe
              mToolbar.title = getString(R.string.settings_text)
          }
         super.onBackPressed()
+        overrideBackwardPendingTransition()
+
+
     }
 
     override fun onNestedPreferenceSelected(key: String) {
         var title = String()
         when (key) {
-            getString(R.string.licences_key) -> {
-                title = getString(R.string.licences_title)
+            getString(R.string.licenses_key) -> {
+                title = getString(R.string.licenses_title)
                 addFragment(LicensesFragment(), title)
             }
         }

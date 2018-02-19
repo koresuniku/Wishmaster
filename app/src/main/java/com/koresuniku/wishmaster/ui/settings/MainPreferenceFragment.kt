@@ -25,7 +25,7 @@ class MainPreferenceFragment : PreferenceFragment(), Preference.OnPreferenceClic
 
         addPreferencesFromResource(R.xml.main_preference_screen)
 
-        findPreference(getString(R.string.licences_key)).onPreferenceClickListener = this
+        findPreference(getString(R.string.licenses_key)).onPreferenceClickListener = this
     }
 
     override fun onPreferenceClick(preference: Preference): Boolean {

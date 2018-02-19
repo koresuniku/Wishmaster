@@ -79,5 +79,6 @@ abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> :
     protected fun launchSettingsActivity() {
         val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
+        overrideForwardPendingTransition()
     }
 }

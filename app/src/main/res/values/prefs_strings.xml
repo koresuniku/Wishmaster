@@ -2,7 +2,7 @@
 <resources>
 
     <!--Main screen-->
-    <string name="licences_key">licences</string>
-    <string name="licences_title">Open-source software licenses</string>
+    <string name="licenses_key">licenses</string>
+    <string name="licenses_title">Open-source software licenses</string>
 
 </resources>
