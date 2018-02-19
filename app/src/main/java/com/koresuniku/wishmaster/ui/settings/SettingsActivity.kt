@@ -19,10 +19,6 @@ import javax.inject.Inject
 
 class SettingsActivity : BaseWishmasterActivity<ISettingsPresenter>(), MainPreferenceFragment.Callback {
 
-    companion object {
-        const val TAG_NESTED = "tag_nested"
-    }
-
     @Inject override lateinit var presenter: ISettingsPresenter
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
@@ -38,13 +34,17 @@ class SettingsActivity : BaseWishmasterActivity<ISettingsPresenter>(), MainPrefe
         setupToolbar()
 
         fragmentManager.beginTransaction()
-                .replace(R.id.preference_fragment_container, MainPreferenceFragment())
+                .replace(
+                        R.id.preference_fragment_container,
+                        MainPreferenceFragment(),
+                        getString(R.string.settings_text))
                 .commit()
     }
 
     private fun setupToolbar() {
         setSupportActionBar(mToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        mToolbar.post { mToolbar.title = getString(R.string.settings_text) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -58,27 +58,33 @@ class SettingsActivity : BaseWishmasterActivity<ISettingsPresenter>(), MainPrefe
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.fragments.size > 1) {
-            Log.d("SA", "more than 1")
-            fragmentManager.popBackStack()
-        } else super.onBackPressed()
+         if (supportFragmentManager.fragments.size > 1) {
+             mToolbar.title = supportFragmentManager.fragments.last().tag
+         } else {
+             mToolbar.title = getString(R.string.settings_text)
+         }
+        super.onBackPressed()
     }
 
     override fun onNestedPreferenceSelected(key: String) {
+        var title = String()
         when (key) {
             getString(R.string.licences_key) -> {
-                addFragment(LicensesFragment())
+                title = getString(R.string.licences_title)
+                addFragment(LicensesFragment(), title)
             }
         }
+        mToolbar.title = title
+        Log.d("SA", "onNested tag: $title")
     }
 
-    private fun addFragment(fragment: Fragment) {
+    private fun addFragment(fragment: Fragment, tag: String) {
         fragmentManager.beginTransaction()
                 .setCustomAnimations(
                         R.animator.from_right, R.animator.to_left,
                         R.animator.from_left, R.animator.to_right)
-                .replace(R.id.preference_fragment_container, fragment, TAG_NESTED)
-                .addToBackStack(TAG_NESTED)
+                .replace(R.id.preference_fragment_container, fragment, tag)
+                .addToBackStack(tag)
                 .commit()
     }
 }

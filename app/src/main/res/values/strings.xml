@@ -18,7 +18,7 @@
     <string name="new_version_available">Доступна новая версия!</string>
     <string name="download_text">Скачать</string>
     <string name="cancel_text">Отмена</string>
-    <string name="settings_text">About</string>
+    <string name="settings_text">Моар</string>
 
     <!--Dashboard-->
     <string name="more_boards_text">Нужно больше любимых борд!</string>
