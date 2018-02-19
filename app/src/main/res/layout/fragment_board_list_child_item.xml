@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
 
-    android:orientation="vertical">
+                android:background="@color/colorBackgroundLight"
+                android:orientation="vertical">
 
     <TextView
         android:id="@+id/child_board_name"
@@ -17,7 +18,7 @@
         android:layout_toLeftOf="@+id/make_favourite_button"
         android:gravity="left|center"
         android:text="ne stoilo vskryvat etot kod"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorAccent"/>
 
     <ImageView
         android:id="@+id/make_favourite_button"
@@ -28,6 +29,6 @@
         android:layout_centerVertical="true"
         android:clickable="true"
         android:padding="14dp"
-        app:srcCompat="@drawable/ic_favorite_border_gray_24dp" />
+        app:srcCompat="@drawable/ic_favorite_border_gray_24dp"/>
 
 </RelativeLayout>

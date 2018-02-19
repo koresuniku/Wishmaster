@@ -17,6 +17,7 @@ import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 import com.koresuniku.wishmaster.ui.dashboard.DashboardActivity
+import com.koresuniku.wishmaster.ui.view.drag_and_swipe_recycler_view.OnItemDroppedCallback
 import com.koresuniku.wishmaster.ui.view.drag_and_swipe_recycler_view.OnStartDragListener
 import com.koresuniku.wishmaster.ui.view.drag_and_swipe_recycler_view.SimpleItemTouchItemCallback
 import javax.inject.Inject
@@ -26,7 +27,7 @@ import javax.inject.Inject
  */
 
 class FavouriteBoardsFragment : BaseWishmasterFragment(),
-        OnStartDragListener, FavouriteBoardsView<IDashboardPresenter> {
+        OnStartDragListener, FavouriteBoardsView<IDashboardPresenter>, OnItemDroppedCallback {
     private val LOG_TAG = FavouriteBoardsFragment::class.java.simpleName
 
     @Inject override lateinit var presenter: IDashboardPresenter
@@ -37,6 +38,8 @@ class FavouriteBoardsFragment : BaseWishmasterFragment(),
 
     private lateinit var mItemTouchHelper: ItemTouchHelper
     private lateinit var mRecyclerViewAdapter: FavouriteBoardsRecyclerViewAdapter
+
+    private lateinit var mItemDecoration: FavouriteBoardsItemDividerDecoration
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_favourite_boards, container, false)
@@ -54,10 +57,15 @@ class FavouriteBoardsFragment : BaseWishmasterFragment(),
     }
 
     private fun setupRecyclerView() {
-        mRecyclerViewAdapter = FavouriteBoardsRecyclerViewAdapter(activity as BaseWishmasterActivity<IDashboardPresenter>, this)
+        mRecyclerViewAdapter = FavouriteBoardsRecyclerViewAdapter(
+                activity as BaseWishmasterActivity<IDashboardPresenter>,
+                this, this)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = mRecyclerViewAdapter
-        context?.let { recyclerView.addItemDecoration(FavouriteBoardsItemDividerDecoration(it)) }
+        context?.let {
+            mItemDecoration = FavouriteBoardsItemDividerDecoration(it)
+            recyclerView.addItemDecoration(mItemDecoration)
+        }
 
         val callback = SimpleItemTouchItemCallback(mRecyclerViewAdapter)
         mItemTouchHelper = ItemTouchHelper(callback)
@@ -66,6 +74,12 @@ class FavouriteBoardsFragment : BaseWishmasterFragment(),
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
         mItemTouchHelper.startDrag(viewHolder)
+        mItemDecoration.onStartDrag()
+
+    }
+
+    override fun onItemDropped() {
+        mItemDecoration.onFinishDrag()
     }
 
     override fun onFavouriteBoardListChanged(boardList: List<BoardModel>) {

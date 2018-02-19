@@ -13,8 +13,8 @@
         android:layout_height="48dp"
         android:elevation="2dp"
         android:theme="@style/DefaultToolbarStyle"
-        app:title="@string/app_name"
-        app:titleTextAppearance="@style/Toolbar.TitleText" />
+        app:title="@string/app_name_alpha"
+        app:titleTextAppearance="@style/Toolbar.TitleText"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Wishmaster</string>
+    <string name="app_name_alpha">Wishmaster alpha</string>
 
     <!--ACRA-->
     <string name="crash_report">Crash report</string>

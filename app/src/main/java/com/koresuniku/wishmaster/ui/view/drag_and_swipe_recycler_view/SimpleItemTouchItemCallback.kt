@@ -7,7 +7,8 @@ import android.support.v7.widget.helper.ItemTouchHelper
  * Created by koresuniku on 13.11.17.
  */
 
-class SimpleItemTouchItemCallback(private val adapter: ItemTouchHelperAdapter) : android.support.v7.widget.helper.ItemTouchHelper.Callback() {
+class SimpleItemTouchItemCallback(private val adapter: ItemTouchHelperAdapter) :
+        android.support.v7.widget.helper.ItemTouchHelper.Callback() {
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
         val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
@@ -34,5 +35,10 @@ class SimpleItemTouchItemCallback(private val adapter: ItemTouchHelperAdapter) :
 
     override fun isItemViewSwipeEnabled(): Boolean {
         return false
+    }
+
+    override fun clearView(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?) {
+        super.clearView(recyclerView, viewHolder)
+        adapter.onItemDropped()
     }
 }

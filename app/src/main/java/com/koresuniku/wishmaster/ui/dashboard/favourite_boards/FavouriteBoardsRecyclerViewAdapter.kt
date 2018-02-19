@@ -10,6 +10,7 @@ import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.view.drag_and_swipe_recycler_view.ItemTouchHelperAdapter
+import com.koresuniku.wishmaster.ui.view.drag_and_swipe_recycler_view.OnItemDroppedCallback
 import com.koresuniku.wishmaster.ui.view.drag_and_swipe_recycler_view.OnStartDragListener
 import java.lang.ref.WeakReference
 import java.util.*
@@ -28,13 +29,16 @@ class FavouriteBoardsRecyclerViewAdapter():
 
     private lateinit var mActivity: WeakReference<BaseWishmasterActivity<IDashboardPresenter>>
     private lateinit var mOnStartDragListener: OnStartDragListener
+    private lateinit var mOnItemDroppedCallback: OnItemDroppedCallback
     private var mFavouriteBoards: List<BoardModel> = emptyList()
 
     constructor(activity: BaseWishmasterActivity<IDashboardPresenter>,
-                onStartDragListener: OnStartDragListener) : this() {
+                onStartDragListener: OnStartDragListener,
+                onItemDroppedCallback: OnItemDroppedCallback) : this() {
         activity.getWishmasterApplication().daggerDashboardViewComponent.inject(this)
         this.mActivity = WeakReference(activity)
         this.mOnStartDragListener = onStartDragListener
+        this.mOnItemDroppedCallback = onItemDroppedCallback
     }
 
     fun bindFavouriteBoardList(favouriteBoardList: List<BoardModel>) {
@@ -77,4 +81,5 @@ class FavouriteBoardsRecyclerViewAdapter():
 
     override fun onItemRemoved(position: Int) {}
     override fun onSelectedChanged(actionState: Int) {}
+    override fun onItemDropped() { mOnItemDroppedCallback.onItemDropped() }
 }
