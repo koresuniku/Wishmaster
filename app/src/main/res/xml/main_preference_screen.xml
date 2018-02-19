@@ -2,7 +2,7 @@
 <PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
-        android:key="@string/licenses_key"
+        android:key="@string/licences_key"
         android:title="@string/licences_title">
 
     </Preference>

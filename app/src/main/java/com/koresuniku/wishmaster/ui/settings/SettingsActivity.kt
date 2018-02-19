@@ -1,24 +1,27 @@
 package com.koresuniku.wishmaster.ui.settings
 
+import android.app.Fragment
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.MenuItem
-import android.view.ViewGroup
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.IntentKeystore
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.modules.settings.ISettingsPresenter
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
-import com.koresuniku.wishmaster.ui.base.IWishamsterActivity
 import javax.inject.Inject
 
 /**
  * Created by koresuniku on 2/19/18.
  */
 
-class SettingsActivity : BaseWishmasterActivity<ISettingsPresenter>() {
+class SettingsActivity : BaseWishmasterActivity<ISettingsPresenter>(), MainPreferenceFragment.Callback {
+
+    companion object {
+        const val TAG_NESTED = "tag_nested"
+    }
 
     @Inject override lateinit var presenter: ISettingsPresenter
 
@@ -52,5 +55,30 @@ class SettingsActivity : BaseWishmasterActivity<ISettingsPresenter>() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.fragments.size > 1) {
+            Log.d("SA", "more than 1")
+            fragmentManager.popBackStack()
+        } else super.onBackPressed()
+    }
+
+    override fun onNestedPreferenceSelected(key: String) {
+        when (key) {
+            getString(R.string.licences_key) -> {
+                addFragment(LicensesFragment())
+            }
+        }
+    }
+
+    private fun addFragment(fragment: Fragment) {
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(
+                        R.animator.from_right, R.animator.to_left,
+                        R.animator.from_left, R.animator.to_right)
+                .replace(R.id.preference_fragment_container, fragment, TAG_NESTED)
+                .addToBackStack(TAG_NESTED)
+                .commit()
     }
 }
