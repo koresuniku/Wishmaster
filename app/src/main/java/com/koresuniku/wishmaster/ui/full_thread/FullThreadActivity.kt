@@ -22,8 +22,8 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.IntentKeystore
-import com.koresuniku.wishmaster.core.modules.full_thread.presenter.IFullThreadPresenter
-import com.koresuniku.wishmaster.core.modules.full_thread.view.FullThreadView
+import com.koresuniku.wishmaster.core.modules.full_thread.IFullThreadPresenter
+import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadView
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity

@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
-import com.koresuniku.wishmaster.core.modules.full_thread.presenter.IFullThreadPresenter
-import com.koresuniku.wishmaster.core.modules.full_thread.view.FullThreadAdapterView
-import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
+import com.koresuniku.wishmaster.core.modules.full_thread.IFullThreadPresenter
+import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadAdapterView
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import java.lang.ref.WeakReference
 import javax.inject.Inject

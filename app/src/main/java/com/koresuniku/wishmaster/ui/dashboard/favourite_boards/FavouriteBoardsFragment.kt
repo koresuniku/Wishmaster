@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.modules.dashboard.view.FavouriteBoardsView
-import com.koresuniku.wishmaster.core.modules.dashboard.presenter.IDashboardPresenter
+import com.koresuniku.wishmaster.core.modules.dashboard.FavouriteBoardsView
+import com.koresuniku.wishmaster.core.modules.dashboard.IDashboardPresenter
 import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment

@@ -9,11 +9,11 @@ import com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes.BoardsModul
 import com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes.DashboardPresenterModule
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.SearchModule
-import com.koresuniku.wishmaster.core.modules.dashboard.interactor.DashboardDatabaseInteractor
-import com.koresuniku.wishmaster.core.modules.dashboard.interactor.DashboardNetworkInteractor
-import com.koresuniku.wishmaster.core.modules.dashboard.interactor.DashboardSearchInteractor
-import com.koresuniku.wishmaster.core.modules.dashboard.interactor.DashboardSharedPreferencesInteractor
-import com.koresuniku.wishmaster.core.modules.dashboard.presenter.DashboardPresenter
+import com.koresuniku.wishmaster.core.modules.dashboard.DashboardDatabaseInteractor
+import com.koresuniku.wishmaster.core.modules.dashboard.DashboardNetworkInteractor
+import com.koresuniku.wishmaster.core.modules.dashboard.DashboardSearchInteractor
+import com.koresuniku.wishmaster.core.modules.dashboard.DashboardSharedPreferencesInteractor
+import com.koresuniku.wishmaster.core.modules.dashboard.DashboardPresenter
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils

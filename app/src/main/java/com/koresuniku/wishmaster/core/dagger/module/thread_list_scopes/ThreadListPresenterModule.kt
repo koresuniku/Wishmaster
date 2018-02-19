@@ -7,8 +7,8 @@ import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListResponseParser
 import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListApiService
-import com.koresuniku.wishmaster.core.modules.thread_list.interactor.ThreadListAdapterViewInteractor
-import com.koresuniku.wishmaster.core.modules.thread_list.interactor.ThreadListNetworkInteractor
+import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListAdapterViewInteractor
+import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListNetworkInteractor
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
 import dagger.Module

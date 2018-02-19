@@ -5,9 +5,9 @@ import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes.ThreadListPresenterModule
 import com.koresuniku.wishmaster.core.dagger.scope.ForThreadListPresenter
-import com.koresuniku.wishmaster.core.modules.thread_list.interactor.ThreadListAdapterViewInteractor
-import com.koresuniku.wishmaster.core.modules.thread_list.interactor.ThreadListNetworkInteractor
-import com.koresuniku.wishmaster.core.modules.thread_list.presenter.ThreadListPresenter
+import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListAdapterViewInteractor
+import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListNetworkInteractor
+import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListPresenter
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils

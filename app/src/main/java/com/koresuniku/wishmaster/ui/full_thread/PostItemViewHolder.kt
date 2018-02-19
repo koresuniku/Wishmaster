@@ -12,8 +12,8 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster.core.modules.full_thread.presenter.IFullThreadPresenter
-import com.koresuniku.wishmaster.core.modules.full_thread.view.PostItemView
+import com.koresuniku.wishmaster.core.modules.full_thread.IFullThreadPresenter
+import com.koresuniku.wishmaster.core.modules.full_thread.PostItemView
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter

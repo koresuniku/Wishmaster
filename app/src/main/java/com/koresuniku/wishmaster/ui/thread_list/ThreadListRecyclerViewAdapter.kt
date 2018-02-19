@@ -5,19 +5,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
-import com.koresuniku.wishmaster.core.modules.thread_list.presenter.IThreadListPresenter
-import com.koresuniku.wishmaster.core.modules.thread_list.view.ThreadListAdapterView
-import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
+import com.koresuniku.wishmaster.core.modules.thread_list.IThreadListPresenter
+import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListAdapterView
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import java.lang.ref.WeakReference
 import javax.inject.Inject
-import android.view.animation.AnimationUtils
-import android.view.animation.Animation
-
 
 
 /**

@@ -16,7 +16,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.modules.dashboard.view.DashboardView
+import com.koresuniku.wishmaster.core.modules.dashboard.DashboardView
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
 import com.koresuniku.wishmaster.ui.view.widget.DashboardViewPager
@@ -24,11 +24,10 @@ import com.koresuniku.wishmaster.ui.view.widget.DashboardViewPager
 import javax.inject.Inject
 import android.support.v7.widget.SearchView
 import com.koresuniku.wishmaster.application.IntentKeystore
-import com.koresuniku.wishmaster.core.modules.dashboard.presenter.IDashboardPresenter
+import com.koresuniku.wishmaster.core.modules.dashboard.IDashboardPresenter
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
-import android.util.Log
 import android.view.MenuItem
 import com.koresuniku.wishmaster.application.listener.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.listener.OnNewReleaseListener

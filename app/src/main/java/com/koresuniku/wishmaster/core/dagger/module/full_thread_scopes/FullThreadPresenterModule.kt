@@ -3,8 +3,8 @@ package com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes
 import android.content.Context
 import com.koresuniku.wishmaster.application.singletones.UiParams
 import com.koresuniku.wishmaster.core.dagger.scope.ForFullThreadPresenter
-import com.koresuniku.wishmaster.core.modules.full_thread.interactor.FullThreadAdapterViewInteractor
-import com.koresuniku.wishmaster.core.modules.full_thread.interactor.FullThreadNetworkInteractor
+import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadAdapterViewInteractor
+import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadNetworkInteractor
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.network.full_thread_api.FullThreadApiService
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
