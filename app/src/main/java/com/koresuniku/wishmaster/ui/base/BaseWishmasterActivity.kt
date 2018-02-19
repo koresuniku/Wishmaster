@@ -13,6 +13,7 @@ import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.WishmasterApplication
 import com.koresuniku.wishmaster.core.base.mvp.IMvpPresenter
 import com.koresuniku.wishmaster.core.base.mvp.IMvpView
+import com.koresuniku.wishmaster.ui.settings.SettingsActivity
 
 /**
  * Created by koresuniku on 12.01.18.
@@ -60,7 +61,7 @@ abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> :
     }
 
     @SuppressLint("RestrictedApi")
-    fun launchNextActivityWithtransition(intent: Intent) {
+    protected fun launchNextActivityWithtransition(intent: Intent) {
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             startActivityForResult(intent, provideFromActivityRequestCode(), options.toBundle())
@@ -73,5 +74,10 @@ abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> :
 
     fun overrideBackwardPendingTransition() {
         overridePendingTransition(R.anim.slide_in_back, R.anim.slide_out_back)
+    }
+
+    protected fun launchSettingsActivity() {
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
     }
 }

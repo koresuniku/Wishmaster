@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen
+        android:key="button_voicemail_category_key"
+        android:title="afgasf"
+        android:persistent="false">
+
+        <ListPreference
+            android:key="button_voicemail_provider_key"
+            android:title="nsd" />
+        <PreferenceScreen
+            android:key="button_voicemail_setting_key"
+            android:title="reurt"
+            android:persistent="false">
+        </PreferenceScreen>
+        <RingtonePreference
+            android:key="button_voicemail_ringtone_key"
+            android:title="tykyrt"
+            android:ringtoneType="notification"/>
+    </PreferenceScreen>
+
+</PreferenceScreen>

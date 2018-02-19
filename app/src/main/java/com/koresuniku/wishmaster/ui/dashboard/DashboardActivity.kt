@@ -115,6 +115,10 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
                 }
                 return true
             }
+            R.id.action_settings -> {
+                launchSettingsActivity()
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
