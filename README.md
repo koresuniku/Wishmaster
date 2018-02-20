@@ -1,10 +1,13 @@
 Wishmaster - клиент для имиджборда <a href="2ch.hk">2ch.hk</a> на Android
 =========================
-<a href="https://github.com/koresuniku/Wishmaster/releases/download/v0.0.1/wishmaster-alpha-v0.0.1.apk">Скачать</a>
+<a href="https://github.com/koresuniku/Wishmaster/releases/download/v0.0.1/wishmaster-alpha-v0.0.1.apk">##Cкачать</a>
 -------------------------
 Для работы приложения нужен android 4.0.3 и выше.
 
-![](https://ibb.co/d5oZ2c) ![](https://ibb.co/f0wyTH) ![](https://ibb.co/kDHu2c) ![](https://ibb.co/cM8CoH) 
+![](https://image.ibb.co/ftq3vx/photo5215230633092163748.jpg) 
+![](https://image.ibb.co/ea3Ovx/photo5215230633092163749.jpg) 
+![](https://image.ibb.co/gze7Nc/photo5215230633092163750.jpg) 
+![](https://image.ibb.co/em1nNc/photo5215230633092163751.jpg) 
 
 ## License
 
