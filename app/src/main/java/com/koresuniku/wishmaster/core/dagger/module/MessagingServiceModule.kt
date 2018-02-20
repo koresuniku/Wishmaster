@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.application
+package com.koresuniku.wishmaster.core.dagger.module
+
+import android.content.Context
+import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManager
+import dagger.Module
+import dagger.Provides
 
 /**
- * Created by koresuniku on 01.01.18.
+ * Created by koresuniku on 2/21/18.
  */
 
-object IntentKeystore {
 
-    //Extra parcelable
-    const val BOARD_ID_CODE = "board_id_code"
-    const val THREAD_NUMBER_CODE = "thread_number_code"
+@Module
+class MessagingServiceModule(val context: Context) {
 
-    //Activity result
-    const val FROM_DASHBOARD_ACTIVITY_REQUEST_CODE = 228
-    const val FROM_THREAD_LIST_ACTIVITY_REQUEST_CODE = 666
-    const val FROM_FULL_THREAD_ACTIVITY_REQUEST_CODE = 777
-    const val FROM_SEND_POST_ACTIVITY_REQUEST_CODE = 1488
-    const val FROM_SETTINGS_ACTIVITY_REQUEST_CODE = 2007
-
+    @Provides
+    fun downloadManager(): WishmasterDownloadManager = WishmasterDownloadManager(context)
 }

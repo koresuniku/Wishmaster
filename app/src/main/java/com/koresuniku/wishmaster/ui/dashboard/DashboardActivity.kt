@@ -39,14 +39,14 @@ import com.koresuniku.wishmaster.ui.view.widget.DashboardViewPager
 
 import javax.inject.Inject
 import android.support.v7.widget.SearchView
-import com.koresuniku.wishmaster.application.IntentKeystore
+import com.koresuniku.wishmaster.application.utils.IntentKeystore
 import com.koresuniku.wishmaster.core.modules.dashboard.IDashboardPresenter
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import android.view.MenuItem
-import com.koresuniku.wishmaster.application.listener.NewReleaseNotifier
-import com.koresuniku.wishmaster.application.listener.OnNewReleaseListener
+import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
+import com.koresuniku.wishmaster.application.notifier.OnNewReleaseListener
 import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManager
 import com.koresuniku.wishmaster.application.singletones.WishmasterPermissionManager
 import com.koresuniku.wishmaster.core.network.github_api.Asset

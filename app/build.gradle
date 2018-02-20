@@ -107,9 +107,15 @@ dependencies {
 
     //Swipe to refresh layout
     compile 'com.github.omadahealth:swipy:1.2.3@aar'
+
+    //Firebase
+    compile 'com.google.firebase:firebase-core:11.8.0'
+    compile 'com.google.firebase:firebase-messaging:11.8.0'
 }
 
 repositories {
     mavenCentral()
     google()
 }
+
+apply plugin: 'com.google.gms.google-services'

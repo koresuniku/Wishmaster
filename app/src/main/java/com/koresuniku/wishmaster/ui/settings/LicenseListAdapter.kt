@@ -22,7 +22,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.application.Licenses
+import com.koresuniku.wishmaster.application.utils.Licenses
 
 /**
  * Created by koresuniku on 2/20/18.

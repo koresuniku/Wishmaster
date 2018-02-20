@@ -21,8 +21,8 @@ import android.content.Context
 import com.google.gson.Gson
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster.application.WishmasterApplication
-import com.koresuniku.wishmaster.application.listener.NewReleaseNotifier
-import com.koresuniku.wishmaster.application.listener.OrientationNotifier
+import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
+import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.application.preferences.SharedPreferencesStorage
 import com.koresuniku.wishmaster.application.singletones.UiParams
 import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManager

@@ -14,26 +14,31 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.application.listener
+package com.koresuniku.wishmaster.application.notifier
 
+import com.koresuniku.wishmaster.core.network.github_api.Asset
 import javax.inject.Inject
 
 /**
- * Created by koresuniku on 2/10/18.
+ * Created by koresuniku on 2/18/18.
  */
-class OrientationNotifier @Inject constructor() {
 
-    private val subscribers: MutableList<OnOrientationChangedListener> = ArrayList()
+class NewReleaseNotifier @Inject constructor() {
 
-    fun notifyOrientation(orientation: Int) {
-        subscribers.forEach { it.onOrientationChanged(orientation) }
+    private val subscribers: MutableList<OnNewReleaseListener> = ArrayList()
+    var cachedAsset: Asset? = null
+
+    fun notifyNewVersion(asset: Asset) {
+        cachedAsset = asset
+        subscribers.forEach { it.onNewRelease(asset) }
     }
 
-    fun bindListener(listener: OnOrientationChangedListener) {
+    fun bindListener(listener: OnNewReleaseListener) {
         subscribers.add(listener)
+        cachedAsset?.let { listener.onNewRelease(it) }
     }
 
-    fun unbindListener(listener: OnOrientationChangedListener) {
+    fun unbindListener(listener: OnNewReleaseListener) {
         subscribers.remove(listener)
     }
 }

@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes
 
-import com.koresuniku.wishmaster.application.listener.OrientationNotifier
+import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.scope.ForThreadListView
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListAdapterViewInteractor

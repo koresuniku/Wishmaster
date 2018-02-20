@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.modules.full_thread
 
 import android.text.Html
 import android.util.Log
-import com.koresuniku.wishmaster.application.listener.OrientationNotifier
+import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers

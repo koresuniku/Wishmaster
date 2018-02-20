@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.modules.full_thread
-
-import com.koresuniku.wishmaster.application.notifier.OnOrientationChangedListener
-import com.koresuniku.wishmaster.core.base.mvp.IMvpView
-import com.koresuniku.wishmaster.core.data.model.posts.PostListData
+package com.koresuniku.wishmaster.application.utils
 
 /**
- * Created by koresuniku on 2/14/18.
+ * Created by koresuniku on 2/21/18.
  */
 
-interface FullThreadAdapterView<P> : IMvpView<P>, OnOrientationChangedListener {
-    val NO_IMAGES_CODE: Int
-    val SINGLE_IMAGE_CODE: Int
-    val MULTIPLE_IMAGES_CODE: Int
-    fun onPostListDataChanged(newPostListData: PostListData)
-    fun onNewPostsReceived(oldCount: Int, newCount: Int)
+object FirebaseKeystore {
+
+    //Notifications
+    const val NEW_VERSION_NAME_KEY = "new_version_name_notif"
+    const val PERSISTENT_DOWNLOAD_LINK = "https://github.com/koresuniku/Wishmaster/raw/master/wishmaster.apk"
 }

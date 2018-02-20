@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1007895505980",
+    "firebase_url": "https://wishmasterclient.firebaseio.com",
+    "project_id": "wishmasterclient",
+    "storage_bucket": "wishmasterclient.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1007895505980:android:296c523c09e42450",
+        "android_client_info": {
+          "package_name": "com.koresuniku.wishmaster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1007895505980-95n4qqg00a11j2msv2lseeek8v74aeng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBd7cqTsMedzPgMB-V9VfBGCICldG9_8hg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.application
+package com.koresuniku.wishmaster.application.utils
 
 /**
  * Created by koresuniku on 2/19/18.

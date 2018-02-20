@@ -35,7 +35,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.application.IntentKeystore
+import com.koresuniku.wishmaster.application.utils.IntentKeystore
 import com.koresuniku.wishmaster.core.modules.thread_list.IThreadListPresenter
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListView
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils

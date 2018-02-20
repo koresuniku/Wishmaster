@@ -24,7 +24,7 @@ import android.view.MenuItem
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.application.IntentKeystore
+import com.koresuniku.wishmaster.application.utils.IntentKeystore
 import com.koresuniku.wishmaster.core.modules.settings.ISettingsPresenter
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import javax.inject.Inject

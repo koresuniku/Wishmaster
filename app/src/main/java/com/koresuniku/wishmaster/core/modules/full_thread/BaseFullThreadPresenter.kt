@@ -16,8 +16,8 @@
 
 package com.koresuniku.wishmaster.core.modules.full_thread
 
-import com.koresuniku.wishmaster.application.listener.OnOrientationChangedListener
-import com.koresuniku.wishmaster.application.listener.OrientationNotifier
+import com.koresuniku.wishmaster.application.notifier.OnOrientationChangedListener
+import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.base.rx.BaseRxDataPresenter
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import io.reactivex.disposables.CompositeDisposable

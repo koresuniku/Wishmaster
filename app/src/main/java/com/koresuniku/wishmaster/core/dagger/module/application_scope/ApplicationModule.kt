@@ -18,8 +18,8 @@ package com.koresuniku.wishmaster.core.dagger.module.application_scope
 
 import android.app.Application
 import android.content.Context
-import com.koresuniku.wishmaster.application.listener.NewReleaseNotifier
-import com.koresuniku.wishmaster.application.listener.OrientationNotifier
+import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
+import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManager
 import com.koresuniku.wishmaster.application.singletones.WishmasterPermissionManager
 import dagger.Module
