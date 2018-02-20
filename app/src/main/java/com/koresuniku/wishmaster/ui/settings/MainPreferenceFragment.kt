@@ -21,9 +21,6 @@ import android.preference.PreferenceFragment
 import android.os.Bundle
 import com.koresuniku.wishmaster.R
 import android.preference.Preference
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.StrikethroughSpan
 
 /**
  * Created by koresuniku on 2/19/18.
@@ -32,7 +29,6 @@ import android.text.style.StrikethroughSpan
 class MainPreferenceFragment : PreferenceFragment(), Preference.OnPreferenceClickListener {
 
     private lateinit var mCallback: Callback
-
 
     override fun onAttach(activity: Activity?) {
         super.onAttach(activity)
