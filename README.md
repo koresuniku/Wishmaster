@@ -4,7 +4,7 @@ Wishmaster - клиент для имиджборда <a href="2ch.hk">2ch.hk</a
 =========================
 Для работы приложения нужен android 4.0.3 и выше.
 
-![](https://image.ibb.co/dTT3TH/photo5215230633092163748.jpg) 
+![](https://image.ibb.co/mJDFax/photo5215230633092163748.jpg) 
 ![](https://image.ibb.co/ea3Ovx/photo5215230633092163749.jpg) 
 ![](https://image.ibb.co/gze7Nc/photo5215230633092163750.jpg) 
 ![](https://image.ibb.co/em1nNc/photo5215230633092163751.jpg) 
