@@ -73,7 +73,7 @@ import org.acra.config.ConfigurationBuilder
 @ReportsCrashes(mailTo = "koresuniku@gmail.com")
 class WishmasterApplication @Inject constructor() : Application(), IWishmasterDaggerInjector {
 
-    private val mDaggerApplicationComponent: DaggerApplicationComponent by lazy {
+    val mDaggerApplicationComponent: DaggerApplicationComponent by lazy {
         DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))
                 .injectorModule(InjectorModule(this))
@@ -81,6 +81,7 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
                 .sharedPreferencesModule(SharedPreferencesModule())
                 .rxModule(RxModule())
                 .githubModule(GithubModule())
+                .downloaderModule(DownloaderModule(this))
                 .build() as DaggerApplicationComponent
     }
     override val daggerDashboardPresenterComponent: DaggerDashboardPresenterComponent by lazy {

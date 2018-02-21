@@ -19,12 +19,20 @@ package com.koresuniku.wishmaster.application.service
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManager
 import com.koresuniku.wishmaster.application.utils.FirebaseKeystore
-import com.koresuniku.wishmaster.core.dagger.component.DaggerMessagingServiceComponent
-import com.koresuniku.wishmaster.core.dagger.module.MessagingServiceModule
 import java.lang.Exception
-import javax.inject.Inject
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.graphics.BitmapFactory
+import android.os.Build
+import android.media.RingtoneManager
+import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.support.v4.app.NotificationCompat
+import com.koresuniku.wishmaster.R
+import java.util.*
+
 
 /**
  * Created by koresuniku on 2/21/18.
@@ -32,14 +40,9 @@ import javax.inject.Inject
 
 class WishmasterFirebaseMessagingService : FirebaseMessagingService() {
 
-    @Inject lateinit var downloadManager: WishmasterDownloadManager
 
     override fun onCreate() {
         super.onCreate()
-        DaggerMessagingServiceComponent.builder()
-                .messagingServiceModule(MessagingServiceModule(this))
-                .build()
-                .inject(this)
     }
 
     override fun onMessageReceived(message: RemoteMessage?) {
@@ -47,8 +50,46 @@ class WishmasterFirebaseMessagingService : FirebaseMessagingService() {
 
         message?.data?.get(FirebaseKeystore.NEW_VERSION_NAME_KEY)?.let {
             Log.d("WFMS", "new version name: $it")
-            downloadManager.downloadWithNotification(FirebaseKeystore.PERSISTENT_DOWNLOAD_LINK, it)
+            sendNotification(it)
         }
+    }
+
+    private fun sendNotification(versionName: String) {
+        val intent = Intent(this, StubActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        intent.putExtra(FirebaseKeystore.NEW_VERSION_NAME_KEY, versionName)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent,
+                PendingIntent.FLAG_ONE_SHOT)
+        val `when` = System.currentTimeMillis()
+        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val mNotifyBuilder: NotificationCompat.Builder
+        val lollipop = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+        if (lollipop) {
+            mNotifyBuilder = NotificationCompat.Builder(this)
+                    .setContentTitle(getString(R.string.new_version_available))
+                    .setStyle(NotificationCompat.BigTextStyle().bigText(versionName))
+                    .setContentText(versionName)
+                    .setColor(Color.TRANSPARENT)
+                    .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.wishmaster_logo))
+                    .setSmallIcon(R.drawable.ic_file_download_black_24dp)
+                    .setWhen(`when`)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent)
+
+        } else {
+            mNotifyBuilder = NotificationCompat.Builder(this)
+                    .setStyle(NotificationCompat.BigTextStyle().bigText(versionName))
+                    .setContentTitle(getString(R.string.new_version_available)).setContentText(versionName)
+                    .setSmallIcon(R.drawable.ic_file_download_black_24dp)
+                    .setWhen(`when`)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent)
+        }
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(Random().nextInt(100), mNotifyBuilder.build())
     }
 
     override fun onMessageSent(p0: String?) {

@@ -28,6 +28,7 @@ import com.koresuniku.wishmaster.application.singletones.UiParams
 import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManager
 import com.koresuniku.wishmaster.application.singletones.WishmasterPermissionManager
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.core.dagger.module.DownloaderModule
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.application_scope.*
 import com.koresuniku.wishmaster.core.data.database.DatabaseHelper
@@ -56,7 +57,8 @@ import javax.inject.Singleton
     (SharedPreferencesModule::class),
     (UtilsModule::class),
     (GithubModule::class),
-    (RxModule::class)])
+    (RxModule::class),
+    (DownloaderModule::class)])
 interface ApplicationComponent {
 
     //Application

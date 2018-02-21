@@ -51,10 +51,5 @@ class ApplicationModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun provideDownloadManager(context: Context): WishmasterDownloadManager =
-            WishmasterDownloadManager(context)
-
-    @Provides
-    @Singleton
     fun providePermissionManager(): WishmasterPermissionManager = WishmasterPermissionManager()
 }

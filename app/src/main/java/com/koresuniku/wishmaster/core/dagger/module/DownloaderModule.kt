@@ -20,6 +20,7 @@ import android.content.Context
 import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManager
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * Created by koresuniku on 2/21/18.
@@ -27,8 +28,10 @@ import dagger.Provides
 
 
 @Module
-class MessagingServiceModule(val context: Context) {
+class DownloaderModule(val context: Context) {
 
     @Provides
-    fun downloadManager(): WishmasterDownloadManager = WishmasterDownloadManager(context)
+    @Singleton
+    fun provideDownloadManager(context: Context): WishmasterDownloadManager =
+            WishmasterDownloadManager(context)
 }

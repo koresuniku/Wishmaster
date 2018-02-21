@@ -47,6 +47,9 @@
         <activity android:name=".ui.settings.SettingsActivity"
                   android:configChanges="orientation|screenSize"/>
 
+        <activity android:name=".application.service.StubActivity"
+                  android:configChanges="orientation|screenSize"/>
+
         <service
             android:name=".application.service.WishmasterFirebaseMessagingService">
             <intent-filter>

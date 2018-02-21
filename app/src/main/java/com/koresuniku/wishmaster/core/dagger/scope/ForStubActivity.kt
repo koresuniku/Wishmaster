@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.component
+package com.koresuniku.wishmaster.core.dagger.scope
 
-import com.koresuniku.wishmaster.application.service.WishmasterFirebaseMessagingService
-import com.koresuniku.wishmaster.core.dagger.module.MessagingServiceModule
-import dagger.Component
+import javax.inject.Scope
 
 /**
  * Created by koresuniku on 2/21/18.
  */
 
-@Component (modules = [MessagingServiceModule::class])
-interface MessagingServiceComponent {
-
-    fun inject(service: WishmasterFirebaseMessagingService)
-}
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ForStubActivity
