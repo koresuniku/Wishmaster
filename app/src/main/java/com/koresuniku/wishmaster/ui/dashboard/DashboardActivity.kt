@@ -52,6 +52,8 @@ import com.koresuniku.wishmaster.application.singletones.WishmasterPermissionMan
 import com.koresuniku.wishmaster.core.network.github_api.Asset
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import android.support.v7.app.AlertDialog
+import android.util.Log
+import com.koresuniku.wishmaster.application.utils.FirebaseKeystore
 
 
 class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
@@ -79,11 +81,18 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        intent.extras?.let {
+            Log.d(LOG_TAG, "extras: ${it.getString(FirebaseKeystore.NEW_VERSION_NAME_KEY)}")
+            finish()
+        }
+
         getWishmasterApplication().daggerDashboardViewComponent.inject(this)
         uiUtils.showSystemUI(this)
         ButterKnife.bind(this)
         presenter.bindView(this)
         newReleaseNotifier.bindListener(this)
+
+
 
         setSupportActionBar(mToolbar)
         setupViewPager()

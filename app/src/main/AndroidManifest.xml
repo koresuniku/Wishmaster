@@ -48,7 +48,12 @@
                   android:configChanges="orientation|screenSize"/>
 
         <activity android:name=".application.service.StubActivity"
-                  android:configChanges="orientation|screenSize"/>
+                  android:configChanges="orientation|screenSize">
+        <intent-filter>
+            <action android:name="StubActivity" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+        </activity>
 
         <service
             android:name=".application.service.WishmasterFirebaseMessagingService">
@@ -62,8 +67,12 @@
         android:name="com.bumptech.glide.integration.okhttp.OkHttpGlideModule"
         android:value="GlideModule" />
 
-    <meta-data
-        android:name="com.google.firebase.messaging.default_notification_icon"
-        android:resource="@drawable/wishmaster_logo" />
+    <!--<meta-data-->
+        <!--android:name="com.google.firebase.messaging.default_notification_icon"-->
+        <!--android:resource="@drawable/ic_ten_dots" />-->
+
+    <meta-data android:name="com.google.firebase.messaging.default_notification_color"
+               android:resource="@color/colorAccent"
+        />
 
 </manifest>

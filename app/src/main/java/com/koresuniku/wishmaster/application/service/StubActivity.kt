@@ -16,11 +16,14 @@
 
 package com.koresuniku.wishmaster.application.service
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.WishmasterApplication
 import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManager
+import com.koresuniku.wishmaster.application.singletones.WishmasterPermissionManager
+import com.koresuniku.wishmaster.application.utils.FirebaseKeystore
 import com.koresuniku.wishmaster.core.dagger.module.application_scope.DaggerStubActivityComponent
 
 import javax.inject.Inject
@@ -32,6 +35,8 @@ import javax.inject.Inject
 class StubActivity : AppCompatActivity() {
 
     @Inject lateinit var downloadManager: WishmasterDownloadManager
+    @Inject lateinit var permissionManager: WishmasterPermissionManager
+    private lateinit var mVersionName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,5 +45,25 @@ class StubActivity : AppCompatActivity() {
                 .applicationComponent((application as WishmasterApplication).mDaggerApplicationComponent)
                 .build()
                 .inject(this)
+
+        mVersionName = intent.getStringExtra(FirebaseKeystore.NEW_VERSION_NAME_KEY)
+
+        if (permissionManager.checkAndRequestExternalStoragePermissionForLoadNewVersion(this)) {
+            downloadManager.downloadWithNotification(FirebaseKeystore.PERSISTENT_DOWNLOAD_LINK, mVersionName)
+            finish()
+        }
     }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            WishmasterPermissionManager.WRITE_EXTERNAL_STORAGE_FOR_LOAD_NEW_VERSION_REQUEST_CODE -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    downloadManager.downloadWithNotification(FirebaseKeystore.PERSISTENT_DOWNLOAD_LINK, mVersionName)
+                }
+                finish()
+            }
+        }
+    }
+
+
 }

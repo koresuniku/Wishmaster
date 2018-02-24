@@ -34,12 +34,13 @@ import com.koresuniku.wishmaster.R
 import java.util.*
 
 
+
+
 /**
  * Created by koresuniku on 2/21/18.
  */
 
 class WishmasterFirebaseMessagingService : FirebaseMessagingService() {
-
 
     override fun onCreate() {
         super.onCreate()
@@ -48,11 +49,15 @@ class WishmasterFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage?) {
         super.onMessageReceived(message)
 
+        Log.d("WFMS", "onMessageReceived")
+
         message?.data?.get(FirebaseKeystore.NEW_VERSION_NAME_KEY)?.let {
-            Log.d("WFMS", "new version name: $it")
+            Log.d("", "new version name: $it")
             sendNotification(it)
         }
     }
+
+
 
     private fun sendNotification(versionName: String) {
         val intent = Intent(this, StubActivity::class.java)
@@ -73,7 +78,6 @@ class WishmasterFirebaseMessagingService : FirebaseMessagingService() {
                     .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.wishmaster_logo))
                     .setSmallIcon(R.drawable.ic_file_download_black_24dp)
                     .setWhen(`when`)
-                    .setAutoCancel(true)
                     .setSound(defaultSoundUri)
                     .setContentIntent(pendingIntent)
 
@@ -83,7 +87,6 @@ class WishmasterFirebaseMessagingService : FirebaseMessagingService() {
                     .setContentTitle(getString(R.string.new_version_available)).setContentText(versionName)
                     .setSmallIcon(R.drawable.ic_file_download_black_24dp)
                     .setWhen(`when`)
-                    .setAutoCancel(true)
                     .setSound(defaultSoundUri)
                     .setContentIntent(pendingIntent)
         }

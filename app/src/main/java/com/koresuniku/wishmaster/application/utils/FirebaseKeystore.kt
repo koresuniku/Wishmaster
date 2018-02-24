@@ -23,6 +23,7 @@ package com.koresuniku.wishmaster.application.utils
 object FirebaseKeystore {
 
     //Notifications
-    const val NEW_VERSION_NAME_KEY = "new_version_name_notif"
+    const val NEW_VERSION_TOPIC = "new_version"
+    const val NEW_VERSION_NAME_KEY = "new_version_name"
     const val PERSISTENT_DOWNLOAD_LINK = "https://github.com/koresuniku/Wishmaster/raw/master/wishmaster.apk"
 }

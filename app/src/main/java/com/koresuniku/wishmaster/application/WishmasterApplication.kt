@@ -30,6 +30,7 @@ import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.application.preferences.*
 import com.koresuniku.wishmaster.application.singletones.CommonParams
 import com.koresuniku.wishmaster.application.singletones.UiParams
+import com.koresuniku.wishmaster.application.utils.FirebaseKeystore
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.component.*
 import com.koresuniku.wishmaster.core.dagger.module.*
@@ -167,7 +168,7 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
                 .subscribe { newReleaseNotifier.notifyNewVersion(it) }
 
         Glide.get(this).register(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
-
+        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseKeystore.NEW_VERSION_TOPIC)
     }
 
     override fun attachBaseContext(base: Context?) {
