@@ -17,11 +17,9 @@
 package com.koresuniku.wishmaster.core.dagger.module.application_scope
 
 import android.app.Application
-import android.content.Context
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
-import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManager
-import com.koresuniku.wishmaster.application.singletones.WishmasterPermissionManager
+import com.koresuniku.wishmaster.application.singletones.WMPermissionManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -51,5 +49,5 @@ class ApplicationModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun providePermissionManager(): WishmasterPermissionManager = WishmasterPermissionManager()
+    fun providePermissionManager(): WMPermissionManager = WMPermissionManager()
 }

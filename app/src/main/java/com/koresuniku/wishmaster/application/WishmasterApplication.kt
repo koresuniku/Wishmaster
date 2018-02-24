@@ -17,13 +17,14 @@
 package com.koresuniku.wishmaster.application
 
 import android.app.Application
+import android.app.IntentService
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.FirebaseMessagingService
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
@@ -181,7 +182,7 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
                 .setResNotifTickerText(R.string.app_name)
                 .setResNotifTitle(R.string.app_name)
                 .setResNotifText(R.string.send_report)
-                .setResToastText(R.string.crash_report)
+                .setResToastText(R.string.building_crash_report)
                 .setReportingInteractionMode(ReportingInteractionMode.NOTIFICATION)
         val configuration = configurationBuilder.build()
         ACRA.init(this, configuration, true)
@@ -194,4 +195,6 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
             orientationNotifier.notifyOrientation(it.orientation)
         }
     }
+
+
 }

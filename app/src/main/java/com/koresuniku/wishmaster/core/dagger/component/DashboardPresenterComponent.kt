@@ -17,8 +17,8 @@
 package com.koresuniku.wishmaster.core.dagger.component
 
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
-import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManager
-import com.koresuniku.wishmaster.application.singletones.WishmasterPermissionManager
+import com.koresuniku.wishmaster.application.singletones.WMDownloadManager
+import com.koresuniku.wishmaster.application.singletones.WMPermissionManager
 import com.koresuniku.wishmaster.core.dagger.scope.ForDashboardPresenter
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes.BoardsModule
@@ -51,8 +51,8 @@ interface DashboardPresenterComponent {
     fun viewUtils(): ViewUtils
     fun animationUtils(): WishmasterAnimationUtils
     fun newReleaseNotifier(): NewReleaseNotifier
-    fun downloadManager(): WishmasterDownloadManager
-    fun permissionManager(): WishmasterPermissionManager
+    fun downloadManager(): WMDownloadManager
+    fun permissionManager(): WMPermissionManager
 
     fun inject(dashboardPresenter: DashboardPresenter)
 

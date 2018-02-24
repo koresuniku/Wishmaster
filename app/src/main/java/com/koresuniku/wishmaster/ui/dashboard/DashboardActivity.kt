@@ -47,8 +47,8 @@ import com.koresuniku.wishmaster.ui.utils.UiUtils
 import android.view.MenuItem
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.notifier.OnNewReleaseListener
-import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManager
-import com.koresuniku.wishmaster.application.singletones.WishmasterPermissionManager
+import com.koresuniku.wishmaster.application.singletones.WMDownloadManager
+import com.koresuniku.wishmaster.application.singletones.WMPermissionManager
 import com.koresuniku.wishmaster.core.network.github_api.Asset
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import android.support.v7.app.AlertDialog
@@ -65,8 +65,8 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
     @Inject lateinit var viewUtils: ViewUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
     @Inject lateinit var newReleaseNotifier: NewReleaseNotifier
-    @Inject lateinit var downloadManager: WishmasterDownloadManager
-    @Inject lateinit var permissionManager: WishmasterPermissionManager
+    @Inject lateinit var downloadManager: WMDownloadManager
+    @Inject lateinit var permissionManager: WMPermissionManager
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.tab_layout) lateinit var mTabLayout: TabLayout
@@ -153,7 +153,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
-            WishmasterPermissionManager.WRITE_EXTERNAL_STORAGE_FOR_LOAD_NEW_VERSION_REQUEST_CODE -> {
+            WMPermissionManager.WRITE_EXTERNAL_STORAGE_FOR_LOAD_NEW_VERSION_REQUEST_CODE -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     newReleaseNotifier.cachedAsset?.let {
                         downloadManager.downloadWithNotification(it.downloadLink, it.name)

@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module.application_scope
-
-import com.koresuniku.wishmaster.application.service.StubActivity
-import com.koresuniku.wishmaster.core.dagger.component.ApplicationComponent
-import com.koresuniku.wishmaster.core.dagger.scope.ForStubActivity
-import dagger.Component
+package com.koresuniku.wishmaster.application.service
 
 /**
- * Created by koresuniku on 2/21/18.
+ * Created by koresuniku on 2/24/18.
  */
 
-@ForStubActivity
-@Component (dependencies = [ApplicationComponent::class])
-interface StubActivityComponent {
+object WMServiceUtils {
 
-    fun inject(activity: StubActivity)
+    const val NOTIFICATION_ID_KEY = "notification_id"
 }

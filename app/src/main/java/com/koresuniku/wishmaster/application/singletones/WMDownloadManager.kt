@@ -27,7 +27,7 @@ import android.os.Environment
  * Created by koresuniku on 2/18/18.
  */
 
-class WishmasterDownloadManager @Inject constructor(private val context: Context) {
+class WMDownloadManager @Inject constructor(private val context: Context) {
 
     fun downloadWithNotification(link: String, name: String) {
         val uri = Uri.parse(link)

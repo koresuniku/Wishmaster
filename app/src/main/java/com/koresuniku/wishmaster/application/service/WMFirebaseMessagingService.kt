@@ -16,6 +16,7 @@
 
 package com.koresuniku.wishmaster.application.service
 
+import android.app.IntentService
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -23,28 +24,28 @@ import com.koresuniku.wishmaster.application.utils.FirebaseKeystore
 import java.lang.Exception
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.media.RingtoneManager
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.support.v4.app.NotificationCompat
+import android.support.v4.app.NotificationManagerCompat
 import com.koresuniku.wishmaster.R
+import com.koresuniku.wishmaster.application.WishmasterApplication
+import com.koresuniku.wishmaster.application.singletones.WMDownloadManager
 import java.util.*
-
-
+import javax.inject.Inject
 
 
 /**
  * Created by koresuniku on 2/21/18.
  */
 
-class WishmasterFirebaseMessagingService : FirebaseMessagingService() {
-
-    override fun onCreate() {
-        super.onCreate()
-    }
+class WMFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage?) {
         super.onMessageReceived(message)
@@ -57,14 +58,16 @@ class WishmasterFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-
-
     private fun sendNotification(versionName: String) {
-        val intent = Intent(this, StubActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        val notificationId = Random().nextInt(100)
+
+        val intent = Intent(this, DownloadIntentService::class.java)
         intent.putExtra(FirebaseKeystore.NEW_VERSION_NAME_KEY, versionName)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent,
+        intent.putExtra(WMServiceUtils.NOTIFICATION_ID_KEY, notificationId)
+
+        val pendingIntent = PendingIntent.getService(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT)
+
         val `when` = System.currentTimeMillis()
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val mNotifyBuilder: NotificationCompat.Builder
@@ -76,34 +79,50 @@ class WishmasterFirebaseMessagingService : FirebaseMessagingService() {
                     .setContentText(versionName)
                     .setColor(Color.TRANSPARENT)
                     .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.wishmaster_logo))
-                    .setSmallIcon(R.drawable.ic_file_download_black_24dp)
+                    .setSmallIcon(R.drawable.wishmaster_logo)
                     .setWhen(`when`)
                     .setSound(defaultSoundUri)
-                    .setContentIntent(pendingIntent)
+                    .addAction(NotificationCompat.Action(
+                            R.drawable.ic_file_download_black_24dp,
+                            getString(R.string.download_text),
+                            pendingIntent))
 
         } else {
             mNotifyBuilder = NotificationCompat.Builder(this)
                     .setStyle(NotificationCompat.BigTextStyle().bigText(versionName))
                     .setContentTitle(getString(R.string.new_version_available)).setContentText(versionName)
-                    .setSmallIcon(R.drawable.ic_file_download_black_24dp)
+                    .setSmallIcon(R.drawable.wishmaster_logo)
                     .setWhen(`when`)
                     .setSound(defaultSoundUri)
-                    .setContentIntent(pendingIntent)
+                    .addAction(NotificationCompat.Action(
+                            R.drawable.ic_file_download_black_24dp,
+                            getString(R.string.download_text),
+                            pendingIntent))
         }
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(Random().nextInt(100), mNotifyBuilder.build())
+        notificationManager.notify(notificationId, mNotifyBuilder.build())
     }
 
-    override fun onMessageSent(p0: String?) {
-        super.onMessageSent(p0)
-    }
+    class DownloadIntentService : IntentService(DownloadIntentService::class.java.simpleName) {
 
-    override fun onDeletedMessages() {
-        super.onDeletedMessages()
-    }
+        @Inject lateinit var downloadManager: WMDownloadManager
 
-    override fun onSendError(p0: String?, p1: Exception?) {
-        super.onSendError(p0, p1)
+        override fun onHandleIntent(intent: Intent?) {
+            (application as WishmasterApplication)
+                    .mDaggerApplicationComponent
+                    .inject(this)
+
+            intent?.let {
+                NotificationManagerCompat
+                        .from(this)
+                        .cancel(intent.getIntExtra(WMServiceUtils.NOTIFICATION_ID_KEY, -1))
+
+                val link = FirebaseKeystore.PERSISTENT_DOWNLOAD_LINK
+                val name = intent.getStringExtra(FirebaseKeystore.NEW_VERSION_NAME_KEY)
+
+                downloadManager.downloadWithNotification(link, name)
+           }
+        }
     }
 }

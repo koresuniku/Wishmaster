@@ -27,7 +27,7 @@ import javax.inject.Inject
  * Created by koresuniku on 2/18/18.
  */
  
-class WishmasterPermissionManager @Inject constructor() {
+class WMPermissionManager @Inject constructor() {
 
     companion object {
         const val WRITE_EXTERNAL_STORAGE_FOR_LOAD_NEW_VERSION_REQUEST_CODE = 228

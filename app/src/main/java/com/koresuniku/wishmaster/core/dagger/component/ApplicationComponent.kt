@@ -24,9 +24,10 @@ import com.koresuniku.wishmaster.application.WishmasterApplication
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.application.preferences.SharedPreferencesStorage
+import com.koresuniku.wishmaster.application.service.WMFirebaseMessagingService
 import com.koresuniku.wishmaster.application.singletones.UiParams
-import com.koresuniku.wishmaster.application.singletones.WishmasterDownloadManager
-import com.koresuniku.wishmaster.application.singletones.WishmasterPermissionManager
+import com.koresuniku.wishmaster.application.singletones.WMDownloadManager
+import com.koresuniku.wishmaster.application.singletones.WMPermissionManager
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.module.DownloaderModule
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
@@ -90,13 +91,14 @@ interface ApplicationComponent {
     fun uiUtils(): UiUtils
     fun viewUtils(): ViewUtils
     fun animationUtils(): WishmasterAnimationUtils
-    fun downloadManager(): WishmasterDownloadManager
-    fun permissionManager(): WishmasterPermissionManager
+    fun downloadManager(): WMDownloadManager
+    fun permissionManager(): WMPermissionManager
 
     //Notifiers
     fun orientationNotifier(): OrientationNotifier
     fun newReleaseNotifier(): NewReleaseNotifier
 
     fun inject(application: WishmasterApplication)
+    fun inject(service: WMFirebaseMessagingService.DownloadIntentService)
 
 }
