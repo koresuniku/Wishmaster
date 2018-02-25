@@ -18,6 +18,7 @@ package com.koresuniku.wishmaster.application.singletones
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
@@ -30,7 +31,21 @@ import javax.inject.Inject
 class WMPermissionManager @Inject constructor() {
 
     companion object {
+        const val PERMISSION_REQUEST_KEY = "permission_request"
         const val WRITE_EXTERNAL_STORAGE_FOR_LOAD_NEW_VERSION_REQUEST_CODE = 228
+    }
+
+    fun checkWriteExternalStoragePermission(context: Context): Boolean {
+        return ContextCompat.checkSelfPermission(
+                context, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED
+    }
+
+    fun requestWriteExternalStoragePermission(activity: Activity, requestCode: Int) {
+        ActivityCompat.requestPermissions(
+                activity,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                requestCode)
     }
 
     fun checkAndRequestExternalStoragePermissionForLoadNewVersion(activity: Activity): Boolean {
@@ -45,13 +60,10 @@ class WMPermissionManager @Inject constructor() {
     }
 
     private fun requestPermission(activity: Activity, permission: String, requestCode: Int) {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {}
-        else {
-            ActivityCompat.requestPermissions(
-                    activity,
-                    arrayOf(permission),
-                    requestCode)
-        }
+        ActivityCompat.requestPermissions(
+                activity,
+                arrayOf(permission),
+                requestCode)
     }
 
 }

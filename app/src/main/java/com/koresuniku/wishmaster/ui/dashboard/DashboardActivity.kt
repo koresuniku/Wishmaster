@@ -81,18 +81,11 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        intent.extras?.let {
-            Log.d(LOG_TAG, "extras: ${it.getString(FirebaseKeystore.NEW_VERSION_NAME_KEY)}")
-            finish()
-        }
-
         getWishmasterApplication().daggerDashboardViewComponent.inject(this)
         uiUtils.showSystemUI(this)
         ButterKnife.bind(this)
         presenter.bindView(this)
         newReleaseNotifier.bindListener(this)
-
-
 
         setSupportActionBar(mToolbar)
         setupViewPager()

@@ -17,6 +17,7 @@
 package com.koresuniku.wishmaster.application.service
 
 import android.app.IntentService
+import android.app.Notification
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -30,13 +31,15 @@ import android.os.Build
 import android.media.RingtoneManager
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Color
+import android.net.Uri
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.WishmasterApplication
 import com.koresuniku.wishmaster.application.singletones.WMDownloadManager
+import com.koresuniku.wishmaster.application.singletones.WMPermissionManager
+import com.koresuniku.wishmaster.application.utils.StubActivity
 import java.util.*
 import javax.inject.Inject
 
@@ -50,10 +53,7 @@ class WMFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage?) {
         super.onMessageReceived(message)
 
-        Log.d("WFMS", "onMessageReceived")
-
         message?.data?.get(FirebaseKeystore.NEW_VERSION_NAME_KEY)?.let {
-            Log.d("", "new version name: $it")
             sendNotification(it)
         }
     }
@@ -69,7 +69,7 @@ class WMFirebaseMessagingService : FirebaseMessagingService() {
                 PendingIntent.FLAG_ONE_SHOT)
 
         val `when` = System.currentTimeMillis()
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val defaultSoundUri = Uri.parse("android.resource://$packageName/${R.raw.bratishka}")
         val mNotifyBuilder: NotificationCompat.Builder
         val lollipop = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
         if (lollipop) {
@@ -82,6 +82,7 @@ class WMFirebaseMessagingService : FirebaseMessagingService() {
                     .setSmallIcon(R.drawable.wishmaster_logo)
                     .setWhen(`when`)
                     .setSound(defaultSoundUri)
+                    .setDefaults(Notification.DEFAULT_VIBRATE)
                     .addAction(NotificationCompat.Action(
                             R.drawable.ic_file_download_black_24dp,
                             getString(R.string.download_text),
@@ -94,6 +95,7 @@ class WMFirebaseMessagingService : FirebaseMessagingService() {
                     .setSmallIcon(R.drawable.wishmaster_logo)
                     .setWhen(`when`)
                     .setSound(defaultSoundUri)
+                    .setDefaults(Notification.DEFAULT_VIBRATE)
                     .addAction(NotificationCompat.Action(
                             R.drawable.ic_file_download_black_24dp,
                             getString(R.string.download_text),
@@ -105,8 +107,8 @@ class WMFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     class DownloadIntentService : IntentService(DownloadIntentService::class.java.simpleName) {
-
         @Inject lateinit var downloadManager: WMDownloadManager
+        @Inject lateinit var permissionManager: WMPermissionManager
 
         override fun onHandleIntent(intent: Intent?) {
             (application as WishmasterApplication)
@@ -118,11 +120,23 @@ class WMFirebaseMessagingService : FirebaseMessagingService() {
                         .from(this)
                         .cancel(intent.getIntExtra(WMServiceUtils.NOTIFICATION_ID_KEY, -1))
 
-                val link = FirebaseKeystore.PERSISTENT_DOWNLOAD_LINK
                 val name = intent.getStringExtra(FirebaseKeystore.NEW_VERSION_NAME_KEY)
 
-                downloadManager.downloadWithNotification(link, name)
+                if (permissionManager.checkWriteExternalStoragePermission(this)) {
+                    val link = FirebaseKeystore.PERSISTENT_DOWNLOAD_LINK
+                    downloadManager.downloadWithNotification(link, name)
+                } else {
+                    val stubActivityIntent = Intent(applicationContext, StubActivity::class.java)
+                    stubActivityIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT or Intent.FLAG_ACTIVITY_NEW_TASK
+                    stubActivityIntent.putExtra(
+                            WMPermissionManager.PERMISSION_REQUEST_KEY,
+                            WMPermissionManager.WRITE_EXTERNAL_STORAGE_FOR_LOAD_NEW_VERSION_REQUEST_CODE)
+                    stubActivityIntent.putExtra(FirebaseKeystore.NEW_VERSION_NAME_KEY, name)
+                    startActivity(stubActivityIntent)
+                }
            }
         }
+
+
     }
 }
