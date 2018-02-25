@@ -50,10 +50,7 @@ class SettingsActivity : BaseWishmasterActivity<ISettingsPresenter>(), MainPrefe
         setupToolbar()
 
         fragmentManager.beginTransaction()
-                .replace(
-                        R.id.preference_fragment_container,
-                        MainPreferenceFragment(),
-                        getString(R.string.settings_text))
+                .replace(R.id.preference_fragment_container, MainPreferenceFragment(), getString(R.string.settings_text))
                 .commit()
     }
 
@@ -81,8 +78,6 @@ class SettingsActivity : BaseWishmasterActivity<ISettingsPresenter>(), MainPrefe
          }
         super.onBackPressed()
         overrideBackwardPendingTransition()
-
-
     }
 
     override fun onNestedPreferenceSelected(key: String) {
@@ -92,9 +87,12 @@ class SettingsActivity : BaseWishmasterActivity<ISettingsPresenter>(), MainPrefe
                 title = getString(R.string.licenses_title)
                 addFragment(LicensesFragment(), title)
             }
+            getString(R.string.notifications_key) -> {
+                title = getString(R.string.notifications_title)
+                addFragment(NotificationsFragment(), title)
+            }
         }
         mToolbar.title = title
-        Log.d("SA", "onNested tag: $title")
     }
 
     private fun addFragment(fragment: Fragment, tag: String) {

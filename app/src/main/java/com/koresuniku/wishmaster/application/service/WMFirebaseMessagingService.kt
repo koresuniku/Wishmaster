@@ -37,9 +37,13 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.WishmasterApplication
+import com.koresuniku.wishmaster.application.preferences.SharedPreferencesStorage
 import com.koresuniku.wishmaster.application.singletones.WMDownloadManager
 import com.koresuniku.wishmaster.application.singletones.WMPermissionManager
 import com.koresuniku.wishmaster.application.utils.StubActivity
+import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.Function3
 import java.util.*
 import javax.inject.Inject
 
@@ -50,15 +54,34 @@ import javax.inject.Inject
 
 class WMFirebaseMessagingService : FirebaseMessagingService() {
 
+    @Inject lateinit var sharedPreferencesStorage: SharedPreferencesStorage
+
     override fun onMessageReceived(message: RemoteMessage?) {
         super.onMessageReceived(message)
 
+        (application as WishmasterApplication)
+                .mDaggerApplicationComponent
+                .inject(this)
+
         message?.data?.get(FirebaseKeystore.NEW_VERSION_NAME_KEY)?.let {
-            sendNotification(it)
+            val switchSingle = sharedPreferencesStorage.readBoolean(
+                    getString(R.string.switch_new_version_notif_key),
+                    resources.getBoolean(R.bool.switch_new_version_notif_default))
+            val soundSingle = sharedPreferencesStorage.readBoolean(
+                    getString(R.string.new_version_notif_sound_key),
+                    resources.getBoolean(R.bool.new_version_notif_sound_default))
+            val vibrateSingle = sharedPreferencesStorage.readBoolean(
+                    getString(R.string.new_version_notif_vibration_key),
+                    resources.getBoolean(R.bool.new_version_notif_vibration_default))
+            Single.zip(switchSingle, soundSingle, vibrateSingle,
+                    Function3({ switch: Boolean, sound: Boolean, vibrate: Boolean ->
+                        if (switch) sendNotification(it, sound, vibrate)
+            })).subscribe()
+
         }
     }
 
-    private fun sendNotification(versionName: String) {
+    private fun sendNotification(versionName: String, sound: Boolean, vibrate: Boolean) {
         val notificationId = Random().nextInt(100)
 
         val intent = Intent(this, DownloadIntentService::class.java)
@@ -81,8 +104,6 @@ class WMFirebaseMessagingService : FirebaseMessagingService() {
                     .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.wishmaster_logo))
                     .setSmallIcon(R.drawable.wishmaster_logo)
                     .setWhen(`when`)
-                    .setSound(defaultSoundUri)
-                    .setDefaults(Notification.DEFAULT_VIBRATE)
                     .addAction(NotificationCompat.Action(
                             R.drawable.ic_file_download_black_24dp,
                             getString(R.string.download_text),
@@ -94,13 +115,15 @@ class WMFirebaseMessagingService : FirebaseMessagingService() {
                     .setContentTitle(getString(R.string.new_version_available)).setContentText(versionName)
                     .setSmallIcon(R.drawable.wishmaster_logo)
                     .setWhen(`when`)
-                    .setSound(defaultSoundUri)
-                    .setDefaults(Notification.DEFAULT_VIBRATE)
                     .addAction(NotificationCompat.Action(
                             R.drawable.ic_file_download_black_24dp,
                             getString(R.string.download_text),
                             pendingIntent))
         }
+
+        if (sound) mNotifyBuilder.setSound(defaultSoundUri)
+        if (vibrate) mNotifyBuilder.setDefaults(Notification.DEFAULT_VIBRATE)
+        mNotifyBuilder.setLights(Color.argb(1, 255, 165, 0), 3000, 3000)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(notificationId, mNotifyBuilder.build())

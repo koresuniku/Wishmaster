@@ -24,4 +24,22 @@
     <string name="donate_key">donate</string>
     <string name="donate_title">Поддержать разработчицу</string>
 
+    <string name="notifications_key">notifications</string>
+    <string name="notifications_title">Оповещения</string>
+
+    <!--Notifications screen-->
+    <string name="new_version_notif_title">Новая версия</string>
+
+    <string name="switch_new_version_notif_key">switch_new_version</string>
+    <string name="switch_new_version_notif_title">Получать оповещения</string>
+    <bool name="switch_new_version_notif_default">true</bool>
+
+    <string name="new_version_notif_sound_key">new_version_sound</string>
+    <string name="new_version_notif_sound_title">Звук оповещения</string>
+    <bool name="new_version_notif_sound_default">true</bool>
+
+    <string name="new_version_notif_vibration_key">new_version_vibration</string>
+    <string name="new_version_notif_vibration_title">Вибрация</string>
+    <bool name="new_version_notif_vibration_default">true</bool>
+
 </resources>

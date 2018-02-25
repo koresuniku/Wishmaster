@@ -44,6 +44,7 @@ import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
 import dagger.Component
+import io.reactivex.disposables.CompositeDisposable
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
@@ -100,6 +101,7 @@ interface ApplicationComponent {
     fun newReleaseNotifier(): NewReleaseNotifier
 
     fun inject(application: WishmasterApplication)
+    fun inject(service: WMFirebaseMessagingService)
     fun inject(service: WMFirebaseMessagingService.DownloadIntentService)
     fun inject(activity: StubActivity)
 

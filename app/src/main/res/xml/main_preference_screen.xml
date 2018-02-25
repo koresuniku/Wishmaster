@@ -23,6 +23,11 @@
     </Preference>
 
     <Preference
+        android:key="@string/notifications_key"
+        android:title="@string/notifications_title">
+    </Preference>
+
+    <Preference
         android:key="@string/donate_key"
         android:title="@string/donate_title"
         android:icon="@drawable/fistfull_of_yen">
