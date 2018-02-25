@@ -169,7 +169,6 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
                 .subscribe { newReleaseNotifier.notifyNewVersion(it) }
 
         Glide.get(this).register(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(okHttpClient))
-        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseKeystore.NEW_VERSION_TOPIC)
     }
 
     override fun attachBaseContext(base: Context?) {

@@ -43,6 +43,7 @@ import com.koresuniku.wishmaster.application.singletones.WMPermissionManager
 import com.koresuniku.wishmaster.application.utils.StubActivity
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import java.util.*
 import javax.inject.Inject
@@ -64,20 +65,15 @@ class WMFirebaseMessagingService : FirebaseMessagingService() {
                 .inject(this)
 
         message?.data?.get(FirebaseKeystore.NEW_VERSION_NAME_KEY)?.let {
-            val switchSingle = sharedPreferencesStorage.readBoolean(
-                    getString(R.string.switch_new_version_notif_key),
-                    resources.getBoolean(R.bool.switch_new_version_notif_default))
             val soundSingle = sharedPreferencesStorage.readBoolean(
                     getString(R.string.new_version_notif_sound_key),
                     resources.getBoolean(R.bool.new_version_notif_sound_default))
             val vibrateSingle = sharedPreferencesStorage.readBoolean(
                     getString(R.string.new_version_notif_vibration_key),
                     resources.getBoolean(R.bool.new_version_notif_vibration_default))
-            Single.zip(switchSingle, soundSingle, vibrateSingle,
-                    Function3({ switch: Boolean, sound: Boolean, vibrate: Boolean ->
-                        if (switch) sendNotification(it, sound, vibrate)
-            })).subscribe()
-
+            Single.zip(soundSingle, vibrateSingle,
+                    BiFunction({ sound: Boolean, vibrate: Boolean -> sendNotification(it, sound, vibrate) }))
+                    .subscribe()
         }
     }
 

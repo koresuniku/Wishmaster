@@ -19,7 +19,9 @@ package com.koresuniku.wishmaster.ui.settings
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceFragment
+import com.google.firebase.messaging.FirebaseMessaging
 import com.koresuniku.wishmaster.R
+import com.koresuniku.wishmaster.application.utils.FirebaseKeystore
 
 /**
 * Created by koresuniku on 2/25/18.
@@ -40,6 +42,9 @@ class NotificationsFragment : PreferenceFragment(), Preference.OnPreferenceChang
                 if (value is Boolean) {
                     findPreference(getString(R.string.new_version_notif_sound_key)).isEnabled = value
                     findPreference(getString(R.string.new_version_notif_vibration_key)).isEnabled = value
+
+                    if (value) FirebaseMessaging.getInstance().subscribeToTopic(FirebaseKeystore.NEW_VERSION_TOPIC)
+                    else FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseKeystore.NEW_VERSION_TOPIC)
                 }
             }
         }

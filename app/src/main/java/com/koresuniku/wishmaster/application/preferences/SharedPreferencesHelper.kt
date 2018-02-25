@@ -20,9 +20,11 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.TextView
+import com.google.firebase.messaging.FirebaseMessaging
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.singletones.CommonParams
 import com.koresuniku.wishmaster.application.singletones.UiParams
+import com.koresuniku.wishmaster.application.utils.FirebaseKeystore
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
@@ -56,6 +58,7 @@ class SharedPreferencesHelper : ISharedPreferencesHelper {
         setCommentTextSize(sharedPreferencesStorage, uiParams)
         setCommentTextPaint(context, uiParams)
         setToolbarHeight(context, uiParams)
+        setFirebase(context, sharedPreferencesStorage)
     }
 
     private fun setACRA(sharedPreferencesStorage: SharedPreferencesStorage) {
@@ -268,6 +271,17 @@ class SharedPreferencesHelper : ISharedPreferencesHelper {
                         e.onComplete()
                     })
         }})
+    }
+
+    private fun setFirebase(context: Context, sharedPreferencesStorage: ISharedPreferencesStorage) {
+        val switchSingle = sharedPreferencesStorage.readBoolean(
+                context.getString(R.string.switch_new_version_notif_key),
+                context.resources.getBoolean(R.bool.switch_new_version_notif_default))
+        switchSingle
+                .subscribeOn(Schedulers.io())
+                .subscribe({ if (it)
+                    FirebaseMessaging.getInstance().subscribeToTopic(FirebaseKeystore.NEW_VERSION_TOPIC)
+                }, { it.printStackTrace() })
     }
 
     private fun readDefaultImageWidth(sharedPreferencesStorage: ISharedPreferencesStorage): Single<Int> {
