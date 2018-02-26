@@ -22,19 +22,17 @@ import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.koresuniku.wishmaster.application.utils.FirebaseKeystore
-import java.lang.Exception
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.graphics.BitmapFactory
 import android.os.Build
-import android.media.RingtoneManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
+import com.koresuniku.wishmaster.BuildConfig
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.WishmasterApplication
 import com.koresuniku.wishmaster.application.preferences.SharedPreferencesStorage
@@ -42,9 +40,7 @@ import com.koresuniku.wishmaster.application.singletones.WMDownloadManager
 import com.koresuniku.wishmaster.application.singletones.WMPermissionManager
 import com.koresuniku.wishmaster.application.utils.StubActivity
 import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function3
 import java.util.*
 import javax.inject.Inject
 
@@ -60,26 +56,44 @@ class WMFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage?) {
         super.onMessageReceived(message)
 
+
         (application as WishmasterApplication)
                 .mDaggerApplicationComponent
                 .inject(this)
 
         message?.data?.get(FirebaseKeystore.NEW_VERSION_NAME_KEY)?.let {
-            val soundSingle = sharedPreferencesStorage.readBoolean(
-                    getString(R.string.new_version_notif_sound_key),
-                    resources.getBoolean(R.bool.new_version_notif_sound_default))
-            val vibrateSingle = sharedPreferencesStorage.readBoolean(
-                    getString(R.string.new_version_notif_vibration_key),
-                    resources.getBoolean(R.bool.new_version_notif_vibration_default))
-            Single.zip(soundSingle, vibrateSingle,
-                    BiFunction({ sound: Boolean, vibrate: Boolean -> sendNotification(it, sound, vibrate) }))
-                    .subscribe()
+            val isNewVersion = compareVersionNames(BuildConfig.VERSION_NAME, it)
+            if (isNewVersion) {
+
+                val soundSingle = sharedPreferencesStorage.readBoolean(
+                        getString(R.string.new_version_notif_sound_key),
+                        resources.getBoolean(R.bool.new_version_notif_sound_default))
+                val vibrateSingle = sharedPreferencesStorage.readBoolean(
+                        getString(R.string.new_version_notif_vibration_key),
+                        resources.getBoolean(R.bool.new_version_notif_vibration_default))
+                Single.zip(soundSingle, vibrateSingle,
+                        BiFunction({ sound: Boolean, vibrate: Boolean -> sendNotification(it, sound, vibrate) }))
+                        .subscribe()
+            }
         }
+    }
+
+    private fun compareVersionNames(current: String, fromMessage: String): Boolean {
+        val c = current.replace(Regex("[^0-9\\.]+"), "")
+        val fm = fromMessage.replace(Regex("[^0-9\\.]+"), "")
+        val cArr = c.split(Regex("\\."))
+        val fmArr = fm.split(Regex("\\."))
+        cArr.zip(fmArr).forEach {
+            if (it.first.toInt() < it.second.toInt()) return true
+            else if (it.first.toInt() > it.second.toInt()) return false
+        }
+        return false
     }
 
     private fun sendNotification(versionName: String, sound: Boolean, vibrate: Boolean) {
         val notificationId = Random().nextInt(100)
 
+        Log.d("WMFMS", "name: $versionName")
         val intent = Intent(this, DownloadIntentService::class.java)
         intent.putExtra(FirebaseKeystore.NEW_VERSION_NAME_KEY, versionName)
         intent.putExtra(WMServiceUtils.NOTIFICATION_ID_KEY, notificationId)
