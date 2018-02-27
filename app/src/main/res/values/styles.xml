@@ -22,6 +22,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="searchViewStyle">@style/DefaultSearchViewStyle</item>
+        <item name="actionBarPopupTheme">@style/ActionModeOverflowMenu</item>
+    </style>
+
+    <style name="ActionModeOverflowMenu" parent="Widget.AppCompat.ListPopupWindow">
+        <item name="android:background">@drawable/default_background</item>
+
     </style>
 
     <style name="DefaultToolbarStyle" parent="Base.Widget.AppCompat.Light.ActionBar">

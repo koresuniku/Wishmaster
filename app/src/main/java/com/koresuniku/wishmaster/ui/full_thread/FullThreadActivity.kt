@@ -29,10 +29,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.Spanned
 import android.view.*
-import android.widget.AbsListView
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
@@ -164,9 +161,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
                 }
             }
         })
-        mRecyclerView.setOnTouchListener { _, _ ->
-            mRecyclerView.checkRefresh();false
-        }
+        mRecyclerView.setOnTouchListener { _, _ -> mRecyclerView.checkRefresh(); false }
         mRecyclerView.adapter = mFullThreadRecyclerViewAdapter
         mRecyclerView.attachAppBarLayout(mAppBarLayout)
         mRecyclerView.attachSwipyRefreshLayout(mSwipyRefreshLayout)
@@ -204,12 +199,12 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     override fun onNewPostsReceived(oldCount: Int, newCount: Int) {
         hideLoading()
         if (oldCount == newCount) return
-        val snackbar = Snackbar.make(
-                mCoordinator,
+
+        Toast.makeText(
+                this,
                 textUtils.getNewPostsInfo(newCount - oldCount),
-                Snackbar.LENGTH_SHORT)
-        Handler().postDelayed({ snackbar.dismiss() }, 1000)
-        snackbar.show()
+                Toast.LENGTH_SHORT)
+                .show()
 
         if (!mRecyclerView.canScrollVertically(1)) {
             mRecyclerView.viewTreeObserver.addOnGlobalLayoutListener(

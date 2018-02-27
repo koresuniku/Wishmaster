@@ -157,7 +157,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
 
     private fun setupRecyclerView() {
         mRecyclerView.isVerticalScrollBarEnabled = false
-        wishmasterAnimationUtils.setSlideFromBottomLayoutAnimation(mRecyclerView)
         mThreadListRecyclerViewAdapter = ThreadListRecyclerViewAdapter(this)
         presenter.bindThreadListAdapterView(mThreadListRecyclerViewAdapter)
         mRecyclerView.setItemViewCacheSize(20)
@@ -186,13 +185,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(), Threa
         mScroller.attachRecyclerView(mRecyclerView)
         mScroller.attachAdapter(mRecyclerView.adapter)
         mScroller.attachAppBarLayout(mCoordinator, mAppBarLayout)
-    }
-
-    override fun onEnterAnimationComplete() {
-        super.onEnterAnimationComplete()
-        mRecyclerView.post {
-            if (!presenter.isDataLoaded()) mRecyclerView.scheduleLayoutAnimation()
-        }
     }
 
     override fun onThreadListReceived(boardName: String) {
