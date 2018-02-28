@@ -16,7 +16,6 @@
 
 package com.koresuniku.wishmaster.core.dagger.component
 
-import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadViewModule
 import com.koresuniku.wishmaster.core.dagger.scope.ForFullThreadView
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity

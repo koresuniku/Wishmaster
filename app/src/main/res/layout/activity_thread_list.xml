@@ -16,6 +16,7 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -33,7 +34,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        app:srcCompat="@color/colorBackground"/>
 
     <include
         android:id="@+id/coordinator_view_kit"
@@ -55,6 +57,14 @@
         layout="@layout/error_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+    </include>
+
+    <include
+        android:id="@+id/gallery_layout"
+        layout="@layout/gallery_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
     </include>
 

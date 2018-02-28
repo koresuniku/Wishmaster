@@ -59,8 +59,8 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
             isSystemUiShown = true
             if (activity.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 activity.window.decorView.systemUiVisibility =
-                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+//                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+//                                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             }
             if (activity.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -98,6 +98,7 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
 
     private fun setStatusBarTranslucent(activity: Activity, translucent: Boolean) {
         if (translucent) {
+            //activity.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         } else {
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
@@ -107,6 +108,7 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
 
     private fun setNavigationBarTranslucent(activity: Activity, translucent: Boolean) {
         if (translucent) {
+            //activity.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
         } else {
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)

@@ -18,6 +18,7 @@ package com.koresuniku.wishmaster.core.modules.thread_list
 
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.core.data.model.threads.File
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -82,4 +83,26 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
     }
 
     override fun onThreadItemClicked(threadNumber: String) { mvpView?.launchFullThreadActivity(threadNumber) }
+
+    override fun getFileCount(): Int {
+        //TODO: implement
+        return 0
+    }
+
+    override fun getPreviousFile(): File {
+        //TODO: implement
+        return File()
+    }
+
+    override fun getNextFile(): File {
+        //TODO: implement
+        return File()
+    }
+
+    override fun onOpenGalleryClick(itemPosition: Int, filePosition: Int) {
+        presenterData.getThreadList()[itemPosition].files?.let {
+            mvpView?.openGallery(it, filePosition)
+        }
+
+    }
 }

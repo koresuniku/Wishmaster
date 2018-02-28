@@ -14,19 +14,28 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.modules.thread_list
+package com.koresuniku.wishmaster.ui.view.widget
 
-import com.koresuniku.wishmaster.core.base.mvp.IMvpView
-import com.koresuniku.wishmaster.core.modules.gallery.IGalleryView
+import android.content.Context
+import android.view.MotionEvent
+import android.support.v4.view.ViewPager
+import android.util.AttributeSet
+
 
 /**
- * Created by koresuniku on 01.01.18.
+ * Created by koresuniku on 2/28/18.
  */
 
-interface ThreadListView<P> : IMvpView<P>, IGalleryView {
-    fun getBoardId(): String
-    fun onThreadListReceived(boardName: String)
-    fun showError(message: String?)
-    fun showLoading()
-    fun launchFullThreadActivity(threadNumber: String)
+class HackyViewPager : ViewPager {
+
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        return try {
+            super.onInterceptTouchEvent(ev)
+        } catch (e: IllegalArgumentException) {
+            false
+        }
+    }
 }

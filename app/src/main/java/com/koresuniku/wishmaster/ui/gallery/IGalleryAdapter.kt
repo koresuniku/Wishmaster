@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.modules.thread_list
-
-import com.koresuniku.wishmaster.core.base.mvp.IMvpView
-import com.koresuniku.wishmaster.core.modules.gallery.IGalleryView
+package com.koresuniku.wishmaster.ui.gallery
 
 /**
- * Created by koresuniku on 01.01.18.
+ * Created by koresuniku on 2/28/18.
  */
 
-interface ThreadListView<P> : IMvpView<P>, IGalleryView {
-    fun getBoardId(): String
-    fun onThreadListReceived(boardName: String)
-    fun showError(message: String?)
-    fun showLoading()
-    fun launchFullThreadActivity(threadNumber: String)
+interface IGalleryAdapter<P> {
+    val presenter: P
 }

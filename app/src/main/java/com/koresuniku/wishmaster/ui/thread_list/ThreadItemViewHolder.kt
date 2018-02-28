@@ -62,6 +62,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
 
     private var mIsSubjectVisible = true
     override lateinit var threadNumber: String
+    private var mCurrentPosition: Int = 0
 
     init {
         ButterKnife.bind(this, itemView)
@@ -69,6 +70,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     }
 
     override fun adaptLayout(position: Int) {
+        mCurrentPosition = position
         mTop.visibility = if (position == 0) View.GONE else View.VISIBLE
     }
 
@@ -92,6 +94,8 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {
         val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)
         val image = imageLayout.findViewById<ImageView>(R.id.image)
+
+        imageLayout.setOnClickListener { presenter.onOpenGalleryClick(mCurrentPosition, 0) }
 
         (mImageCommentContainer.layoutParams as RelativeLayout.LayoutParams).topMargin =
                if (mIsSubjectVisible) itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()

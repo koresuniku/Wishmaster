@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.modules.thread_list
+package com.koresuniku.wishmaster.core.modules.gallery
 
-import com.koresuniku.wishmaster.core.base.mvp.IMvpView
-import com.koresuniku.wishmaster.core.modules.gallery.IGalleryView
+import com.koresuniku.wishmaster.core.data.model.threads.File
+
 
 /**
- * Created by koresuniku on 01.01.18.
+ * Created by koresuniku on 2/28/18.
  */
 
-interface ThreadListView<P> : IMvpView<P>, IGalleryView {
-    fun getBoardId(): String
-    fun onThreadListReceived(boardName: String)
-    fun showError(message: String?)
-    fun showLoading()
-    fun launchFullThreadActivity(threadNumber: String)
+interface IGalleryPresenter {
+
+    fun onOpenGalleryClick(itemPosition: Int, filePosition: Int)
+    fun getFileCount(): Int
+    fun getPreviousFile(): File
+    fun getNextFile(): File
+
 }

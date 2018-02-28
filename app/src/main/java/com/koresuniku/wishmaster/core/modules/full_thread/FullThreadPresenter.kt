@@ -20,6 +20,7 @@ import android.text.Html
 import android.util.Log
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.core.data.model.threads.File
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -113,5 +114,24 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
         fullThreadAdapterView?.let {
             adapterViewInteractor.setItemViewData(it, postItemView, presenterData, position)
         }
+    }
+
+    override fun getFileCount(): Int {
+        //TODO: implement
+        return 0
+    }
+
+    override fun getPreviousFile(): File {
+        //TODO: implement
+        return File()
+    }
+
+    override fun getNextFile(): File {
+        //TODO: implement
+        return File()
+    }
+
+    override fun onOpenGalleryClick(itemPosition: Int, filePosition: Int) {
+
     }
 }

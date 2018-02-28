@@ -19,11 +19,12 @@ package com.koresuniku.wishmaster.core.modules.full_thread
 import com.koresuniku.wishmaster.core.base.mvp.IMvpDataPresenter
 import com.koresuniku.wishmaster.core.base.mvp.IMvpPresenter
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
+import com.koresuniku.wishmaster.core.modules.gallery.IGalleryPresenter
 
 /**
  * Created by koresuniku on 2/11/18.
  */
-interface IFullThreadPresenter : IMvpPresenter<FullThreadView<IFullThreadPresenter>>,
+interface IFullThreadPresenter : IMvpPresenter<FullThreadView<IFullThreadPresenter>>, IGalleryPresenter,
         IMvpDataPresenter<PostListData> {
     var fullThreadAdapterView: FullThreadAdapterView<IFullThreadPresenter>?
 
