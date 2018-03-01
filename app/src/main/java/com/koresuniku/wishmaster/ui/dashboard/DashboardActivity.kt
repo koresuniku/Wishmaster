@@ -79,10 +79,9 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
     private lateinit var mViewPagerAdapter: DashboardViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        getWishmasterApplication().daggerDashboardViewComponent.inject(this)
         super.onCreate(savedInstanceState)
 
-        getWishmasterApplication().daggerDashboardViewComponent.inject(this)
-        uiUtils.showSystemUI(this)
         ButterKnife.bind(this)
         presenter.bindView(this)
         newReleaseNotifier.bindListener(this)
@@ -93,6 +92,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
 
         presenter.loadBoards()
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.dashboard_menu, menu)

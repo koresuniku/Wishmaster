@@ -29,6 +29,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
+import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_ATTACHED_IN_DECOR
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
@@ -66,6 +67,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
 
+    @BindView(R.id.fake_status_bar) lateinit var mFakeStatusBar: View
     @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
     @BindView(R.id.app_bar_layout) lateinit var mAppBarLayout: AppBarLayout
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
@@ -87,11 +89,12 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
 
     @SuppressLint("newApi")
     override fun onCreate(savedInstanceState: Bundle?) {
+        getWishmasterApplication().daggerThreadListViewComponent.inject(this)
         super.onCreate(savedInstanceState)
 
-        getWishmasterApplication().daggerThreadListViewComponent.inject(this)
-        uiUtils.showSystemUI(this)
         ButterKnife.bind(this)
+        uiUtils.showSystemUi(mFakeStatusBar)
+        uiUtils.showSystemUI(this)
         presenter.bindView(this)
 
         setupBackground()
@@ -103,6 +106,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
 
         presenter.loadThreadList()
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.thread_list_menu, menu)
@@ -153,6 +157,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
     private fun setupToolbar() {
         setSupportActionBar(mToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
     }
 
     private fun setupTitle(boardName: String) {
@@ -221,10 +226,13 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
     override fun openGallery(files: List<File>, filePosition: Int) {
         Log.d(LOG_TAG, "opening: ${files.size} files at $filePosition position")
         galleryOpenedState = true
-        uiUtils.showSystemUI(this)
-        uiUtils.setBarsTranslucent(this, true)
+        //mToolbar.setPadding(0, uiUtils.getStatusBarHeight(this), 0, 0)
+        uiUtils.setBarsTranslucent(this, true, mFakeStatusBar)
         mGalleryLayout.visibility = View.VISIBLE
+        mGalleryLayout.bringToFront()
     }
+
+
 
     override fun onThreadListReceived(boardName: String) {
         hideLoading()
@@ -288,7 +296,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
         if (galleryOpenedState) {
             //TODO: close gallery nicely
             mGalleryLayout.visibility = View.GONE
-            uiUtils.setBarsTranslucent(this, false)
+            uiUtils.setBarsTranslucent(this, false, mFakeStatusBar)
             galleryOpenedState = false
         } else {
             presenter.unbindThreadListAdapterView()

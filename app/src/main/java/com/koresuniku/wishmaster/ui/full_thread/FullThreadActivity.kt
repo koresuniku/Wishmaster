@@ -59,6 +59,7 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
 
+    @BindView(R.id.fake_status_bar) lateinit var mFakeStatusBar: View
     @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
     @BindView(R.id.app_bar_layout) lateinit var mAppBarLayout: AppBarLayout
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
@@ -76,10 +77,11 @@ class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullT
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         getWishmasterApplication().daggerFullThreadViewComponent.inject(this)
-        uiUtils.showSystemUI(this)
+        super.onCreate(savedInstanceState)
+
         ButterKnife.bind(this)
+        uiUtils.showSystemUi(mFakeStatusBar)
         presenter.bindView(this)
 
         setupErrorLayout()

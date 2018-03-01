@@ -30,6 +30,7 @@ import com.koresuniku.wishmaster.application.WishmasterApplication
 import com.koresuniku.wishmaster.core.base.mvp.IMvpPresenter
 import com.koresuniku.wishmaster.core.base.mvp.IMvpView
 import com.koresuniku.wishmaster.ui.settings.SettingsActivity
+import com.koresuniku.wishmaster.ui.utils.UiUtils
 
 /**
  * Created by koresuniku on 12.01.18.
