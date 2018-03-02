@@ -82,6 +82,8 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
         getWishmasterApplication().daggerDashboardViewComponent.inject(this)
         super.onCreate(savedInstanceState)
 
+        uiUtils.showSystemUI(this)
+
         ButterKnife.bind(this)
         presenter.bindView(this)
         newReleaseNotifier.bindListener(this)

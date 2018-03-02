@@ -83,6 +83,11 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
                             View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 }
             }
+            var flags = activity.window.decorView.systemUiVisibility
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                //flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+            activity.window.decorView.systemUiVisibility = flags
         }
     }
 
@@ -120,14 +125,17 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
            // activity.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 activity.window.statusBarColor = Color.TRANSPARENT
-            } else activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            }
         } else {
             //activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
             //activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                activity.window.statusBarColor = activity.resources.getColor(R.color.colorBackgroundDark)
+                activity.window.statusBarColor = activity.resources.getColor(R.color.colorPrimaryDark)
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             }
-            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         }
 
     }
@@ -136,11 +144,19 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
         if (translucent) {
             //activity.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
            // activity.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-            activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                activity.window.navigationBarColor = Color.TRANSPARENT
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+            }
         } else {
             //activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
             //activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                activity.window.navigationBarColor = activity.resources.getColor(android.R.color.background_dark)
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+            }
         }
     }
 
@@ -153,29 +169,6 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
         }
         return result
     }
-
-//    fun setStatusBarTextColor(activity: Activity, state: StatusBarState) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            var newUiVisibility = activity.window.decorView.systemUiVisibility as Int
-//
-//            if (state === StatusBarState.Light) {
-//                //Dark Text to show up on your light status bar
-//                newUiVisibility = newUiVisibility or
-//            } else if (state === StatusBarState.Dark) {
-//                //Light Text to show up on your dark status bar
-//                newUiVisibility = newUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-//            }
-//
-//            MyActivity.Window.DecorView.SystemUiVisibility = newUiVisibility as Android.Views.StatusBarVisibility
-//        }
-//
-//
-//    }
-//
-//    enum class StatusBarState {
-//        Light,
-//        Dark
-//    }
 
     fun getDefaultImageWidthInDp(screenWidth: Int, context: Context): Int {
         val sideMargin = context.resources.getDimension(R.dimen.thread_post_side_margin_default)
