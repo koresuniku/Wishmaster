@@ -18,9 +18,11 @@ package com.koresuniku.wishmaster.core.dagger.component
 
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.core.dagger.module.GalleryModule
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes.ThreadListPresenterModule
 import com.koresuniku.wishmaster.core.dagger.scope.ForThreadListPresenter
+import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListAdapterViewInteractor
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListNetworkInteractor
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListPresenter
@@ -33,7 +35,7 @@ import io.reactivex.disposables.CompositeDisposable
 
 @ForThreadListPresenter
 @Component (dependencies = [ApplicationComponent::class],
-        modules = [(ThreadListPresenterModule::class), (RxModule::class)])
+        modules = [(ThreadListPresenterModule::class), (RxModule::class), (GalleryModule::class)])
 interface ThreadListPresenterComponent {
 
     fun injector(): IWishmasterDaggerInjector
@@ -44,6 +46,7 @@ interface ThreadListPresenterComponent {
     fun orientationNotifier(): OrientationNotifier
     fun compositeDisposable(): CompositeDisposable
     fun animationUtils(): WishmasterAnimationUtils
+    fun galleryState(): GalleryState
 
     fun inject(threadListPresenter: ThreadListPresenter)
 }

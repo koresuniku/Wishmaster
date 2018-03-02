@@ -156,7 +156,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
     private fun setupToolbar() {
         setSupportActionBar(mToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
     }
 
     private fun setupTitle(boardName: String) {
@@ -222,16 +221,13 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
         }
     }
 
-    override fun openGallery(files: List<File>, filePosition: Int) {
-        Log.d(LOG_TAG, "opening: ${files.size} files at $filePosition position")
+    override fun openGallery() {
         galleryOpenedState = true
-        //mToolbar.setPadding(0, uiUtils.getStatusBarHeight(this), 0, 0)
+        mGalleryPagerAdapter.notifyDataSetChanged()
+        mGalleryViewPager.setCurrentItem(presenter.getGalleryState().currentPositionInList, false)
         uiUtils.setBarsTranslucent(this, true)
         mGalleryLayout.visibility = View.VISIBLE
-        mGalleryLayout.bringToFront()
     }
-
-
 
     override fun onThreadListReceived(boardName: String) {
         hideLoading()

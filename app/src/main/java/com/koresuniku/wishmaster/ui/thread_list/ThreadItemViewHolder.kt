@@ -22,6 +22,7 @@ import android.text.Spanned
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -62,7 +63,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
 
     private var mIsSubjectVisible = true
     override lateinit var threadNumber: String
-    private var mCurrentPosition: Int = 0
+    private var mThreadPosition: Int = 0
 
     init {
         ButterKnife.bind(this, itemView)
@@ -70,7 +71,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     }
 
     override fun adaptLayout(position: Int) {
-        mCurrentPosition = position
+        mThreadPosition = position
         mTop.visibility = if (position == 0) View.GONE else View.VISIBLE
     }
 
@@ -95,7 +96,8 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
         val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)
         val image = imageLayout.findViewById<ImageView>(R.id.image)
 
-        imageLayout.setOnClickListener { presenter.onOpenGalleryClick(mCurrentPosition, 0) }
+        imageLayout.setOnClickListener { presenter.onOpenGalleryClick(mThreadPosition, 0) }
+        imageLayout.setOnTouchListener { _, _ -> false }
 
         (mImageCommentContainer.layoutParams as RelativeLayout.LayoutParams).topMargin =
                if (mIsSubjectVisible) itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
@@ -116,10 +118,11 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
 
         mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
         mImageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, url, imageUtils)
+        mImageGrid.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            presenter.onOpenGalleryClick(mThreadPosition, position)
+        }
         mImageGrid.layoutParams.height = gridViewHeight
     }
 
-    override fun onNoItemClick() {
-        presenter.onThreadItemClicked(threadNumber)
-    }
+    override fun onNoItemClick() { presenter.onThreadItemClicked(threadNumber) }
 }

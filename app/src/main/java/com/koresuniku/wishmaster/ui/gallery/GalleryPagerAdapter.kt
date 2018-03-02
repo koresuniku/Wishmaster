@@ -19,6 +19,7 @@ package com.koresuniku.wishmaster.ui.gallery
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.view.PagerAdapter
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryFragment
 import com.koresuniku.wishmaster.core.modules.gallery.IGalleryPresenter
 
@@ -30,11 +31,11 @@ class GalleryPagerAdapter(fragmentManager: FragmentManager,
                           private val galleryPresenter: IGalleryPresenter) :
         FragmentStatePagerAdapter(fragmentManager) {
 
-
     override fun getItem(position: Int): Fragment {
         return GalleryFragment()
     }
 
-    override fun getCount() = galleryPresenter.getFileCount()
+    override fun getItemPosition(`object`: Any) = PagerAdapter.POSITION_NONE
+    override fun getCount() = galleryPresenter.getGalleryState().fileListInList.size
 
 }

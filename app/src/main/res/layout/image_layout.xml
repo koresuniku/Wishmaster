@@ -20,8 +20,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/comment"
                 android:background="@drawable/default_background"
-                android:clickable="true"
-                android:focusable="true">
+                android:clickable="false"
+                android:focusable="false">
 
     <ImageView
         android:id="@+id/image"

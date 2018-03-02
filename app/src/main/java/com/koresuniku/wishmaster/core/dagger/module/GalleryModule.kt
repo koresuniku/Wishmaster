@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.modules.gallery
+package com.koresuniku.wishmaster.core.dagger.module
 
-import com.koresuniku.wishmaster.core.data.model.threads.File
-
+import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
+import dagger.Module
+import dagger.Provides
 
 /**
- * Created by koresuniku on 2/28/18.
- */
+* Created by koresuniku on 3/2/18.
+*/
 
-interface IGalleryPresenter {
+@Module
+class GalleryModule {
 
-    fun onOpenGalleryClick(itemPosition: Int, filePosition: Int)
-    fun getGalleryState(): GalleryState
-
+    @Provides
+    fun provideGalleryState(): GalleryState = GalleryState()
 }

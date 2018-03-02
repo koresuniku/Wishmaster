@@ -39,14 +39,9 @@ class TouchyGridView(context: Context, attrs: AttributeSet) : GridView(context, 
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        // The pointToPosition() method returns -1 if the touch event
-        // occurs outside of a child View.
-        // Change the MotionEvent action as needed. Here we use ACTION_UP
-        // as a simple, naive indication of a click.
-        if (pointToPosition(event.x.toInt(), event.y.toInt()) == -1 && event.action == MotionEvent.ACTION_UP) {
-            if (listener != null) {
-                listener!!.onNoItemClick()
-            }
+        if (pointToPosition(event.x.toInt(), event.y.toInt()) == -1
+                && event.action == MotionEvent.ACTION_UP) {
+            listener?.onNoItemClick()
         }
         return super.dispatchTouchEvent(event)
     }

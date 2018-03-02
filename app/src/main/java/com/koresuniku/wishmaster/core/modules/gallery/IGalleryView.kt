@@ -16,13 +16,12 @@
 
 package com.koresuniku.wishmaster.core.modules.gallery
 
-import com.koresuniku.wishmaster.core.data.model.threads.File
 
 /**
  * Created by koresuniku on 2/28/18.
  */
 
 interface IGalleryView {
-    fun openGallery(files: List<File>, filePosition: Int)
+    fun openGallery()
     fun galleryOpenedState(): Boolean
 }

@@ -19,6 +19,7 @@ package com.koresuniku.wishmaster.core.modules.thread_list
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.threads.File
+import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -30,11 +31,16 @@ import javax.inject.Inject
  */
 
 class ThreadListPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector,
+                                              private val galleryState: GalleryState,
                                               compositeDisposable: CompositeDisposable,
                                               threadListNetworkInteractor: ThreadListNetworkInteractor,
                                               threadListAdapterViewInteractor: ThreadListAdapterViewInteractor,
                                               orientationNotifier: OrientationNotifier):
-        BaseThreadListPresenter(compositeDisposable, threadListNetworkInteractor, threadListAdapterViewInteractor, orientationNotifier) {
+        BaseThreadListPresenter(
+                compositeDisposable,
+                threadListNetworkInteractor,
+                threadListAdapterViewInteractor,
+                orientationNotifier) {
     private val LOG_TAG = ThreadListPresenter::class.java.simpleName
 
     override fun bindView(mvpView: ThreadListView<IThreadListPresenter>) {
@@ -84,24 +90,19 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
 
     override fun onThreadItemClicked(threadNumber: String) { mvpView?.launchFullThreadActivity(threadNumber) }
 
-    override fun getFileCount(): Int {
-        //TODO: implement
-        return 0
-    }
-
-    override fun getPreviousFile(): File {
-        //TODO: implement
-        return File()
-    }
-
-    override fun getNextFile(): File {
-        //TODO: implement
-        return File()
-    }
+    override fun getGalleryState() = galleryState
 
     override fun onOpenGalleryClick(itemPosition: Int, filePosition: Int) {
         presenterData.getThreadList()[itemPosition].files?.let {
-            mvpView?.openGallery(it, filePosition)
+
+            getGalleryState().currentPositionInPost = filePosition
+            getGalleryState().currentPositionInList = filePosition
+            getGalleryState().fileListInPost.clear()
+            getGalleryState().fileListInList.clear()
+            getGalleryState().fileListInPost.addAll(it)
+            getGalleryState().fileListInList.addAll(it)
+
+            mvpView?.openGallery()
         }
 
     }

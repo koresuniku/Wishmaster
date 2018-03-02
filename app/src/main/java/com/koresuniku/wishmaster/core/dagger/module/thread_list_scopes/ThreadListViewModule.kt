@@ -19,6 +19,7 @@ package com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.scope.ForThreadListView
+import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListAdapterViewInteractor
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListNetworkInteractor
 import com.koresuniku.wishmaster.core.modules.thread_list.IThreadListPresenter
@@ -37,11 +38,12 @@ class ThreadListViewModule {
     @Provides
     @ForThreadListView
     fun provideThreadListPresenter(injector: IWishmasterDaggerInjector,
+                                   galleryState: GalleryState,
                                    compositeDisposable: CompositeDisposable,
                                    networkInteractor: ThreadListNetworkInteractor,
                                    adapterViewInteractor: ThreadListAdapterViewInteractor,
                                    orientationNotifier: OrientationNotifier): IThreadListPresenter {
-        return ThreadListPresenter(
-                injector, compositeDisposable, networkInteractor, adapterViewInteractor, orientationNotifier)
+        return ThreadListPresenter(injector, galleryState, compositeDisposable,
+                networkInteractor, adapterViewInteractor, orientationNotifier)
     }
 }

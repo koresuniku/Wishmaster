@@ -17,15 +17,17 @@
 package com.koresuniku.wishmaster.core.modules.gallery
 
 import com.koresuniku.wishmaster.core.data.model.threads.File
-
+import javax.inject.Inject
 
 /**
- * Created by koresuniku on 2/28/18.
+ * Created by koresuniku on 3/2/18.
  */
 
-interface IGalleryPresenter {
+class GalleryState @Inject constructor() {
 
-    fun onOpenGalleryClick(itemPosition: Int, filePosition: Int)
-    fun getGalleryState(): GalleryState
+    var currentPositionInPost: Int = 0
+    var currentPositionInList: Int = 0
 
+    var fileListInPost: MutableList<File> = arrayListOf()
+    var fileListInList: MutableList<File> = arrayListOf()
 }
