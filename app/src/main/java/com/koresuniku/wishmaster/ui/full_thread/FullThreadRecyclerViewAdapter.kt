@@ -36,6 +36,7 @@ import javax.inject.Inject
 
 class FullThreadRecyclerViewAdapter() : RecyclerView.Adapter<PostItemViewHolder>(),
         FullThreadAdapterView<IFullThreadPresenter> {
+
     private val LOG_TAG = FullThreadRecyclerViewAdapter::class.java.simpleName
 
     override val NO_IMAGES_CODE = 0

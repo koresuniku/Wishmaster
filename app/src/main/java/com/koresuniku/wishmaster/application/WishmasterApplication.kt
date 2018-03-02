@@ -21,6 +21,8 @@ import android.app.IntentService
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.os.Build
+import android.support.multidex.MultiDexApplication
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
@@ -51,6 +53,7 @@ import com.koresuniku.wishmaster.core.network.github_api.GithubHelper
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
+import com.squareup.leakcanary.LeakCanary
 import io.reactivex.android.schedulers.AndroidSchedulers
 import okhttp3.OkHttpClient
 import org.acra.ACRA
@@ -68,13 +71,15 @@ import org.acra.config.ConfigurationBuilder
 
 /**
  * Ребята, не стоит вскрывать этот код. Вы молодые, шутливые, вам все легко. Это не то.
- * Это не Чикатило и даже не архивы спецслужб. Сюда лучше не лезть. Серьезно, любой из вас будет жалеть.
- * Лучше закройте код и забудьте, что тут писалось. Я вполне понимаю, что данным сообщением вызову дополнительный интерес,
+ * Это не Чикатило и даже не архивы спецслужб. Сюда лучше не лезть.
+ * Серьезно, любой из вас будет жалеть.
+ * Лучше закройте код и забудьте, что тут писалось.
+ * Я вполне понимаю, что данным сообщением вызову дополнительный интерес,
  * но хочу сразу предостеречь пытливых - стоп. Остальные просто не найдут.
  */
 
 @ReportsCrashes(mailTo = "koresuniku@gmail.com")
-class WishmasterApplication @Inject constructor() : Application(), IWishmasterDaggerInjector {
+class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWishmasterDaggerInjector {
 
     val mDaggerApplicationComponent: DaggerApplicationComponent by lazy {
         DaggerApplicationComponent.builder()
@@ -158,7 +163,7 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
 
     override fun onCreate() {
         super.onCreate()
-        //if (!LeakCanary.isInAnalyzerProcess(this)) LeakCanary.install(this)
+        if (!LeakCanary.isInAnalyzerProcess(this)) LeakCanary.install(this)
         mDaggerApplicationComponent.inject(this)
         FirebaseApp.initializeApp(this)
 

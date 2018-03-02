@@ -27,15 +27,10 @@
                                             android:layout_height="match_parent"
                                             tools:context=".ui.dashboard.DashboardActivity"
                                             tools:openDrawer="start">
-
-
-
         <FrameLayout
             android:id="@+id/content_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-           >
-
+            android:layout_height="match_parent">
         </FrameLayout>
 
         <ListView
@@ -45,7 +40,6 @@
             android:layout_gravity="start"
             android:background="@color/colorBackground">
         </ListView>
-
 
     </android.support.v4.widget.DrawerLayout>
 
