@@ -16,9 +16,11 @@
 
 package com.koresuniku.wishmaster.ui.thread_list
 
+import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.annotation.LayoutRes
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
@@ -30,6 +32,8 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
 import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_ATTACHED_IN_DECOR
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
@@ -80,6 +84,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
     @BindView(R.id.scroller) lateinit var mScroller: RecyclerFastScroller
     @BindView(R.id.background) lateinit var mBackground: ImageView
     @BindView(R.id.gallery_layout) lateinit var mGalleryLayout: ViewGroup
+    @BindView(R.id.gallery_background) lateinit var mGalleryBackground: View
     @BindView(R.id.gallery_view_pager) lateinit var mGalleryViewPager: ViewPager
 
     private lateinit var mThreadListRecyclerViewAdapter: ThreadListRecyclerViewAdapter
@@ -223,10 +228,47 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
 
     override fun openGallery() {
         galleryOpenedState = true
+
         mGalleryPagerAdapter.notifyDataSetChanged()
         mGalleryViewPager.setCurrentItem(presenter.getGalleryState().currentPositionInList, false)
-        uiUtils.setBarsTranslucent(this, true)
         mGalleryLayout.visibility = View.VISIBLE
+
+        mGalleryBackground.alpha = 0f
+        mGalleryBackground.animate()
+                .alpha(1f)
+                .setDuration(resources.getInteger(R.integer.gallery_enter_duration).toLong())
+                .setInterpolator(LinearInterpolator())
+                .setListener(object : Animator.AnimatorListener {
+                    override fun onAnimationRepeat(p0: Animator?) {}
+                    override fun onAnimationEnd(p0: Animator?) {}
+                    override fun onAnimationCancel(p0: Animator?) {}
+                    override fun onAnimationStart(p0: Animator?) {
+                        uiUtils.setBarsTranslucent(this@ThreadListActivity, true)
+                    }
+                })
+                .start()
+    }
+
+    override fun closeGallery() {
+        mGalleryLayout.animate()
+                .alpha(0f)
+                .setDuration(resources.getInteger(R.integer.gallery_exit_duration).toLong())
+                .setInterpolator(LinearInterpolator())
+                .setListener(object : Animator.AnimatorListener {
+                    override fun onAnimationRepeat(p0: Animator?) {}
+
+                    override fun onAnimationEnd(p0: Animator?) {
+                        uiUtils.setBarsTranslucent(this@ThreadListActivity, false)
+                        mGalleryLayout.visibility = View.GONE
+                        mGalleryLayout.alpha = 1f
+                    }
+
+                    override fun onAnimationCancel(p0: Animator?) {}
+                    override fun onAnimationStart(p0: Animator?) {}
+                })
+                .start()
+
+        galleryOpenedState = false
     }
 
     override fun onThreadListReceived(boardName: String) {
@@ -288,12 +330,8 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
     override fun galleryOpenedState() = galleryOpenedState
 
     override fun onBackPressed() {
-        if (galleryOpenedState) {
-            //TODO: close gallery nicely
-            mGalleryLayout.visibility = View.GONE
-            uiUtils.setBarsTranslucent(this, false)
-            galleryOpenedState = false
-        } else {
+        if (galleryOpenedState) closeGallery()
+        else {
             presenter.unbindThreadListAdapterView()
             super.onBackPressed()
             overrideBackwardPendingTransition()

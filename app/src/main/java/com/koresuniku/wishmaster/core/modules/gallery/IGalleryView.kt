@@ -23,5 +23,6 @@ package com.koresuniku.wishmaster.core.modules.gallery
 
 interface IGalleryView {
     fun openGallery()
+    fun closeGallery()
     fun galleryOpenedState(): Boolean
 }

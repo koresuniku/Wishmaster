@@ -69,6 +69,7 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            //setStatusBarTranslucent(activity, true)
         }
     }
 
@@ -93,13 +94,16 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
     private fun setStatusBarTranslucent(activity: Activity, translucent: Boolean) {
         if (translucent) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                activity.window.statusBarColor = Color.TRANSPARENT
+                //activity.window.statusBarColor = Color.TRANSPARENT
+                //activity.window.statusBarColor = activity.resources.getColor(R.color.colorPrimaryDark)
+                activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             }
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                activity.window.statusBarColor = activity.resources.getColor(R.color.colorPrimaryDark)
+                //activity.window.statusBarColor = activity.resources.getColor(R.color.colorPrimaryDark)
+                activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             }
@@ -110,13 +114,16 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
     private fun setNavigationBarTranslucent(activity: Activity, translucent: Boolean) {
         if (translucent) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                activity.window.navigationBarColor = Color.TRANSPARENT
+                //activity.window.navigationBarColor = Color.TRANSPARENT
+                //activity.window.navigationBarColor = activity.resources.getColor(R.color.colorPrimaryDark)
+                activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
             }
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                activity.window.navigationBarColor = activity.resources.getColor(android.R.color.background_dark)
+                //activity.window.navigationBarColor = activity.resources.getColor(R.color.colorPrimaryDark)
+                activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
             }
