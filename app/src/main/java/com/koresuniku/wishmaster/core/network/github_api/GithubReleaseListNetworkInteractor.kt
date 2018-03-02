@@ -36,7 +36,6 @@ class GithubReleaseListNetworkInteractor @Inject constructor(private val apiServ
         return Single.create({ e ->
             compositeDisposable.add(getService()
                     .getRealeaseList()
-                    .subscribeOn(Schedulers.newThread())
                     .subscribe({ e.onSuccess(it) }, { it.printStackTrace() }))
         })
     }

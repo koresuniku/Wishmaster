@@ -57,6 +57,7 @@ import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
 import com.squareup.leakcanary.LeakCanary
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import org.acra.ACRA
 import org.acra.ReportingInteractionMode
@@ -174,6 +175,7 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
                 retrofitHolder, uiParams, commonParams, uiUtils, viewUtils, deviceUtils)
 
         githubHelper.checkForNewRelease()
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { newReleaseNotifier.notifyNewVersion(it) }
 
