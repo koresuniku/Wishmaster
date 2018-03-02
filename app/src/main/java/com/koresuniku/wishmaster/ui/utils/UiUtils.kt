@@ -65,33 +65,25 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
     fun showSystemUI(activity: Activity) {
         if (deviceUtils.sdkIsKitkatOrHigher()) {
             isSystemUiShown = true
-            activity.window.decorView.post {
-                if (activity.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if (activity.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                activity.window.decorView.systemUiVisibility =
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            }
+            if (activity.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                if (deviceUtils.deviceHasNavigationBar(activity)) {
                     activity.window.decorView.systemUiVisibility =
-                            View.SYSTEM_UI_FLAG_FULLSCREEN or
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                } else {
+                    activity.window.decorView.systemUiVisibility =
                             View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                            View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                }
-                if (activity.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    if (deviceUtils.deviceHasNavigationBar(activity)) {
-                        activity.window.decorView.systemUiVisibility =
-                                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_FULLSCREEN
-                    } else {
-                        activity.window.decorView.systemUiVisibility =
-                                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_FULLSCREEN
-                    }
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 }
             }
         }
-    }
-
-    fun showSystemUi(fakeStatusBar: View) {
-        fakeStatusBar.layoutParams.height = 0
-        fakeStatusBar.requestLayout()
     }
 
     fun hideSystemUI(activity: Activity) {
@@ -107,7 +99,7 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
         }
     }
 
-    fun setBarsTranslucent(activity: Activity, translucent: Boolean, fakeStatusBar: View) {
+    fun setBarsTranslucent(activity: Activity, translucent: Boolean) {
         setStatusBarTranslucent(activity, translucent)
         setNavigationBarTranslucent(activity, translucent)
 //        if (translucent) {
@@ -124,23 +116,29 @@ class UiUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
 
     fun setStatusBarTranslucent(activity: Activity, translucent: Boolean) {
         if (translucent) {
-            activity.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+            //activity.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
            // activity.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-            activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                activity.window.statusBarColor = Color.TRANSPARENT
+            } else activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         } else {
-            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+            //activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
             //activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                activity.window.statusBarColor = activity.resources.getColor(R.color.colorBackgroundDark)
+            }
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         }
+
     }
 
     fun setNavigationBarTranslucent(activity: Activity, translucent: Boolean) {
         if (translucent) {
-            activity.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+            //activity.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
            // activity.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
         } else {
-            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+            //activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
             //activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
         }

@@ -67,7 +67,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
 
-    @BindView(R.id.fake_status_bar) lateinit var mFakeStatusBar: View
     @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
     @BindView(R.id.app_bar_layout) lateinit var mAppBarLayout: AppBarLayout
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
@@ -93,8 +92,8 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
         super.onCreate(savedInstanceState)
 
         ButterKnife.bind(this)
-        uiUtils.showSystemUi(mFakeStatusBar)
         uiUtils.showSystemUI(this)
+        //uiUtils.setBarsTranslucent(this, true, mFakeStatusBar)
         presenter.bindView(this)
 
         setupBackground()
@@ -227,7 +226,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
         Log.d(LOG_TAG, "opening: ${files.size} files at $filePosition position")
         galleryOpenedState = true
         //mToolbar.setPadding(0, uiUtils.getStatusBarHeight(this), 0, 0)
-        uiUtils.setBarsTranslucent(this, true, mFakeStatusBar)
+        uiUtils.setBarsTranslucent(this, true)
         mGalleryLayout.visibility = View.VISIBLE
         mGalleryLayout.bringToFront()
     }
@@ -296,7 +295,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
         if (galleryOpenedState) {
             //TODO: close gallery nicely
             mGalleryLayout.visibility = View.GONE
-            uiUtils.setBarsTranslucent(this, false, mFakeStatusBar)
+            uiUtils.setBarsTranslucent(this, false)
             galleryOpenedState = false
         } else {
             presenter.unbindThreadListAdapterView()

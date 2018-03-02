@@ -24,6 +24,7 @@ import android.content.res.Configuration
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
+import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
@@ -159,6 +160,7 @@ class WishmasterApplication @Inject constructor() : Application(), IWishmasterDa
         super.onCreate()
         //if (!LeakCanary.isInAnalyzerProcess(this)) LeakCanary.install(this)
         mDaggerApplicationComponent.inject(this)
+        FirebaseApp.initializeApp(this)
 
         uiParams.orientation = resources.configuration.orientation
         sharedPreferencesHelper.onApplicationCreate(this, sharedPreferencesStorage,
