@@ -72,7 +72,7 @@ class GalleryImageFragment : BaseWishmasterFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        bigImageView?.showImage(null)
+        bigImageView?.showImage(Uri.EMPTY)
         bigImageView = null
     }
 }

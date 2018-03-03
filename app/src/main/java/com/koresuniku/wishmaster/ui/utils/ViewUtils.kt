@@ -26,6 +26,7 @@ import android.view.WindowManager
 import android.widget.GridView
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
+import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -117,8 +118,11 @@ class ViewUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
 
     fun getGridViewHeight(context: Context,
                           imageItemDataList: List<ImageItemData>,
-                          columnWidth: Int, summaryHeight: Int): Single<Int> {
+                          columnWidth: Int, summaryHeight: Int): Single<WMGridView.GridViewParams> {
         return Single.create({
+            val rowsHeights: MutableList<Int> = ArrayList()
+            var tallestHeightInARow = 0
+
             var lastRowHeight = 0
             var finalHeight = 0
             val columnCount = getGridViewColumnNumber(context, columnWidth)
@@ -126,6 +130,7 @@ class ViewUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
 
             imageItemDataList.forEachIndexed({ position, data ->
                 val itemHeight = data.dimensions.heightInPx + summaryHeight
+
                 //first item in a next row detected
                 if (position != 0 && position % columnCount == 0) {
                     finalHeight += verticalSpacing
@@ -133,10 +138,21 @@ class ViewUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
                     finalHeight += itemHeight
                 } else if (lastRowHeight + itemHeight > finalHeight) {
                     finalHeight = lastRowHeight + itemHeight
+                    tallestHeightInARow = itemHeight
+                   // Log.d("VU", "positon % columnCount: ${position % columnCount}")
+                    if (rowsHeights.size - 1 >= position / columnCount) {
+                        rowsHeights.removeAt(position / columnCount)
+                    }
+                    rowsHeights.add(position / columnCount, itemHeight)
+//                    if ((position + 1) % columnCount == 0) {
+//                        //Log.d("VU", "adding tallest row")
+//                        rowsHeights.add(tallestHeightInARow)
+//                        tallestHeightInARow = 0
+//                    }
                 }
             })
 
-            it.onSuccess(finalHeight)
+            it.onSuccess(WMGridView.GridViewParams(finalHeight, columnCount, rowsHeights))
         })
     }
 

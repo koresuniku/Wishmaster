@@ -19,6 +19,7 @@ package com.koresuniku.wishmaster.core.modules.thread_list
 import android.text.Spanned
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 
 /**
  * Created by koresuniku on 07.01.18.
@@ -37,6 +38,6 @@ interface ThreadItemView {
     fun setMultipleImages(imageItemDataList: List<ImageItemData>,
                           url: String,
                           imageUtils: WishmasterImageUtils,
-                          gridViewHeight: Int,
+                          gridViewParams: WMGridView.GridViewParams,
                           summaryHeight: Int)
 }

@@ -54,7 +54,7 @@
             android:textSize="16sp"
             android:textStyle="bold"/>
 
-        <com.koresuniku.wishmaster.ui.view.widget.TouchyGridView
+        <com.koresuniku.wishmaster.ui.view.widget.WMGridView
             android:id="@+id/image_grid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
             android:stretchMode="columnWidth"
             android:verticalSpacing="@dimen/thread_post_side_margin_default">
 
-        </com.koresuniku.wishmaster.ui.view.widget.TouchyGridView>
+        </com.koresuniku.wishmaster.ui.view.widget.WMGridView>
 
         <include
             android:id="@+id/comment_layout"

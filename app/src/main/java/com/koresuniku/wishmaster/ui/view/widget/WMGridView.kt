@@ -32,12 +32,18 @@ import android.R.attr.numColumns
  * Created by koresuniku on 2/16/18.
  */
 
-class TouchyGridView(context: Context, attrs: AttributeSet) : GridView(context, attrs) {
+class WMGridView(context: Context, attrs: AttributeSet) : GridView(context, attrs) {
 
     private var listener: OnNoItemClickListener? = null
 
+    data class GridViewParams(val finalHeight: Int, val numColumns: Int, val maxHeightInARow: List<Int>)
+
     interface OnNoItemClickListener {
         fun onNoItemClick()
+    }
+
+    interface OnImageItemClickListener {
+        fun onImageItemClick(position: Int)
     }
 
     fun setOnNoItemClickListener(listener: OnNoItemClickListener) {
@@ -82,9 +88,6 @@ class TouchyGridView(context: Context, attrs: AttributeSet) : GridView(context, 
 //    }
 
 
-
-
-
     fun setHeights() {
         adapter?.let {
             var i = 0
@@ -101,7 +104,7 @@ class TouchyGridView(context: Context, attrs: AttributeSet) : GridView(context, 
                 }
                 //Log.d(TAG, "Max height for row #" + i/numColumns + ": " + maxHeight);
                 val view = getChildAt(maxHeightPosition)
-                view.post { view.minimumHeight = maxHeight }
+
                 // Set max height for each element in this row
 //                if (maxHeight > 0) {
 //                    for (j in i until i + numColumns) {

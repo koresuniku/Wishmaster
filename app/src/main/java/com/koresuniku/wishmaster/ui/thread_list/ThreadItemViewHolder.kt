@@ -35,7 +35,7 @@ import com.koresuniku.wishmaster.core.modules.thread_list.IThreadListPresenter
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadItemView
 import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
-import com.koresuniku.wishmaster.ui.view.widget.TouchyGridView
+import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import javax.inject.Inject
 
 /**
@@ -43,7 +43,9 @@ import javax.inject.Inject
  */
 
 class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
-        RecyclerView.ViewHolder(itemView), ThreadItemView, TouchyGridView.OnNoItemClickListener {
+        RecyclerView.ViewHolder(itemView),
+        ThreadItemView, WMGridView.OnNoItemClickListener,
+        WMGridView.OnImageItemClickListener{
     private val LOG_TAG = ThreadItemViewHolder::class.java.simpleName
 
     @Inject lateinit var presenter: IThreadListPresenter
@@ -59,7 +61,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     @Nullable @BindView(R.id.image) lateinit var mImage: ImageView
     @Nullable @BindView(R.id.image_comment_container) lateinit var mImageCommentContainer: ViewGroup
     @Nullable @BindView(R.id.summary) lateinit var mImageSummary: TextView
-    @Nullable @BindView(R.id.image_grid) lateinit var mImageGrid: TouchyGridView
+    @Nullable @BindView(R.id.image_grid) lateinit var mImageGrid: WMGridView
 
     private var mIsSubjectVisible = true
     override lateinit var threadNumber: String
@@ -110,22 +112,27 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     override fun setMultipleImages(imageItemDataList: List<ImageItemData>,
                                    url: String,
                                    imageUtils: WishmasterImageUtils,
-                                   gridViewHeight: Int,
+                                   gridViewParams: WMGridView.GridViewParams,
                                    summaryHeight: Int) {
         mImageGrid.setOnNoItemClickListener(this)
         (mImageGrid.layoutParams as RelativeLayout.LayoutParams).topMargin =
                 if (mIsSubjectVisible) itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
                 else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
-
+        mImageGrid.layoutParams.height = gridViewParams.finalHeight
         mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
-        mImageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, url, imageUtils, summaryHeight)
-        mImageGrid.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            presenter.onOpenGalleryClick(mThreadPosition, position)
-        }
-        mImageGrid.layoutParams.height = gridViewHeight
+        mImageGrid.adapter = PreviewImageGridAdapter(
+                imageItemDataList, url, imageUtils, summaryHeight, gridViewParams, this, this)
+//        mImageGrid.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+//            presenter.onOpenGalleryClick(mThreadPosition, position)
+//        }
+
         //mImageGrid.setHeights()
         mImageGrid.requestLayout()
     }
 
     override fun onNoItemClick() { presenter.onThreadItemClicked(threadNumber) }
+
+    override fun onImageItemClick(position: Int) {
+        presenter.onOpenGalleryClick(mThreadPosition, position)
+    }
 }

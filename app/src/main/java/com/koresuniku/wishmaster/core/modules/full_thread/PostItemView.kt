@@ -20,6 +20,7 @@ import android.text.Spannable
 import android.text.Spanned
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 
 /**
  * Created by koresuniku on 2/14/18.
@@ -34,7 +35,7 @@ interface PostItemView {fun setOnClickItemListener(threadNumber: String)
     fun setMultipleImages(imageItemDataList: List<ImageItemData>,
                           url: String,
                           imageUtils: WishmasterImageUtils,
-                          gridViewHeight: Int,
+                          gridViewParams: WMGridView.GridViewParams,
                           summaryHeight: Int)
 
 }

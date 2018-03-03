@@ -22,10 +22,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 
 /**
  * Created by koresuniku on 15.01.18.
@@ -34,7 +36,10 @@ import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 class PreviewImageGridAdapter(private val imageItemDataList: List<ImageItemData>,
                               private val url: String,
                               private val imageUtils: WishmasterImageUtils,
-                              private val summaryHeight: Int) : BaseAdapter() {
+                              private val summaryHeight: Int,
+                              private val gridViewParams: WMGridView.GridViewParams,
+                              private val onNoItemClickListener: WMGridView.OnNoItemClickListener,
+                              private val onImageItemClickListener: WMGridView.OnImageItemClickListener) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var returnView: View? = convertView
@@ -48,9 +53,23 @@ class PreviewImageGridAdapter(private val imageItemDataList: List<ImageItemData>
                 val imageItemData = imageItemDataList[position]
                 val image = it.findViewById<ImageView>(R.id.image)
                 val imageSummary = it.findViewById<TextView>(R.id.summary)
+                val clickableItemLayout = it.findViewById<View>(R.id.clickable_item_layout)
+                val clickableView = it.findViewById<View>(R.id.clickable_view)
+
+                clickableItemLayout.setOnClickListener { onImageItemClickListener.onImageItemClick(position) }
 
                 imageSummary.text = imageItemData.summary
                 imageUtils.loadImageThumbnail(imageItemData, image, url)
+
+                //Log.d("PIGA", "positon: ${position}")
+                //Log.d("PIGA", "GVParams.rows: ${gridViewParams.maxHeightInARow.size}")
+
+                if ((position + 1) % gridViewParams.numColumns == 0) {
+                    Log.d("PIGA", "before setting height to CV: ${gridViewParams.maxHeightInARow.size}")
+                    clickableView.layoutParams.height =
+                            gridViewParams.maxHeightInARow[position / gridViewParams.numColumns] -
+                            (imageItemData.dimensions.heightInPx + summaryHeight)
+                } else clickableView.layoutParams.height = 0
             }
         }
         return returnView ?: View(parent?.context)
