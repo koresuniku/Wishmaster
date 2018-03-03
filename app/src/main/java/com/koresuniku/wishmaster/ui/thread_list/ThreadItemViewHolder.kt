@@ -99,6 +99,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
         val image = imageLayout.findViewById<ImageView>(R.id.image)
 
         imageLayout.setOnClickListener { onImageItemClick(0) }
+        imageLayout.setOnTouchListener { _, _ -> false }
 
         (mImageCommentContainer.layoutParams as RelativeLayout.LayoutParams).topMargin =
                if (mIsSubjectVisible) itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()

@@ -121,7 +121,6 @@ class ViewUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
                           columnWidth: Int, summaryHeight: Int): Single<WMGridView.GridViewParams> {
         return Single.create({
             val rowsHeights: MutableList<Int> = ArrayList()
-            var tallestHeightInARow = 0
 
             var lastRowHeight = 0
             var finalHeight = 0
@@ -138,7 +137,6 @@ class ViewUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
                     finalHeight += itemHeight
                 } else if (lastRowHeight + itemHeight > finalHeight) {
                     finalHeight = lastRowHeight + itemHeight
-                    tallestHeightInARow = itemHeight
                     val rowsHeightPosition = position / columnCount
                     if (rowsHeights.size - 1 >= rowsHeightPosition) {
                         rowsHeights.removeAt(rowsHeightPosition)

@@ -278,7 +278,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
     override fun onThreadListReceived(boardName: String) {
         hideLoading()
         setupTitle(boardName)
-        mRecyclerView.post { mRecyclerView.scrollTo(0, 0) }
     }
 
     override fun showLoading() {
