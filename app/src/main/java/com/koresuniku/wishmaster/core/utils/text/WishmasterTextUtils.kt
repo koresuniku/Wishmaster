@@ -45,9 +45,7 @@ class WishmasterTextUtils @Inject constructor() {
         val width = file.width
         val height = file.height
         val size = file.size
-        val format = file.thumbnail
-                .removePrefix(file.thumbnail.subSequence(0, file.thumbnail.indexOf(".") + 1))
-                .toUpperCase()
+        val format = file.path.split(Regex("\\.")).last().toUpperCase()
         return "$width * $height\n$size kb, $format"
     }
 
