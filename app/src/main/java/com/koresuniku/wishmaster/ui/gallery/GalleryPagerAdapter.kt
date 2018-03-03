@@ -20,22 +20,33 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
-import com.koresuniku.wishmaster.core.modules.gallery.GalleryFragment
 import com.koresuniku.wishmaster.core.modules.gallery.IGalleryPresenter
+import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
 
 /**
  * Created by koresuniku on 2/28/18.
  */
 
 class GalleryPagerAdapter(fragmentManager: FragmentManager,
-                          private val galleryPresenter: IGalleryPresenter) :
-        FragmentStatePagerAdapter(fragmentManager) {
+                          private val galleryPresenter: IGalleryPresenter,
+                          private val mediaTypeMatcher: MediaTypeMatcher) :
+        FragmentStatePagerAdapter(fragmentManager), IGalleryController {
+
+    companion object {
+        val FILE_POSITION_KEY = 0
+    }
 
     override fun getItem(position: Int): Fragment {
+        mediaTypeMatcher.matchFile(getFile(position))
         return GalleryFragment()
     }
 
     override fun getItemPosition(`object`: Any) = PagerAdapter.POSITION_NONE
     override fun getCount() = galleryPresenter.getGalleryState().fileListInList.size
+
+    override fun onLayoutClicked() {}
+
+    override fun getFile(position: Int) = galleryPresenter.getGalleryState().fileListInList[position]
+
 
 }

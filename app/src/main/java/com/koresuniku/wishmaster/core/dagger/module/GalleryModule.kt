@@ -17,6 +17,7 @@
 package com.koresuniku.wishmaster.core.dagger.module
 
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
+import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
 import dagger.Module
 import dagger.Provides
 
@@ -29,4 +30,7 @@ class GalleryModule {
 
     @Provides
     fun provideGalleryState(): GalleryState = GalleryState()
+
+    @Provides
+    fun providesMediaTypeMatcher(): MediaTypeMatcher = MediaTypeMatcher()
 }

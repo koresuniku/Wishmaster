@@ -224,4 +224,9 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
         snackbar.setAction(R.string.bljad, { snackbar.dismiss() })
         snackbar.show()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        newReleaseNotifier.unbindListener(this)
+    }
 }

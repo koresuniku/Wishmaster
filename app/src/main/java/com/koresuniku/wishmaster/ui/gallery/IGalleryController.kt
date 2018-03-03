@@ -16,10 +16,14 @@
 
 package com.koresuniku.wishmaster.ui.gallery
 
+import com.koresuniku.wishmaster.core.data.model.threads.File
+import java.io.Serializable
+
 /**
  * Created by koresuniku on 2/28/18.
  */
 
-interface IGalleryAdapter<P> {
-    val presenter: P
+interface IGalleryController : Serializable {
+    fun onLayoutClicked()
+    fun getFile(position: Int): File
 }

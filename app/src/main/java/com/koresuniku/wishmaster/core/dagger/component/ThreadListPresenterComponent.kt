@@ -23,6 +23,7 @@ import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes.ThreadListPresenterModule
 import com.koresuniku.wishmaster.core.dagger.scope.ForThreadListPresenter
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
+import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListAdapterViewInteractor
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListNetworkInteractor
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListPresenter
@@ -47,6 +48,7 @@ interface ThreadListPresenterComponent {
     fun compositeDisposable(): CompositeDisposable
     fun animationUtils(): WishmasterAnimationUtils
     fun galleryState(): GalleryState
+    fun mediaTypeMatcher(): MediaTypeMatcher
 
     fun inject(threadListPresenter: ThreadListPresenter)
 }
