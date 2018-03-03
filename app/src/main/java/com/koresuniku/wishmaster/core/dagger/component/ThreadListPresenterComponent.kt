@@ -27,6 +27,7 @@ import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListAdapterViewInteractor
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListNetworkInteractor
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListPresenter
+import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
@@ -49,6 +50,7 @@ interface ThreadListPresenterComponent {
     fun animationUtils(): WishmasterAnimationUtils
     fun galleryState(): GalleryState
     fun mediaTypeMatcher(): MediaTypeMatcher
+    fun retrofitHolder(): RetrofitHolder
 
     fun inject(threadListPresenter: ThreadListPresenter)
 }

@@ -100,9 +100,9 @@ dependencies {
 
     //BigImageView
     //noinspection GradleDependency
-    compile 'com.github.piasy:BigImageViewer:1.3.0'
+    compile 'com.github.piasy:BigImageViewer:1.2.9'
     //noinspection GradleDependency
-    compile 'com.github.piasy:GlideImageLoader:1.3.0'
+    compile 'com.github.piasy:GlideImageLoader:1.2.9'
 
     //Glide
     //noinspection GradleDependency

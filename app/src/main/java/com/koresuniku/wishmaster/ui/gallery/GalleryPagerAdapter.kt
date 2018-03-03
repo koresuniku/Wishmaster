@@ -16,12 +16,15 @@
 
 package com.koresuniku.wishmaster.ui.gallery
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
 import com.koresuniku.wishmaster.core.modules.gallery.IGalleryPresenter
 import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
+import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
+import java.io.Serializable
 
 /**
  * Created by koresuniku on 2/28/18.
@@ -29,16 +32,31 @@ import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
 
 class GalleryPagerAdapter(fragmentManager: FragmentManager,
                           private val galleryPresenter: IGalleryPresenter,
-                          private val mediaTypeMatcher: MediaTypeMatcher) :
-        FragmentStatePagerAdapter(fragmentManager), IGalleryController {
+                          private val mediaTypeMatcher: MediaTypeMatcher,
+                          private val retrofitHolder: RetrofitHolder) :
+        FragmentStatePagerAdapter(fragmentManager), IGalleryController, Serializable {
 
     companion object {
-        val FILE_POSITION_KEY = 0
+        const val GALLERY_CONTROLLER_KEY = "gallery_controller"
+        const val FRAGMENT_POSITION_KEY = "fragment_position"
+        const val URL = "url"
     }
 
     override fun getItem(position: Int): Fragment {
-        mediaTypeMatcher.matchFile(getFile(position))
-        return GalleryFragment()
+        val args = Bundle()
+        args.putInt(FRAGMENT_POSITION_KEY, position)
+        args.putSerializable(GALLERY_CONTROLLER_KEY, this)
+        args.putString(URL, retrofitHolder.getDvachBaseUrl())
+
+        return when (mediaTypeMatcher.matchFile(getFile(position))) {
+            MediaTypeMatcher.MediaType.IMAGE -> {
+                val fragment = GalleryImageFragment()
+                fragment.arguments = args
+                fragment
+            }
+            else -> GalleryFragment()
+        }
+
     }
 
     override fun getItemPosition(`object`: Any) = PagerAdapter.POSITION_NONE

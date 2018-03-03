@@ -30,13 +30,12 @@ class MediaTypeMatcher @Inject constructor() {
 
     enum class MediaType { IMAGE, GIF, VIDEO, UNKNOWN }
 
-    val imageFormats = ArrayList(Arrays.asList("jpg", "jpeg", "png", "webp"))
-    val gifFormat = "gif"
-    val videoFormats = ArrayList(Arrays.asList("webm", "mp4"))
+    private val imageFormats = ArrayList(Arrays.asList("jpg", "jpeg", "png", "webp"))
+    private val gifFormat = "gif"
+    private val videoFormats = ArrayList(Arrays.asList("webm", "mp4"))
 
     fun matchFile(file: File): MediaType {
         val retrievedFormat = file.path.split(Regex("\\.")).last()
-        Log.d("MTM", "format: $retrievedFormat")
 
         retrievedFormat.let {
             return when {

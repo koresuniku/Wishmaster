@@ -16,7 +16,9 @@
 
 package com.koresuniku.wishmaster.ui.gallery
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +26,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.github.piasy.biv.view.BigImageView
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.data.model.threads.File
+import com.koresuniku.wishmaster.core.network.Dvach
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 
 /**
@@ -35,22 +37,26 @@ class GalleryImageFragment : BaseWishmasterFragment() {
     override lateinit var rootView: View
 
     @BindView(R.id.clickable_view) lateinit var clickableView: View
-    @BindView(R.id.big_image_view)lateinit var bigImageView: BigImageView
+    @BindView(R.id.big_image_view) lateinit var bigImageView: BigImageView
 
-    private lateinit var file: File
-
-    companion object {
-        fun newInstance(): GalleryImageFragment {
-            val args = Bundle()
-
-            return GalleryImageFragment()
-        }
-    }
+    private var mPosition = -1
+    private var mGalleryController: IGalleryController? = null
+    private lateinit var mUrl: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.gallery_image_layout, container, false)
-
         ButterKnife.bind(this, rootView)
+
+        mPosition = arguments?.getInt(
+                GalleryPagerAdapter.FRAGMENT_POSITION_KEY) ?: 0
+        mGalleryController = arguments?.getSerializable(
+                GalleryPagerAdapter.GALLERY_CONTROLLER_KEY) as IGalleryController
+        mUrl = arguments?.getString(GalleryPagerAdapter.URL) ?: Dvach.BASE_URL
+
+        Log.d("GIF", "mUrl: $mUrl")
+        bigImageView.ssiv.maxScale = 10.0f
+        bigImageView.ssiv.recycle()
+        bigImageView.showImage(Uri.parse("$mUrl${mGalleryController?.getFile(mPosition)?.path}"))
 
         return rootView
     }

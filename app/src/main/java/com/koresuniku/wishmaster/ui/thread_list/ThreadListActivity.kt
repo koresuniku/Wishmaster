@@ -47,6 +47,7 @@ import com.koresuniku.wishmaster.core.data.model.threads.File
 import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
 import com.koresuniku.wishmaster.core.modules.thread_list.IThreadListPresenter
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListView
+import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
@@ -72,6 +73,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
     @Inject lateinit var mediaTypeMatcher: MediaTypeMatcher
+    @Inject lateinit var retrofitHolder: RetrofitHolder
 
     @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
     @BindView(R.id.app_bar_layout) lateinit var mAppBarLayout: AppBarLayout
@@ -209,7 +211,8 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
 
     private var yCoordinate = 0f
     private fun setupViewPager() {
-        mGalleryPagerAdapter = GalleryPagerAdapter(supportFragmentManager, presenter, mediaTypeMatcher)
+        mGalleryPagerAdapter = GalleryPagerAdapter(
+                supportFragmentManager, presenter, mediaTypeMatcher, retrofitHolder)
         mGalleryViewPager.adapter = mGalleryPagerAdapter
         mGalleryLayout.setOnTouchListener { view, motionEvent ->
             when(motionEvent.action) {
