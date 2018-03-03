@@ -55,10 +55,6 @@ class ThreadListAdapterViewInteractor @Inject constructor(compositeDisposable: C
         view.adaptLayout(position)
         view.setOnClickItemListener()
 
-        //Subject
-        thread.subject?.let { view.setSubject(textUtils.getSubjectSpanned(it, data.getBoardId())) }
-        view.switchSubjectVisibility(!thread.subject.isNullOrBlank() && data.getBoardId() != "b")
-
         //Comment
         thread.comment?.let {
             view.setMaxLines(uiParams.commentMaxLines)
@@ -68,6 +64,10 @@ class ThreadListAdapterViewInteractor @Inject constructor(compositeDisposable: C
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ view.setComment(it) }, { it.printStackTrace() }))
         }
+
+        //Subject
+        thread.subject?.let { view.setSubject(textUtils.getSubjectSpanned(it, data.getBoardId())) }
+        view.switchSubjectVisibility(!thread.subject.isNullOrBlank() && data.getBoardId() != "b")
 
         //ShortInfo
         view.setThreadShortInfo(textUtils.getThreadBriefInfo(thread.postsCount, thread.filesCount))
@@ -103,7 +103,7 @@ class ThreadListAdapterViewInteractor @Inject constructor(compositeDisposable: C
                                                 .subscribe({
                                                     view.setMultipleImages(
                                                             imageItemData, retrofitHolder.getDvachBaseUrl(),
-                                                            imageUtils, it) },
+                                                            imageUtils, it, uiParams.threadPostItemShortInfoHeight) },
                                                         { it.printStackTrace() }))
                                     }, { it.printStackTrace() }))
                 }

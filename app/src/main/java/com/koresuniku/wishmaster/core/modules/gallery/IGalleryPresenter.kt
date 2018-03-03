@@ -27,5 +27,7 @@ interface IGalleryPresenter {
 
     fun onOpenGalleryClick(itemPosition: Int, filePosition: Int)
     fun getGalleryState(): GalleryState
+    fun onGalleryLayoutClicked()
+    fun getFile(position: Int): File
 
 }

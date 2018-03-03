@@ -18,6 +18,7 @@ package com.koresuniku.wishmaster.ui.gallery
 
 import android.net.Uri
 import android.os.Bundle
+import android.support.annotation.Nullable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,38 +27,52 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.github.piasy.biv.view.BigImageView
 import com.koresuniku.wishmaster.R
+import com.koresuniku.wishmaster.core.modules.gallery.IGalleryPresenter
 import com.koresuniku.wishmaster.core.network.Dvach
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 
 /**
- * Created by koresuniku on 3/3/18.
- */
+* Created by koresuniku on 3/3/18.
+*/
 
 class GalleryImageFragment : BaseWishmasterFragment() {
     override lateinit var rootView: View
 
     @BindView(R.id.clickable_view) lateinit var clickableView: View
-    @BindView(R.id.big_image_view) lateinit var bigImageView: BigImageView
+    var bigImageView: BigImageView? = null
+
+    private lateinit var presenter: IGalleryPresenter
 
     private var mPosition = -1
-    private var mGalleryController: IGalleryController? = null
     private lateinit var mUrl: String
+
+    companion object {
+        fun newInstance(presenter: IGalleryPresenter): GalleryImageFragment {
+            val fragment = GalleryImageFragment()
+            fragment.presenter = presenter
+            return fragment
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.gallery_image_layout, container, false)
         ButterKnife.bind(this, rootView)
 
-        mPosition = arguments?.getInt(
-                GalleryPagerAdapter.FRAGMENT_POSITION_KEY) ?: 0
-        mGalleryController = arguments?.getSerializable(
-                GalleryPagerAdapter.GALLERY_CONTROLLER_KEY) as IGalleryController
+        bigImageView = rootView.findViewById(R.id.big_image_view)
+
+        mPosition = arguments?.getInt(GalleryPagerAdapter.FRAGMENT_POSITION_KEY) ?: 0
         mUrl = arguments?.getString(GalleryPagerAdapter.URL) ?: Dvach.BASE_URL
 
         Log.d("GIF", "mUrl: $mUrl")
-        bigImageView.ssiv.maxScale = 10.0f
-        bigImageView.ssiv.recycle()
-        bigImageView.showImage(Uri.parse("$mUrl${mGalleryController?.getFile(mPosition)?.path}"))
+        bigImageView?.ssiv?.maxScale = 10.0f
+        bigImageView?.showImage(Uri.parse("$mUrl${presenter.getFile(mPosition).path}"))
 
         return rootView
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        bigImageView?.showImage(null)
+        bigImageView = null
     }
 }

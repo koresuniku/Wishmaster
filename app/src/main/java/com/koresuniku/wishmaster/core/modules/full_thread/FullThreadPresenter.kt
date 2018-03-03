@@ -125,4 +125,12 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
     override fun onOpenGalleryClick(itemPosition: Int, filePosition: Int) {
         //TODO: implement
     }
+
+    override fun onGalleryLayoutClicked() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getFile(position: Int): File {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

@@ -31,7 +31,10 @@ interface PostItemView {fun setOnClickItemListener(threadNumber: String)
     fun setAnswers(subject: Spanned)
     fun setComment(comment: Spanned)
     fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils)
-    fun setMultipleImages(imageItemDataList: List<ImageItemData>, url: String,
-                          imageUtils: WishmasterImageUtils, gridViewHeight: Int)
+    fun setMultipleImages(imageItemDataList: List<ImageItemData>,
+                          url: String,
+                          imageUtils: WishmasterImageUtils,
+                          gridViewHeight: Int,
+                          summaryHeight: Int)
 
 }

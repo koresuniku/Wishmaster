@@ -102,7 +102,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
 
         ButterKnife.bind(this)
         uiUtils.showSystemUI(this)
-        //uiUtils.setBarsTranslucent(this, true, mFakeStatusBar)
         presenter.bindView(this)
 
         setupBackground()
@@ -279,6 +278,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
     override fun onThreadListReceived(boardName: String) {
         hideLoading()
         setupTitle(boardName)
+        mRecyclerView.post { mRecyclerView.scrollTo(0, 0) }
     }
 
     override fun showLoading() {

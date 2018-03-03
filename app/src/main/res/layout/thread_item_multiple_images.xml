@@ -59,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/subject"
+            android:gravity="center"
             android:horizontalSpacing="@dimen/thread_post_side_margin_default"
             android:isScrollContainer="false"
             android:numColumns="auto_fit"

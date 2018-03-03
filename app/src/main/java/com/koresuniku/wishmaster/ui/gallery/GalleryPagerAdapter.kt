@@ -34,10 +34,9 @@ class GalleryPagerAdapter(fragmentManager: FragmentManager,
                           private val galleryPresenter: IGalleryPresenter,
                           private val mediaTypeMatcher: MediaTypeMatcher,
                           private val retrofitHolder: RetrofitHolder) :
-        FragmentStatePagerAdapter(fragmentManager), IGalleryController, Serializable {
+        FragmentStatePagerAdapter(fragmentManager) {
 
     companion object {
-        const val GALLERY_CONTROLLER_KEY = "gallery_controller"
         const val FRAGMENT_POSITION_KEY = "fragment_position"
         const val URL = "url"
     }
@@ -45,12 +44,11 @@ class GalleryPagerAdapter(fragmentManager: FragmentManager,
     override fun getItem(position: Int): Fragment {
         val args = Bundle()
         args.putInt(FRAGMENT_POSITION_KEY, position)
-        args.putSerializable(GALLERY_CONTROLLER_KEY, this)
         args.putString(URL, retrofitHolder.getDvachBaseUrl())
 
-        return when (mediaTypeMatcher.matchFile(getFile(position))) {
+        return when (mediaTypeMatcher.matchFile(galleryPresenter.getFile(position))) {
             MediaTypeMatcher.MediaType.IMAGE -> {
-                val fragment = GalleryImageFragment()
+                val fragment = GalleryImageFragment.newInstance(galleryPresenter)
                 fragment.arguments = args
                 fragment
             }
@@ -61,10 +59,4 @@ class GalleryPagerAdapter(fragmentManager: FragmentManager,
 
     override fun getItemPosition(`object`: Any) = PagerAdapter.POSITION_NONE
     override fun getCount() = galleryPresenter.getGalleryState().fileListInList.size
-
-    override fun onLayoutClicked() {}
-
-    override fun getFile(position: Int) = galleryPresenter.getGalleryState().fileListInList[position]
-
-
 }

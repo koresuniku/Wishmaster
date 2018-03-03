@@ -16,11 +16,17 @@
 
 package com.koresuniku.wishmaster.ui.view.widget
 
+import android.R.attr.max
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.View
+import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.GridView
+import android.R.attr.numColumns
+
+
 
 /**
  * Created by koresuniku on 2/16/18.
@@ -44,5 +50,69 @@ class TouchyGridView(context: Context, attrs: AttributeSet) : GridView(context, 
             listener?.onNoItemClick()
         }
         return super.dispatchTouchEvent(event)
+    }
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        //setHeights()
+        super.onLayout(changed, l, t, r, b)
+
+    }
+
+    override fun onGlobalLayout() {
+        super.onGlobalLayout()
+       // setHeights()
+    }
+
+//    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+//        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+//        var heightSpec = 0
+//
+//        //if (getLayoutParams().height == LayoutParams.WRAP_CONTENT) {
+//            // The great Android "hackatlon", the love, the magic.
+//            // The two leftmost bits in the height measure spec have
+//            // a special meaning, hence we can't use them to describe height.
+//            heightSpec = View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE shr 2, View.MeasureSpec.AT_MOST)
+////        }
+////        else {
+////            // Any other height should be respected as is.
+////            heightSpec = heightMeasureSpec;
+////        }
+//
+//        super.onMeasure(widthMeasureSpec, heightSpec);
+//    }
+
+
+
+
+
+    fun setHeights() {
+        adapter?.let {
+            var i = 0
+            while (i < childCount) {
+                // Determine the maximum height for this row
+                var maxHeight = 0
+                var maxHeightPosition = 0
+                for (j in i until i + numColumns) {
+                    val view = getChildAt(j)
+                    if (view != null && view.height > maxHeight) {
+                        maxHeight = view.height
+                        maxHeightPosition = j
+                    }
+                }
+                //Log.d(TAG, "Max height for row #" + i/numColumns + ": " + maxHeight);
+                val view = getChildAt(maxHeightPosition)
+                view.post { view.minimumHeight = maxHeight }
+                // Set max height for each element in this row
+//                if (maxHeight > 0) {
+//                    for (j in i until i + numColumns) {
+//                        val view = getChildAt(j)
+//                        if (view != null && view.height != maxHeight) {
+//                            view.minimumHeight = maxHeight
+//                        }
+//                    }
+//                }
+                i += numColumns
+            }
+        }
     }
 }

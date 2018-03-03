@@ -110,18 +110,21 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     override fun setMultipleImages(imageItemDataList: List<ImageItemData>,
                                    url: String,
                                    imageUtils: WishmasterImageUtils,
-                                   gridViewHeight: Int) {
+                                   gridViewHeight: Int,
+                                   summaryHeight: Int) {
         mImageGrid.setOnNoItemClickListener(this)
         (mImageGrid.layoutParams as RelativeLayout.LayoutParams).topMargin =
                 if (mIsSubjectVisible) itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
                 else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
 
         mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
-        mImageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, url, imageUtils)
+        mImageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, url, imageUtils, summaryHeight)
         mImageGrid.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             presenter.onOpenGalleryClick(mThreadPosition, position)
         }
         mImageGrid.layoutParams.height = gridViewHeight
+        //mImageGrid.setHeights()
+        mImageGrid.requestLayout()
     }
 
     override fun onNoItemClick() { presenter.onThreadItemClicked(threadNumber) }

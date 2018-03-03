@@ -34,5 +34,9 @@ interface ThreadItemView {
     fun setComment(comment: Spanned)
     fun setThreadShortInfo(info: String)
     fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils)
-    fun setMultipleImages(imageItemDataList: List<ImageItemData>, url: String, imageUtils: WishmasterImageUtils, gridViewHeight: Int)
+    fun setMultipleImages(imageItemDataList: List<ImageItemData>,
+                          url: String,
+                          imageUtils: WishmasterImageUtils,
+                          gridViewHeight: Int,
+                          summaryHeight: Int)
 }

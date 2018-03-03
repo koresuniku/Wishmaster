@@ -110,10 +110,11 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
     override fun setMultipleImages(imageItemDataList: List<ImageItemData>,
                                    url: String,
                                    imageUtils: WishmasterImageUtils,
-                                   gridViewHeight: Int) {
+                                   gridViewHeight: Int,
+                                   summaryHeight: Int) {
         mImageGrid.setOnNoItemClickListener(this)
         mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
-        mImageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, url, imageUtils)
+        mImageGrid.adapter = PreviewImageGridAdapter(imageItemDataList, url, imageUtils, summaryHeight)
         mImageGrid.layoutParams.height = gridViewHeight
     }
 

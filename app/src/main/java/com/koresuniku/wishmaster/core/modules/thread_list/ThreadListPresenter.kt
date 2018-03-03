@@ -106,4 +106,10 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
         }
 
     }
+
+    override fun onGalleryLayoutClicked() {
+
+    }
+
+    override fun getFile(position: Int) = getGalleryState().fileListInList[position]
 }

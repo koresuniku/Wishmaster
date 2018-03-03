@@ -97,7 +97,7 @@ class FullThreadAdapterViewInteractor @Inject constructor(compositeDisposable: C
                                                 .subscribe({
                                                     view.setMultipleImages(
                                                             imageItemData, retrofitHolder.getDvachBaseUrl(),
-                                                            imageUtils, it) },
+                                                            imageUtils, it, uiParams.threadPostItemShortInfoHeight) },
                                                         { it.printStackTrace() }))
                                     }, { it.printStackTrace() }))
                 }
