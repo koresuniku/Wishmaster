@@ -22,7 +22,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
@@ -57,15 +56,12 @@ class PreviewImageGridAdapter(private val imageItemDataList: List<ImageItemData>
                 val clickableView = it.findViewById<View>(R.id.clickable_view)
 
                 clickableItemLayout.setOnClickListener { onImageItemClickListener.onImageItemClick(position) }
+                clickableView.setOnClickListener { onNoItemClickListener.onNoItemClick() }
 
                 imageSummary.text = imageItemData.summary
                 imageUtils.loadImageThumbnail(imageItemData, image, url)
 
-                //Log.d("PIGA", "positon: ${position}")
-                //Log.d("PIGA", "GVParams.rows: ${gridViewParams.maxHeightInARow.size}")
-
                 if ((position + 1) % gridViewParams.numColumns == 0) {
-                    Log.d("PIGA", "before setting height to CV: ${gridViewParams.maxHeightInARow.size}")
                     clickableView.layoutParams.height =
                             gridViewParams.maxHeightInARow[position / gridViewParams.numColumns] -
                             (imageItemData.dimensions.heightInPx + summaryHeight)

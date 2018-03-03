@@ -95,16 +95,14 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     override fun setThreadShortInfo(info: String) { mResume.text = info }
 
     override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {
-        val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)
+        val imageLayout = itemView.findViewById<ViewGroup>(R.id.clickable_item_layout)
         val image = imageLayout.findViewById<ImageView>(R.id.image)
 
-        imageLayout.setOnClickListener { presenter.onOpenGalleryClick(mThreadPosition, 0) }
-        imageLayout.setOnTouchListener { _, _ -> false }
+        imageLayout.setOnClickListener { onImageItemClick(0) }
 
         (mImageCommentContainer.layoutParams as RelativeLayout.LayoutParams).topMargin =
                if (mIsSubjectVisible) itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_is_subject_top_margin).toInt()
                else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
-
         mImageSummary.text = imageItemData.summary
         imageUtils.loadImageThumbnail(imageItemData, image, url)
     }
@@ -121,12 +119,8 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
         mImageGrid.layoutParams.height = gridViewParams.finalHeight
         mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
         mImageGrid.adapter = PreviewImageGridAdapter(
-                imageItemDataList, url, imageUtils, summaryHeight, gridViewParams, this, this)
-//        mImageGrid.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-//            presenter.onOpenGalleryClick(mThreadPosition, position)
-//        }
-
-        //mImageGrid.setHeights()
+                imageItemDataList, url, imageUtils, summaryHeight,
+                gridViewParams, this, this)
         mImageGrid.requestLayout()
     }
 

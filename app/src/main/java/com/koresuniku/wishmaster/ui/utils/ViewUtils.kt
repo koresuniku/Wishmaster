@@ -139,16 +139,11 @@ class ViewUtils @Inject constructor(private val deviceUtils: DeviceUtils) {
                 } else if (lastRowHeight + itemHeight > finalHeight) {
                     finalHeight = lastRowHeight + itemHeight
                     tallestHeightInARow = itemHeight
-                   // Log.d("VU", "positon % columnCount: ${position % columnCount}")
-                    if (rowsHeights.size - 1 >= position / columnCount) {
-                        rowsHeights.removeAt(position / columnCount)
+                    val rowsHeightPosition = position / columnCount
+                    if (rowsHeights.size - 1 >= rowsHeightPosition) {
+                        rowsHeights.removeAt(rowsHeightPosition)
                     }
-                    rowsHeights.add(position / columnCount, itemHeight)
-//                    if ((position + 1) % columnCount == 0) {
-//                        //Log.d("VU", "adding tallest row")
-//                        rowsHeights.add(tallestHeightInARow)
-//                        tallestHeightInARow = 0
-//                    }
+                    rowsHeights.add(rowsHeightPosition, itemHeight)
                 }
             })
 
