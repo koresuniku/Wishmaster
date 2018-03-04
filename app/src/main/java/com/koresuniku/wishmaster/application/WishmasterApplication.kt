@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
 import com.github.piasy.biv.BigImageViewer
+import com.github.piasy.biv.loader.fresco.FrescoImageLoader
 import com.github.piasy.biv.loader.glide.GlideImageLoader
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
@@ -183,7 +184,7 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
                 GlideUrl::class.java,
                 InputStream::class.java,
                 OkHttpUrlLoader.Factory(okHttpClient))
-        BigImageViewer.initialize(GlideImageLoader.with(this))
+        BigImageViewer.initialize(FrescoImageLoader.with(this))
     }
 
     override fun attachBaseContext(base: Context?) {

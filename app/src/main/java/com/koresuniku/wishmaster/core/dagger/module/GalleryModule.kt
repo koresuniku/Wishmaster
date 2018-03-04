@@ -16,10 +16,12 @@
 
 package com.koresuniku.wishmaster.core.dagger.module
 
+import com.koresuniku.wishmaster.core.modules.gallery.GalleryInteractor
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
 import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 
 /**
 * Created by koresuniku on 3/2/18.
@@ -32,5 +34,9 @@ class GalleryModule {
     fun provideGalleryState(): GalleryState = GalleryState()
 
     @Provides
-    fun providesMediaTypeMatcher(): MediaTypeMatcher = MediaTypeMatcher()
+    fun provideMediaTypeMatcher(): MediaTypeMatcher = MediaTypeMatcher()
+
+    @Provides
+    fun provideGalleryInteractor(compositeDisposable: CompositeDisposable): GalleryInteractor =
+            GalleryInteractor(compositeDisposable)
 }

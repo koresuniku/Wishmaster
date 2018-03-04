@@ -42,8 +42,9 @@ class UtilsModule {
     @Singleton
     fun provideImageUtils(uiUtils: UiUtils,
                           textUtils: WishmasterTextUtils,
-                          uiParams: UiParams): WishmasterImageUtils {
-        return WishmasterImageUtils(uiUtils, textUtils, uiParams)
+                          uiParams: UiParams,
+                          deviceUtils: DeviceUtils): WishmasterImageUtils {
+        return WishmasterImageUtils(uiUtils, textUtils, uiParams, deviceUtils)
     }
 
     @Provides

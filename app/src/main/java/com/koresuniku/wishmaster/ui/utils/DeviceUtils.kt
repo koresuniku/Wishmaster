@@ -63,4 +63,10 @@ class DeviceUtils {
         val height = context.resources.displayMetrics.heightPixels
         return if (height > width) width else height
     }
+
+    fun getActualDisplayHeightInPx(context: Context): Int {
+        val width = context.resources.displayMetrics.widthPixels
+        val height = context.resources.displayMetrics.heightPixels
+        return if (height > width) height else width
+    }
 }

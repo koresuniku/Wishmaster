@@ -16,6 +16,7 @@
 
 package com.koresuniku.wishmaster.core.utils.images
 
+import android.content.Context
 import android.net.Uri
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -26,6 +27,7 @@ import com.koresuniku.wishmaster.core.data.model.threads.File
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.modules.gallery.ImageLayoutDimensions
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import io.reactivex.Single
 import javax.inject.Inject
@@ -34,8 +36,12 @@ import javax.inject.Inject
  * Created by koresuniku on 14.01.18.
  */
 
-class WishmasterImageUtils @Inject constructor(private val uiUtils: UiUtils, private val textUtils: WishmasterTextUtils,
-        private val uiParams: UiParams) {
+class WishmasterImageUtils @Inject constructor(private val uiUtils: UiUtils,
+                                               private val textUtils: WishmasterTextUtils,
+                                               private val uiParams: UiParams,
+                                               private val deviceUtils: DeviceUtils) {
+
+    data class ImageTargetDimensions(val width: Int, val height: Int)
 
     fun getImageItemData(file: File): Single<ImageItemData> {
         //Log.d("WIU", "SPUID: ${uiParams}")
@@ -94,5 +100,36 @@ class WishmasterImageUtils @Inject constructor(private val uiUtils: UiUtils, pri
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .into(image)
+    }
+
+    fun computeActualDimensions(context: Context, file: File): Single<ImageTargetDimensions> {
+        return Single.create {
+            val targetWidth: Int
+            val targetHeight: Int
+
+            val displayWidth = deviceUtils.getDisplayWidth(context)
+            val displayHeight = deviceUtils.getDisplayHeight(context)
+
+            val rawImageWidth = file.width
+            val rawImageHeight = file.height
+
+            val widthByHeightDisplayRatio = displayWidth.toFloat() / displayHeight.toFloat()
+            val widthByHeightImageRatio = rawImageWidth.toFloat() / rawImageHeight.toFloat()
+
+            val isDisplayHorizontal = displayWidth > displayHeight
+            val doesImageFitHeight = if (isDisplayHorizontal)
+                widthByHeightDisplayRatio > widthByHeightImageRatio else
+                widthByHeightDisplayRatio < widthByHeightImageRatio
+
+            if (doesImageFitHeight) {
+                targetHeight = displayHeight
+                targetWidth = (targetHeight * widthByHeightImageRatio).toInt()
+            } else {
+                targetWidth = displayWidth
+                targetHeight = (targetWidth / widthByHeightImageRatio).toInt()
+            }
+
+            it.onSuccess(ImageTargetDimensions(targetWidth, targetHeight))
+        }
     }
 }

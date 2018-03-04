@@ -29,10 +29,10 @@ import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 
 class GalleryFragment : BaseWishmasterFragment() {
 
-    override lateinit var rootView: View
+    override lateinit var rootView: ViewGroup
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.fragment_gallery, container, false)
+        rootView = inflater.inflate(R.layout.fragment_gallery, container, false) as ViewGroup
 
         return rootView
     }

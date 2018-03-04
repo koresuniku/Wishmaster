@@ -21,7 +21,7 @@ import com.koresuniku.wishmaster.core.base.mvp.IMvpPresenter
 import io.reactivex.disposables.CompositeDisposable
 
 
-abstract class BaseRxInteractor<P : IMvpPresenter<*>>(override val compositeDisposable: CompositeDisposable):
+abstract class BaseRxInteractor<P>(override val compositeDisposable: CompositeDisposable):
         BaseMvpInteractor<P>(), IRxObject {
 
     override fun unbindPresenter() {

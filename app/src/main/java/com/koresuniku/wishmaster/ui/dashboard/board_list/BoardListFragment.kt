@@ -41,13 +41,13 @@ class BoardListFragment : BaseWishmasterFragment(), BoardListView<IDashboardPres
 
     @Inject override lateinit var presenter: IDashboardPresenter
 
-    override lateinit var rootView: View
+    override lateinit var rootView: ViewGroup
     @BindView(R.id.board_list) lateinit var mBoardList: ExpandableListView
 
     private lateinit var mBoardListAdapter: BoardListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.fragment_board_list, container, false)
+        rootView = inflater.inflate(R.layout.fragment_board_list, container, false) as ViewGroup
         ButterKnife.bind(this, rootView)
         (activity as DashboardActivity)
                 .getWishmasterApplication()

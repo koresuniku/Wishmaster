@@ -34,6 +34,7 @@ import com.koresuniku.wishmaster.core.dagger.module.DownloaderModule
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.application_scope.*
 import com.koresuniku.wishmaster.core.data.database.DatabaseHelper
+import com.koresuniku.wishmaster.core.modules.gallery.GalleryInteractor
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.network.full_thread_api.FullThreadApiService

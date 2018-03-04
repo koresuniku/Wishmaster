@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.base.mvp
+package com.koresuniku.wishmaster.core.modules.gallery
 
+import com.koresuniku.wishmaster.core.base.rx.BaseRxInteractor
+import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
-interface IMvpInteractor<in P> {
-    fun bindPresenter(presenter: P)
-    fun unbindPresenter()
+/**
+ * Created by koresuniku on 3/4/18.
+ */
+
+class GalleryInteractor @Inject constructor(compositeDisposable: CompositeDisposable) :
+        BaseRxInteractor<IGalleryPresenter>(compositeDisposable) {
+
 }

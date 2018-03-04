@@ -20,11 +20,13 @@ import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.application.notifier.OnOrientationChangedListener
 import com.koresuniku.wishmaster.core.base.rx.BaseRxDataPresenter
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
+import com.koresuniku.wishmaster.core.modules.gallery.GalleryInteractor
 import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseThreadListPresenter(compositeDisposable: CompositeDisposable,
                                        protected val threadListNetworkInteractor: ThreadListNetworkInteractor,
                                        protected val threadListAdapterViewInteractor: ThreadListAdapterViewInteractor,
+                                       protected val galleryInteractor: GalleryInteractor,
                                        private val orientationNotifier: OrientationNotifier):
         BaseRxDataPresenter<ThreadListView<IThreadListPresenter>, ThreadListData>(compositeDisposable),
         IThreadListPresenter, OnOrientationChangedListener {
@@ -43,6 +45,7 @@ abstract class BaseThreadListPresenter(compositeDisposable: CompositeDisposable,
         presenterData = ThreadListData.emptyData()
         threadListNetworkInteractor.bindPresenter(this)
         threadListAdapterViewInteractor.bindPresenter(this)
+        galleryInteractor.bindPresenter(this)
         orientationNotifier.bindListener(this)
     }
 
@@ -50,6 +53,7 @@ abstract class BaseThreadListPresenter(compositeDisposable: CompositeDisposable,
         super.unbindView()
         threadListNetworkInteractor.unbindPresenter()
         threadListAdapterViewInteractor.unbindPresenter()
+        galleryInteractor.unbindPresenter()
         unbindThreadListAdapterView()
         orientationNotifier.unbindListener(this)
     }

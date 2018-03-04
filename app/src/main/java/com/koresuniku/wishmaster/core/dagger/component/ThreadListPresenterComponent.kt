@@ -22,6 +22,7 @@ import com.koresuniku.wishmaster.core.dagger.module.GalleryModule
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes.ThreadListPresenterModule
 import com.koresuniku.wishmaster.core.dagger.scope.ForThreadListPresenter
+import com.koresuniku.wishmaster.core.modules.gallery.GalleryInteractor
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
 import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListAdapterViewInteractor

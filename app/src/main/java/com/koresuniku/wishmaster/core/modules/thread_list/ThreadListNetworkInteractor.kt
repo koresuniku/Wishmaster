@@ -32,7 +32,8 @@ import javax.inject.Inject
 class ThreadListNetworkInteractor @Inject constructor(apiService: ThreadListApiService,
                                                       private val responseParser: ThreadListResponseParser,
                                                       compositeDisposable: CompositeDisposable):
-        BaseRxNetworkInteractor<IThreadListPresenter, ThreadListApiService, ThreadListData>(apiService, compositeDisposable) {
+        BaseRxNetworkInteractor<IThreadListPresenter, ThreadListApiService, ThreadListData>(
+                apiService, compositeDisposable) {
 
     override fun getDataFromNetwork(): Single<ThreadListData> {
         return Single.create({ e ->

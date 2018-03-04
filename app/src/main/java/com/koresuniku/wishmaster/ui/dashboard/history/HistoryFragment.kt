@@ -30,10 +30,10 @@ import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 class HistoryFragment : BaseWishmasterFragment() {
     private val LOG_TAG = HistoryFragment::class.java.simpleName
 
-    override lateinit var rootView: View
+    override lateinit var rootView: ViewGroup
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.fragment_history, container, false)
+        rootView = inflater.inflate(R.layout.fragment_history, container, false) as ViewGroup
 
         return rootView
     }

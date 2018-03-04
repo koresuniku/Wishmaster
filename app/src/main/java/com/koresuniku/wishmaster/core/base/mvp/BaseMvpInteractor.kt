@@ -17,7 +17,7 @@
 package com.koresuniku.wishmaster.core.base.mvp
 
 
-abstract class BaseMvpInteractor<P : IMvpPresenter<*>> : IMvpInteractor<P> {
+abstract class BaseMvpInteractor<P> : IMvpInteractor<P> {
 
     protected var presenter: P? = null
 

@@ -48,7 +48,7 @@ class FavouriteBoardsFragment : BaseWishmasterFragment(),
 
     @Inject override lateinit var presenter: IDashboardPresenter
 
-    override lateinit var rootView: View
+    override lateinit var rootView: ViewGroup
     @BindView(R.id.favourites_recycler_view) lateinit var recyclerView: RecyclerView
     @BindView(R.id.nothing_container) lateinit var nothingContainer: ViewGroup
 
@@ -58,7 +58,7 @@ class FavouriteBoardsFragment : BaseWishmasterFragment(),
     private lateinit var mItemDecoration: FavouriteBoardsItemDividerDecoration
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.fragment_favourite_boards, container, false)
+        rootView = inflater.inflate(R.layout.fragment_favourite_boards, container, false) as ViewGroup
         ButterKnife.bind(this, rootView)
         (activity as DashboardActivity)
                 .getWishmasterApplication()

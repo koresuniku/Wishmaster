@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.base.mvp
+package com.koresuniku.wishmaster.core.modules.gallery
 
+import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 
-interface IMvpInteractor<in P> {
-    fun bindPresenter(presenter: P)
-    fun unbindPresenter()
+/**
+ * Created by koresuniku on 3/4/18.
+ */
+
+interface IGalleryItem {
+    fun onTargetDimensionsReady(dimensions: WishmasterImageUtils.ImageTargetDimensions)
 }

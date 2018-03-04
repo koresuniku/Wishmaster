@@ -19,7 +19,9 @@ package com.koresuniku.wishmaster.core.modules.thread_list
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.threads.File
+import com.koresuniku.wishmaster.core.modules.gallery.GalleryInteractor
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
+import com.koresuniku.wishmaster.core.modules.gallery.IGalleryItem
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -35,11 +37,13 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
                                               compositeDisposable: CompositeDisposable,
                                               threadListNetworkInteractor: ThreadListNetworkInteractor,
                                               threadListAdapterViewInteractor: ThreadListAdapterViewInteractor,
+                                              galleryInteractor: GalleryInteractor,
                                               orientationNotifier: OrientationNotifier):
         BaseThreadListPresenter(
                 compositeDisposable,
                 threadListNetworkInteractor,
                 threadListAdapterViewInteractor,
+                galleryInteractor,
                 orientationNotifier) {
     private val LOG_TAG = ThreadListPresenter::class.java.simpleName
 
@@ -112,4 +116,12 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
     }
 
     override fun getFile(position: Int) = getGalleryState().fileListInList[position]
+
+    override fun getImageTargetCoordinates(item: IGalleryItem) {
+
+    }
+
+    override fun onImageTargetCoordinatesReceived() {
+
+    }
 }
