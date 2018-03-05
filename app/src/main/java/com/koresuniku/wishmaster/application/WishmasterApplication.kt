@@ -35,14 +35,13 @@ import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.component.*
 import com.koresuniku.wishmaster.core.dagger.module.*
 import com.koresuniku.wishmaster.core.dagger.module.application_scope.*
-import com.koresuniku.wishmaster.core.modules.dashboard.DashboardBusinessLogicModule
-import com.koresuniku.wishmaster.core.modules.dashboard.DashboardViewModule
 import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadPresenterModule
 import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadViewModule
 import com.koresuniku.wishmaster.core.dagger.module.settings_scopes.SettingsPresenterModule
 import com.koresuniku.wishmaster.core.dagger.module.settings_scopes.SettingsViewModule
 import com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes.ThreadListPresenterModule
 import com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes.ThreadListViewModule
+import com.koresuniku.wishmaster.core.modules.dashboard.*
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.network.github_api.GithubHelper
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
@@ -88,13 +87,17 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
                 .downloaderModule(DownloaderModule(this))
                 .build() as DaggerApplicationComponent
     }
+    override val daggerDashboardBusinessLogicComponent: DaggerDashboardBusinessLogicComponent by lazy {
+        DaggerDashboardBusinessLogicComponent.builder()
+                .applicationComponent(mDaggerApplicationComponent)
+                .dashboardBusinessLogicModule(DashboardBusinessLogicModule())
+                .rxModule(RxModule())
+                .searchModule(SearchModule())
+                .build() as DaggerDashboardBusinessLogicComponent
+    }
     override val daggerDashboardPresenterComponent: DaggerDashboardPresenterComponent by lazy {
         DaggerDashboardPresenterComponent.builder()
-                .applicationComponent(mDaggerApplicationComponent)
-                .dashboardPresenterModule(DashboardBusinessLogicModule())
-                .rxModule(RxModule())
-                .boardsModule(BoardsDatabaseModule())
-                .searchModule(SearchModule())
+                .dashboardBusinessLogicComponent(daggerDashboardBusinessLogicComponent)
                 .build() as DaggerDashboardPresenterComponent
     }
     override val daggerDashboardViewComponent: DaggerDashboardViewComponent by lazy {

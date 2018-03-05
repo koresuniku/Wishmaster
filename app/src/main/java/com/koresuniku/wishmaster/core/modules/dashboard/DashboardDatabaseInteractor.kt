@@ -18,7 +18,6 @@ package com.koresuniku.wishmaster.core.modules.dashboard
 
 import android.database.sqlite.SQLiteDatabase
 import com.koresuniku.wishmaster.core.base.BaseDatabaseInteractor
-import com.koresuniku.wishmaster.core.base.rx.BaseRxDatabaseInteractor
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListsObject
@@ -38,10 +37,7 @@ class DashboardDatabaseInteractor @Inject constructor(injector: IWishmasterDagge
     @Inject lateinit var compositeDisposable: CompositeDisposable
     @Inject lateinit var boardsRepository: BoardsRepository
 
-    init {
-        injector.daggerDashboardBussinessLogicComponent.inject(this)
-    }
-
+    init { injector.daggerDashboardBusinessLogicComponent.inject(this) }
 
     override fun fetchBoardListData(): Single<BoardListData> {
         return Single.create({

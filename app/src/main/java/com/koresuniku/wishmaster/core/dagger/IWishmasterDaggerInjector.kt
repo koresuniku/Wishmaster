@@ -17,9 +17,13 @@
 package com.koresuniku.wishmaster.core.dagger
 
 import com.koresuniku.wishmaster.core.dagger.component.*
+import com.koresuniku.wishmaster.core.modules.dashboard.DaggerDashboardBusinessLogicComponent
+import com.koresuniku.wishmaster.core.modules.dashboard.DaggerDashboardPresenterComponent
+import com.koresuniku.wishmaster.core.modules.dashboard.DaggerDashboardViewComponent
 
 
 interface IWishmasterDaggerInjector {
+    val daggerDashboardBusinessLogicComponent: DaggerDashboardBusinessLogicComponent
     val daggerDashboardPresenterComponent: DaggerDashboardPresenterComponent
     val daggerDashboardViewComponent: DaggerDashboardViewComponent
 

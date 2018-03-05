@@ -26,15 +26,14 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class DashboardNetworkInteractor @Inject constructor(injector: IWishmasterDaggerInjector): DashboardMvpContract.IDashboardNetworkInteractor {
+class DashboardNetworkInteractor @Inject constructor(injector: IWishmasterDaggerInjector):
+        DashboardMvpContract.IDashboardNetworkInteractor {
 
     @Inject override lateinit var service: BoardsApiService
     @Inject lateinit var compositeDisposable: CompositeDisposable
     @Inject lateinit var responseParser: BoardsResponseParser
 
-    init {
-        injector.daggerDashboardBussinessLogicComponent.inject(this)
-    }
+    init { injector.daggerDashboardBusinessLogicComponent.inject(this) }
 
     override fun fetchBoardListData(): Single<BoardListData> {
         return Single.create({ e -> run {

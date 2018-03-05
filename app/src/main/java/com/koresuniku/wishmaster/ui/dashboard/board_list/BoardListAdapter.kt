@@ -25,18 +25,27 @@ import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.koresuniku.wishmaster.R
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListsObject
 import com.koresuniku.wishmaster.core.data.database.repository.BoardsRepository
+import com.koresuniku.wishmaster.core.modules.dashboard.DashboardMvpContract
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
 /**
  * Created by koresuniku on 12.11.17.
  */
 
-class BoardListAdapter (private val mContext: WeakReference<Context>,
-                        private val mBoardsListsObject: BoardListsObject,
-                        private val mPresenter: IDashboardPresenter)
+class BoardListAdapter (injector: IWishmasterDaggerInjector,
+                        private val mContext: WeakReference<Context>,
+                        private val mBoardsListsObject: BoardListsObject)
     : BaseExpandableListAdapter() {
+
+    @Inject lateinit var presenter: DashboardMvpContract.IDashboardPresenter
+
+    init {
+        injector.daggerDashboardViewComponent.inject(this)
+    }
 
     override fun getGroup(groupPosition: Int): Any = mBoardsListsObject.boardLists[groupPosition].second
 
@@ -89,7 +98,7 @@ class BoardListAdapter (private val mContext: WeakReference<Context>,
                     R.drawable.ic_favorite_gray_24dp)
 
         makeFavouriteButton?.setOnClickListener({
-            mPresenter.switchBoardFavourability(boardModel.getBoardId())
+            presenter.switchBoardFavourability(boardModel.getBoardId())
         })
 
         return newConvertView!!

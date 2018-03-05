@@ -18,6 +18,7 @@ package com.koresuniku.wishmaster.core.modules.dashboard
 
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.ui.dashboard.DashboardActivity
+import com.koresuniku.wishmaster.ui.dashboard.board_list.BoardListAdapter
 import com.koresuniku.wishmaster.ui.dashboard.board_list.BoardListFragment
 import com.koresuniku.wishmaster.ui.dashboard.favourite_boards.FavouriteBoardsFragment
 import com.koresuniku.wishmaster.ui.dashboard.favourite_boards.FavouriteBoardsRecyclerViewAdapter
@@ -37,4 +38,6 @@ interface DashboardViewComponent {
     fun inject(boardListFragment: BoardListFragment)
     fun inject(favouriteBoardsFragment: FavouriteBoardsFragment)
     fun inject(favouriteBoardsRecyclerViewAdapter: FavouriteBoardsRecyclerViewAdapter)
+    fun inject(boardListAdapter: BoardListAdapter)
+
 }

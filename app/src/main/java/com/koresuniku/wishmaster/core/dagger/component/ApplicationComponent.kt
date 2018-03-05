@@ -23,6 +23,7 @@ import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster.application.WishmasterApplication
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
+import com.koresuniku.wishmaster.application.preferences.ISharedPreferencesStorage
 import com.koresuniku.wishmaster.application.preferences.SharedPreferencesStorage
 import com.koresuniku.wishmaster.application.service.WMFirebaseMessagingService
 import com.koresuniku.wishmaster.application.singletones.UiParams
@@ -71,7 +72,7 @@ interface ApplicationComponent {
     fun injector(): IWishmasterDaggerInjector
 
     //SharedPreferences
-    fun sharedPreferencesStorage(): SharedPreferencesStorage
+    fun sharedPreferencesStorage(): ISharedPreferencesStorage
     fun sharedPreferencesUiDimens(): UiParams
 
     //Database

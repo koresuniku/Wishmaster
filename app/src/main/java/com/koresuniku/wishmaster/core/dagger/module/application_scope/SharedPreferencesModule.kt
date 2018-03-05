@@ -33,7 +33,7 @@ class SharedPreferencesModule {
 
     @Provides
     @Singleton
-    fun provideSharedPreferencesStorage(context: Context): SharedPreferencesStorage {
+    fun provideSharedPreferencesStorage(context: Context): ISharedPreferencesStorage {
         return SharedPreferencesStorage(context)
     }
 

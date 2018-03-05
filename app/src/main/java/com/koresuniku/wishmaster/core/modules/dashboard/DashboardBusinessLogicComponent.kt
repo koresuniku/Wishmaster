@@ -36,7 +36,7 @@ import io.reactivex.disposables.CompositeDisposable
         modules = [DashboardBusinessLogicModule::class, RxModule::class, SearchModule::class])
 interface DashboardBusinessLogicComponent {
 
-    //Global singletones
+    //Global singletons
     fun injector(): IWishmasterDaggerInjector
     fun uiUtils(): UiUtils
     fun viewUtils(): ViewUtils
@@ -46,10 +46,10 @@ interface DashboardBusinessLogicComponent {
     fun permissionManager(): WMPermissionManager
 
     //Interactors
-    fun dashboardNetworkInteractor(): DashboardNetworkInteractor
-    fun dashboardDatabaseInteractor(): DashboardDatabaseInteractor
-    fun dashboardSearchInteractor(): DashboardSearchInteractor
-    fun dashboardSharedPreferencesInteractor(): DashboardSharedPreferencesInteractor
+    fun dashboardNetworkInteractor(): DashboardMvpContract.IDashboardNetworkInteractor
+    fun dashboardDatabaseInteractor(): DashboardMvpContract.IDashboardDatabaseInteractor
+    fun dashboardSearchInteractor(): DashboardMvpContract.IDashboardSearchInteractor
+    fun dashboardSharedPreferencesInteractor(): DashboardMvpContract.IDashboardSharedPreferencesInteractor
     fun compositeDisposable(): CompositeDisposable
 
     fun inject(networkInteractor: DashboardNetworkInteractor)

@@ -28,6 +28,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
+import com.koresuniku.wishmaster.core.modules.dashboard.DashboardMvpContract
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 import com.koresuniku.wishmaster.ui.dashboard.DashboardActivity
@@ -40,11 +41,11 @@ import javax.inject.Inject
  * Created by koresuniku on 10.11.17.
  */
 
-class FavouriteBoardsFragment : BaseWishmasterFragment(),
+class FavouriteBoardsFragment : BaseWishmasterFragment(), DashboardMvpContract.IDashboardFavouriteBoardsView,
         OnStartDragListener, OnItemDroppedCallback {
     private val LOG_TAG = FavouriteBoardsFragment::class.java.simpleName
 
-    @Inject override lateinit var presenter: IDashboardPresenter
+    @Inject lateinit var presenter: DashboardMvpContract.IDashboardPresenter
 
     override lateinit var rootView: ViewGroup
     @BindView(R.id.favourites_recycler_view) lateinit var recyclerView: RecyclerView
@@ -72,7 +73,7 @@ class FavouriteBoardsFragment : BaseWishmasterFragment(),
 
     private fun setupRecyclerView() {
         mRecyclerViewAdapter = FavouriteBoardsRecyclerViewAdapter(
-                activity as BaseWishmasterActivity<IDashboardPresenter>,
+                activity as BaseWishmasterActivity,
                 this, this)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = mRecyclerViewAdapter

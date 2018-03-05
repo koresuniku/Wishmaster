@@ -24,7 +24,9 @@ import android.widget.ExpandableListView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListsObject
+import com.koresuniku.wishmaster.core.modules.dashboard.DashboardMvpContract
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 import com.koresuniku.wishmaster.ui.dashboard.DashboardActivity
 import java.lang.ref.WeakReference
@@ -34,10 +36,11 @@ import javax.inject.Inject
  * Created by koresuniku on 10.11.17.
  */
 
-class BoardListFragment : BaseWishmasterFragment() {
+class BoardListFragment : BaseWishmasterFragment(), DashboardMvpContract.IDashboardBoardListView {
     private val LOG_TAG = BoardListFragment::class.java.simpleName
 
-    @Inject override lateinit var presenter: IDashboardPresenter
+    @Inject lateinit var presenter: DashboardMvpContract.IDashboardPresenter
+    @Inject lateinit var injector: IWishmasterDaggerInjector
 
     override lateinit var rootView: ViewGroup
     @BindView(R.id.board_list) lateinit var mBoardList: ExpandableListView
@@ -62,11 +65,11 @@ class BoardListFragment : BaseWishmasterFragment() {
 
     private fun setupBoardListAdapter(boardListsObject: BoardListsObject) {
         context?.let {
-            mBoardListAdapter = BoardListAdapter(WeakReference(it), boardListsObject, presenter)
+            mBoardListAdapter = BoardListAdapter(injector, WeakReference(it), boardListsObject)
             mBoardList.setAdapter(mBoardListAdapter)
             mBoardList.setGroupIndicator(null)
             mBoardList.setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
-                presenter.shouldLaunchThreadListActivity(
+                presenter.launchThreadList(
                         boardListsObject.boardLists[groupPosition].second[childPosition].getBoardId())
                 false
             }

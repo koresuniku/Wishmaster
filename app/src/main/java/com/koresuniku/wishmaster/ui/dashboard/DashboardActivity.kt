@@ -57,13 +57,13 @@ class DashboardActivity : BaseWishmasterActivity(),
         DashboardMvpContract.IDashboardMainView, OnNewReleaseListener {
     private val LOG_TAG = DashboardActivity::class.java.simpleName
 
-    @Inject lateinit var presenter: DashboardMvpContract.IDashboardPresenter
-    @Inject lateinit var uiUtils: UiUtils
-    @Inject lateinit var viewUtils: ViewUtils
-    @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
-    @Inject lateinit var newReleaseNotifier: NewReleaseNotifier
-    @Inject lateinit var downloadManager: WMDownloadManager
-    @Inject lateinit var permissionManager: WMPermissionManager
+//    @Inject lateinit var presenter: DashboardMvpContract.IDashboardPresenter
+//    @Inject lateinit var uiUtils: UiUtils
+//    @Inject lateinit var viewUtils: ViewUtils
+//    @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
+//    @Inject lateinit var newReleaseNotifier: NewReleaseNotifier
+//    @Inject lateinit var downloadManager: WMDownloadManager
+//    @Inject lateinit var permissionManager: WMPermissionManager
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.tab_layout) lateinit var mTabLayout: TabLayout
@@ -76,7 +76,7 @@ class DashboardActivity : BaseWishmasterActivity(),
     private lateinit var mViewPagerAdapter: DashboardViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        getWishmasterApplication().daggerDashboardViewComponent.inject(this)
+        getWishmasterApplication().d.inject(this)
         super.onCreate(savedInstanceState)
 
         uiUtils.showSystemUI(this)

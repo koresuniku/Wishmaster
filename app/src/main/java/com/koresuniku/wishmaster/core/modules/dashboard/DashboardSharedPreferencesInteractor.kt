@@ -31,9 +31,7 @@ class DashboardSharedPreferencesInteractor @Inject constructor(injector: IWishma
     @Inject override lateinit var sharedPreferencesStorage: ISharedPreferencesStorage
     @Inject lateinit var compositeDisposable: CompositeDisposable
 
-    init {
-        injector.daggerDashboardBussinessLogicComponent.inject(this)
-    }
+    init { injector.daggerDashboardBusinessLogicComponent.inject(this) }
 
     override fun getDashboardFavouriteTabPosition(): Single<Int> {
         return Single.create({
