@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.modules.thread_list
 
-import com.koresuniku.wishmaster.core.base.rx.BaseRxNetworkInteractor
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListResponseParser
 import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListApiService
@@ -29,58 +29,53 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class ThreadListNetworkInteractor @Inject constructor(apiService: ThreadListApiService,
-                                                      private val responseParser: ThreadListResponseParser,
-                                                      compositeDisposable: CompositeDisposable):
-        BaseRxNetworkInteractor<IThreadListPresenter, ThreadListApiService, ThreadListData>(
-                apiService, compositeDisposable) {
+class ThreadListNetworkInteractor @Inject constructor(injector: IWishmasterDaggerInjector) :
+        ThreadListMvpContract.IThreadListNetworkInteractor {
 
-    override fun getDataFromNetwork(): Single<ThreadListData> {
+    @Inject lateinit var compositeDisposable: CompositeDisposable
+    @Inject lateinit var responseParser: ThreadListResponseParser
+    @Inject override lateinit var service: ThreadListApiService
+
+    init {
+       // injector.daggerThreadListBusinessLogicComponent.inject(this)
+    }
+
+    override fun fetchThreadListData(boardId: String): Single<ThreadListData> {
         return Single.create({ e ->
-            compositeDisposable.add(loadThreadListFromCatalog()
+            compositeDisposable.add(loadThreadListFromCatalog(boardId)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         if (it.threads.isEmpty()) {
-                            compositeDisposable.add(loadThreadListFromPages()
+                            compositeDisposable.add(loadThreadListFromPages(boardId)
                                     .subscribeOn(Schedulers.newThread())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe({
                                         e.onSuccess(responseParser.mapPageResponseToThreadListData(it))
-                                    }, { presenter?.onNetworkError(it) }))
+                                    }, { e.onError(it) }))
                         } else e.onSuccess(responseParser.mapCatalogResponseToThreadListData(it))
-                    }, { presenter?.onNetworkError(it) }))
+                    }, {  e.onError(it) }))
         })
     }
 
-    private fun loadThreadListFromCatalog(): Single<ThreadListJsonSchemaCatalogResponse> {
+    override fun loadThreadListFromCatalog(boardId: String): Single<ThreadListJsonSchemaCatalogResponse> {
         return Single.create({ e ->
-            presenter?.let {
-                compositeDisposable.add(getService()
-                        .getThreadsObservable(it.getBoardId())
-                        .subscribe(
-                                { schema -> e.onSuccess(schema) },
-                                { presenter?.onNetworkError(it) }))
-            }
+            compositeDisposable.add(service.getThreadsObservable(boardId)
+                    .subscribe({ schema -> e.onSuccess(schema) }, { e.onError(it) }))
         })
     }
 
-    private fun loadThreadListFromPages(): Single<ThreadListJsonSchemaPageResponse> {
+    override fun loadThreadListFromPages(boardId: String): Single<ThreadListJsonSchemaPageResponse> {
         return Single.create({ e ->
-            presenter?.let {
-                val boardId = it.getBoardId()
-                val indexResponse = getService().getThreadsByPageCall(boardId, "index").execute()
-                indexResponse.body()?.let {
-                    it.threads = arrayListOf()
-                    //Абу, почини API!
-                    (1 until it.pages.size - 1)
-                            .map {
-                                getService().getThreadsByPageCall(boardId, it.toString()).execute()
-                            }
-                            .forEach { nextPageResponse ->
-                                it.threads.addAll(nextPageResponse.body()?.threads ?: emptyList())
-                            }
-                    e.onSuccess(it)
-                }
+            val indexResponse = service.getThreadsByPageCall(boardId, "index").execute()
+            indexResponse.body()?.let {
+                it.threads = arrayListOf()
+                //Абу, почини API!
+                (1 until it.pages.size - 1)
+                        .map { service.getThreadsByPageCall(boardId, it.toString()).execute() }
+                        .forEach { nextPageResponse ->
+                            it.threads.addAll(nextPageResponse.body()?.threads ?: emptyList())
+                        }
+                e.onSuccess(it)
             }
         })
     }

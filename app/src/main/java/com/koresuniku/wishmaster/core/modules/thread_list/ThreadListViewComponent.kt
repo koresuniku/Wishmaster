@@ -16,17 +16,22 @@
 
 package com.koresuniku.wishmaster.core.modules.thread_list
 
-import com.koresuniku.wishmaster.application.notifier.OnOrientationChangedListener
-import com.koresuniku.wishmaster.core.base.IMvpView
-import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
+import com.koresuniku.wishmaster.ui.thread_list.ThreadItemViewHolder
+import com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity
+import com.koresuniku.wishmaster.ui.thread_list.ThreadListRecyclerViewAdapter
+import dagger.Component
 
 /**
- * Created by koresuniku on 07.01.18.
+ * Created by koresuniku on 01.01.18.
  */
 
-interface ThreadListAdapterView<P> : IMvpView<P>, OnOrientationChangedListener {
-    val NO_IMAGES_CODE: Int
-    val SINGLE_IMAGE_CODE: Int
-    val MULTIPLE_IMAGES_CODE: Int
-    fun onThreadListDataChanged(newThreadListData: ThreadListData)
+@PerThreadListView
+@Component(dependencies = [(ThreadListBusinessLogicComponent::class)],
+        modules = [(ThreadListViewModule::class)])
+interface ThreadListViewComponent {
+
+    fun inject(activity: ThreadListActivity)
+    fun inject(threadListAdapterView: ThreadListRecyclerViewAdapter)
+    fun inject(threadItemViewHolder: ThreadItemViewHolder)
+
 }

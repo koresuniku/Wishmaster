@@ -14,10 +14,25 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.scope
+package com.koresuniku.wishmaster.core.modules.thread_list
 
 import javax.inject.Scope
 
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-annotation class PerThreadListView
+/**
+ * Created by koresuniku on 3/5/18.
+ */
+
+object ThreadListScopes {
+
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForThreadListBusinessLogic
+
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForThreadListPresenter
+
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForThreadListView
+}

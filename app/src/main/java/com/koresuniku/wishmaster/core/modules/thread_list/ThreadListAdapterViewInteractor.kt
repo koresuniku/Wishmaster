@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.modules.thread_list
 
 import android.content.Context
 import com.koresuniku.wishmaster.application.singletones.UiParams
-import com.koresuniku.wishmaster.core.base.rx.BaseRxAdapterViewInteractor
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
@@ -32,60 +32,65 @@ import javax.inject.Inject
 /**
  * Created by koresuniku on 02.02.18.
  */
-class ThreadListAdapterViewInteractor @Inject constructor(compositeDisposable: CompositeDisposable,
-                                                          private val context: Context,
-                                                          private val uiParams: UiParams,
-                                                          private val retrofitHolder: RetrofitHolder,
-                                                          private val imageUtils: WishmasterImageUtils,
-                                                          private val textUtils: WishmasterTextUtils,
-                                                          private val viewUtils: ViewUtils):
-        BaseRxAdapterViewInteractor<
-                IThreadListPresenter,
-                ThreadListAdapterView<IThreadListPresenter>,
-                ThreadItemView,
-        ThreadListData>(compositeDisposable) {
 
-    override fun setItemViewData(adapterView: ThreadListAdapterView<IThreadListPresenter>,
-                                 view: ThreadItemView,
+class ThreadListAdapterViewInteractor @Inject constructor(injector: IWishmasterDaggerInjector):
+        ThreadListMvpContract.IThreadListAdapterViewInteractor {
+
+    @Inject lateinit var uiParams: UiParams
+    @Inject lateinit var textUtils: WishmasterTextUtils
+    @Inject lateinit var compositeDisposable: CompositeDisposable
+    @Inject lateinit var imageUtils: WishmasterImageUtils
+    @Inject lateinit var retrofitHolder: RetrofitHolder
+    @Inject lateinit var context: Context
+    @Inject lateinit var viewUtils: ViewUtils
+
+    init {
+        //injector.daggerThreadListBusinessLogicComponent.inject(this)
+    }
+
+    override fun setItemViewData(adapterView: ThreadListMvpContract.IThreadListAdapterView,
+                                 itemView: ThreadListMvpContract.IThreadItemView,
                                  data: ThreadListData,
-                                 position: Int) {
+                                 position: Int,
+                                 type: Int) {
         val thread = data.getThreadList()[position]
 
-        view.threadNumber = thread.num
-        view.adaptLayout(position)
-        view.setOnClickItemListener()
+        itemView.threadNumber = thread.num
+        itemView.adaptLayout(position)
+        itemView.setOnClickItemListener()
 
         //Comment
         thread.comment?.let {
-            view.setMaxLines(uiParams.commentMaxLines)
+            itemView.setMaxLines(uiParams.commentMaxLines)
             if (thread.files == null || thread.files?.size != 1)
                 compositeDisposable.add(textUtils.getCommentDefault(it)
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ view.setComment(it) }, { it.printStackTrace() }))
+                        .subscribe({ itemView.setComment(it) }, { it.printStackTrace() }))
         }
 
         //Subject
-        thread.subject?.let { view.setSubject(textUtils.getSubjectSpanned(it, data.getBoardId())) }
-        view.switchSubjectVisibility(!thread.subject.isNullOrBlank() && data.getBoardId() != "b")
+        thread.subject?.let { itemView.setSubject(textUtils.getSubjectSpanned(it, data.getBoardId())) }
+        itemView.switchSubjectVisibility(!thread.subject.isNullOrBlank() && data.getBoardId() != "b")
 
         //ShortInfo
-        view.setThreadShortInfo(textUtils.getThreadBriefInfo(thread.postsCount, thread.filesCount))
+        itemView.setThreadShortInfo(textUtils.getThreadBriefInfo(thread.postsCount, thread.filesCount))
 
         //Images
         thread.files?.let {
-            when (adapterView.presenter.getThreadItemType(position)) {
+            when (type) {
                 adapterView.SINGLE_IMAGE_CODE -> {
                     compositeDisposable.add(imageUtils.getImageItemData(it[0])
                             .subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
-                                    { view.setSingleImage(it, retrofitHolder.getDvachBaseUrl(), imageUtils)
+                                    {
+                                        itemView.setSingleImage(it, retrofitHolder.getDvachBaseUrl(), imageUtils)
                                         compositeDisposable.add(textUtils.getCommentForSingleImageItemTemp(
                                               thread.comment?:String(), uiParams, it)
                                               .subscribeOn(Schedulers.newThread())
                                               .observeOn(AndroidSchedulers.mainThread())
-                                              .subscribe({ view.setComment(it) }, { it.printStackTrace() }))
+                                              .subscribe({ itemView.setComment(it) }, { it.printStackTrace() }))
                                     }, { it.printStackTrace() }))
                 }
                 adapterView.MULTIPLE_IMAGES_CODE -> {
@@ -101,7 +106,7 @@ class ThreadListAdapterViewInteractor @Inject constructor(compositeDisposable: C
                                                 .subscribeOn(Schedulers.newThread())
                                                 .observeOn(AndroidSchedulers.mainThread())
                                                 .subscribe({
-                                                    view.setMultipleImages(
+                                                    itemView.setMultipleImages(
                                                             imageItemData, retrofitHolder.getDvachBaseUrl(),
                                                             imageUtils, it, uiParams.threadPostItemShortInfoHeight) },
                                                         { it.printStackTrace() }))

@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes
+package com.koresuniku.wishmaster.core.modules.thread_list
 
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster.core.dagger.scope.PerThreadListView
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryInteractor
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListAdapterViewInteractor
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListNetworkInteractor
-import com.koresuniku.wishmaster.core.modules.thread_list.IThreadListPresenter
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListPresenter
 import dagger.Module
 import dagger.Provides

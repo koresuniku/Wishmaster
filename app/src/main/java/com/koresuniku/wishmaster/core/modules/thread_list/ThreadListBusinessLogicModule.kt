@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes
+package com.koresuniku.wishmaster.core.modules.thread_list
 
 import android.content.Context
 import com.koresuniku.wishmaster.application.singletones.UiParams
-import com.koresuniku.wishmaster.core.dagger.scope.PerThreadListPresenter
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListResponseParser
@@ -33,27 +33,19 @@ import io.reactivex.disposables.CompositeDisposable
 
 
 @Module
-class ThreadListPresenterModule {
+class ThreadListBusinessLogicModule {
 
     @Provides
-    @PerThreadListPresenter
-    fun provideThreadListNetworkInteractor(threadListApiService: ThreadListApiService,
-                                          responseParser: ThreadListResponseParser,
-                                          compositeDisposable: CompositeDisposable): ThreadListNetworkInteractor {
-        return ThreadListNetworkInteractor(threadListApiService, responseParser, compositeDisposable)
+    @ThreadListScopes.ForThreadListBusinessLogic
+    fun provideThreadListNetworkInteractor(injector: IWishmasterDaggerInjector) :
+            ThreadListMvpContract.IThreadListNetworkInteractor {
+        return ThreadListNetworkInteractor(injector)
     }
 
     @Provides
-    @PerThreadListPresenter
-    fun provideThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
-                                               context: Context,
-                                               uiParams: UiParams,
-                                               retrofitHolder: RetrofitHolder,
-                                               imageUtils: WishmasterImageUtils,
-                                               textUtils: WishmasterTextUtils,
-                                               viewUtils: ViewUtils):
-            ThreadListAdapterViewInteractor {
-        return ThreadListAdapterViewInteractor(
-                compositeDisposable, context, uiParams, retrofitHolder, imageUtils, textUtils, viewUtils)
+    @ThreadListScopes.ForThreadListBusinessLogic
+    fun provideThreadListAdapterViewInteractor(injector: IWishmasterDaggerInjector) :
+            ThreadListMvpContract.IThreadListAdapterViewInteractor {
+        return ThreadListAdapterViewInteractor(injector)
     }
 }

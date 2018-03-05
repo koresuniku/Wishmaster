@@ -24,7 +24,7 @@ import javax.inject.Inject
  * Created by koresuniku on 02.01.18.
  */
 
-class SearchInputMatcher @Inject constructor(): ISearchInputMatcher {
+class SearchInputMatcher @Inject constructor(){
 
     companion object {
         const val UNKNOWN_CODE = -1
@@ -33,7 +33,7 @@ class SearchInputMatcher @Inject constructor(): ISearchInputMatcher {
         const val POST_CODE = 2
     }
 
-    override fun matchInput(input: String): SearchInputResponse {
+    fun matchInput(input: String): SearchInputResponse {
         var result = checkIfBoard(input).data
         if (result != SearchInputResponse.UNKNOWN_ADDRESS) return SearchInputResponse(BOARD_CODE, result)
 
@@ -46,7 +46,7 @@ class SearchInputMatcher @Inject constructor(): ISearchInputMatcher {
         return SearchInputResponse.unknownResponse()
     }
 
-    override fun checkIfBoard(input: String): SearchInputResponse {
+    fun checkIfBoard(input: String): SearchInputResponse {
         Dvach.MIRRORS.forEach {
             val pattern = Pattern.compile("(^(https?://)?(www\\.)?$it/+)?/*[a-zA-Z0-9]+/*")
             val matcher = pattern.matcher(input)
@@ -58,7 +58,7 @@ class SearchInputMatcher @Inject constructor(): ISearchInputMatcher {
         return SearchInputResponse.unknownResponse()
     }
 
-    override fun checkIfThread(input: String): SearchInputResponse {
+    fun checkIfThread(input: String): SearchInputResponse {
         Dvach.MIRRORS.forEach {
             val pattern = Pattern.compile("^(https?://)?(www\\.)?$it/+[a-zA-Z0-9]+/+res/+[0-9]+\\.html$")
             val matcher = pattern.matcher(input)
@@ -73,7 +73,7 @@ class SearchInputMatcher @Inject constructor(): ISearchInputMatcher {
         return SearchInputResponse.unknownResponse()
     }
 
-    override fun checkIfPost(input: String): SearchInputResponse {
+    fun checkIfPost(input: String): SearchInputResponse {
         Dvach.MIRRORS.forEach {
             val pattern = Pattern.compile("^(https?://)?(www\\.)?$it/+[a-zA-Z0-9]+/+res/+[0-9]+\\.html#[0-9]+$")
             val matcher = pattern.matcher(input)

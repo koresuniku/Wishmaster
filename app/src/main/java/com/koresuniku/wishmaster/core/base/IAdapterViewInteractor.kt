@@ -19,7 +19,7 @@ package com.koresuniku.wishmaster.core.base
 /**
  * Created by koresuniku on 02.02.18.
  */
-interface IAdapterViewInteractor<A, V, D> {
+interface IAdapterViewInteractor<in A, in V, in D> {
 
-    fun setItemViewData(adapterView: A, itemView: V, data: D, position: Int)
+    fun setItemViewData(adapterView: A, itemView: V, data: D, position: Int, type: Int)
 }

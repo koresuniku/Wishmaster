@@ -41,8 +41,8 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
     @Inject lateinit var sharedPreferencesInteractor: DashboardMvpContract.IDashboardSharedPreferencesInteractor
     @Inject lateinit var searchInteractor: DashboardMvpContract.IDashboardSearchInteractor
 
-    private var dashboardBoardListView: DashboardMvpContract.IDashboardBoardListView? = null
-    private var favouriteBoardsView: DashboardMvpContract.IDashboardFavouriteBoardsView? = null
+    override var dashboardBoardListView: DashboardMvpContract.IDashboardBoardListView? = null
+    override var favouriteBoardsView: DashboardMvpContract.IDashboardFavouriteBoardsView? = null
 
     override fun bindView(mvpView: DashboardMvpContract.IDashboardMainView) {
         super.bindView(mvpView)

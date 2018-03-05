@@ -39,8 +39,8 @@ import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThrea
 import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadViewModule
 import com.koresuniku.wishmaster.core.dagger.module.settings_scopes.SettingsPresenterModule
 import com.koresuniku.wishmaster.core.dagger.module.settings_scopes.SettingsViewModule
-import com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes.ThreadListPresenterModule
-import com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes.ThreadListViewModule
+import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListPresenterModule
+import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListViewModule
 import com.koresuniku.wishmaster.core.modules.dashboard.*
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.network.github_api.GithubHelper
@@ -106,12 +106,12 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
                 .dashboardViewModule(DashboardViewModule())
                 .build() as DaggerDashboardViewComponent
     }
-    override val daggerThreadListPresenterComponent: DaggerThreadListPresenterComponent by lazy {
-        DaggerThreadListPresenterComponent.builder()
+    override val daggerThreadListPresenterComponent: DaggerThreadListBusinessLogicComponent by lazy {
+        DaggerThreadListBusinessLogicComponent.builder()
                 .applicationComponent(mDaggerApplicationComponent)
                 .threadListPresenterModule(ThreadListPresenterModule())
                 .rxModule(RxModule())
-                .build() as DaggerThreadListPresenterComponent
+                .build() as DaggerThreadListBusinessLogicComponent
     }
     override val daggerThreadListViewComponent: DaggerThreadListViewComponent by lazy {
         DaggerThreadListViewComponent.builder()

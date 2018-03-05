@@ -17,14 +17,12 @@
 package com.koresuniku.wishmaster.ui.thread_list
 
 import android.graphics.Rect
-import android.graphics.RectF
 import android.support.annotation.Nullable
 import android.support.v7.widget.RecyclerView
 import android.text.Spanned
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -33,9 +31,7 @@ import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
-import com.koresuniku.wishmaster.core.modules.thread_list.IThreadListPresenter
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
-import com.koresuniku.wishmaster.core.modules.thread_list.ThreadItemView
 import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import javax.inject.Inject
@@ -46,7 +42,7 @@ import javax.inject.Inject
 
 class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
         RecyclerView.ViewHolder(itemView),
-        ThreadItemView, WMGridView.OnNoItemClickListener,
+        WMGridView.OnNoItemClickListener,
         WMGridView.OnImageItemClickListener{
     private val LOG_TAG = ThreadItemViewHolder::class.java.simpleName
 

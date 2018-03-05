@@ -63,6 +63,9 @@ object DashboardMvpContract {
 
     //Presenter
     interface IDashboardPresenter : IMvpPresenter<IDashboardMainView> {
+        var dashboardBoardListView: IDashboardBoardListView?
+        var favouriteBoardsView: IDashboardFavouriteBoardsView?
+
         fun bindDashboardBoardListView(dashboardBoardListView: IDashboardBoardListView)
         fun bindFavouriteBoardsView(favouriteBoardsView: IDashboardFavouriteBoardsView)
 

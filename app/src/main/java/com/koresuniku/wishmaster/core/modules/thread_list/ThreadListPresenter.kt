@@ -16,14 +16,11 @@
 
 package com.koresuniku.wishmaster.core.modules.thread_list
 
+import com.koresuniku.wishmaster.application.notifier.OnOrientationChangedListener
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
+import com.koresuniku.wishmaster.core.base.BaseMvpPresenter
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster.core.data.model.threads.File
-import com.koresuniku.wishmaster.core.modules.gallery.GalleryInteractor
-import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
-import com.koresuniku.wishmaster.core.modules.gallery.IGalleryItem
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
-import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
+import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -34,33 +31,43 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector,
-                                              private val galleryState: GalleryState,
-                                              compositeDisposable: CompositeDisposable,
-                                              threadListNetworkInteractor: ThreadListNetworkInteractor,
-                                              threadListAdapterViewInteractor: ThreadListAdapterViewInteractor,
-                                              galleryInteractor: GalleryInteractor,
-                                              orientationNotifier: OrientationNotifier):
-        BaseThreadListPresenter(
-                compositeDisposable,
-                threadListNetworkInteractor,
-                threadListAdapterViewInteractor,
-                galleryInteractor,
-                orientationNotifier) {
+class ThreadListPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector):
+        BaseMvpPresenter<ThreadListMvpContract.IThreadListMainView>(),
+        ThreadListMvpContract.IThreadListPresenter, OnOrientationChangedListener {
     private val LOG_TAG = ThreadListPresenter::class.java.simpleName
 
-    private var previewImageCoordinates: WishmasterImageUtils.ImageCoordinates? = null
+    @Inject lateinit var compositeDisposable: CompositeDisposable
+    @Inject lateinit var networkInteractor: ThreadListMvpContract.IThreadListNetworkInteractor
+    @Inject lateinit var adapterViewInteractor: ThreadListMvpContract.IThreadListAdapterViewInteractor
+    @Inject lateinit var orientationNotifier: OrientationNotifier
 
-    override fun bindView(mvpView: ThreadListView<IThreadListPresenter>) {
+    override var threadListAdapterView: ThreadListMvpContract.IThreadListAdapterView? = null
+
+    override var presenterData: ThreadListData = ThreadListData.emptyData()
+
+    //private var previewImageCoordinates: WishmasterImageUtils.ImageCoordinates? = null
+
+    override fun bindView(mvpView: ThreadListMvpContract.IThreadListMainView) {
         super.bindView(mvpView)
+        orientationNotifier.bindListener(this)
         injector.daggerThreadListPresenterComponent.inject(this)
     }
 
+    override fun bindThreadListAdapterView(threadListAdapterView: ThreadListMvpContract.IThreadListAdapterView) {
+        this.threadListAdapterView = threadListAdapterView
+    }
+
+    override fun onOrientationChanged(orientation: Int) {
+        threadListAdapterView?.onOrientationChanged(orientation)
+    }
+
+    override fun isDataLoaded() = presenterData.getThreadList().size == 0
+    override fun getDataSize() = presenterData.getThreadList().size
     override fun getBoardId(): String = mvpView?.getBoardId() ?: String()
 
     override fun loadThreadList() {
         mvpView?.showLoading()
-        compositeDisposable.add(threadListNetworkInteractor.getDataFromNetwork()
+        compositeDisposable.add(networkInteractor.fetchThreadListData(getBoardId())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -77,13 +84,12 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
                 .subscribe({ t.printStackTrace(); mvpView?.showError(t.message)}))
     }
 
-    override fun setItemViewData(threadItemView: ThreadItemView, position: Int) {
+    override fun setItemViewData(threadItemView: ThreadListMvpContract.IThreadItemView, position: Int) {
         threadListAdapterView?.let {
-            threadListAdapterViewInteractor.setItemViewData(it, threadItemView, presenterData, position)
+            adapterViewInteractor.setItemViewData(
+                    it, threadItemView, presenterData, position, getThreadItemType(position))
         }
     }
-
-    override fun getThreadListDataSize() = presenterData.getThreadList().size
 
     override fun getThreadItemType(position: Int): Int {
         presenterData.getThreadList()[position].files?.let {
@@ -96,42 +102,50 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
         return threadListAdapterView?.NO_IMAGES_CODE ?: -1
     }
 
-    override fun onThreadItemClicked(threadNumber: String) { mvpView?.launchFullThreadActivity(threadNumber) }
+    override fun onThreadItemClicked(threadNumber: String) { mvpView?.launchFullThread(threadNumber) }
 
-    override fun getGalleryState() = galleryState
-
-    override fun onOpenGalleryClick(itemPosition: Int, filePosition: Int) {
-        presenterData.getThreadList()[itemPosition].files?.let {
-
-            getGalleryState().currentPositionInPost = filePosition
-            getGalleryState().currentPositionInList = filePosition
-            getGalleryState().fileListInPost.clear()
-            getGalleryState().fileListInList.clear()
-            getGalleryState().fileListInPost.addAll(it)
-            getGalleryState().fileListInList.addAll(it)
-
-            mvpView?.openGallery()
-        }
-
+    override fun unbindThreadListAdapterView() { this.threadListAdapterView = null }
+    override fun unbindView() {
+        super.unbindView()
+        unbindThreadListAdapterView()
+        orientationNotifier.unbindListener(this)
+        mvpView = null
     }
 
-    override fun onGalleryLayoutClicked() {
-
-    }
-
-    override fun getFile(position: Int) = getGalleryState().fileListInList[position]
-
-    override fun getImageTargetCoordinates(position: Int, item: IGalleryItem) {
-        compositeDisposable.add(galleryInteractor
-                .computeActualDimensions(getFile(position))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(item::onTargetDimensionsReady))
-    }
-
-    override fun getPreviewImageCoordinates() =
-            previewImageCoordinates ?: WishmasterImageUtils.ImageCoordinates(0, 0, 0, 0)
-
-    override fun setPreviewImageCoordinates(coordinates: WishmasterImageUtils.ImageCoordinates) {
-        this.previewImageCoordinates = coordinates
-    }
+    //    override fun getGalleryState() = galleryState
+//
+//    override fun onOpenGalleryClick(itemPosition: Int, filePosition: Int) {
+//        presenterData.getThreadList()[itemPosition].files?.let {
+//
+//            getGalleryState().currentPositionInPost = filePosition
+//            getGalleryState().currentPositionInList = filePosition
+//            getGalleryState().fileListInPost.clear()
+//            getGalleryState().fileListInList.clear()
+//            getGalleryState().fileListInPost.addAll(it)
+//            getGalleryState().fileListInList.addAll(it)
+//
+//            mvpView?.openGallery()
+//        }
+//
+//    }
+//
+//    override fun onGalleryLayoutClicked() {
+//
+//    }
+//
+//    override fun getFile(position: Int) = getGalleryState().fileListInList[position]
+//
+//    override fun getImageTargetCoordinates(position: Int, item: IGalleryItem) {
+//        compositeDisposable.add(galleryInteractor
+//                .computeActualDimensions(getFile(position))
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(item::onTargetDimensionsReady))
+//    }
+//
+//    override fun getPreviewImageCoordinates() =
+//            previewImageCoordinates ?: WishmasterImageUtils.ImageCoordinates(0, 0, 0, 0)
+//
+//    override fun setPreviewImageCoordinates(coordinates: WishmasterImageUtils.ImageCoordinates) {
+//        this.previewImageCoordinates = coordinates
+//    }
 }

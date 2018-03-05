@@ -20,7 +20,6 @@ import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.support.annotation.LayoutRes
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
@@ -29,10 +28,7 @@ import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.*
-import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_ATTACHED_IN_DECOR
-import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.widget.AbsListView
 import android.widget.Button
@@ -43,10 +39,7 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.utils.IntentKeystore
-import com.koresuniku.wishmaster.core.data.model.threads.File
 import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
-import com.koresuniku.wishmaster.core.modules.thread_list.IThreadListPresenter
-import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListView
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
@@ -64,8 +57,7 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
-        ThreadListView<IThreadListPresenter> {
+class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>() {
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
     @Inject override lateinit var presenter: IThreadListPresenter
