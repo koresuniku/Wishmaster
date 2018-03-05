@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes
+package com.koresuniku.wishmaster.core.modules.dashboard
 
-import com.koresuniku.wishmaster.core.dagger.scope.PerDashboardView
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.modules.dashboard.DashboardDatabaseInteractor
 import com.koresuniku.wishmaster.core.modules.dashboard.DashboardNetworkInteractor
@@ -35,13 +34,9 @@ import io.reactivex.disposables.CompositeDisposable
 class DashboardViewModule {
 
     @Provides
-    @PerDashboardView
-    fun provideDashboardPresenter(injector: IWishmasterDaggerInjector,
-                                  compositeDisposable: CompositeDisposable,
-                                  dashboardNetworkInteractor: DashboardNetworkInteractor,
-                                  dashboardDatabaseInteractor: DashboardDatabaseInteractor,
-                                  dashboardSearchInteractor: DashboardSearchInteractor,
-                                  dashboardSharedPreferencesInteractor: DashboardSharedPreferencesInteractor): IDashboardPresenter {
-        return DashboardPresenter(injector, compositeDisposable, dashboardNetworkInteractor, dashboardDatabaseInteractor, dashboardSearchInteractor, dashboardSharedPreferencesInteractor)
+    @DashboardScopes.ForDashboardView
+    fun provideDashboardPresenter(injector: IWishmasterDaggerInjector):
+            DashboardMvpContract.IDashboardPresenter {
+        return DashboardPresenter(injector)
     }
 }

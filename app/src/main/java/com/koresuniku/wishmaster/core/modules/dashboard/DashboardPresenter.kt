@@ -41,9 +41,22 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
     @Inject lateinit var sharedPreferencesInteractor: DashboardMvpContract.IDashboardSharedPreferencesInteractor
     @Inject lateinit var searchInteractor: DashboardMvpContract.IDashboardSearchInteractor
 
+    private var dashboardBoardListView: DashboardMvpContract.IDashboardBoardListView? = null
+    private var favouriteBoardsView: DashboardMvpContract.IDashboardFavouriteBoardsView? = null
+
     override fun bindView(mvpView: DashboardMvpContract.IDashboardMainView) {
         super.bindView(mvpView)
         injector.daggerDashboardPresenterComponent.inject(this)
+    }
+
+    override fun bindDashboardBoardListView(
+            dashboardBoardListView: DashboardMvpContract.IDashboardBoardListView) {
+        this.dashboardBoardListView = dashboardBoardListView
+    }
+
+    override fun bindFavouriteBoardsView(
+            favouriteBoardsView: DashboardMvpContract.IDashboardFavouriteBoardsView) {
+       this.favouriteBoardsView = favouriteBoardsView
     }
 
     override fun loadBoards() {
@@ -110,7 +123,9 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
         compositeDisposable.add(databaseInteractor.getFavouriteBoardModelListAscending()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ favouriteBoardsView?.onFavouriteBoardListChanged(it) }, { it.printStackTrace() }))
+                .subscribe(
+                        { favouriteBoardsView?.onFavouriteBoardListChanged(it) },
+                        { it.printStackTrace() }))
     }
 
 
@@ -126,7 +141,8 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    if (it.responseCode == SearchInputMatcher.UNKNOWN_CODE) mvpView?.showUnknownInput()
+                    if (it.responseCode == SearchInputMatcher.UNKNOWN_CODE)
+                        mvpView?.showUnknownInput()
                     else if (it.responseCode == SearchInputMatcher.BOARD_CODE)
                         mvpView?.launchThreadListActivity(it.data) }, { it.printStackTrace()}))
     }
@@ -138,5 +154,13 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
                 .subscribe({ mvpView?.onFavouriteTabPositionReceived(it) }, { it.printStackTrace()}))
     }
 
-    override fun shouldLaunchThreadListActivity(boardId: String) { mvpView?.launchThreadListActivity(boardId) }
+    override fun launchThreadList(boardId: String) { mvpView?.launchThreadListActivity(boardId) }
+
+    override fun unbindDashboardBoardListView() { this.dashboardBoardListView = null }
+    override fun unbindFavouriteBoardsView() { this.favouriteBoardsView = null }
+    override fun unbindView() {
+        super.unbindView()
+        unbindDashboardBoardListView()
+        unbindFavouriteBoardsView()
+    }
 }

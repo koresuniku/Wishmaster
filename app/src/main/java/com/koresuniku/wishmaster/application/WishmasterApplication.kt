@@ -16,35 +16,27 @@
 
 package com.koresuniku.wishmaster.application
 
-import android.app.Application
-import android.app.IntentService
 import android.content.Context
-import android.content.Intent
 import android.content.res.Configuration
-import android.os.Build
 import android.support.multidex.MultiDexApplication
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
 import com.github.piasy.biv.BigImageViewer
 import com.github.piasy.biv.loader.fresco.FrescoImageLoader
-import com.github.piasy.biv.loader.glide.GlideImageLoader
 import com.google.firebase.FirebaseApp
-import com.google.firebase.messaging.FirebaseMessaging
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.application.preferences.*
 import com.koresuniku.wishmaster.application.singletones.CommonParams
 import com.koresuniku.wishmaster.application.singletones.UiParams
-import com.koresuniku.wishmaster.application.utils.FirebaseKeystore
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.component.*
 import com.koresuniku.wishmaster.core.dagger.module.*
 import com.koresuniku.wishmaster.core.dagger.module.application_scope.*
-import com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes.BoardsModule
-import com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes.DashboardPresenterModule
-import com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes.DashboardViewModule
+import com.koresuniku.wishmaster.core.modules.dashboard.DashboardBusinessLogicModule
+import com.koresuniku.wishmaster.core.modules.dashboard.DashboardViewModule
 import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadPresenterModule
 import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadViewModule
 import com.koresuniku.wishmaster.core.dagger.module.settings_scopes.SettingsPresenterModule
@@ -99,9 +91,9 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
     override val daggerDashboardPresenterComponent: DaggerDashboardPresenterComponent by lazy {
         DaggerDashboardPresenterComponent.builder()
                 .applicationComponent(mDaggerApplicationComponent)
-                .dashboardPresenterModule(DashboardPresenterModule())
+                .dashboardPresenterModule(DashboardBusinessLogicModule())
                 .rxModule(RxModule())
-                .boardsModule(BoardsModule())
+                .boardsModule(BoardsDatabaseModule())
                 .searchModule(SearchModule())
                 .build() as DaggerDashboardPresenterComponent
     }

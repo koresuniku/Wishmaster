@@ -16,7 +16,10 @@
 
 package com.koresuniku.wishmaster.core.modules.dashboard
 
+import android.database.sqlite.SQLiteDatabase
+import com.koresuniku.wishmaster.core.base.BaseDatabaseInteractor
 import com.koresuniku.wishmaster.core.base.rx.BaseRxDatabaseInteractor
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListsObject
 import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
@@ -28,46 +31,55 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
-class DashboardDatabaseInteractor @Inject constructor(private val boardsRepository: BoardsRepository,
-                                                      databaseHelper: DatabaseHelper,
-                                                      compositeDisposable: CompositeDisposable):
-        BaseRxDatabaseInteractor<IDashboardPresenter, BoardListData>(databaseHelper, compositeDisposable) {
+class DashboardDatabaseInteractor @Inject constructor(injector: IWishmasterDaggerInjector):
+        BaseDatabaseInteractor(), DashboardMvpContract.IDashboardDatabaseInteractor {
 
-    override fun getDataFromDatabase(): Single<BoardListData> {
+    @Inject override lateinit var databaseHelper: DatabaseHelper
+    @Inject lateinit var compositeDisposable: CompositeDisposable
+    @Inject lateinit var boardsRepository: BoardsRepository
+
+    init {
+        injector.daggerDashboardBussinessLogicComponent.inject(this)
+    }
+
+
+    override fun fetchBoardListData(): Single<BoardListData> {
         return Single.create({
-            val boardsDataFromDatabase = boardsRepository.getBoardsDataFromDatabase(getReadableDatabase())
+            val boardsDataFromDatabase = boardsRepository.getBoardsDataFromDatabase(readableDatabase())
             it.onSuccess(boardsDataFromDatabase)
         })
     }
 
-    fun insertAllBoardsIntoDatabase(boardListData: BoardListData): Completable {
+    override fun insertBoardsIntoDatabase(boardListData: BoardListData): Completable {
         return Completable.create({
-            boardsRepository.insertAllBoardsIntoDatabase(getWritableDatabase(), boardListData)
+            boardsRepository.insertAllBoardsIntoDatabase(writableDatabase(), boardListData)
         })
     }
 
-    fun switchBoardFavourability(boardId: String): Single<Int> {
+    override fun switchBoardFavourability(boardId: String): Single<Int> {
         return Single.create({
-            it.onSuccess(boardsRepository.switchBoardFavourability(getWritableDatabase(), boardId))
+            it.onSuccess(boardsRepository.switchBoardFavourability(writableDatabase(), boardId))
         })
     }
 
-    fun getFavouriteBoardModelListAscending(): Single<List<BoardModel>> {
+    override fun getFavouriteBoardModelListAscending(): Single<List<BoardModel>> {
         return Single.create({
-            it.onSuccess(boardsRepository.getFavouriteBoardModelListAscending(getWritableDatabase()))
+            it.onSuccess(boardsRepository.getFavouriteBoardModelListAscending(writableDatabase()))
         })
     }
 
-    fun reorderBoardList(boardList: List<BoardModel>): Completable {
+    override fun reorderBoardList(boardList: List<BoardModel>): Completable {
         return Completable.create({
-            boardsRepository.reorderBoardList(getWritableDatabase(), boardList)
+            boardsRepository.reorderBoardList(writableDatabase(), boardList)
             it.onComplete()
         })
     }
 
-    fun mapToBoardsDataByCategory(boardListData: BoardListData): Single<BoardListsObject> {
+    override fun mapToBoardsDataByCategory(boardListData: BoardListData): Single<BoardListsObject> {
         return Single.create({
             it.onSuccess(boardsRepository.mapToBoardsDataByCategory(boardListData))
         })
     }
+
+
 }

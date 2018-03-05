@@ -34,8 +34,7 @@ import com.koresuniku.wishmaster.ui.settings.SettingsActivity
  * Created by koresuniku on 12.01.18.
  */
 
-abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> :
-        BaseDrawerActivity(), IWishamsterActivity, IMvpView<P> {
+abstract class BaseWishmasterActivity : BaseDrawerActivity(), IWishamsterActivity, IMvpView {
 
     protected var isActivityDestroyed = false
     protected var isActivityReentered = false
@@ -58,7 +57,6 @@ abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> :
 
     override fun onBackPressed() {
         setResult(Activity.RESULT_OK)
-        presenter.unbindView()
         super.onBackPressed()
     }
 
@@ -71,16 +69,7 @@ abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> :
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.unbindView()
         isActivityDestroyed = true
-    }
-
-    @SuppressLint("RestrictedApi")
-    protected fun launchNextActivityWithtransition(intent: Intent) {
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            startActivityForResult(intent, provideFromActivityRequestCode(), options.toBundle())
-        } else startActivityForResult(intent, provideFromActivityRequestCode())
     }
 
     fun overrideForwardPendingTransition() {

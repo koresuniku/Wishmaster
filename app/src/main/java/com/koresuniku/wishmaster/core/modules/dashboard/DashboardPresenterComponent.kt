@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.scope
+package com.koresuniku.wishmaster.core.modules.dashboard
 
-import javax.inject.Scope
+import dagger.Component
 
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-annotation class PerDashboardView
+/**
+ * Created by koresuniku on 3/5/18.
+ */
+
+@DashboardScopes.ForDashboardPresenter
+@Component(dependencies = [(DashboardBusinessLogicComponent::class)])
+interface DashboardPresenterComponent {
+
+    fun inject(dashboardPresenter: DashboardPresenter)
+
+}

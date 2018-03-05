@@ -18,6 +18,5 @@ package com.koresuniku.wishmaster.core.base
 
 
 interface INetworkInteractor<out S> {
-
     val service: S
 }

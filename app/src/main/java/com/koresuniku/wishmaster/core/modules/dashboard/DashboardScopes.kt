@@ -14,15 +14,25 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.base
+package com.koresuniku.wishmaster.core.modules.dashboard
 
-import com.koresuniku.wishmaster.core.utils.search.ISearchInputMatcher
-import com.koresuniku.wishmaster.core.utils.search.SearchInputMatcher
-import com.koresuniku.wishmaster.core.utils.search.SearchInputResponse
-import io.reactivex.Single
+import javax.inject.Scope
 
+/**
+ * Created by koresuniku on 3/5/18.
+ */
 
-interface ISearchInteractor {
-    val matcher: SearchInputMatcher
-    fun processInput(input: String): Single<SearchInputResponse>
+object DashboardScopes {
+
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForDashboardBusinessLogic
+
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForDashboardPresenter
+
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForDashboardView
 }

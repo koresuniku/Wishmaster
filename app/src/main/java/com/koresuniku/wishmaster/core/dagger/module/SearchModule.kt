@@ -26,5 +26,5 @@ import dagger.Provides
 class SearchModule {
 
     @Provides
-    fun provideSearchInputMatcher(): ISearchInputMatcher = SearchInputMatcher()
+    fun provideSearchInputMatcher(): SearchInputMatcher = SearchInputMatcher()
 }

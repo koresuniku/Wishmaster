@@ -50,13 +50,14 @@ import com.koresuniku.wishmaster.application.singletones.WMPermissionManager
 import com.koresuniku.wishmaster.core.network.github_api.Asset
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import android.support.v7.app.AlertDialog
+import com.koresuniku.wishmaster.core.modules.dashboard.DashboardMvpContract
 
 
-class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
-        OnNewReleaseListener {
+class DashboardActivity : BaseWishmasterActivity(),
+        DashboardMvpContract.IDashboardMainView, OnNewReleaseListener {
     private val LOG_TAG = DashboardActivity::class.java.simpleName
 
-    @Inject override lateinit var presenter: IDashboardPresenter
+    @Inject lateinit var presenter: DashboardMvpContract.IDashboardPresenter
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var viewUtils: ViewUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils

@@ -18,24 +18,30 @@ package com.koresuniku.wishmaster.core.modules.dashboard
 
 import com.koresuniku.wishmaster.application.preferences.ISharedPreferencesStorage
 import com.koresuniku.wishmaster.application.preferences.SharedPreferencesKeystore
-import com.koresuniku.wishmaster.core.base.rx.BaseRxSharedPreferencesInteractor
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 
-class DashboardSharedPreferencesInteractor(
-        storage: ISharedPreferencesStorage,
-        compositeDisposable: CompositeDisposable):
-        BaseRxSharedPreferencesInteractor<IDashboardPresenter>(storage, compositeDisposable) {
+class DashboardSharedPreferencesInteractor @Inject constructor(injector: IWishmasterDaggerInjector) :
+        DashboardMvpContract.IDashboardSharedPreferencesInteractor {
 
-    fun getDashboardFavouriteTabPosition(): Single<Int> {
+    @Inject override lateinit var sharedPreferencesStorage: ISharedPreferencesStorage
+    @Inject lateinit var compositeDisposable: CompositeDisposable
+
+    init {
+        injector.daggerDashboardBussinessLogicComponent.inject(this)
+    }
+
+    override fun getDashboardFavouriteTabPosition(): Single<Int> {
         return Single.create({
-            getSharedPreferencesStorage().readInt(
+            compositeDisposable.add(sharedPreferencesStorage.readInt(
                     SharedPreferencesKeystore.DASHBOARD_PREFERRED_TAB_POSITION_KEY,
                     SharedPreferencesKeystore.DASHBOARD_PREFERRED_TAB_POSITION_DEFAULT)
                     .observeOn(Schedulers.io())
-                    .subscribe(it::onSuccess)
+                    .subscribe(it::onSuccess))
         })
     }
 }

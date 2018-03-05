@@ -16,21 +16,26 @@
 
 package com.koresuniku.wishmaster.core.modules.dashboard
 
-import com.koresuniku.wishmaster.core.base.rx.BaseRxSearchInteractor
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.utils.search.ISearchInputMatcher
+import com.koresuniku.wishmaster.core.utils.search.SearchInputMatcher
 import com.koresuniku.wishmaster.core.utils.search.SearchInputResponse
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
 
-class DashboardSearchInteractor(
-        matcher: ISearchInputMatcher,
-        compositeDisposable: CompositeDisposable):
-        BaseRxSearchInteractor<IDashboardPresenter>(matcher, compositeDisposable) {
+class DashboardSearchInteractor @Inject constructor(injector: IWishmasterDaggerInjector) : DashboardMvpContract.IDashboardSearchInteractor {
+
+    @Inject override lateinit var matcher: SearchInputMatcher
+
+    init {
+        injector.daggerDashboardBussinessLogicComponent.inject(this)
+    }
 
     override fun processInput(input: String): Single<SearchInputResponse> {
         return Single.create({
-            val response = getMatcher().matchInput(input)
+            val response = matcher.matchInput(input)
             it.onSuccess(response)
         })
     }

@@ -43,6 +43,8 @@ object DashboardMvpContract {
         fun onBoardListReceived(boardListData: BoardListData)
         fun onBoardListError(t: Throwable)
         fun onFavouriteTabPositionReceived(position: Int)
+        fun launchThreadListActivity(boardId: String)
+        fun showUnknownInput()
     }
 
     interface IDashboardFavouriteBoardsView : IMvpView {
@@ -65,7 +67,7 @@ object DashboardMvpContract {
         fun bindFavouriteBoardsView(favouriteBoardsView: IDashboardFavouriteBoardsView)
 
         fun loadBoards()
-        fun launchThreadListActivity(boardId: String)
+        fun launchThreadList(boardId: String)
         fun processSearchInput(input: String)
         fun reorderFavouriteBoardList(boardList: List<BoardModel>)
         fun loadFavouriteBoardList()
