@@ -22,6 +22,8 @@ import com.koresuniku.wishmaster.core.data.model.threads.File
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryInteractor
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
 import com.koresuniku.wishmaster.core.modules.gallery.IGalleryItem
+import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -46,6 +48,8 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
                 galleryInteractor,
                 orientationNotifier) {
     private val LOG_TAG = ThreadListPresenter::class.java.simpleName
+
+    private var previewImageCoordinates: WishmasterImageUtils.ImageCoordinates? = null
 
     override fun bindView(mvpView: ThreadListView<IThreadListPresenter>) {
         super.bindView(mvpView)
@@ -117,11 +121,17 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
 
     override fun getFile(position: Int) = getGalleryState().fileListInList[position]
 
-    override fun getImageTargetCoordinates(item: IGalleryItem) {
-
+    override fun getImageTargetCoordinates(position: Int, item: IGalleryItem) {
+        compositeDisposable.add(galleryInteractor
+                .computeActualDimensions(getFile(position))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(item::onTargetDimensionsReady))
     }
 
-    override fun onImageTargetCoordinatesReceived() {
+    override fun getPreviewImageCoordinates() =
+            previewImageCoordinates ?: WishmasterImageUtils.ImageCoordinates(0, 0, 0, 0)
 
+    override fun setPreviewImageCoordinates(coordinates: WishmasterImageUtils.ImageCoordinates) {
+        this.previewImageCoordinates = coordinates
     }
 }

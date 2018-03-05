@@ -16,6 +16,7 @@
 
 package com.koresuniku.wishmaster.core.dagger.component
 
+import android.content.Context
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.module.GalleryModule
@@ -42,6 +43,7 @@ import io.reactivex.disposables.CompositeDisposable
 interface ThreadListPresenterComponent {
 
     fun injector(): IWishmasterDaggerInjector
+    fun context(): Context
     fun threadListNetworkInteractor(): ThreadListNetworkInteractor
     fun threadListAdapterViewInteractor(): ThreadListAdapterViewInteractor
     fun textUtils(): WishmasterTextUtils

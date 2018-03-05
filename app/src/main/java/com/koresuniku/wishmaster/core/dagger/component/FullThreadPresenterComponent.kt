@@ -16,8 +16,10 @@
 
 package com.koresuniku.wishmaster.core.dagger.component
 
+import android.content.Context
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.core.dagger.module.GalleryModule
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadPresenterModule
 import com.koresuniku.wishmaster.core.dagger.scope.ForFullThreadPresenter
@@ -36,10 +38,11 @@ import io.reactivex.disposables.CompositeDisposable
 
 @ForFullThreadPresenter
 @Component (dependencies = [ApplicationComponent::class],
-        modules = [(FullThreadPresenterModule::class), (RxModule::class)] )
+        modules = [(FullThreadPresenterModule::class), (RxModule::class), (GalleryModule::class)] )
 interface FullThreadPresenterComponent {
 
     fun injector(): IWishmasterDaggerInjector
+    fun context(): Context
     fun fullThreadNetworkInteractor(): FullThreadNetworkInteractor
     fun fullThreadAdapterViewInteractor(): FullThreadAdapterViewInteractor
     fun textUtils(): WishmasterTextUtils

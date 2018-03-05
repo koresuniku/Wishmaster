@@ -16,9 +16,11 @@
 
 package com.koresuniku.wishmaster.core.dagger.module
 
+import android.content.Context
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryInteractor
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
 import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
+import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -37,6 +39,8 @@ class GalleryModule {
     fun provideMediaTypeMatcher(): MediaTypeMatcher = MediaTypeMatcher()
 
     @Provides
-    fun provideGalleryInteractor(compositeDisposable: CompositeDisposable): GalleryInteractor =
-            GalleryInteractor(compositeDisposable)
+    fun provideGalleryInteractor(compositeDisposable: CompositeDisposable,
+                                 context: Context,
+                                 imageUtils: WishmasterImageUtils): GalleryInteractor =
+            GalleryInteractor(compositeDisposable, context, imageUtils)
 }

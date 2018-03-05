@@ -17,7 +17,10 @@
 package com.koresuniku.wishmaster.core.utils.images
 
 import android.content.Context
+import android.graphics.Point
+import android.graphics.PointF
 import android.net.Uri
+import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -42,6 +45,8 @@ class WishmasterImageUtils @Inject constructor(private val uiUtils: UiUtils,
                                                private val deviceUtils: DeviceUtils) {
 
     data class ImageTargetDimensions(val width: Int, val height: Int)
+
+    data class ImageCoordinates(val xLeft: Int, val xRight: Int, val yTop: Int, val yBottom: Int)
 
     fun getImageItemData(file: File): Single<ImageItemData> {
         //Log.d("WIU", "SPUID: ${uiParams}")
@@ -102,7 +107,7 @@ class WishmasterImageUtils @Inject constructor(private val uiUtils: UiUtils,
                 .into(image)
     }
 
-    fun computeActualDimensions(context: Context, file: File): Single<ImageTargetDimensions> {
+    fun computeImageCoordinates(context: Context, file: File): Single<ImageCoordinates> {
         return Single.create {
             val targetWidth: Int
             val targetHeight: Int
@@ -117,9 +122,7 @@ class WishmasterImageUtils @Inject constructor(private val uiUtils: UiUtils,
             val widthByHeightImageRatio = rawImageWidth.toFloat() / rawImageHeight.toFloat()
 
             val isDisplayHorizontal = displayWidth > displayHeight
-            val doesImageFitHeight = if (isDisplayHorizontal)
-                widthByHeightDisplayRatio > widthByHeightImageRatio else
-                widthByHeightDisplayRatio < widthByHeightImageRatio
+            val doesImageFitHeight = widthByHeightDisplayRatio > widthByHeightImageRatio
 
             if (doesImageFitHeight) {
                 targetHeight = displayHeight
@@ -129,7 +132,15 @@ class WishmasterImageUtils @Inject constructor(private val uiUtils: UiUtils,
                 targetHeight = (targetWidth / widthByHeightImageRatio).toInt()
             }
 
-            it.onSuccess(ImageTargetDimensions(targetWidth, targetHeight))
+            val center = Point(displayWidth / 2, displayHeight / 2)
+            val halfTargetWidth = targetWidth / 2
+            val halfTargetHeight = targetHeight / 2
+            val xLeft = center.x - halfTargetWidth
+            val xRight = center.x + halfTargetWidth
+            val yTop = center.y - halfTargetHeight
+            val yBottom = center.y + halfTargetHeight
+
+            it.onSuccess(ImageCoordinates(xLeft, xRight, yTop, yBottom))
         }
     }
 }

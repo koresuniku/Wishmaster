@@ -18,6 +18,7 @@ package com.koresuniku.wishmaster.core.modules.gallery
 
 import com.koresuniku.wishmaster.core.base.mvp.IMvpPresenter
 import com.koresuniku.wishmaster.core.data.model.threads.File
+import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import io.reactivex.Single
 
 
@@ -31,7 +32,7 @@ interface IGalleryPresenter {
     fun getGalleryState(): GalleryState
     fun onGalleryLayoutClicked()
     fun getFile(position: Int): File
-    fun getImageTargetCoordinates(item: IGalleryItem)
-    fun onImageTargetCoordinatesReceived()
-
+    fun getImageTargetCoordinates(position: Int, item: IGalleryItem)
+    fun setPreviewImageCoordinates(coordinates: WishmasterImageUtils.ImageCoordinates)
+    fun getPreviewImageCoordinates(): WishmasterImageUtils.ImageCoordinates
 }

@@ -23,5 +23,5 @@ import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
  */
 
 interface IGalleryItem {
-    fun onTargetDimensionsReady(dimensions: WishmasterImageUtils.ImageTargetDimensions)
+    fun onTargetDimensionsReady(coordinates: WishmasterImageUtils.ImageCoordinates)
 }

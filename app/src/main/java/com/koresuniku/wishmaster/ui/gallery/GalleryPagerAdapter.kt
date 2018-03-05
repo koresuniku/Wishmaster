@@ -48,7 +48,8 @@ class GalleryPagerAdapter(fragmentManager: FragmentManager,
 
         return when (mediaTypeMatcher.matchFile(galleryPresenter.getFile(position))) {
             MediaTypeMatcher.MediaType.IMAGE -> {
-                val fragment = GalleryImageFragment.newInstance(galleryPresenter)
+                val fragment = GalleryImageFragment.newInstance(
+                        galleryPresenter)
                 fragment.arguments = args
                 fragment
             }

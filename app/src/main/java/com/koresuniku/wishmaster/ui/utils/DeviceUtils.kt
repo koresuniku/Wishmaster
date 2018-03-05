@@ -23,12 +23,13 @@ import android.view.KeyCharacterMap
 import android.view.KeyEvent
 import android.view.ViewConfiguration
 import android.view.WindowManager
+import javax.inject.Inject
 
 /**
  * Created by koresuniku on 03.10.17.
  */
 
-class DeviceUtils {
+class DeviceUtils @Inject constructor(){
 
     fun deviceHasNavigationBar(context: Context): Boolean {
         val hasMenuKey = ViewConfiguration.get(context).hasPermanentMenuKey()

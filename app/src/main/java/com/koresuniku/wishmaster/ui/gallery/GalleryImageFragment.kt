@@ -16,6 +16,7 @@
 
 package com.koresuniku.wishmaster.ui.gallery
 
+import android.animation.ValueAnimator
 import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.Nullable
@@ -23,6 +24,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.*
 import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -35,6 +37,11 @@ import com.koresuniku.wishmaster.core.modules.gallery.IGalleryPresenter
 import com.koresuniku.wishmaster.core.network.Dvach
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
+import android.widget.RelativeLayout
+import com.koresuniku.wishmaster.ui.utils.DeviceUtils
+
 
 /**
 * Created by koresuniku on 3/3/18.
@@ -45,6 +52,7 @@ class GalleryImageFragment : BaseWishmasterFragment(), IGalleryItem {
 
     @BindView(R.id.clickable_view) lateinit var clickableView: View
     @BindView(R.id.preview) lateinit var preview: ImageView
+    @BindView(R.id.images_container) lateinit var imagesContainer: View
     var bigImageView: BigImageView? = null
 
     private lateinit var presenter: IGalleryPresenter
@@ -53,7 +61,8 @@ class GalleryImageFragment : BaseWishmasterFragment(), IGalleryItem {
     private lateinit var mUrl: String
 
     companion object {
-        fun newInstance(presenter: IGalleryPresenter): GalleryImageFragment {
+        fun newInstance(presenter: IGalleryPresenter):
+                GalleryImageFragment {
             val fragment = GalleryImageFragment()
             fragment.presenter = presenter
             return fragment
@@ -68,6 +77,8 @@ class GalleryImageFragment : BaseWishmasterFragment(), IGalleryItem {
 
         mPosition = arguments?.getInt(GalleryPagerAdapter.FRAGMENT_POSITION_KEY) ?: 0
         mUrl = arguments?.getString(GalleryPagerAdapter.URL) ?: Dvach.BASE_URL
+
+        presenter.getImageTargetCoordinates(mPosition, this)
 
         Log.d("GIF", "mUrl: $mUrl")
         Glide.with(preview.context)
@@ -84,8 +95,165 @@ class GalleryImageFragment : BaseWishmasterFragment(), IGalleryItem {
         return rootView
     }
 
-    override fun onTargetDimensionsReady(dimensions: WishmasterImageUtils.ImageTargetDimensions) {
+    override fun onTargetDimensionsReady(coordinates: WishmasterImageUtils.ImageCoordinates) {
+//        Log.d("WIU", "from: -> ${previewImageCoordinates.xLeft}:${previewImageCoordinates.yTop}" +
+//                "|${previewImageCoordinates.xRight}:${previewImageCoordinates.yBottom}")
+//        Log.d("WIU", "to: -> ${coordinates.xLeft}:${coordinates.yTop}" +
+//                "|${coordinates.xRight}:${coordinates.yBottom}")
 
+//        val scaleRatio = DeviceUtils().getDisplayWidth(imagesContainer.context).toFloat()
+//                (coordinates.xRight - coordinates.xLeft).toFloat() /
+//                        (previewImageCoordinates.xRight - previewImageCoordinates.xLeft).toFloat()
+
+//
+
+        val previewImageCoordinates = presenter.getPreviewImageCoordinates()
+
+        val imageWidth = DeviceUtils().getDisplayWidth(imagesContainer.context)
+        val imageHeight = DeviceUtils().getDisplayHeight(imagesContainer.context)
+
+        var scaleX = (previewImageCoordinates.xRight - previewImageCoordinates.xLeft).toFloat() /
+                (coordinates.xRight - coordinates.xLeft).toFloat()
+
+        var scaleY = (previewImageCoordinates.yBottom - previewImageCoordinates.yTop).toFloat() /
+                (coordinates.yBottom - coordinates.yTop).toFloat()
+
+
+
+//        scaleX = 1 / scaleX
+//        scaleY = 1 / scaleY
+
+//        val previewCenterX = previewImageCoordinates.xLeft + (0.5 * previewImageCoordinates.xRight)
+//        val previewCenterY = previewImageCoordinates.yTop
+
+        val imageCenterX = imageWidth / 2
+        val imageCenterY = imageHeight / 2
+
+//        val xShift = (previewCenterX - imageCenterX).toFloat() / imageWidth.toFloat()
+//        val yShift = (previewCenterY - imageCenterY).toFloat() / imageHeight.toFloat()
+//
+//
+
+//        imagesContainer.post {
+//            preview.translationX = xShift
+//            preview.translationY = yShift
+//            bigImageView?.translationX = xShift
+//            bigImageView?.translationY = yShift
+//            imagesContainer.requestLayout()
+//        }
+        Log.d("GIF", "scaleX: $scaleX, scaleY: $scaleY")
+
+        imagesContainer.scaleX = scaleX
+        imagesContainer.scaleY = scaleY
+
+        val set = AnimationSet(true)
+        set.duration = 10000
+        set.interpolator = LinearInterpolator()
+
+        val translate = TranslateAnimation(
+                Animation.ABSOLUTE, -(imageCenterX - previewImageCoordinates.xLeft - (0.5 * (previewImageCoordinates.xRight-previewImageCoordinates.xLeft))).toFloat(),
+                Animation.ABSOLUTE, 0f,
+                Animation.ABSOLUTE, -(imageCenterY - previewImageCoordinates.yTop - (0.5 * (previewImageCoordinates.yBottom-previewImageCoordinates.yTop))).toFloat(),
+                Animation.ABSOLUTE, 0f)
+        translate.duration = 10000
+        translate.interpolator = LinearInterpolator()
+        set.addAnimation(translate)
+
+        val scale = ScaleAnimation(
+                0f, 1f / scaleX,// Start and end values for the X axis scaling
+               0f, 1f / scaleY,// Start and end values for the Y axis scaling
+                Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
+                Animation.RELATIVE_TO_SELF, 0.5f) // Pivot point of Y scaling
+        scale.fillAfter = true // Needed to keep the result of the animation
+        scale.duration = 10000
+        //set.addAnimation(scale)
+        imagesContainer.startAnimation(set)
+
+        imagesContainer.animate()
+                .setDuration(10000)
+                .setInterpolator(LinearInterpolator())
+                .scaleX(1f)
+                .scaleY(1f)
+                .start()
+
+        //preview.startAnimation(scale)
+        //bigImageView?.startAnimation(scale)
+
+//        imagesContainer.layoutParams.width =
+//                previewImageCoordinates.xRight - previewImageCoordinates.xLeft
+//        imagesContainer.layoutParams.height =
+//                previewImageCoordinates.yBottom - previewImageCoordinates.yTop
+//        (imagesContainer.layoutParams as RelativeLayout.LayoutParams)
+//                .setMargins(previewImageCoordinates.xLeft, previewImageCoordinates.yTop, 0, 0)
+
+
+
+//        set.duration = 3000
+//        set.interpolator = LinearInterpolator()
+//        set.setAnimationListener(object : Animation.AnimationListener {
+//            override fun onAnimationRepeat(p0: Animation?) {
+//
+//            }
+//
+//            override fun onAnimationEnd(p0: Animation?) {
+//                (imagesContainer.layoutParams as RelativeLayout.LayoutParams)
+//                        .setMargins(0, 0, 0, 0)
+//            }
+//
+//            override fun onAnimationStart(p0: Animation?) {
+//            }
+//        })
+//
+//        val widthToResize = DeviceUtils().getDisplayWidth(imagesContainer.context)-
+//                previewImageCoordinates.xRight - previewImageCoordinates.xLeft
+//        val heightToResize = DeviceUtils().getDisplayHeight(imagesContainer.context) -
+//                previewImageCoordinates.yBottom - previewImageCoordinates.yTop
+//
+//        val animator = ValueAnimator.ofFloat(0f, 1f)
+//        animator.duration = 3000
+//        animator.interpolator = LinearInterpolator()
+//        animator.addUpdateListener {
+//            val value = it.animatedValue as Float
+//
+//            val xShift: Float =  (previewImageCoordinates.xLeft.toFloat() * (1 - value))
+//            val yShift: Float = (previewImageCoordinates.yTop.toFloat() * (1-value))
+//
+//            val width = previewImageCoordinates.xRight - previewImageCoordinates.xLeft +
+//                    (widthToResize * value)
+//            val height = previewImageCoordinates.yTop - previewImageCoordinates.yBottom +
+//                    (heightToResize * value)
+//
+//            val params = (imagesContainer.layoutParams as RelativeLayout.LayoutParams)
+//            params.setMargins(xShift.toInt(), yShift.toInt(), 0, 0)
+//            params.width = width.toInt()
+//            params.height = height.toInt()
+//            imagesContainer.requestLayout()
+//
+//
+//        }
+//        animator.start()
+
+//        val fromX = (previewImageCoordinates.xLeft.toFloat() /
+//                DeviceUtils().getDisplayWidth(imagesContainer.context).toFloat())
+//        val fromY = (previewImageCoordinates.yTop.toFloat() /
+//                DeviceUtils().getDisplayHeight(imagesContainer.context).toFloat())
+//
+//        val translate = TranslateAnimation(
+//                Animation.RELATIVE_TO_SELF, fromX,
+//                Animation.RELATIVE_TO_SELF, 0f,
+//                Animation.RELATIVE_TO_SELF, fromY,
+//                Animation.RELATIVE_TO_SELF, 0f)
+//        translate.duration = 3000
+//        val anim = ScaleAnimation(
+//                1f, scaleX, // Start and end values for the X axis scaling
+//                1f, scaleY, // Start and end values for the Y axis scaling
+//                Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
+//                Animation.RELATIVE_TO_SELF, 0.5f) // Pivot point of Y scaling
+//        anim.fillAfter = true // Needed to keep the result of the animation
+//        anim.duration = 3000
+//        set.addAnimation(anim)
+//        //set.addAnimation(translate)
+//        imagesContainer.startAnimation(set)
     }
 
     override fun onDestroyView() {

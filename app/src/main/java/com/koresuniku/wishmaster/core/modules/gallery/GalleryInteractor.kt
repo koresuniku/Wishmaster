@@ -16,15 +16,30 @@
 
 package com.koresuniku.wishmaster.core.modules.gallery
 
+import android.content.Context
 import com.koresuniku.wishmaster.core.base.rx.BaseRxInteractor
+import com.koresuniku.wishmaster.core.data.model.threads.File
+import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
  * Created by koresuniku on 3/4/18.
  */
 
-class GalleryInteractor @Inject constructor(compositeDisposable: CompositeDisposable) :
+class GalleryInteractor @Inject constructor(compositeDisposable: CompositeDisposable,
+                                            private val context: Context,
+                                            private val imageUtils: WishmasterImageUtils) :
         BaseRxInteractor<IGalleryPresenter>(compositeDisposable) {
 
+    fun computeActualDimensions(file: File): Single<WishmasterImageUtils.ImageCoordinates> {
+        return Single.create { e ->
+            compositeDisposable.add(imageUtils
+                    .computeImageCoordinates(context, file)
+                    .subscribeOn(Schedulers.computation())
+                    .subscribe(e::onSuccess))
+        }
+    }
 }

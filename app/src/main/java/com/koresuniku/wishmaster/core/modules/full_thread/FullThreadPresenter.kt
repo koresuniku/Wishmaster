@@ -23,6 +23,7 @@ import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.threads.File
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
 import com.koresuniku.wishmaster.core.modules.gallery.IGalleryItem
+import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -40,6 +41,8 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
                                               orientationNotifier: OrientationNotifier):
         BaseFullThreadPresenter(compositeDisposable, networkInteractor, adapterViewInteractor, orientationNotifier) {
     private val LOG_TAG = FullThreadPresenter::class.java.simpleName
+
+    private var previewImageCoordinates: WishmasterImageUtils.ImageCoordinates? = null
 
     override fun bindView(mvpView: FullThreadView<IFullThreadPresenter>) {
         super.bindView(mvpView)
@@ -135,11 +138,14 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getImageTargetCoordinates(item: IGalleryItem) {
+    override fun getPreviewImageCoordinates() =
+            previewImageCoordinates ?: WishmasterImageUtils.ImageCoordinates(0, 0, 0, 0)
 
+    override fun setPreviewImageCoordinates(coordinates: WishmasterImageUtils.ImageCoordinates) {
+        this.previewImageCoordinates = coordinates
     }
 
-    override fun onImageTargetCoordinatesReceived() {
+    override fun getImageTargetCoordinates(position: Int, item: IGalleryItem) {
 
     }
 }

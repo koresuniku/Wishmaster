@@ -16,6 +16,7 @@
 
 package com.koresuniku.wishmaster.ui.gallery.preview
 
+import android.graphics.Rect
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -55,7 +56,15 @@ class PreviewImageGridAdapter(private val imageItemDataList: List<ImageItemData>
                 val clickableItemLayout = it.findViewById<View>(R.id.clickable_item_layout)
                 val clickableView = it.findViewById<View>(R.id.clickable_view)
 
-                clickableItemLayout.setOnClickListener { onImageItemClickListener.onImageItemClick(position) }
+                clickableItemLayout.setOnClickListener {
+//                        val rect = Rect()
+//                        image.getGlobalVisibleRect(rect)
+//                        val coordinates = WishmasterImageUtils.ImageCoordinates(
+//                                rect.left, rect.right, rect.top, rect.bottom)
+//                        presenter.setPreviewImageCoordinates(coordinates)
+//
+                    onImageItemClickListener.onImageItemClick(position)
+                }
                 clickableView.setOnClickListener { onNoItemClickListener.onNoItemClick() }
 
                 imageSummary.text = imageItemData.summary

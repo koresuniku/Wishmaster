@@ -16,6 +16,8 @@
 
 package com.koresuniku.wishmaster.ui.thread_list
 
+import android.graphics.Rect
+import android.graphics.RectF
 import android.support.annotation.Nullable
 import android.support.v7.widget.RecyclerView
 import android.text.Spanned
@@ -98,7 +100,14 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
         val imageLayout = itemView.findViewById<ViewGroup>(R.id.clickable_item_layout)
         val image = imageLayout.findViewById<ImageView>(R.id.image)
 
-        imageLayout.setOnClickListener { onImageItemClick(0) }
+        imageLayout.setOnClickListener {
+            val rect = Rect()
+            image.getGlobalVisibleRect(rect)
+            val coordinates = WishmasterImageUtils.ImageCoordinates(
+                    rect.left, rect.right, rect.top, rect.bottom)
+            presenter.setPreviewImageCoordinates(coordinates)
+            onImageItemClick(0)
+        }
         imageLayout.setOnTouchListener { _, _ -> false }
 
         (mImageCommentContainer.layoutParams as RelativeLayout.LayoutParams).topMargin =
