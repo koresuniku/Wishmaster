@@ -25,7 +25,6 @@ import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.modules.dashboard.IDashboardPresenter
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListsObject
 import com.koresuniku.wishmaster.core.data.database.repository.BoardsRepository
 import java.lang.ref.WeakReference

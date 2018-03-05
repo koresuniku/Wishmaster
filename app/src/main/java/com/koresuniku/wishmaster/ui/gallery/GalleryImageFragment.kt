@@ -146,32 +146,23 @@ class GalleryImageFragment : BaseWishmasterFragment(), IGalleryItem {
         imagesContainer.scaleX = scaleX
         imagesContainer.scaleY = scaleY
 
-        val set = AnimationSet(true)
-        set.duration = 10000
-        set.interpolator = LinearInterpolator()
+
 
         val translate = TranslateAnimation(
                 Animation.ABSOLUTE, -(imageCenterX - previewImageCoordinates.xLeft - (0.5 * (previewImageCoordinates.xRight-previewImageCoordinates.xLeft))).toFloat(),
                 Animation.ABSOLUTE, 0f,
                 Animation.ABSOLUTE, -(imageCenterY - previewImageCoordinates.yTop - (0.5 * (previewImageCoordinates.yBottom-previewImageCoordinates.yTop))).toFloat(),
                 Animation.ABSOLUTE, 0f)
-        translate.duration = 10000
-        translate.interpolator = LinearInterpolator()
-        set.addAnimation(translate)
+        translate.duration = resources.getInteger(R.integer.gallery_enter_duration).toLong()
+        translate.duration = 5000
+        translate.interpolator = AccelerateDecelerateInterpolator()
 
-        val scale = ScaleAnimation(
-                0f, 1f / scaleX,// Start and end values for the X axis scaling
-               0f, 1f / scaleY,// Start and end values for the Y axis scaling
-                Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
-                Animation.RELATIVE_TO_SELF, 0.5f) // Pivot point of Y scaling
-        scale.fillAfter = true // Needed to keep the result of the animation
-        scale.duration = 10000
-        //set.addAnimation(scale)
-        imagesContainer.startAnimation(set)
+        imagesContainer.startAnimation(translate)
 
         imagesContainer.animate()
-                .setDuration(10000)
-                .setInterpolator(LinearInterpolator())
+                .setDuration(resources.getInteger(R.integer.gallery_enter_duration).toLong())
+                .setDuration(5000)
+                .setInterpolator(AccelerateDecelerateInterpolator())
                 .scaleX(1f)
                 .scaleY(1f)
                 .start()

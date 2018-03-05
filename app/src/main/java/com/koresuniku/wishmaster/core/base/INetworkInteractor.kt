@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.base.interactor
-
-import io.reactivex.Single
+package com.koresuniku.wishmaster.core.base
 
 
 interface INetworkInteractor<out S> {

@@ -17,7 +17,7 @@
 package com.koresuniku.wishmaster.core.modules.full_thread
 
 import android.text.Spanned
-import com.koresuniku.wishmaster.core.base.mvp.IMvpView
+import com.koresuniku.wishmaster.core.base.IMvpView
 
 /**
  * Created by koresuniku on 2/11/18.

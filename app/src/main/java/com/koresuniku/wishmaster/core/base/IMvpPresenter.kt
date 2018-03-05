@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.base.mvp
+package com.koresuniku.wishmaster.core.base
 
 /**
  * Created by koresuniku on 03.10.17.

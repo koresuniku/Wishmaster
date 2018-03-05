@@ -16,10 +16,8 @@
 
 package com.koresuniku.wishmaster.core.modules.gallery
 
-import com.koresuniku.wishmaster.core.base.mvp.IMvpPresenter
 import com.koresuniku.wishmaster.core.data.model.threads.File
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
-import io.reactivex.Single
 
 
 /**

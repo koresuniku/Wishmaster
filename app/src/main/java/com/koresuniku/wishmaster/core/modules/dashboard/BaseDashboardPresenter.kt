@@ -25,8 +25,7 @@ abstract class BaseDashboardPresenter(compositeDisposable: CompositeDisposable,
                                       protected val databaseInteractor: DashboardDatabaseInteractor,
                                       protected val searchInteractor: DashboardSearchInteractor,
                                       protected val sharedPreferencesInteractor: DashboardSharedPreferencesInteractor):
-        BaseRxPresenter<DashboardView<IDashboardPresenter>>(compositeDisposable),
-        IDashboardPresenter {
+        BaseRxPresenter<DashboardView<IDashboardPresenter>>(compositeDisposable) {
 
     protected var dashboardBoardListView: BoardListView<IDashboardPresenter>? = null
     protected var favouriteBoardsView: FavouriteBoardsView<IDashboardPresenter>? = null

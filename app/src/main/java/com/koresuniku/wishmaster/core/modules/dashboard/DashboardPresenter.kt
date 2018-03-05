@@ -16,6 +16,7 @@
 
 package com.koresuniku.wishmaster.core.modules.dashboard
 
+import com.koresuniku.wishmaster.core.base.BaseMvpPresenter
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
@@ -30,17 +31,17 @@ import javax.inject.Inject
  * Created by koresuniku on 03.10.17.
  */
 
-class DashboardPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector,
-                                             compositeDisposable: CompositeDisposable,
-                                             networkInteractor: DashboardNetworkInteractor,
-                                             databaseInteractor: DashboardDatabaseInteractor,
-                                             searchInteractor: DashboardSearchInteractor,
-                                             sharedPreferencesInteractor: DashboardSharedPreferencesInteractor):
-        BaseDashboardPresenter(compositeDisposable, networkInteractor, databaseInteractor,
-                searchInteractor, sharedPreferencesInteractor) {
+class DashboardPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector):
+        BaseMvpPresenter<DashboardMvpContract.IDashboardMainView>(), DashboardMvpContract.IDashboardPresenter {
     private val LOG_TAG = DashboardPresenter::class.java.simpleName
 
-    override fun bindView(mvpView: DashboardView<IDashboardPresenter>) {
+    @Inject lateinit var compositeDisposable: CompositeDisposable
+    @Inject lateinit var networkInteractor: DashboardMvpContract.IDashboardNetworkInteractor
+    @Inject lateinit var databaseInteractor: DashboardMvpContract.IDashboardDatabaseInteractor
+    @Inject lateinit var sharedPreferencesInteractor: DashboardMvpContract.IDashboardSharedPreferencesInteractor
+    @Inject lateinit var searchInteractor: DashboardMvpContract.IDashboardSearchInteractor
+
+    override fun bindView(mvpView: DashboardMvpContract.IDashboardMainView) {
         super.bindView(mvpView)
         injector.daggerDashboardPresenterComponent.inject(this)
     }
@@ -63,7 +64,7 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
     }
 
     private fun loadFromDatabase(e: SingleEmitter<BoardListData>) {
-        compositeDisposable.add(databaseInteractor.getDataFromDatabase()
+        compositeDisposable.add(databaseInteractor.fetchBoardListData()
                 .subscribe({
                     if (it.getBoardList().isEmpty()) loadFromNetwork(e)
                     else e.onSuccess(it)
@@ -74,9 +75,9 @@ class DashboardPresenter @Inject constructor(private val injector: IWishmasterDa
         compositeDisposable.add(Completable.fromCallable {  }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ mvpView?.showLoading() }))
-        compositeDisposable.add(networkInteractor.getDataFromNetwork()
+        compositeDisposable.add(networkInteractor.fetchBoardListData()
                 .subscribe({
-                    databaseInteractor.insertAllBoardsIntoDatabase(it).subscribe()
+                    databaseInteractor.insertBoardsIntoDatabase(it).subscribe()
                     e.onSuccess(it)
                 }, { it.printStackTrace() }))
     }

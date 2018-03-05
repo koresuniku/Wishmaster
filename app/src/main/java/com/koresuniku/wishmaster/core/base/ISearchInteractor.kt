@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.base.interactor
+package com.koresuniku.wishmaster.core.base
 
 import com.koresuniku.wishmaster.core.utils.search.ISearchInputMatcher
 import com.koresuniku.wishmaster.core.utils.search.SearchInputMatcher

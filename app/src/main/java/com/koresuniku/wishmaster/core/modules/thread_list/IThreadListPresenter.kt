@@ -16,8 +16,8 @@
 
 package com.koresuniku.wishmaster.core.modules.thread_list
 
-import com.koresuniku.wishmaster.core.base.mvp.IMvpDataPresenter
-import com.koresuniku.wishmaster.core.base.mvp.IMvpPresenter
+import com.koresuniku.wishmaster.core.base.IMvpDataPresenter
+import com.koresuniku.wishmaster.core.base.IMvpPresenter
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster.core.modules.gallery.IGalleryPresenter
 

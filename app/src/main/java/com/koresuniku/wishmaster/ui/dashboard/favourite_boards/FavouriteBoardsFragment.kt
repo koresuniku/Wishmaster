@@ -27,8 +27,6 @@ import android.view.ViewGroup
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.modules.dashboard.FavouriteBoardsView
-import com.koresuniku.wishmaster.core.modules.dashboard.IDashboardPresenter
 import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
@@ -43,7 +41,7 @@ import javax.inject.Inject
  */
 
 class FavouriteBoardsFragment : BaseWishmasterFragment(),
-        OnStartDragListener, FavouriteBoardsView<IDashboardPresenter>, OnItemDroppedCallback {
+        OnStartDragListener, OnItemDroppedCallback {
     private val LOG_TAG = FavouriteBoardsFragment::class.java.simpleName
 
     @Inject override lateinit var presenter: IDashboardPresenter

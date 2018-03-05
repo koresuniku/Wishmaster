@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.modules.thread_list
 
-import com.koresuniku.wishmaster.core.base.mvp.IMvpView
+import com.koresuniku.wishmaster.core.base.IMvpView
 import com.koresuniku.wishmaster.core.modules.gallery.IGalleryView
 
 /**

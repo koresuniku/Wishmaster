@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.modules.settings
 
-import com.koresuniku.wishmaster.core.base.mvp.IMvpPresenter
+import com.koresuniku.wishmaster.core.base.IMvpPresenter
 
 /**
  * Created by koresuniku on 2/19/18.

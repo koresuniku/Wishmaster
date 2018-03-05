@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.dagger.module.settings_scopes
 
-import com.koresuniku.wishmaster.core.dagger.scope.ForSettingsView
+import com.koresuniku.wishmaster.core.dagger.scope.PerSettingsView
 import com.koresuniku.wishmaster.core.modules.settings.ISettingsPresenter
 import com.koresuniku.wishmaster.core.modules.settings.SettingsPresenter
 import dagger.Module
@@ -30,7 +30,7 @@ import io.reactivex.disposables.CompositeDisposable
 @Module
 class SettingsViewModule {
 
-    @ForSettingsView
+    @PerSettingsView
     @Provides
     fun provideSettingsPresenter(compositeDisposable: CompositeDisposable): ISettingsPresenter =
             SettingsPresenter(compositeDisposable)

@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes
 
 import android.content.Context
 import com.koresuniku.wishmaster.application.singletones.UiParams
-import com.koresuniku.wishmaster.core.dagger.scope.ForFullThreadPresenter
+import com.koresuniku.wishmaster.core.dagger.scope.PerFullThreadPresenter
 import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadAdapterViewInteractor
 import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadNetworkInteractor
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
@@ -38,14 +38,14 @@ import io.reactivex.disposables.CompositeDisposable
 class FullThreadPresenterModule {
 
     @Provides
-    @ForFullThreadPresenter
+    @PerFullThreadPresenter
     fun provideFullThreadNetworkInterator(fullThreadApiService: FullThreadApiService,
                                           compositeDisposable: CompositeDisposable): FullThreadNetworkInteractor {
         return FullThreadNetworkInteractor(fullThreadApiService, compositeDisposable)
     }
 
     @Provides
-    @ForFullThreadPresenter
+    @PerFullThreadPresenter
     fun provideFullThreadAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                                                context: Context,
                                                uiParams: UiParams,

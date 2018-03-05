@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes
 
 import android.content.Context
 import com.koresuniku.wishmaster.application.singletones.UiParams
-import com.koresuniku.wishmaster.core.dagger.scope.ForThreadListPresenter
+import com.koresuniku.wishmaster.core.dagger.scope.PerThreadListPresenter
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListResponseParser
@@ -36,7 +36,7 @@ import io.reactivex.disposables.CompositeDisposable
 class ThreadListPresenterModule {
 
     @Provides
-    @ForThreadListPresenter
+    @PerThreadListPresenter
     fun provideThreadListNetworkInteractor(threadListApiService: ThreadListApiService,
                                           responseParser: ThreadListResponseParser,
                                           compositeDisposable: CompositeDisposable): ThreadListNetworkInteractor {
@@ -44,7 +44,7 @@ class ThreadListPresenterModule {
     }
 
     @Provides
-    @ForThreadListPresenter
+    @PerThreadListPresenter
     fun provideThreadListAdapterViewInteractor(compositeDisposable: CompositeDisposable,
                                                context: Context,
                                                uiParams: UiParams,

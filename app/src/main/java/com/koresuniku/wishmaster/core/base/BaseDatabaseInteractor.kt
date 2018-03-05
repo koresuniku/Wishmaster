@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.base.interactor
+package com.koresuniku.wishmaster.core.base
 
 import android.database.sqlite.SQLiteDatabase
-import android.support.annotation.NonNull
 import com.koresuniku.wishmaster.core.data.database.DatabaseHelper
 
 /**

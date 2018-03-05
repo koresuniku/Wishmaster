@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes
 
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster.core.dagger.scope.ForFullThreadView
+import com.koresuniku.wishmaster.core.dagger.scope.PerFullThreadView
 import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadAdapterViewInteractor
 import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadNetworkInteractor
 import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadPresenter
@@ -35,7 +35,7 @@ import io.reactivex.disposables.CompositeDisposable
 class FullThreadViewModule {
 
     @Provides
-    @ForFullThreadView
+    @PerFullThreadView
     fun provideFullThreadPresenter(injector: IWishmasterDaggerInjector,
                                    compositeDisposable: CompositeDisposable,
                                    networkInteractor: FullThreadNetworkInteractor,

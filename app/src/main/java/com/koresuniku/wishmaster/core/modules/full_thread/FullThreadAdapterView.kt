@@ -17,7 +17,7 @@
 package com.koresuniku.wishmaster.core.modules.full_thread
 
 import com.koresuniku.wishmaster.application.notifier.OnOrientationChangedListener
-import com.koresuniku.wishmaster.core.base.mvp.IMvpView
+import com.koresuniku.wishmaster.core.base.IMvpView
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 
 /**

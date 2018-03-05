@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes
 
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster.application.preferences.SharedPreferencesStorage
-import com.koresuniku.wishmaster.core.dagger.scope.ForDashboardPresenter
+import com.koresuniku.wishmaster.core.dagger.scope.PerDashboardPresenter
 import com.koresuniku.wishmaster.core.modules.dashboard.DashboardDatabaseInteractor
 import com.koresuniku.wishmaster.core.modules.dashboard.DashboardNetworkInteractor
 import com.koresuniku.wishmaster.core.modules.dashboard.DashboardSearchInteractor
@@ -36,7 +36,7 @@ import io.reactivex.disposables.CompositeDisposable
 class DashboardPresenterModule {
 
     @Provides
-    @ForDashboardPresenter
+    @PerDashboardPresenter
     fun provideDashboardNetworkInteractor(boardsApiService: BoardsApiService,
                                           responseParser: BoardsResponseParser,
                                           compositeDisposable: CompositeDisposable): DashboardNetworkInteractor {
@@ -44,7 +44,7 @@ class DashboardPresenterModule {
     }
 
     @Provides
-    @ForDashboardPresenter
+    @PerDashboardPresenter
     fun provideDashboardDatabaseInteractor(boardsRepository: BoardsRepository,
                                            databaseHelper: DatabaseHelper,
                                            compositeDisposable: CompositeDisposable): DashboardDatabaseInteractor {
@@ -52,14 +52,14 @@ class DashboardPresenterModule {
     }
 
     @Provides
-    @ForDashboardPresenter
+    @PerDashboardPresenter
     fun provideDashboardSearchInteractor(matcher: SearchInputMatcher,
                                          compositeDisposable: CompositeDisposable): DashboardSearchInteractor {
         return DashboardSearchInteractor(matcher, compositeDisposable)
     }
 
     @Provides
-    @ForDashboardPresenter
+    @PerDashboardPresenter
     fun provideDashboardSharedPreferencesInteractor(storage: SharedPreferencesStorage,
                                                     compositeDisposable: CompositeDisposable): DashboardSharedPreferencesInteractor {
         return DashboardSharedPreferencesInteractor(storage, compositeDisposable)

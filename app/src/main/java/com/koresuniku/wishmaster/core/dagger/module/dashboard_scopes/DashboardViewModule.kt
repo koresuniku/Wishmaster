@@ -16,14 +16,13 @@
 
 package com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes
 
-import com.koresuniku.wishmaster.core.dagger.scope.ForDashboardView
+import com.koresuniku.wishmaster.core.dagger.scope.PerDashboardView
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.modules.dashboard.DashboardDatabaseInteractor
 import com.koresuniku.wishmaster.core.modules.dashboard.DashboardNetworkInteractor
 import com.koresuniku.wishmaster.core.modules.dashboard.DashboardSearchInteractor
 import com.koresuniku.wishmaster.core.modules.dashboard.DashboardSharedPreferencesInteractor
 import com.koresuniku.wishmaster.core.modules.dashboard.DashboardPresenter
-import com.koresuniku.wishmaster.core.modules.dashboard.IDashboardPresenter
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -36,7 +35,7 @@ import io.reactivex.disposables.CompositeDisposable
 class DashboardViewModule {
 
     @Provides
-    @ForDashboardView
+    @PerDashboardView
     fun provideDashboardPresenter(injector: IWishmasterDaggerInjector,
                                   compositeDisposable: CompositeDisposable,
                                   dashboardNetworkInteractor: DashboardNetworkInteractor,

@@ -22,15 +22,13 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.LayoutRes
-import android.support.annotation.MenuRes
 import android.support.v4.app.ActivityOptionsCompat
 import android.view.Menu
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.WishmasterApplication
-import com.koresuniku.wishmaster.core.base.mvp.IMvpPresenter
-import com.koresuniku.wishmaster.core.base.mvp.IMvpView
+import com.koresuniku.wishmaster.core.base.IMvpPresenter
+import com.koresuniku.wishmaster.core.base.IMvpView
 import com.koresuniku.wishmaster.ui.settings.SettingsActivity
-import com.koresuniku.wishmaster.ui.utils.UiUtils
 
 /**
  * Created by koresuniku on 12.01.18.

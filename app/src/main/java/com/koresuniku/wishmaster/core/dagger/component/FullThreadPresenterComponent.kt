@@ -22,7 +22,7 @@ import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.module.GalleryModule
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadPresenterModule
-import com.koresuniku.wishmaster.core.dagger.scope.ForFullThreadPresenter
+import com.koresuniku.wishmaster.core.dagger.scope.PerFullThreadPresenter
 import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadAdapterViewInteractor
 import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadNetworkInteractor
 import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadPresenter
@@ -36,7 +36,7 @@ import io.reactivex.disposables.CompositeDisposable
  * Created by koresuniku on 2/11/18.
  */
 
-@ForFullThreadPresenter
+@PerFullThreadPresenter
 @Component (dependencies = [ApplicationComponent::class],
         modules = [(FullThreadPresenterModule::class), (RxModule::class), (GalleryModule::class)] )
 interface FullThreadPresenterComponent {

@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.dagger.module.thread_list_scopes
 
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster.core.dagger.scope.ForThreadListView
+import com.koresuniku.wishmaster.core.dagger.scope.PerThreadListView
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryInteractor
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListAdapterViewInteractor
@@ -37,7 +37,7 @@ import io.reactivex.disposables.CompositeDisposable
 class ThreadListViewModule {
 
     @Provides
-    @ForThreadListView
+    @PerThreadListView
     fun provideThreadListPresenter(injector: IWishmasterDaggerInjector,
                                    galleryState: GalleryState,
                                    compositeDisposable: CompositeDisposable,

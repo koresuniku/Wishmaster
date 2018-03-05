@@ -16,10 +16,9 @@
 
 package com.koresuniku.wishmaster.core.network.github_api
 
-import com.koresuniku.wishmaster.core.base.interactor.INetworkInteractor
+import com.koresuniku.wishmaster.core.base.INetworkInteractor
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**

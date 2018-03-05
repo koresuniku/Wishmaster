@@ -19,7 +19,7 @@ package com.koresuniku.wishmaster.core.dagger.component
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.singletones.WMDownloadManager
 import com.koresuniku.wishmaster.application.singletones.WMPermissionManager
-import com.koresuniku.wishmaster.core.dagger.scope.ForDashboardPresenter
+import com.koresuniku.wishmaster.core.dagger.scope.PerDashboardPresenter
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes.BoardsModule
 import com.koresuniku.wishmaster.core.dagger.module.dashboard_scopes.DashboardPresenterModule
@@ -36,7 +36,7 @@ import com.koresuniku.wishmaster.ui.utils.ViewUtils
 import dagger.Component
 
 
-@ForDashboardPresenter
+@PerDashboardPresenter
 @Component(
         dependencies = [ApplicationComponent::class],
         modules = [DashboardPresenterModule::class, RxModule::class, BoardsModule::class, SearchModule::class])
