@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.base.interactor
+package com.koresuniku.wishmaster.core.base.mvp
 
-/**
- * Created by koresuniku on 02.02.18.
- */
-interface IAdapterViewInteractor<A, V, D> {
 
-    fun setItemViewData(adapterView: A, view: V, data: D, position: Int)
+interface IMvpInteractor {
+
 }

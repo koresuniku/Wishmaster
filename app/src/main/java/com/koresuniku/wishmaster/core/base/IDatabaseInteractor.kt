@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.base.rx
+package com.koresuniku.wishmaster.core.base.interactor
 
-import com.koresuniku.wishmaster.core.base.interactor.IAdapterViewInteractor
-import com.koresuniku.wishmaster.core.base.mvp.IMvpPresenter
-import io.reactivex.disposables.CompositeDisposable
+import android.database.sqlite.SQLiteDatabase
+import com.koresuniku.wishmaster.core.data.database.DatabaseHelper
+import io.reactivex.Single
 
-/**
- * Created by koresuniku on 02.02.18.
- */
-abstract class BaseRxAdapterViewInteractor<P : IMvpPresenter<*>, A, V, D>(
-        compositeDisposable: CompositeDisposable):
-        BaseRxInteractor<P>(compositeDisposable), IAdapterViewInteractor<A, V, D>
+
+interface IDatabaseInteractor {
+    val databaseHelper: DatabaseHelper
+    fun writableDatabase(): SQLiteDatabase
+    fun readableDatabase(): SQLiteDatabase
+}

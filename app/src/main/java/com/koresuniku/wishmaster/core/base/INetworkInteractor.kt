@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.modules.dashboard
+package com.koresuniku.wishmaster.core.base.interactor
 
-import com.koresuniku.wishmaster.core.base.mvp.IMvpView
+import io.reactivex.Single
 
-/**
- * Created by koresuniku on 04.01.18.
- */
 
-interface DashboardSearchView<P> : IMvpView<P> {
-    fun launchThreadListActivity(boardId: String)
-    fun showUnknownInput()
+interface INetworkInteractor<out S> {
+
+    val service: S
 }

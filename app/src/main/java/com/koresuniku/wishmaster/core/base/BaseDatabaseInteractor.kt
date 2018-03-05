@@ -14,12 +14,21 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.base.mvp
+package com.koresuniku.wishmaster.core.base.interactor
+
+import android.database.sqlite.SQLiteDatabase
+import android.support.annotation.NonNull
+import com.koresuniku.wishmaster.core.data.database.DatabaseHelper
 
 /**
- * Created by koresuniku on 03.10.17.
+ * Created by koresuniku on 3/5/18.
  */
 
-interface IMvpView<P> {
-    var presenter: P
+abstract class BaseDatabaseInteractor : IDatabaseInteractor {
+
+    abstract override val databaseHelper: DatabaseHelper
+
+    override fun writableDatabase(): SQLiteDatabase = databaseHelper.writableDatabase
+
+    override fun readableDatabase(): SQLiteDatabase = databaseHelper.readableDatabase
 }

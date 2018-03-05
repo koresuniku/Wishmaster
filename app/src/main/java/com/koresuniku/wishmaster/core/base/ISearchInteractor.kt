@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.base.mvp
+package com.koresuniku.wishmaster.core.base.interactor
 
-/**
- * Created by koresuniku on 02.02.18.
- */
-interface IMvpDataPresenter<D>{
-    var presenterData: D
-    fun isDataLoaded(): Boolean
-    fun getDataSize(): Int
+import com.koresuniku.wishmaster.core.utils.search.ISearchInputMatcher
+import com.koresuniku.wishmaster.core.utils.search.SearchInputMatcher
+import com.koresuniku.wishmaster.core.utils.search.SearchInputResponse
+import io.reactivex.Single
+
+
+interface ISearchInteractor {
+    val matcher: SearchInputMatcher
+    fun processInput(input: String): Single<SearchInputResponse>
 }

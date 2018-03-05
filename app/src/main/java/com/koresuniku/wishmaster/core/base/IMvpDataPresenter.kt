@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.modules.dashboard
-
-import com.koresuniku.wishmaster.core.base.mvp.IMvpView
-import com.koresuniku.wishmaster.core.data.model.boards.BoardListData
+package com.koresuniku.wishmaster.core.base.mvp
 
 /**
- * Created by koresuniku on 03.10.17.
+ * Created by koresuniku on 02.02.18.
  */
-
-interface DashboardView<P> : DashboardSearchView<P>, IMvpView<P> {
-    fun showLoading()
-    fun onBoardListReceived(boardListData: BoardListData)
-    fun onBoardListError(t: Throwable)
-    fun onFavouriteTabPositionReceived(position: Int)
+interface IMvpDataPresenter<in V : IMvpView, D> : IMvpPresenter<V> {
+    var presenterData: D
+    fun isDataLoaded(): Boolean
+    fun getDataSize(): Int
 }

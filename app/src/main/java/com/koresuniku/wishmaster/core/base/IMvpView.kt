@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.base.interactor
+package com.koresuniku.wishmaster.core.base.mvp
 
-import com.koresuniku.wishmaster.core.utils.search.ISearchInputMatcher
-import com.koresuniku.wishmaster.core.utils.search.SearchInputResponse
-import io.reactivex.Single
+/**
+ * Created by koresuniku on 03.10.17.
+ */
 
+interface IMvpView {
 
-interface ISearchInteractor {
-    fun getMatcher(): ISearchInputMatcher
-    fun processInput(input: String): Single<SearchInputResponse>
 }

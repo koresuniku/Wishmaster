@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.modules.dashboard
-
-import com.koresuniku.wishmaster.core.base.mvp.IMvpView
-import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
+package com.koresuniku.wishmaster.core.base.interactor
 
 /**
- * Created by koresuniku on 27.11.17.
+ * Created by koresuniku on 02.02.18.
  */
+interface IAdapterViewInteractor<A, V, D> {
 
-interface FavouriteBoardsView<P> : IMvpView<P> {
-    fun onFavouriteBoardListChanged(boardList: List<BoardModel>)
+    fun setItemViewData(adapterView: A, itemView: V, data: D, position: Int)
 }

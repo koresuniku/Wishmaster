@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.base.interactor
+package com.koresuniku.wishmaster.core.base.mvp
 
-import android.database.sqlite.SQLiteDatabase
-import io.reactivex.Single
+/**
+ * Created by koresuniku on 03.10.17.
+ */
 
-
-interface IDatabaseInteractor<M> {
-
-    fun getWritableDatabase(): SQLiteDatabase
-    fun getReadableDatabase(): SQLiteDatabase
-    fun getDataFromDatabase(): Single<M>
+interface IMvpPresenter<in V: IMvpView> {
+    fun bindView(mvpView: V)
+    fun unbindView()
 }
