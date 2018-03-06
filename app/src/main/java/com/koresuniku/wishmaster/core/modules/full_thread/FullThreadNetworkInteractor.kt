@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.modules.full_thread
 
-import com.koresuniku.wishmaster.core.base.rx.BaseRxNetworkInteractor
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.network.full_thread_api.FullThreadApiService
 import io.reactivex.Single
@@ -24,41 +24,38 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
-class FullThreadNetworkInteractor @Inject constructor(apiService: FullThreadApiService,
-                                                      compositeDisposable: CompositeDisposable):
-        BaseRxNetworkInteractor<
-                IFullThreadPresenter,
-                FullThreadApiService,
-                PostListData>(apiService, compositeDisposable) {
+class FullThreadNetworkInteractor @Inject constructor(injector: IWishmasterDaggerInjector):
+        FullThreadMvpContract.IFullThreadNetworkInteractor {
 
-    override fun getDataFromNetwork(): Single<PostListData> {
+    @Inject lateinit var compositeDisposable: CompositeDisposable
+    @Inject override lateinit var service: FullThreadApiService
+
+    init {
+        //injector.daggerFullThreadBusinessLogicComponent.inject(this)
+    }
+
+    override fun fetchPostListData(boardId: String, threadNumber: String): Single<PostListData> {
         return Single.create({ e ->
-            compositeDisposable.add(getService().getPostListObservable(
-                    "get_thread",
-                    presenter?.getBoardId() ?: String(),
-                    presenter?.getThreadNumber() ?: String(),
-                    0)
+            compositeDisposable.add(service.getPostListObservable(
+                    "get_thread", boardId, threadNumber, 0)
                     .subscribe({
                         val data = PostListData()
                         data.postList = it
                         e.onSuccess(data)
-                    }, { presenter?.onNetworkError(it) }))
+                    }, { it.printStackTrace() }))
         })
     }
 
-    fun getPostListDataFromPosition(position: Int): Single<PostListData> {
+    override fun fetchPostListDataStartingAt(position: Int, boardId: String, threadNumber: String):
+            Single<PostListData> {
         return Single.create({ e ->
-            compositeDisposable.add(getService().getPostListObservable(
-                    "get_thread",
-                    presenter?.getBoardId() ?: String(),
-                    presenter?.getThreadNumber() ?: String(),
-                    //Абу, почини API!
-                    position + 2)
+            compositeDisposable.add(service.getPostListObservable(
+                    "get_thread", boardId, threadNumber, position + 2)
                     .subscribe({
                         val data = PostListData()
                         data.postList = it
                         e.onSuccess(data)
-                    }, { presenter?.onNetworkNewPostsError(it) }))
+                    }, { it.printStackTrace() }))
         })
     }
 

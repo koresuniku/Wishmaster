@@ -17,6 +17,7 @@
 package com.koresuniku.wishmaster.core.modules.thread_list
 
 import android.text.Spanned
+import com.koresuniku.wishmaster.application.notifier.OnOrientationChangedListener
 import com.koresuniku.wishmaster.core.base.IAdapterViewInteractor
 import com.koresuniku.wishmaster.core.base.IMvpDataPresenter
 import com.koresuniku.wishmaster.core.base.IMvpView
@@ -45,12 +46,11 @@ object ThreadListMvpContract {
         fun launchFullThread(threadNumber: String)
     }
 
-    interface IThreadListAdapterView : IMvpView {
+    interface IThreadListAdapterView : IMvpView, OnOrientationChangedListener {
         val NO_IMAGES_CODE: Int
         val SINGLE_IMAGE_CODE: Int
         val MULTIPLE_IMAGES_CODE: Int
         fun onThreadListDataChanged(newThreadListData: ThreadListData)
-        fun onOrientationChanged(orientation: Int)
     }
 
     interface IThreadItemView : IMvpView {
@@ -95,5 +95,5 @@ object ThreadListMvpContract {
     }
 
     interface IThreadListAdapterViewInteractor :
-            IAdapterViewInteractor<IThreadListAdapterView, IThreadItemView, ThreadListData> {}
+            IAdapterViewInteractor<IThreadListAdapterView, IThreadItemView, ThreadListData>
 }

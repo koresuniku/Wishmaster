@@ -18,8 +18,11 @@ package com.koresuniku.wishmaster.core.modules.full_thread
 
 import android.text.Html
 import android.util.Log
+import com.koresuniku.wishmaster.application.notifier.OnOrientationChangedListener
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
+import com.koresuniku.wishmaster.core.base.BaseMvpPresenter
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.data.model.threads.File
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
 import com.koresuniku.wishmaster.core.modules.gallery.IGalleryItem
@@ -34,25 +37,42 @@ import javax.inject.Inject
  * Created by koresuniku on 2/11/18.
  */
 
-class FullThreadPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector,
-                                              compositeDisposable: CompositeDisposable,
-                                              networkInteractor: FullThreadNetworkInteractor,
-                                              adapterViewInteractor: FullThreadAdapterViewInteractor,
-                                              orientationNotifier: OrientationNotifier):
-        BaseFullThreadPresenter(compositeDisposable, networkInteractor, adapterViewInteractor, orientationNotifier) {
+class FullThreadPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector):
+        BaseMvpPresenter<FullThreadMvpContract.IFulThreadMainView>(),
+        FullThreadMvpContract.IFullThreadPresenter, OnOrientationChangedListener {
     private val LOG_TAG = FullThreadPresenter::class.java.simpleName
 
-    private var previewImageCoordinates: WishmasterImageUtils.ImageCoordinates? = null
+    @Inject lateinit var compositeDisposable: CompositeDisposable
+    @Inject lateinit var networkInteractor: FullThreadMvpContract.IFullThreadNetworkInteractor
+    @Inject lateinit var adapterViewInteractor: FullThreadMvpContract.IFullThreadAdapterViewInteractor
+    @Inject lateinit var orientationNotifier: OrientationNotifier
 
-    override fun bindView(mvpView: FullThreadView<IFullThreadPresenter>) {
+    override var fullThreadAdapterView: FullThreadMvpContract.IFullThreadAdapterView? = null
+
+    override var presenterData: PostListData = PostListData.emptyData()
+    //private var previewImageCoordinates: WishmasterImageUtils.ImageCoordinates? = null
+
+    override fun bindView(mvpView: FullThreadMvpContract.IFulThreadMainView) {
         super.bindView(mvpView)
         injector.daggerFullThreadPresenterComponent.inject(this)
+        orientationNotifier.bindListener(this)
+    }
+
+    override fun bindFullThreadAdapterView(fullThreadAdapterView: FullThreadMvpContract.IFullThreadAdapterView) {
+        this.fullThreadAdapterView = fullThreadAdapterView
+    }
+
+    override fun isDataLoaded() = presenterData.postList.isNotEmpty()
+    override fun getDataSize() = presenterData.postList.count()
+
+    override fun onOrientationChanged(orientation: Int) {
+        fullThreadAdapterView?.onOrientationChanged(orientation)
     }
 
     override fun loadPostList() {
         mvpView?.showLoading()
         compositeDisposable.add(networkInteractor
-                .getDataFromNetwork()
+                .fetchPostListData(getBoardId(), getThreadNumber())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -71,7 +91,8 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
             loadPostList()
         } else {
             compositeDisposable.add(networkInteractor
-                    .getPostListDataFromPosition(presenterData.postList.size - 1)
+                    .fetchPostListDataStartingAt(
+                            presenterData.postList.size - 1, getBoardId(), getThreadNumber())
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
@@ -115,37 +136,45 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
         return fullThreadAdapterView?.NO_IMAGES_CODE ?: -1
     }
 
-    override fun setItemViewData(postItemView: PostItemView, position: Int) {
+    override fun setItemViewData(postItemView: FullThreadMvpContract.IPostItemView, position: Int) {
         fullThreadAdapterView?.let {
-            adapterViewInteractor.setItemViewData(it, postItemView, presenterData, position)
+            adapterViewInteractor.setItemViewData(
+                    it, postItemView, presenterData, position, getPostItemType(position))
         }
     }
 
-    override fun getGalleryState(): GalleryState {
-        //TODO: duplicate from thread list
-        return GalleryState()
+    override fun unbindFullThreadAdapterView() { this.fullThreadAdapterView = null }
+    override fun unbindView() {
+        super.unbindView()
+        unbindFullThreadAdapterView()
+        orientationNotifier.unbindListener(this)
+        this.mvpView = null
     }
-
-    override fun onOpenGalleryClick(itemPosition: Int, filePosition: Int) {
-        //TODO: implement
-    }
-
-    override fun onGalleryLayoutClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getFile(position: Int): File {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getPreviewImageCoordinates() =
-            previewImageCoordinates ?: WishmasterImageUtils.ImageCoordinates(0, 0, 0, 0)
-
-    override fun setPreviewImageCoordinates(coordinates: WishmasterImageUtils.ImageCoordinates) {
-        this.previewImageCoordinates = coordinates
-    }
-
-    override fun getImageTargetCoordinates(position: Int, item: IGalleryItem) {
-
-    }
+    //    override fun getGalleryState(): GalleryState {
+//        //TODO: duplicate from thread list
+//        return GalleryState()
+//    }
+//
+//    override fun onOpenGalleryClick(itemPosition: Int, filePosition: Int) {
+//        //TODO: implement
+//    }
+//
+//    override fun onGalleryLayoutClicked() {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    }
+//
+//    override fun getFile(position: Int): File {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    }
+//
+//    override fun getPreviewImageCoordinates() =
+//            previewImageCoordinates ?: WishmasterImageUtils.ImageCoordinates(0, 0, 0, 0)
+//
+//    override fun setPreviewImageCoordinates(coordinates: WishmasterImageUtils.ImageCoordinates) {
+//        this.previewImageCoordinates = coordinates
+//    }
+//
+//    override fun getImageTargetCoordinates(position: Int, item: IGalleryItem) {
+//
+//    }
 }

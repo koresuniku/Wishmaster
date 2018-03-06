@@ -49,8 +49,8 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
 
     override fun bindView(mvpView: ThreadListMvpContract.IThreadListMainView) {
         super.bindView(mvpView)
-        orientationNotifier.bindListener(this)
         injector.daggerThreadListPresenterComponent.inject(this)
+        orientationNotifier.bindListener(this)
     }
 
     override fun bindThreadListAdapterView(threadListAdapterView: ThreadListMvpContract.IThreadListAdapterView) {
@@ -61,8 +61,8 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
         threadListAdapterView?.onOrientationChanged(orientation)
     }
 
-    override fun isDataLoaded() = presenterData.getThreadList().size == 0
-    override fun getDataSize() = presenterData.getThreadList().size
+    override fun isDataLoaded() = presenterData.getThreadList().isNotEmpty()
+    override fun getDataSize() = presenterData.getThreadList().count()
     override fun getBoardId(): String = mvpView?.getBoardId() ?: String()
 
     override fun loadThreadList() {

@@ -19,7 +19,6 @@ package com.koresuniku.wishmaster.ui.full_thread
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.support.annotation.LayoutRes
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
@@ -35,8 +34,6 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.utils.IntentKeystore
-import com.koresuniku.wishmaster.core.modules.full_thread.IFullThreadPresenter
-import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadView
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
@@ -51,7 +48,7 @@ import javax.inject.Inject
  * Created by koresuniku on 2/11/18.
  */
 
-class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>(), FullThreadView<IFullThreadPresenter> {
+class FullThreadActivity : BaseWishmasterActivity<IFullThreadPresenter>() {
     private val LOG_TAG = FullThreadActivity::class.java.simpleName
 
     @Inject override lateinit var presenter: IFullThreadPresenter

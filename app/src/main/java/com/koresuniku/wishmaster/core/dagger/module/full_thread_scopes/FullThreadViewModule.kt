@@ -22,7 +22,6 @@ import com.koresuniku.wishmaster.core.dagger.scope.PerFullThreadView
 import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadAdapterViewInteractor
 import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadNetworkInteractor
 import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadPresenter
-import com.koresuniku.wishmaster.core.modules.full_thread.IFullThreadPresenter
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable

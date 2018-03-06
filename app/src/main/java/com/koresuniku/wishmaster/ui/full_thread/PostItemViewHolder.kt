@@ -28,8 +28,6 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster.core.modules.full_thread.IFullThreadPresenter
-import com.koresuniku.wishmaster.core.modules.full_thread.PostItemView
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
@@ -41,7 +39,7 @@ import javax.inject.Inject
  */
 
 class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
-        RecyclerView.ViewHolder(itemView), PostItemView, WMGridView.OnNoItemClickListener, WMGridView.OnImageItemClickListener {
+        RecyclerView.ViewHolder(itemView), WMGridView.OnNoItemClickListener, WMGridView.OnImageItemClickListener {
     private val LOG_TAG = PostItemViewHolder::class.java.simpleName
 
     @Inject lateinit var presenter: IFullThreadPresenter

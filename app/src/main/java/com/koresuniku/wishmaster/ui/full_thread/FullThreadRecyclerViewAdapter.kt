@@ -24,8 +24,6 @@ import android.view.ViewGroup
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
-import com.koresuniku.wishmaster.core.modules.full_thread.IFullThreadPresenter
-import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadAdapterView
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -34,8 +32,7 @@ import javax.inject.Inject
  * Created by koresuniku on 2/14/18.
  */
 
-class FullThreadRecyclerViewAdapter() : RecyclerView.Adapter<PostItemViewHolder>(),
-        FullThreadAdapterView<IFullThreadPresenter> {
+class FullThreadRecyclerViewAdapter() : RecyclerView.Adapter<PostItemViewHolder>() {
 
     private val LOG_TAG = FullThreadRecyclerViewAdapter::class.java.simpleName
 

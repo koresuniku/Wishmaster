@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.modules.full_thread
 
 import android.content.Context
 import com.koresuniku.wishmaster.application.singletones.UiParams
-import com.koresuniku.wishmaster.core.base.rx.BaseRxAdapterViewInteractor
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
@@ -33,29 +33,32 @@ import javax.inject.Inject
  * Created by koresuniku on 2/14/18.
  */
 
-class FullThreadAdapterViewInteractor @Inject constructor(compositeDisposable: CompositeDisposable,
-                                                          private val context: Context,
-                                                          private val uiParams: UiParams,
-                                                          private val retrofitHolder: RetrofitHolder,
-                                                          private val imageUtils: WishmasterImageUtils,
-                                                          private val textUtils: WishmasterTextUtils,
-                                                          private val viewUtils: ViewUtils):
-        BaseRxAdapterViewInteractor<
-                IFullThreadPresenter,
-                FullThreadAdapterView<IFullThreadPresenter>,
-                PostItemView,
-                PostListData>(compositeDisposable) {
+class FullThreadAdapterViewInteractor @Inject constructor(injector: IWishmasterDaggerInjector):
+        FullThreadMvpContract.IFullThreadAdapterViewInteractor{
 
-    override fun setItemViewData(adapterView: FullThreadAdapterView<IFullThreadPresenter>,
-                                 view: PostItemView, data: PostListData, position: Int) {
+    @Inject lateinit var uiParams: UiParams
+    @Inject lateinit var textUtils: WishmasterTextUtils
+    @Inject lateinit var compositeDisposable: CompositeDisposable
+    @Inject lateinit var imageUtils: WishmasterImageUtils
+    @Inject lateinit var retrofitHolder: RetrofitHolder
+    @Inject lateinit var context: Context
+    @Inject lateinit var viewUtils: ViewUtils
+
+    init {
+        //injector.daggerFullThreadBusinessLogicComponent.inject(this)
+    }
+
+    override fun setItemViewData(adapterView: FullThreadMvpContract.IFullThreadAdapterView,
+                                 itemView: FullThreadMvpContract.IPostItemView,
+                                 data: PostListData, position: Int, type: Int) {
         val post = data.postList[position]
 
         //Answers
         //TODO: count the answers!
-        view.switchAnswersVisibility(false)
+        itemView.switchAnswersVisibility(false)
 
         //Header
-        view.setHeader(textUtils.obtainPostHeader(post, position, context))
+        itemView.setHeader(textUtils.obtainPostHeader(post, position, context))
 
         //Comment
         post.comment?.let {
@@ -63,23 +66,23 @@ class FullThreadAdapterViewInteractor @Inject constructor(compositeDisposable: C
                 compositeDisposable.add(textUtils.getCommentDefault(it)
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ view.setComment(it) }, { it.printStackTrace() }))
+                        .subscribe({ itemView.setComment(it) }, { it.printStackTrace() }))
         }
 
         //Images
         post.files?.let {
-            when (adapterView.presenter.getPostItemType(position)) {
+            when (type) {
                 adapterView.SINGLE_IMAGE_CODE -> {
                     compositeDisposable.add(imageUtils.getImageItemData(it[0])
                             .subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
-                                    { view.setSingleImage(it, retrofitHolder.getDvachBaseUrl(), imageUtils)
+                                    { itemView.setSingleImage(it, retrofitHolder.getDvachBaseUrl(), imageUtils)
                                         compositeDisposable.add(textUtils.getCommentForSingleImageItemTemp(
                                                 post.comment?:String(), uiParams, it)
                                                 .subscribeOn(Schedulers.newThread())
                                                 .observeOn(AndroidSchedulers.mainThread())
-                                                .subscribe({ view.setComment(it) }, { it.printStackTrace() }))
+                                                .subscribe({ itemView.setComment(it) }, { it.printStackTrace() }))
                                     }, { it.printStackTrace() }))
                 }
                 adapterView.MULTIPLE_IMAGES_CODE -> {
@@ -95,7 +98,7 @@ class FullThreadAdapterViewInteractor @Inject constructor(compositeDisposable: C
                                                 .subscribeOn(Schedulers.newThread())
                                                 .observeOn(AndroidSchedulers.mainThread())
                                                 .subscribe({
-                                                    view.setMultipleImages(
+                                                    itemView.setMultipleImages(
                                                             imageItemData, retrofitHolder.getDvachBaseUrl(),
                                                             imageUtils, it, uiParams.threadPostItemShortInfoHeight) },
                                                         { it.printStackTrace() }))

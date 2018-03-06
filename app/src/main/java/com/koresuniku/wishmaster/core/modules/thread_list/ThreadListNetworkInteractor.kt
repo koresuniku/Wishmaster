@@ -36,9 +36,7 @@ class ThreadListNetworkInteractor @Inject constructor(injector: IWishmasterDagge
     @Inject lateinit var responseParser: ThreadListResponseParser
     @Inject override lateinit var service: ThreadListApiService
 
-    init {
-       // injector.daggerThreadListBusinessLogicComponent.inject(this)
-    }
+    init { injector.daggerThreadListBusinessLogicComponent.inject(this) }
 
     override fun fetchThreadListData(boardId: String): Single<ThreadListData> {
         return Single.create({ e ->

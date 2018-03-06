@@ -44,9 +44,7 @@ class ThreadListAdapterViewInteractor @Inject constructor(injector: IWishmasterD
     @Inject lateinit var context: Context
     @Inject lateinit var viewUtils: ViewUtils
 
-    init {
-        //injector.daggerThreadListBusinessLogicComponent.inject(this)
-    }
+    init { injector.daggerThreadListBusinessLogicComponent.inject(this) }
 
     override fun setItemViewData(adapterView: ThreadListMvpContract.IThreadListAdapterView,
                                  itemView: ThreadListMvpContract.IThreadItemView,
