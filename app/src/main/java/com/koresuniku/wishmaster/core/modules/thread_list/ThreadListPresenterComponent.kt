@@ -16,22 +16,18 @@
 
 package com.koresuniku.wishmaster.core.modules.thread_list
 
-import com.koresuniku.wishmaster.ui.thread_list.ThreadItemViewHolder
-import com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity
-import com.koresuniku.wishmaster.ui.thread_list.ThreadListRecyclerViewAdapter
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import dagger.Component
 
 /**
- * Created by koresuniku on 01.01.18.
+ * Created by koresuniku on 3/6/18.
  */
 
-@ThreadListScopes.ForThreadListView
-@Component(dependencies = [(ThreadListPresenterComponent::class)],
-        modules = [(ThreadListViewModule::class)])
-interface ThreadListViewComponent {
 
-    fun inject(activity: ThreadListActivity)
-    fun inject(threadListAdapterView: ThreadListRecyclerViewAdapter)
-    fun inject(threadItemViewHolder: ThreadItemViewHolder)
+@ThreadListScopes.ForThreadListPresenter
+@Component(dependencies = [ThreadListBusinessLogicComponent::class])
+interface ThreadListPresenterComponent {
+    fun injector(): IWishmasterDaggerInjector
 
+    fun inject(threadListPresenter: ThreadListPresenter)
 }

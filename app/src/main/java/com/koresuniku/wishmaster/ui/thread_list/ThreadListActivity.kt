@@ -40,6 +40,7 @@ import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.utils.IntentKeystore
 import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
+import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListMvpContract
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
@@ -57,15 +58,13 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>() {
+class ThreadListActivity : BaseWishmasterActivity(), ThreadListMvpContract.IThreadListMainView {
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
-    @Inject override lateinit var presenter: IThreadListPresenter
+    @Inject lateinit var presenter: ThreadListMvpContract.IThreadListPresenter
     @Inject lateinit var textUtils: WishmasterTextUtils
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
-    @Inject lateinit var mediaTypeMatcher: MediaTypeMatcher
-    @Inject lateinit var retrofitHolder: RetrofitHolder
 
     @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
     @BindView(R.id.app_bar_layout) lateinit var mAppBarLayout: AppBarLayout
@@ -89,7 +88,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>() {
 
     @SuppressLint("newApi")
     override fun onCreate(savedInstanceState: Bundle?) {
-        getWishmasterApplication().daggerThreadListViewComponent.inject(this)
+        //getWishmasterApplication().daggerThreadListViewComponent.inject(this)
         super.onCreate(savedInstanceState)
 
         ButterKnife.bind(this)
@@ -202,70 +201,70 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>() {
 
     private var yCoordinate = 0f
     private fun setupViewPager() {
-        mGalleryPagerAdapter = GalleryPagerAdapter(
-                supportFragmentManager, presenter, mediaTypeMatcher, retrofitHolder)
-        mGalleryViewPager.adapter = mGalleryPagerAdapter
-        mGalleryLayout.setOnTouchListener { view, motionEvent ->
-            when(motionEvent.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    yCoordinate = view.y - motionEvent.rawY
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    view.animate().y(motionEvent.rawY + yCoordinate).setDuration(0).start()
-                }
-                MotionEvent.ACTION_UP -> {
-                    //your stuff
-                }
-                else -> {}
-            }
-            true
-        }
+//        mGalleryPagerAdapter = GalleryPagerAdapter(
+//                supportFragmentManager, presenter, mediaTypeMatcher, retrofitHolder)
+//        mGalleryViewPager.adapter = mGalleryPagerAdapter
+//        mGalleryLayout.setOnTouchListener { view, motionEvent ->
+//            when(motionEvent.action) {
+//                MotionEvent.ACTION_DOWN -> {
+//                    yCoordinate = view.y - motionEvent.rawY
+//                }
+//                MotionEvent.ACTION_MOVE -> {
+//                    view.animate().y(motionEvent.rawY + yCoordinate).setDuration(0).start()
+//                }
+//                MotionEvent.ACTION_UP -> {
+//                    //your stuff
+//                }
+//                else -> {}
+//            }
+//            true
+//        }
     }
 
-    override fun openGallery() {
-        galleryOpenedState = true
-
-        mGalleryPagerAdapter.notifyDataSetChanged()
-        mGalleryViewPager.setCurrentItem(presenter.getGalleryState().currentPositionInList, false)
-        mGalleryLayout.visibility = View.VISIBLE
-
-        mGalleryBackground.alpha = 0f
-        mGalleryBackground.animate()
-                .alpha(1f)
-                .setDuration(resources.getInteger(R.integer.gallery_enter_duration).toLong())
-                .setInterpolator(LinearInterpolator())
-                .setListener(object : Animator.AnimatorListener {
-                    override fun onAnimationRepeat(p0: Animator?) {}
-                    override fun onAnimationEnd(p0: Animator?) {}
-                    override fun onAnimationCancel(p0: Animator?) {}
-                    override fun onAnimationStart(p0: Animator?) {
-                        uiUtils.setBarsTranslucent(this@ThreadListActivity, true)
-                    }
-                })
-                .start()
-    }
-
-    override fun closeGallery() {
-        mGalleryLayout.animate()
-                .alpha(0f)
-                .setDuration(resources.getInteger(R.integer.gallery_exit_duration).toLong())
-                .setInterpolator(LinearInterpolator())
-                .setListener(object : Animator.AnimatorListener {
-                    override fun onAnimationRepeat(p0: Animator?) {}
-
-                    override fun onAnimationEnd(p0: Animator?) {
-                        uiUtils.setBarsTranslucent(this@ThreadListActivity, false)
-                        mGalleryLayout.visibility = View.GONE
-                        mGalleryLayout.alpha = 1f
-                    }
-
-                    override fun onAnimationCancel(p0: Animator?) {}
-                    override fun onAnimationStart(p0: Animator?) {}
-                })
-                .start()
-
-        galleryOpenedState = false
-    }
+//    override fun openGallery() {
+//        galleryOpenedState = true
+//
+//        mGalleryPagerAdapter.notifyDataSetChanged()
+//        mGalleryViewPager.setCurrentItem(presenter.getGalleryState().currentPositionInList, false)
+//        mGalleryLayout.visibility = View.VISIBLE
+//
+//        mGalleryBackground.alpha = 0f
+//        mGalleryBackground.animate()
+//                .alpha(1f)
+//                .setDuration(resources.getInteger(R.integer.gallery_enter_duration).toLong())
+//                .setInterpolator(LinearInterpolator())
+//                .setListener(object : Animator.AnimatorListener {
+//                    override fun onAnimationRepeat(p0: Animator?) {}
+//                    override fun onAnimationEnd(p0: Animator?) {}
+//                    override fun onAnimationCancel(p0: Animator?) {}
+//                    override fun onAnimationStart(p0: Animator?) {
+//                        uiUtils.setBarsTranslucent(this@ThreadListActivity, true)
+//                    }
+//                })
+//                .start()
+//    }
+//
+//    override fun closeGallery() {
+//        mGalleryLayout.animate()
+//                .alpha(0f)
+//                .setDuration(resources.getInteger(R.integer.gallery_exit_duration).toLong())
+//                .setInterpolator(LinearInterpolator())
+//                .setListener(object : Animator.AnimatorListener {
+//                    override fun onAnimationRepeat(p0: Animator?) {}
+//
+//                    override fun onAnimationEnd(p0: Animator?) {
+//                        uiUtils.setBarsTranslucent(this@ThreadListActivity, false)
+//                        mGalleryLayout.visibility = View.GONE
+//                        mGalleryLayout.alpha = 1f
+//                    }
+//
+//                    override fun onAnimationCancel(p0: Animator?) {}
+//                    override fun onAnimationStart(p0: Animator?) {}
+//                })
+//                .start()
+//
+//        galleryOpenedState = false
+//    }
 
     override fun onThreadListReceived(boardName: String) {
         hideLoading()
@@ -315,7 +314,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>() {
         mRecyclerView.visibility = View.VISIBLE
     }
 
-    override fun launchFullThreadActivity(threadNumber: String) {
+    override fun launchFullThread(threadNumber: String) {
         val intent = Intent(this, FullThreadActivity::class.java)
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, getBoardId())
         intent.putExtra(IntentKeystore.THREAD_NUMBER_CODE, threadNumber)
@@ -323,10 +322,10 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>() {
         overrideForwardPendingTransition()
     }
 
-    override fun galleryOpenedState() = galleryOpenedState
+    //override fun galleryOpenedState() = galleryOpenedState
 
     override fun onBackPressed() {
-        if (galleryOpenedState) closeGallery()
+        if (galleryOpenedState) //closeGallery()
         else {
             presenter.unbindThreadListAdapterView()
             super.onBackPressed()

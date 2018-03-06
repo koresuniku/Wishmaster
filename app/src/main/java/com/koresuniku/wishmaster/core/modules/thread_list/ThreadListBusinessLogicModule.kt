@@ -48,4 +48,8 @@ class ThreadListBusinessLogicModule {
             ThreadListMvpContract.IThreadListAdapterViewInteractor {
         return ThreadListAdapterViewInteractor(injector)
     }
+
+    @Provides
+    @ThreadListScopes.ForThreadListBusinessLogic
+    fun provideResponseParser(): ThreadListResponseParser = ThreadListResponseParser()
 }

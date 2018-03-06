@@ -20,6 +20,9 @@ import com.koresuniku.wishmaster.core.dagger.component.*
 import com.koresuniku.wishmaster.core.modules.dashboard.DaggerDashboardBusinessLogicComponent
 import com.koresuniku.wishmaster.core.modules.dashboard.DaggerDashboardPresenterComponent
 import com.koresuniku.wishmaster.core.modules.dashboard.DaggerDashboardViewComponent
+import com.koresuniku.wishmaster.core.modules.thread_list.DaggerThreadListBusinessLogicComponent
+import com.koresuniku.wishmaster.core.modules.thread_list.DaggerThreadListPresenterComponent
+import com.koresuniku.wishmaster.core.modules.thread_list.DaggerThreadListViewComponent
 
 
 interface IWishmasterDaggerInjector {
@@ -27,7 +30,8 @@ interface IWishmasterDaggerInjector {
     val daggerDashboardPresenterComponent: DaggerDashboardPresenterComponent
     val daggerDashboardViewComponent: DaggerDashboardViewComponent
 
-    val daggerThreadListPresenterComponent: DaggerThreadListBusinessLogicComponent
+    val daggerThreadListBusinessLogicComponent: DaggerThreadListBusinessLogicComponent
+    val daggerThreadListPresenterComponent: DaggerThreadListPresenterComponent
     val daggerThreadListViewComponent: DaggerThreadListViewComponent
 
     val daggerFullThreadPresenterComponent: DaggerFullThreadPresenterComponent

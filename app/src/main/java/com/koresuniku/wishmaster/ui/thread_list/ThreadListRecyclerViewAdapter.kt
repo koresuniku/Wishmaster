@@ -24,6 +24,7 @@ import android.view.ViewGroup
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
+import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListMvpContract
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -33,7 +34,8 @@ import javax.inject.Inject
  * Created by koresuniku on 07.01.18.
  */
 
-class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolder>() {
+class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolder>(),
+        ThreadListMvpContract.IThreadListAdapterView {
     private val LOG_TAG = ThreadListRecyclerViewAdapter::class.java.simpleName
 
     override val NO_IMAGES_CODE = 0
@@ -41,11 +43,11 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
     override val MULTIPLE_IMAGES_CODE = 2
 
     private lateinit var activity: WeakReference<Activity>
-    @Inject override lateinit var presenter: IThreadListPresenter
+    @Inject lateinit var presenter: ThreadListMvpContract.IThreadListPresenter
     @Inject lateinit var injector: IWishmasterDaggerInjector
 
-    constructor(activity: BaseWishmasterActivity<IThreadListPresenter>) : this() {
-        activity.getWishmasterApplication().daggerThreadListViewComponent.inject(this)
+    constructor(activity: BaseWishmasterActivity) : this() {
+        //activity.getWishmasterApplication().daggerThreadListViewComponent.inject(this)
         this.activity = WeakReference(activity)
     }
 
@@ -75,6 +77,6 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
     }
 
     override fun getItemViewType(position: Int): Int = presenter.getThreadItemType(position)
-    override fun getItemCount(): Int = presenter.getThreadListDataSize()
+    override fun getItemCount(): Int = presenter.getDataSize()
     override fun getItemId(position: Int): Long = position.toLong()
 }

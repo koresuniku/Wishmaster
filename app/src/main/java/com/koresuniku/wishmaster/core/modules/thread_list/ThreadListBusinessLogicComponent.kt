@@ -20,9 +20,7 @@ import android.content.Context
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.component.ApplicationComponent
-import com.koresuniku.wishmaster.core.dagger.module.GalleryModule
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
-import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListPresenterModule
 import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
 import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
@@ -35,13 +33,12 @@ import io.reactivex.disposables.CompositeDisposable
 
 @ThreadListScopes.ForThreadListBusinessLogic
 @Component (dependencies = [ApplicationComponent::class],
-        modules = [(ThreadListPresenterModule::class), (RxModule::class), (GalleryModule::class)])
+        modules = [(ThreadListBusinessLogicModule::class), (RxModule::class)])
 interface ThreadListBusinessLogicComponent {
 
+    //Global singletons
     fun injector(): IWishmasterDaggerInjector
     fun context(): Context
-    fun threadListNetworkInteractor(): ThreadListNetworkInteractor
-    fun threadListAdapterViewInteractor(): ThreadListAdapterViewInteractor
     fun textUtils(): WishmasterTextUtils
     fun uiUtils(): UiUtils
     fun orientationNotifier(): OrientationNotifier
@@ -51,5 +48,11 @@ interface ThreadListBusinessLogicComponent {
     fun mediaTypeMatcher(): MediaTypeMatcher
     fun retrofitHolder(): RetrofitHolder
 
-    fun inject(threadListPresenter: ThreadListPresenter)
+    //Interactors
+    fun networkInteractor(): ThreadListMvpContract.IThreadListNetworkInteractor
+    fun adapterViewInteractor(): ThreadListMvpContract.IThreadListAdapterViewInteractor
+
+    fun inject(networkInteractor: ThreadListNetworkInteractor)
+    fun inject(adapterViewInteractor: ThreadListAdapterViewInteractor)
+
 }

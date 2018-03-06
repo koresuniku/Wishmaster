@@ -35,15 +35,9 @@ import io.reactivex.disposables.CompositeDisposable
 class ThreadListViewModule {
 
     @Provides
-    @PerThreadListView
-    fun provideThreadListPresenter(injector: IWishmasterDaggerInjector,
-                                   galleryState: GalleryState,
-                                   compositeDisposable: CompositeDisposable,
-                                   networkInteractor: ThreadListNetworkInteractor,
-                                   adapterViewInteractor: ThreadListAdapterViewInteractor,
-                                   galleryInteractor: GalleryInteractor,
-                                   orientationNotifier: OrientationNotifier): IThreadListPresenter {
-        return ThreadListPresenter(injector, galleryState, compositeDisposable,
-                networkInteractor, adapterViewInteractor, galleryInteractor, orientationNotifier)
+    @ThreadListScopes.ForThreadListView
+    fun provideThreadListPresenter(injector: IWishmasterDaggerInjector):
+            ThreadListMvpContract.IThreadListPresenter {
+        return ThreadListPresenter(injector)
     }
 }

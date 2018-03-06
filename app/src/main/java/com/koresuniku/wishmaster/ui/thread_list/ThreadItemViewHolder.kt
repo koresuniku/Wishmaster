@@ -31,6 +31,7 @@ import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
+import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListMvpContract
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
@@ -41,12 +42,12 @@ import javax.inject.Inject
  */
 
 class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
-        RecyclerView.ViewHolder(itemView),
+        RecyclerView.ViewHolder(itemView), ThreadListMvpContract.IThreadItemView,
         WMGridView.OnNoItemClickListener,
         WMGridView.OnImageItemClickListener{
     private val LOG_TAG = ThreadItemViewHolder::class.java.simpleName
 
-    @Inject lateinit var presenter: IThreadListPresenter
+    @Inject lateinit var presenter: ThreadListMvpContract.IThreadListPresenter
 
     @Nullable @BindView(R.id.top) lateinit var mTop: View
     @Nullable @BindView(R.id.item_layout) lateinit var mItemLayout: ViewGroup
@@ -67,7 +68,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
 
     init {
         ButterKnife.bind(this, itemView)
-        injector.daggerThreadListViewComponent.inject(this)
+        //injector.daggerThreadListViewComponent.inject(this)
     }
 
     override fun adaptLayout(position: Int) {
@@ -101,7 +102,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
             image.getGlobalVisibleRect(rect)
             val coordinates = WishmasterImageUtils.ImageCoordinates(
                     rect.left, rect.right, rect.top, rect.bottom)
-            presenter.setPreviewImageCoordinates(coordinates)
+            //presenter.setPreviewImageCoordinates(coordinates)
             onImageItemClick(0)
         }
         imageLayout.setOnTouchListener { _, _ -> false }
@@ -133,6 +134,6 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     override fun onNoItemClick() { presenter.onThreadItemClicked(threadNumber) }
 
     override fun onImageItemClick(position: Int) {
-        presenter.onOpenGalleryClick(mThreadPosition, position)
+        //presenter.onOpenGalleryClick(mThreadPosition, position)
     }
 }
