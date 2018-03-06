@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module
+package com.koresuniku.wishmaster.core.modules.full_thread
 
-import com.koresuniku.wishmaster.core.utils.search.SearchInputMatcher
+import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 
+/**
+ * Created by koresuniku on 2/11/18.
+ */
 
 @Module
-class SearchModule {
+class FullThreadViewModule {
 
     @Provides
-    fun provideSearchInputMatcher(): SearchInputMatcher = SearchInputMatcher()
+    @FullThreadScopes.ForFullThreadView
+    fun provideFullThreadPresenter(injector: IWishmasterDaggerInjector):
+            FullThreadMvpContract.IFullThreadPresenter = FullThreadPresenter(injector)
 }

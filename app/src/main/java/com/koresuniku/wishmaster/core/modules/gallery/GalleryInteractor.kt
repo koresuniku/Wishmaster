@@ -17,7 +17,6 @@
 package com.koresuniku.wishmaster.core.modules.gallery
 
 import android.content.Context
-import com.koresuniku.wishmaster.core.base.rx.BaseRxInteractor
 import com.koresuniku.wishmaster.core.data.model.threads.File
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import io.reactivex.Single

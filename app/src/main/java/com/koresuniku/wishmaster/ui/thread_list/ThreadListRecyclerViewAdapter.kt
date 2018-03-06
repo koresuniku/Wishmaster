@@ -47,7 +47,7 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
     @Inject lateinit var injector: IWishmasterDaggerInjector
 
     constructor(activity: BaseWishmasterActivity) : this() {
-        //activity.getWishmasterApplication().daggerThreadListViewComponent.inject(this)
+        activity.getWishmasterApplication().daggerThreadListViewComponent.inject(this)
         this.activity = WeakReference(activity)
     }
 

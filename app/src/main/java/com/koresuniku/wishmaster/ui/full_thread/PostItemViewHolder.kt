@@ -28,6 +28,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadMvpContract
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
@@ -39,10 +40,12 @@ import javax.inject.Inject
  */
 
 class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
-        RecyclerView.ViewHolder(itemView), WMGridView.OnNoItemClickListener, WMGridView.OnImageItemClickListener {
+        RecyclerView.ViewHolder(itemView), FullThreadMvpContract.IPostItemView,
+        WMGridView.OnNoItemClickListener,
+        WMGridView.OnImageItemClickListener {
     private val LOG_TAG = PostItemViewHolder::class.java.simpleName
 
-    @Inject lateinit var presenter: IFullThreadPresenter
+    @Inject lateinit var presenter: FullThreadMvpContract.IFullThreadPresenter
 
     @Nullable @BindView(R.id.item_layout) lateinit var mItemLayout: ViewGroup
     @Nullable @BindView(R.id.head) lateinit var mHeader: TextView
@@ -64,7 +67,7 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
     }
 
     override fun setOnClickItemListener(threadNumber: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun setHeader(head: Spannable) {
@@ -90,7 +93,7 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
     }
 
     override fun setAnswers(subject: Spanned) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun setComment(comment: Spanned) {
@@ -113,7 +116,8 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
         mImageGrid.setOnNoItemClickListener(this)
         mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
         mImageGrid.adapter = PreviewImageGridAdapter(
-                imageItemDataList, url, imageUtils, summaryHeight, gridViewParams, this, this)
+                imageItemDataList, url, imageUtils, summaryHeight, gridViewParams,
+                this, this)
         mImageGrid.layoutParams.height = gridViewParams.finalHeight
     }
 

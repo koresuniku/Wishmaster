@@ -44,9 +44,7 @@ class FullThreadAdapterViewInteractor @Inject constructor(injector: IWishmasterD
     @Inject lateinit var context: Context
     @Inject lateinit var viewUtils: ViewUtils
 
-    init {
-        //injector.daggerFullThreadBusinessLogicComponent.inject(this)
-    }
+    init { injector.daggerFullThreadBusinessLogicComponent.inject(this) }
 
     override fun setItemViewData(adapterView: FullThreadMvpContract.IFullThreadAdapterView,
                                  itemView: FullThreadMvpContract.IPostItemView,

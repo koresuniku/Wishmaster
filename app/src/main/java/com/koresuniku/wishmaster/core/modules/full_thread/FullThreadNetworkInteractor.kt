@@ -30,9 +30,7 @@ class FullThreadNetworkInteractor @Inject constructor(injector: IWishmasterDagge
     @Inject lateinit var compositeDisposable: CompositeDisposable
     @Inject override lateinit var service: FullThreadApiService
 
-    init {
-        //injector.daggerFullThreadBusinessLogicComponent.inject(this)
-    }
+    init { injector.daggerFullThreadBusinessLogicComponent.inject(this) }
 
     override fun fetchPostListData(boardId: String, threadNumber: String): Single<PostListData> {
         return Single.create({ e ->

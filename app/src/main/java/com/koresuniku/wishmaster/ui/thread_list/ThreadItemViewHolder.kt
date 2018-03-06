@@ -68,7 +68,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
 
     init {
         ButterKnife.bind(this, itemView)
-        //injector.daggerThreadListViewComponent.inject(this)
+        injector.daggerThreadListViewComponent.inject(this)
     }
 
     override fun adaptLayout(position: Int) {

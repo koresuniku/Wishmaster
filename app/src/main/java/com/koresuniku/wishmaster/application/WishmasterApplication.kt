@@ -35,11 +35,10 @@ import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.component.*
 import com.koresuniku.wishmaster.core.dagger.module.*
 import com.koresuniku.wishmaster.core.dagger.module.application_scope.*
-import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadPresenterModule
-import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadViewModule
 import com.koresuniku.wishmaster.core.dagger.module.settings_scopes.SettingsPresenterModule
 import com.koresuniku.wishmaster.core.dagger.module.settings_scopes.SettingsViewModule
 import com.koresuniku.wishmaster.core.modules.dashboard.*
+import com.koresuniku.wishmaster.core.modules.full_thread.*
 import com.koresuniku.wishmaster.core.modules.thread_list.*
 import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.network.github_api.GithubHelper
@@ -123,11 +122,16 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
                 .threadListViewModule(ThreadListViewModule())
                 .build() as DaggerThreadListViewComponent
     }
+    override val daggerFullThreadBusinessLogicComponent: DaggerFullThreadBusinessLogicComponent by lazy {
+        DaggerFullThreadBusinessLogicComponent.builder()
+                .applicationComponent(mDaggerApplicationComponent)
+                .fullThreadBusinessLogicModule(FullThreadBusinessLogicModule())
+                .rxModule(RxModule())
+                .build() as DaggerFullThreadBusinessLogicComponent
+    }
     override val daggerFullThreadPresenterComponent: DaggerFullThreadPresenterComponent by lazy {
         DaggerFullThreadPresenterComponent.builder()
-                .applicationComponent(mDaggerApplicationComponent)
-                .fullThreadPresenterModule(FullThreadPresenterModule())
-                .rxModule(RxModule())
+                .fullThreadBusinessLogicComponent(daggerFullThreadBusinessLogicComponent)
                 .build() as DaggerFullThreadPresenterComponent
     }
     override val daggerFullThreadViewComponent: DaggerFullThreadViewComponent by lazy {

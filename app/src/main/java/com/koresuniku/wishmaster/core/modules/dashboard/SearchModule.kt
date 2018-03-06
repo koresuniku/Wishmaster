@@ -16,19 +16,14 @@
 
 package com.koresuniku.wishmaster.core.modules.dashboard
 
-import android.app.DownloadManager
-import android.content.Context
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import dagger.Component
+import com.koresuniku.wishmaster.core.utils.search.SearchInputMatcher
+import dagger.Module
+import dagger.Provides
 
-/**
- * Created by koresuniku on 3/5/18.
- */
 
-@DashboardScopes.ForDashboardPresenter
-@Component(dependencies = [(DashboardBusinessLogicComponent::class)])
-interface DashboardPresenterComponent {
-    fun injector(): IWishmasterDaggerInjector
+@Module
+class SearchModule {
 
-    fun inject(dashboardPresenter: DashboardPresenter)
+    @Provides
+    fun provideSearchInputMatcher(): SearchInputMatcher = SearchInputMatcher()
 }

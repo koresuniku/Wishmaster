@@ -32,6 +32,5 @@ class DownloaderModule(val context: Context) {
 
     @Provides
     @Singleton
-    fun provideDownloadManager(context: Context): WMDownloadManager =
-            WMDownloadManager(context)
+    fun provideDownloadManager(context: Context): WMDownloadManager = WMDownloadManager(context)
 }

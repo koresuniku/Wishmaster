@@ -14,14 +14,20 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.scope
+package com.koresuniku.wishmaster.core.modules.full_thread
 
-import javax.inject.Scope
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import dagger.Component
 
 /**
- * Created by koresuniku on 2/11/18.
+ * Created by koresuniku on 3/6/18.
  */
 
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-annotation class PerFullThreadView
+
+@FullThreadScopes.ForFullThreadPresenter
+@Component(dependencies = [(FullThreadBusinessLogicComponent::class)])
+interface FullThreadPresenterComponent {
+    fun injector(): IWishmasterDaggerInjector
+
+    fun inject(fullThreadPresenter: FullThreadPresenter)
+}

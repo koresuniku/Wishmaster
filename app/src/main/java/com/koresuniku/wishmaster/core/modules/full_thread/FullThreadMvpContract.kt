@@ -58,6 +58,7 @@ object FullThreadMvpContract {
     interface IPostItemView : IMvpView {
         fun setHeader(head: Spannable)
         fun switchAnswersVisibility(visible: Boolean)
+        fun setOnClickItemListener(threadNumber: String)
         fun setAnswers(subject: Spanned)
         fun setComment(comment: Spanned)
         fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils)

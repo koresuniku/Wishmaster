@@ -88,7 +88,7 @@ class ThreadListActivity : BaseWishmasterActivity(), ThreadListMvpContract.IThre
 
     @SuppressLint("newApi")
     override fun onCreate(savedInstanceState: Bundle?) {
-        //getWishmasterApplication().daggerThreadListViewComponent.inject(this)
+        getWishmasterApplication().daggerThreadListViewComponent.inject(this)
         super.onCreate(savedInstanceState)
 
         ButterKnife.bind(this)

@@ -16,7 +16,6 @@
 
 package com.koresuniku.wishmaster.core.modules.settings
 
-import com.koresuniku.wishmaster.core.base.rx.BaseRxPresenter
 import io.reactivex.disposables.CompositeDisposable
 
 /**

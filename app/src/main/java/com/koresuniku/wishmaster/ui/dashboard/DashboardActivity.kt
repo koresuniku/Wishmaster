@@ -57,13 +57,13 @@ class DashboardActivity : BaseWishmasterActivity(),
         DashboardMvpContract.IDashboardMainView, OnNewReleaseListener {
     private val LOG_TAG = DashboardActivity::class.java.simpleName
 
-//    @Inject lateinit var presenter: DashboardMvpContract.IDashboardPresenter
-//    @Inject lateinit var uiUtils: UiUtils
-//    @Inject lateinit var viewUtils: ViewUtils
-//    @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
-//    @Inject lateinit var newReleaseNotifier: NewReleaseNotifier
-//    @Inject lateinit var downloadManager: WMDownloadManager
-//    @Inject lateinit var permissionManager: WMPermissionManager
+    @Inject lateinit var presenter: DashboardMvpContract.IDashboardPresenter
+    @Inject lateinit var uiUtils: UiUtils
+    @Inject lateinit var viewUtils: ViewUtils
+    @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
+    @Inject lateinit var newReleaseNotifier: NewReleaseNotifier
+    //@Inject lateinit var downloadManager: WMDownloadManager
+    @Inject lateinit var permissionManager: WMPermissionManager
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
     @BindView(R.id.tab_layout) lateinit var mTabLayout: TabLayout
@@ -76,7 +76,7 @@ class DashboardActivity : BaseWishmasterActivity(),
     private lateinit var mViewPagerAdapter: DashboardViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        getWishmasterApplication().d.inject(this)
+        getWishmasterApplication().daggerDashboardViewComponent.inject(this)
         super.onCreate(savedInstanceState)
 
         uiUtils.showSystemUI(this)
@@ -124,7 +124,7 @@ class DashboardActivity : BaseWishmasterActivity(),
                     builder.setMessage(R.string.new_version_available)
                             .setPositiveButton(R.string.download_text, { dialog, id ->
                                 if (permissionManager.checkAndRequestExternalStoragePermissionForLoadNewVersion(this)) {
-                                    downloadManager.downloadWithNotification(it.downloadLink, it.name)
+                                    //downloadManager.downloadWithNotification(it.downloadLink, it.name)
                                 }
                             })
                             .setNegativeButton(R.string.cancel_text, { dialog, id -> })
@@ -148,7 +148,7 @@ class DashboardActivity : BaseWishmasterActivity(),
             WMPermissionManager.WRITE_EXTERNAL_STORAGE_FOR_LOAD_NEW_VERSION_REQUEST_CODE -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     newReleaseNotifier.cachedAsset?.let {
-                        downloadManager.downloadWithNotification(it.downloadLink, it.name)
+                        //downloadManager.downloadWithNotification(it.downloadLink, it.name)
                     }
                 }
                 return

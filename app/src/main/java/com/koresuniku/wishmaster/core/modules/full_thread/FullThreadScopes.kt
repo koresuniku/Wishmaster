@@ -14,14 +14,25 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.scope
+package com.koresuniku.wishmaster.core.modules.full_thread
 
 import javax.inject.Scope
 
 /**
-* Created by koresuniku on 2/11/18.
-*/
+ * Created by koresuniku on 3/6/18.
+ */
 
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-annotation class PerFullThreadPresenter
+object FullThreadScopes {
+
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForFullThreadBusinessLogic
+
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForFullThreadPresenter
+
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForFullThreadView
+}

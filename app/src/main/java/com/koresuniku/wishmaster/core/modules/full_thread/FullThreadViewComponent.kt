@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.component
+package com.koresuniku.wishmaster.core.modules.full_thread
 
-import com.koresuniku.wishmaster.core.dagger.module.full_thread_scopes.FullThreadViewModule
-import com.koresuniku.wishmaster.core.dagger.scope.PerFullThreadView
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadRecyclerViewAdapter
 import com.koresuniku.wishmaster.ui.full_thread.PostItemViewHolder
@@ -27,7 +25,7 @@ import dagger.Component
  * Created by koresuniku on 2/11/18.
  */
 
-@PerFullThreadView
+@FullThreadScopes.ForFullThreadView
 @Component (dependencies = [FullThreadPresenterComponent::class],
         modules = [(FullThreadViewModule::class)])
 interface FullThreadViewComponent {
