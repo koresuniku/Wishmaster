@@ -23,8 +23,8 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
-import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
+import com.koresuniku.wishmaster.core.module.gallery.ImageItemData
+import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 
 /**

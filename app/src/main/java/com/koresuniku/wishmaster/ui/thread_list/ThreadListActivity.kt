@@ -37,8 +37,8 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.utils.IntentKeystore
-import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListMvpContract
-import com.koresuniku.wishmaster.core.utils.text.WMTextUtils
+import com.koresuniku.wishmaster.core.module.thread_list.ThreadListContract
+import com.koresuniku.wishmaster.application.global.WMTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
@@ -54,10 +54,10 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListActivity : BaseWishmasterActivity(), ThreadListMvpContract.IThreadListMainView {
+class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadListMainView {
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
-    @Inject lateinit var presenter: ThreadListMvpContract.IThreadListPresenter
+    @Inject lateinit var presenter: ThreadListContract.IThreadListPresenter
     @Inject lateinit var textUtils: WMTextUtils
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
@@ -221,7 +221,7 @@ class ThreadListActivity : BaseWishmasterActivity(), ThreadListMvpContract.IThre
 //        galleryOpenedState = true
 //
 //        mGalleryPagerAdapter.notifyDataSetChanged()
-//        mGalleryViewPager.setCurrentItem(presenter.getGalleryState().currentPositionInList, false)
+//        mGalleryViewPager.setCurrentItem(presenter.getGalleryState().currentPostPosition, false)
 //        mGalleryLayout.visibility = View.VISIBLE
 //
 //        mGalleryBackground.alpha = 0f

@@ -26,7 +26,7 @@ import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListsObject
-import com.koresuniku.wishmaster.core.modules.dashboard.DashboardMvpContract
+import com.koresuniku.wishmaster.core.module.dashboard.DashboardContract
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 import com.koresuniku.wishmaster.ui.dashboard.DashboardActivity
 import java.lang.ref.WeakReference
@@ -36,10 +36,10 @@ import javax.inject.Inject
  * Created by koresuniku on 10.11.17.
  */
 
-class BoardListFragment : BaseWishmasterFragment(), DashboardMvpContract.IDashboardBoardListView {
+class BoardListFragment : BaseWishmasterFragment(), DashboardContract.IDashboardBoardListView {
     private val LOG_TAG = BoardListFragment::class.java.simpleName
 
-    @Inject lateinit var presenter: DashboardMvpContract.IDashboardPresenter
+    @Inject lateinit var presenter: DashboardContract.IDashboardPresenter
     @Inject lateinit var injector: IWishmasterDaggerInjector
 
     override lateinit var rootView: ViewGroup

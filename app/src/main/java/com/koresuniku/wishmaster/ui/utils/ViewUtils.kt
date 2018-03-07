@@ -25,7 +25,7 @@ import android.widget.LinearLayout
 import android.view.WindowManager
 import android.widget.GridView
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
+import com.koresuniku.wishmaster.core.module.gallery.ImageItemData
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import io.reactivex.Completable
 import io.reactivex.Single

@@ -28,9 +28,9 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadMvpContract
-import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
-import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
+import com.koresuniku.wishmaster.core.module.full_thread.FullThreadContract
+import com.koresuniku.wishmaster.core.module.gallery.ImageItemData
+import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import javax.inject.Inject
@@ -40,12 +40,12 @@ import javax.inject.Inject
  */
 
 class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
-        RecyclerView.ViewHolder(itemView), FullThreadMvpContract.IPostItemView,
+        RecyclerView.ViewHolder(itemView), FullThreadContract.IPostItemView,
         WMGridView.OnNoItemClickListener,
         WMGridView.OnImageItemClickListener {
     private val LOG_TAG = PostItemViewHolder::class.java.simpleName
 
-    @Inject lateinit var presenter: FullThreadMvpContract.IFullThreadPresenter
+    @Inject lateinit var presenter: FullThreadContract.IFullThreadPresenter
 
     @Nullable @BindView(R.id.item_layout) lateinit var mItemLayout: ViewGroup
     @Nullable @BindView(R.id.head) lateinit var mHeader: TextView

@@ -16,30 +16,32 @@
 
 package com.koresuniku.wishmaster.core.dagger
 
-import com.koresuniku.wishmaster.core.dagger.component.*
-import com.koresuniku.wishmaster.core.modules.dashboard.DaggerDashboardBusinessLogicComponent
-import com.koresuniku.wishmaster.core.modules.dashboard.DaggerDashboardPresenterComponent
-import com.koresuniku.wishmaster.core.modules.dashboard.DaggerDashboardViewComponent
-import com.koresuniku.wishmaster.core.modules.full_thread.DaggerFullThreadBusinessLogicComponent
-import com.koresuniku.wishmaster.core.modules.full_thread.DaggerFullThreadPresenterComponent
-import com.koresuniku.wishmaster.core.modules.full_thread.DaggerFullThreadViewComponent
-import com.koresuniku.wishmaster.core.modules.thread_list.DaggerThreadListBusinessLogicComponent
-import com.koresuniku.wishmaster.core.modules.thread_list.DaggerThreadListPresenterComponent
-import com.koresuniku.wishmaster.core.modules.thread_list.DaggerThreadListViewComponent
+import com.koresuniku.wishmaster.application.DaggerApplicationComponent
+import com.koresuniku.wishmaster.core.module.dashboard.DaggerDashboardLogicComponent
+import com.koresuniku.wishmaster.core.module.dashboard.DaggerDashboardPresenterComponent
+import com.koresuniku.wishmaster.core.module.dashboard.DaggerDashboardViewComponent
+import com.koresuniku.wishmaster.core.module.full_thread.DaggerFullThreadLogicComponent
+import com.koresuniku.wishmaster.core.module.full_thread.DaggerFullThreadPresenterComponent
+import com.koresuniku.wishmaster.core.module.full_thread.DaggerFullThreadViewComponent
+import com.koresuniku.wishmaster.core.module.settings.DaggerSettingsPresenterComponent
+import com.koresuniku.wishmaster.core.module.settings.DaggerSettingsViewComponent
+import com.koresuniku.wishmaster.core.module.thread_list.DaggerThreadListLogicComponent
+import com.koresuniku.wishmaster.core.module.thread_list.DaggerThreadListPresenterComponent
+import com.koresuniku.wishmaster.core.module.thread_list.DaggerThreadListViewComponent
 
 
 interface IWishmasterDaggerInjector {
     val daggerApplicationComponent: DaggerApplicationComponent
 
-    val daggerDashboardBusinessLogicComponent: DaggerDashboardBusinessLogicComponent
+    val daggerDashboardBusinessLogicComponent: DaggerDashboardLogicComponent
     val daggerDashboardPresenterComponent: DaggerDashboardPresenterComponent
     val daggerDashboardViewComponent: DaggerDashboardViewComponent
 
-    val daggerThreadListBusinessLogicComponent: DaggerThreadListBusinessLogicComponent
+    val daggerThreadListBusinessLogicComponent: DaggerThreadListLogicComponent
     val daggerThreadListPresenterComponent: DaggerThreadListPresenterComponent
     val daggerThreadListViewComponent: DaggerThreadListViewComponent
 
-    val daggerFullThreadBusinessLogicComponent: DaggerFullThreadBusinessLogicComponent
+    val daggerFullThreadBusinessLogicComponent: DaggerFullThreadLogicComponent
     val daggerFullThreadPresenterComponent: DaggerFullThreadPresenterComponent
     val daggerFullThreadViewComponent: DaggerFullThreadViewComponent
 

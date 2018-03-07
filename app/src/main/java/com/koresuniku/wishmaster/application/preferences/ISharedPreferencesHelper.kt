@@ -17,8 +17,8 @@
 package com.koresuniku.wishmaster.application.preferences
 
 import android.content.Context
-import com.koresuniku.wishmaster.application.singletones.CommonParams
-import com.koresuniku.wishmaster.application.singletones.UiParams
+import com.koresuniku.wishmaster.application.global.CommonParams
+import com.koresuniku.wishmaster.application.global.UiParams
 import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils

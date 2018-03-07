@@ -30,9 +30,9 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
-import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListMvpContract
-import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
+import com.koresuniku.wishmaster.core.module.gallery.ImageItemData
+import com.koresuniku.wishmaster.core.module.thread_list.ThreadListContract
+import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import javax.inject.Inject
@@ -42,12 +42,12 @@ import javax.inject.Inject
  */
 
 class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
-        RecyclerView.ViewHolder(itemView), ThreadListMvpContract.IThreadItemView,
+        RecyclerView.ViewHolder(itemView), ThreadListContract.IThreadItemView,
         WMGridView.OnNoItemClickListener,
         WMGridView.OnImageItemClickListener{
     private val LOG_TAG = ThreadItemViewHolder::class.java.simpleName
 
-    @Inject lateinit var presenter: ThreadListMvpContract.IThreadListPresenter
+    @Inject lateinit var presenter: ThreadListContract.IThreadListPresenter
 
     @Nullable @BindView(R.id.top) lateinit var mTop: View
     @Nullable @BindView(R.id.item_layout) lateinit var mItemLayout: ViewGroup

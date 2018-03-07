@@ -30,10 +30,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.github.piasy.biv.view.BigImageView
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.modules.gallery.IGalleryItem
-import com.koresuniku.wishmaster.core.modules.gallery.IGalleryPresenter
 import com.koresuniku.wishmaster.core.data.network.Dvach
-import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
+import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 import android.view.animation.Animation
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
@@ -43,7 +41,7 @@ import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 * Created by koresuniku on 3/3/18.
 */
 
-class GalleryImageFragment : BaseWishmasterFragment(), IGalleryItem {
+class GalleryImageFragment : BaseWishmasterFragment() {
     override lateinit var rootView: ViewGroup
 
     @BindView(R.id.clickable_view) lateinit var clickableView: View

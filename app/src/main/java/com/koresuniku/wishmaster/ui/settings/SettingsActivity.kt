@@ -19,13 +19,12 @@ package com.koresuniku.wishmaster.ui.settings
 import android.app.Fragment
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.MenuItem
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.utils.IntentKeystore
-import com.koresuniku.wishmaster.core.modules.settings.ISettingsPresenter
+import com.koresuniku.wishmaster.core.module.settings.SettingsContract
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import javax.inject.Inject
 
@@ -33,9 +32,10 @@ import javax.inject.Inject
  * Created by koresuniku on 2/19/18.
  */
 
-class SettingsActivity : BaseWishmasterActivity<ISettingsPresenter>(), MainPreferenceFragment.Callback {
+class SettingsActivity : BaseWishmasterActivity(), SettingsContract.ISettingsMainView,
+        MainPreferenceFragment.Callback {
 
-    @Inject override lateinit var presenter: ISettingsPresenter
+    @Inject lateinit var presenter: SettingsContract.ISettingsPresenter
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
 

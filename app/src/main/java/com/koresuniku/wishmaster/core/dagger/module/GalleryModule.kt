@@ -17,10 +17,10 @@
 package com.koresuniku.wishmaster.core.dagger.module
 
 import android.content.Context
-import com.koresuniku.wishmaster.core.modules.gallery.GalleryInteractor
-import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
-import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
-import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
+import com.koresuniku.wishmaster.core.module.gallery.GalleryInteractor
+import com.koresuniku.wishmaster.core.module.gallery.GalleryState
+import com.koresuniku.wishmaster.core.module.gallery.MediaTypeMatcher
+import com.koresuniku.wishmaster.application.global.WMImageUtils
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable

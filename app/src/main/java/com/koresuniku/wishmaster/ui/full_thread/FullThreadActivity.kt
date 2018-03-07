@@ -34,8 +34,8 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.utils.IntentKeystore
-import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadMvpContract
-import com.koresuniku.wishmaster.core.utils.text.WMTextUtils
+import com.koresuniku.wishmaster.core.module.full_thread.FullThreadContract
+import com.koresuniku.wishmaster.application.global.WMTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
@@ -49,10 +49,10 @@ import javax.inject.Inject
  * Created by koresuniku on 2/11/18.
  */
 
-class FullThreadActivity : BaseWishmasterActivity(), FullThreadMvpContract.IFulThreadMainView {
+class FullThreadActivity : BaseWishmasterActivity(), FullThreadContract.IFulThreadMainView {
     private val LOG_TAG = FullThreadActivity::class.java.simpleName
 
-    @Inject lateinit var presenter: FullThreadMvpContract.IFullThreadPresenter
+    @Inject lateinit var presenter: FullThreadContract.IFullThreadPresenter
     @Inject lateinit var textUtils: WMTextUtils
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils

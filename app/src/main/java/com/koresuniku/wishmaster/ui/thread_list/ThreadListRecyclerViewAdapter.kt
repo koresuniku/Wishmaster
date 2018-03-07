@@ -24,7 +24,7 @@ import android.view.ViewGroup
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
-import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListMvpContract
+import com.koresuniku.wishmaster.core.module.thread_list.ThreadListContract
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -35,7 +35,7 @@ import javax.inject.Inject
  */
 
 class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolder>(),
-        ThreadListMvpContract.IThreadListAdapterView {
+        ThreadListContract.IThreadListAdapterView {
     private val LOG_TAG = ThreadListRecyclerViewAdapter::class.java.simpleName
 
     override val NO_IMAGES_CODE = 0
@@ -43,7 +43,7 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
     override val MULTIPLE_IMAGES_CODE = 2
 
     private lateinit var activity: WeakReference<Activity>
-    @Inject lateinit var presenter: ThreadListMvpContract.IThreadListPresenter
+    @Inject lateinit var presenter: ThreadListContract.IThreadListPresenter
     @Inject lateinit var injector: IWishmasterDaggerInjector
 
     constructor(activity: BaseWishmasterActivity) : this() {

@@ -29,20 +29,20 @@ import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.application.preferences.*
-import com.koresuniku.wishmaster.application.singletones.CommonParams
-import com.koresuniku.wishmaster.application.singletones.UiParams
+import com.koresuniku.wishmaster.application.global.CommonParams
+import com.koresuniku.wishmaster.application.global.UiParams
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster.core.dagger.component.*
 import com.koresuniku.wishmaster.core.dagger.module.*
-import com.koresuniku.wishmaster.core.dagger.module.application_scope.*
-import com.koresuniku.wishmaster.core.dagger.module.settings_scopes.SettingsPresenterModule
-import com.koresuniku.wishmaster.core.dagger.module.settings_scopes.SettingsViewModule
-import com.koresuniku.wishmaster.core.modules.dashboard.*
-import com.koresuniku.wishmaster.core.modules.full_thread.*
-import com.koresuniku.wishmaster.core.modules.thread_list.*
+import com.koresuniku.wishmaster.core.module.settings.SettingsPresenterModule
+import com.koresuniku.wishmaster.core.module.settings.SettingsViewModule
+import com.koresuniku.wishmaster.core.module.dashboard.*
+import com.koresuniku.wishmaster.core.module.full_thread.*
+import com.koresuniku.wishmaster.core.module.thread_list.*
 import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.data.network.github.GithubHelper
 import com.koresuniku.wishmaster.core.data.network.github.GithubModule
+import com.koresuniku.wishmaster.core.module.settings.DaggerSettingsPresenterComponent
+import com.koresuniku.wishmaster.core.module.settings.DaggerSettingsViewComponent
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
@@ -86,13 +86,13 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
                 .downloaderModule(DownloaderModule(this))
                 .build() as DaggerApplicationComponent
     }
-    override val daggerDashboardBusinessLogicComponent: DaggerDashboardBusinessLogicComponent by lazy {
-        DaggerDashboardBusinessLogicComponent.builder()
+    override val daggerDashboardBusinessLogicComponent: DaggerDashboardLogicComponent by lazy {
+        DaggerDashboardLogicComponent.builder()
                 .applicationComponent(daggerApplicationComponent)
-                .dashboardBusinessLogicModule(DashboardBusinessLogicModule())
+                .dashboardBusinessLogicModule(DashboardLogicModule())
                 .rxModule(RxModule())
                 .searchModule(SearchModule())
-                .build() as DaggerDashboardBusinessLogicComponent
+                .build() as DaggerDashboardLogicComponent
     }
     override val daggerDashboardPresenterComponent: DaggerDashboardPresenterComponent by lazy {
         DaggerDashboardPresenterComponent.builder()
@@ -105,12 +105,12 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
                 .dashboardViewModule(DashboardViewModule())
                 .build() as DaggerDashboardViewComponent
     }
-    override val daggerThreadListBusinessLogicComponent: DaggerThreadListBusinessLogicComponent by lazy {
-        DaggerThreadListBusinessLogicComponent.builder()
+    override val daggerThreadListBusinessLogicComponent: DaggerThreadListLogicComponent by lazy {
+        DaggerThreadListLogicComponent.builder()
                 .applicationComponent(daggerApplicationComponent)
-                .threadListBusinessLogicModule(ThreadListBusinessLogicModule())
+                .threadListBusinessLogicModule(ThreadListLogicModule())
                 .rxModule(RxModule())
-                .build() as DaggerThreadListBusinessLogicComponent
+                .build() as DaggerThreadListLogicComponent
     }
     override val daggerThreadListPresenterComponent: DaggerThreadListPresenterComponent by lazy {
         DaggerThreadListPresenterComponent.builder()
@@ -123,12 +123,12 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
                 .threadListViewModule(ThreadListViewModule())
                 .build() as DaggerThreadListViewComponent
     }
-    override val daggerFullThreadBusinessLogicComponent: DaggerFullThreadBusinessLogicComponent by lazy {
-        DaggerFullThreadBusinessLogicComponent.builder()
+    override val daggerFullThreadBusinessLogicComponent: DaggerFullThreadLogicComponent by lazy {
+        DaggerFullThreadLogicComponent.builder()
                 .applicationComponent(daggerApplicationComponent)
-                .fullThreadBusinessLogicModule(FullThreadBusinessLogicModule())
+                .fullThreadBusinessLogicModule(FullThreadLogicModule())
                 .rxModule(RxModule())
-                .build() as DaggerFullThreadBusinessLogicComponent
+                .build() as DaggerFullThreadLogicComponent
     }
     override val daggerFullThreadPresenterComponent: DaggerFullThreadPresenterComponent by lazy {
         DaggerFullThreadPresenterComponent.builder()

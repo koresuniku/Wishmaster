@@ -21,8 +21,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
-import com.koresuniku.wishmaster.core.modules.gallery.IGalleryPresenter
-import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
+import com.koresuniku.wishmaster.core.module.gallery.MediaTypeMatcher
 import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
 
 /**

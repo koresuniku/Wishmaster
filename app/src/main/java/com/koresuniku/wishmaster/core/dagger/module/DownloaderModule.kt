@@ -17,7 +17,7 @@
 package com.koresuniku.wishmaster.core.dagger.module
 
 import android.content.Context
-import com.koresuniku.wishmaster.application.singletones.WMDownloadManager
+import com.koresuniku.wishmaster.application.global.WMDownloadManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

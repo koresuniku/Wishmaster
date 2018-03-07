@@ -28,7 +28,7 @@ import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListsObject
 import com.koresuniku.wishmaster.core.data.database.repository.BoardsRepository
-import com.koresuniku.wishmaster.core.modules.dashboard.DashboardMvpContract
+import com.koresuniku.wishmaster.core.module.dashboard.DashboardContract
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -41,7 +41,7 @@ class BoardListAdapter (injector: IWishmasterDaggerInjector,
                         private val mBoardsListsObject: BoardListsObject)
     : BaseExpandableListAdapter() {
 
-    @Inject lateinit var presenter: DashboardMvpContract.IDashboardPresenter
+    @Inject lateinit var presenter: DashboardContract.IDashboardPresenter
 
     init {
         injector.daggerDashboardViewComponent.inject(this)

@@ -24,7 +24,7 @@ import android.view.ViewGroup
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
-import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadMvpContract
+import com.koresuniku.wishmaster.core.module.full_thread.FullThreadContract
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -34,7 +34,7 @@ import javax.inject.Inject
  */
 
 class FullThreadRecyclerViewAdapter() : RecyclerView.Adapter<PostItemViewHolder>(),
-        FullThreadMvpContract.IFullThreadAdapterView {
+        FullThreadContract.IFullThreadAdapterView {
 
     private val LOG_TAG = FullThreadRecyclerViewAdapter::class.java.simpleName
 
@@ -43,7 +43,7 @@ class FullThreadRecyclerViewAdapter() : RecyclerView.Adapter<PostItemViewHolder>
     override val MULTIPLE_IMAGES_CODE = 2
 
     private lateinit var activity: WeakReference<Activity>
-    @Inject lateinit var presenter: FullThreadMvpContract.IFullThreadPresenter
+    @Inject lateinit var presenter: FullThreadContract.IFullThreadPresenter
     @Inject lateinit var injector: IWishmasterDaggerInjector
 
     constructor(activity: BaseWishmasterActivity) : this() {
