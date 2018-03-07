@@ -17,6 +17,7 @@
 package com.koresuniku.wishmaster.core.data.network.github
 
 import com.koresuniku.wishmaster.core.base.INetworkInteractor
+import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -25,16 +26,18 @@ import javax.inject.Inject
  * Created by koresuniku on 2/18/18.
  */
 
-class GithubReleaseListNetworkInteractor @Inject constructor(private val apiService: GithubApiService,
-                                                             private val compositeDisposable: CompositeDisposable):
-        INetworkInteractor<GithubApiService, List<Release>> {
+class GithubReleaseListNetworkInteractor @Inject constructor(injector: IWishmasterDaggerInjector):
+        INetworkInteractor<GithubApiService> {
 
-    override fun getService() = apiService
+    @Inject override lateinit var service: GithubApiService
+    @Inject lateinit var compositeDisposable: CompositeDisposable
 
-    override fun getDataFromNetwork(): Single<List<Release>> {
+    init { injector.daggerApplicationComponent.inject(this) }
+
+    fun fetchReleaseList(): Single<List<Release>> {
         return Single.create({ e ->
-            compositeDisposable.add(getService()
-                    .getRealeaseList()
+            compositeDisposable.add(service
+                    .getReleaseList()
                     .subscribe({ e.onSuccess(it) }, { it.printStackTrace() }))
         })
     }

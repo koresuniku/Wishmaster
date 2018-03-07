@@ -26,5 +26,5 @@ import retrofit2.http.GET
 interface GithubApiService {
 
     @GET("/repos/koresuniku/wishmaster/releases")
-    fun getRealeaseList(): Observable<List<Release>>
+    fun getReleaseList(): Observable<List<Release>>
 }

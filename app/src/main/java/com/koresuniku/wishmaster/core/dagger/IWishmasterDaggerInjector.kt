@@ -29,6 +29,8 @@ import com.koresuniku.wishmaster.core.modules.thread_list.DaggerThreadListViewCo
 
 
 interface IWishmasterDaggerInjector {
+    val daggerApplicationComponent: DaggerApplicationComponent
+
     val daggerDashboardBusinessLogicComponent: DaggerDashboardBusinessLogicComponent
     val daggerDashboardPresenterComponent: DaggerDashboardPresenterComponent
     val daggerDashboardViewComponent: DaggerDashboardViewComponent

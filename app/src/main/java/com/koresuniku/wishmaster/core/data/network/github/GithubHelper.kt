@@ -38,7 +38,7 @@ class GithubHelper @Inject constructor(private val networkInteractor: GithubRele
         return Maybe.create { e ->
             compositeDisposable.add(
                     networkInteractor
-                            .getDataFromNetwork()
+                            .fetchReleaseList()
                             .subscribe({
                                 Log.d("GH", "releases count: ${it.size}")
                                 when {

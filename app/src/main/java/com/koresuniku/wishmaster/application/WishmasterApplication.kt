@@ -75,7 +75,7 @@ import org.acra.config.ConfigurationBuilder
 @ReportsCrashes(mailTo = "koresuniku@gmail.com")
 class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWishmasterDaggerInjector {
 
-    val mDaggerApplicationComponent: DaggerApplicationComponent by lazy {
+    override val daggerApplicationComponent: DaggerApplicationComponent by lazy {
         DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))
                 .injectorModule(InjectorModule(this))
@@ -88,7 +88,7 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
     }
     override val daggerDashboardBusinessLogicComponent: DaggerDashboardBusinessLogicComponent by lazy {
         DaggerDashboardBusinessLogicComponent.builder()
-                .applicationComponent(mDaggerApplicationComponent)
+                .applicationComponent(daggerApplicationComponent)
                 .dashboardBusinessLogicModule(DashboardBusinessLogicModule())
                 .rxModule(RxModule())
                 .searchModule(SearchModule())
@@ -107,7 +107,7 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
     }
     override val daggerThreadListBusinessLogicComponent: DaggerThreadListBusinessLogicComponent by lazy {
         DaggerThreadListBusinessLogicComponent.builder()
-                .applicationComponent(mDaggerApplicationComponent)
+                .applicationComponent(daggerApplicationComponent)
                 .threadListBusinessLogicModule(ThreadListBusinessLogicModule())
                 .rxModule(RxModule())
                 .build() as DaggerThreadListBusinessLogicComponent
@@ -125,7 +125,7 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
     }
     override val daggerFullThreadBusinessLogicComponent: DaggerFullThreadBusinessLogicComponent by lazy {
         DaggerFullThreadBusinessLogicComponent.builder()
-                .applicationComponent(mDaggerApplicationComponent)
+                .applicationComponent(daggerApplicationComponent)
                 .fullThreadBusinessLogicModule(FullThreadBusinessLogicModule())
                 .rxModule(RxModule())
                 .build() as DaggerFullThreadBusinessLogicComponent
@@ -144,7 +144,7 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
 
     override val daggerSettingsPresenterComponent: DaggerSettingsPresenterComponent by lazy {
         DaggerSettingsPresenterComponent.builder()
-                .applicationComponent(mDaggerApplicationComponent)
+                .applicationComponent(daggerApplicationComponent)
                 .settingsPresenterModule(SettingsPresenterModule())
                 .rxModule(RxModule())
                 .build() as DaggerSettingsPresenterComponent
@@ -172,7 +172,7 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
     override fun onCreate() {
         super.onCreate()
         if (!LeakCanary.isInAnalyzerProcess(this)) LeakCanary.install(this)
-        mDaggerApplicationComponent.inject(this)
+        daggerApplicationComponent.inject(this)
         FirebaseApp.initializeApp(this)
 
         uiParams.orientation = resources.configuration.orientation

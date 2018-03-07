@@ -38,6 +38,7 @@ import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
 import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.data.network.full_thread_api.FullThreadApiService
 import com.koresuniku.wishmaster.core.data.network.github.GithubModule
+import com.koresuniku.wishmaster.core.data.network.github.GithubReleaseListNetworkInteractor
 import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListApiService
 import com.koresuniku.wishmaster.core.utils.text.WMTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
@@ -104,5 +105,6 @@ interface ApplicationComponent {
     fun inject(service: WMFirebaseMessagingService)
     fun inject(service: WMFirebaseMessagingService.DownloadIntentService)
     fun inject(activity: StubActivity)
+    fun inject(githubReleaseListNetworkInteractor: GithubReleaseListNetworkInteractor)
 
 }
