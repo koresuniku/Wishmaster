@@ -21,8 +21,9 @@ import android.util.Log
 import com.koresuniku.wishmaster.application.notifier.OnOrientationChangedListener
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.base.BaseMvpPresenter
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
+import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -33,7 +34,7 @@ import javax.inject.Inject
  * Created by koresuniku on 2/11/18.
  */
 
-class FullThreadPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector):
+class FullThreadPresenter @Inject constructor(private val injector: IWishmasterDependencyInjector):
         BaseMvpPresenter<FullThreadContract.IFulThreadMainView>(),
         FullThreadContract.IFullThreadPresenter, OnOrientationChangedListener {
     private val LOG_TAG = FullThreadPresenter::class.java.simpleName
@@ -137,6 +138,11 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
             adapterViewInteractor.setItemViewData(
                     it, postItemView, presenterData, position, getPostItemType(position))
         }
+    }
+
+    override fun provideFiles(galleryPresenter: GalleryContract.IGalleryPresenter, position: Int) {
+        //TODO: provide all the files!
+        galleryPresenter.files = presenterData.postList[position].files ?: emptyList()
     }
 
     override fun unbindFullThreadAdapterView() { this.fullThreadAdapterView = null }

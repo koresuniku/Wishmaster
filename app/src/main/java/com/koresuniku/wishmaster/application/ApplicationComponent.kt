@@ -19,26 +19,22 @@ package com.koresuniku.wishmaster.application
 import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
+import com.koresuniku.wishmaster.application.global.*
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.application.preferences.ISharedPreferencesStorage
 import com.koresuniku.wishmaster.application.service.WMFirebaseMessagingService
-import com.koresuniku.wishmaster.application.global.UiParams
-import com.koresuniku.wishmaster.application.global.WMDownloadManager
-import com.koresuniku.wishmaster.application.global.WMPermissionManager
 import com.koresuniku.wishmaster.application.utils.StubActivity
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster.core.dagger.module.*
 import com.koresuniku.wishmaster.core.data.database.DatabaseHelper
-import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.data.network.full_thread_api.FullThreadApiService
 import com.koresuniku.wishmaster.core.data.network.github.GithubModule
 import com.koresuniku.wishmaster.core.data.network.github.GithubReleaseListNetworkInteractor
 import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListApiService
-import com.koresuniku.wishmaster.application.global.WMTextUtils
-import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
+import com.koresuniku.wishmaster.application.global.WMAnimationUtils
+import com.koresuniku.wishmaster.application.preferences.SharedPreferencesModule
+import com.koresuniku.wishmaster.core.data.network.NetworkModule
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
@@ -65,7 +61,7 @@ interface ApplicationComponent {
     //Application
     fun application(): Application
     fun context(): Context
-    fun injector(): IWishmasterDaggerInjector
+    fun injector(): IWishmasterDependencyInjector
 
     //SharedPreferences
     fun sharedPreferencesStorage(): ISharedPreferencesStorage
@@ -90,7 +86,7 @@ interface ApplicationComponent {
     fun deviceUtils(): DeviceUtils
     fun uiUtils(): UiUtils
     fun viewUtils(): ViewUtils
-    fun animationUtils(): WishmasterAnimationUtils
+    fun animationUtils(): WMAnimationUtils
     fun downloadManager(): WMDownloadManager
     fun permissionManager(): WMPermissionManager
 

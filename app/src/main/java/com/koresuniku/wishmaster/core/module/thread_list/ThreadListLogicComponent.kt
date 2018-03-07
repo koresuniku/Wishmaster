@@ -18,33 +18,31 @@ package com.koresuniku.wishmaster.core.module.thread_list
 
 import android.content.Context
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.application.ApplicationComponent
-import com.koresuniku.wishmaster.core.dagger.module.RxModule
-import com.koresuniku.wishmaster.core.module.gallery.GalleryState
+import com.koresuniku.wishmaster.application.global.RxModule
 import com.koresuniku.wishmaster.core.module.gallery.MediaTypeMatcher
 import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.application.global.WMTextUtils
-import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
+import com.koresuniku.wishmaster.application.global.WMAnimationUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import dagger.Component
 import io.reactivex.disposables.CompositeDisposable
 
 
-@ThreadListScopes.ForThreadListBusinessLogic
+@ThreadListScopes.ForThreadListLogic
 @Component (dependencies = [ApplicationComponent::class],
         modules = [(ThreadListLogicModule::class), (RxModule::class)])
 interface ThreadListLogicComponent {
 
     //Global singletons
-    fun injector(): IWishmasterDaggerInjector
+    fun injector(): IWishmasterDependencyInjector
     fun context(): Context
     fun textUtils(): WMTextUtils
     fun uiUtils(): UiUtils
     fun orientationNotifier(): OrientationNotifier
     fun compositeDisposable(): CompositeDisposable
-    fun animationUtils(): WishmasterAnimationUtils
-    fun galleryState(): GalleryState
+    fun animationUtils(): WMAnimationUtils
     fun mediaTypeMatcher(): MediaTypeMatcher
     fun retrofitHolder(): RetrofitHolder
 

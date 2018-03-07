@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module
+package com.koresuniku.wishmaster.application
 
-import android.content.Context
-import com.koresuniku.wishmaster.application.global.WMDownloadManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-/**
- * Created by koresuniku on 2/21/18.
- */
-
 
 @Module
-class DownloaderModule(val context: Context) {
+class InjectorModule(private val injector: IWishmasterDependencyInjector) {
 
     @Provides
     @Singleton
-    fun provideDownloadManager(context: Context): WMDownloadManager = WMDownloadManager(context)
+    fun provideInjector(): IWishmasterDependencyInjector = injector
 }

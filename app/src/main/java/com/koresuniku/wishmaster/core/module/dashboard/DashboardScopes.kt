@@ -26,7 +26,7 @@ object DashboardScopes {
 
     @Scope
     @Retention(AnnotationRetention.RUNTIME)
-    annotation class ForDashboardBusinessLogic
+    annotation class ForDashboardLogic
 
     @Scope
     @Retention(AnnotationRetention.RUNTIME)

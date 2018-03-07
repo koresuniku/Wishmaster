@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger
+package com.koresuniku.wishmaster.application
 
 import com.koresuniku.wishmaster.application.DaggerApplicationComponent
 import com.koresuniku.wishmaster.core.module.dashboard.DaggerDashboardLogicComponent
@@ -30,18 +30,18 @@ import com.koresuniku.wishmaster.core.module.thread_list.DaggerThreadListPresent
 import com.koresuniku.wishmaster.core.module.thread_list.DaggerThreadListViewComponent
 
 
-interface IWishmasterDaggerInjector {
+interface IWishmasterDependencyInjector {
     val daggerApplicationComponent: DaggerApplicationComponent
 
-    val daggerDashboardBusinessLogicComponent: DaggerDashboardLogicComponent
+    val daggerDashboardLogicComponent: DaggerDashboardLogicComponent
     val daggerDashboardPresenterComponent: DaggerDashboardPresenterComponent
     val daggerDashboardViewComponent: DaggerDashboardViewComponent
 
-    val daggerThreadListBusinessLogicComponent: DaggerThreadListLogicComponent
+    val daggerThreadListLogicComponent: DaggerThreadListLogicComponent
     val daggerThreadListPresenterComponent: DaggerThreadListPresenterComponent
     val daggerThreadListViewComponent: DaggerThreadListViewComponent
 
-    val daggerFullThreadBusinessLogicComponent: DaggerFullThreadLogicComponent
+    val daggerFullThreadLogicComponent: DaggerFullThreadLogicComponent
     val daggerFullThreadPresenterComponent: DaggerFullThreadPresenterComponent
     val daggerFullThreadViewComponent: DaggerFullThreadViewComponent
 

@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.dashboard
 
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import dagger.Module
 import dagger.Provides
 
@@ -29,7 +29,7 @@ class DashboardViewModule {
 
     @Provides
     @DashboardScopes.ForDashboardView
-    fun provideDashboardPresenter(injector: IWishmasterDaggerInjector):
+    fun provideDashboardPresenter(injector: IWishmasterDependencyInjector):
             DashboardContract.IDashboardPresenter {
         return DashboardPresenter(injector)
     }

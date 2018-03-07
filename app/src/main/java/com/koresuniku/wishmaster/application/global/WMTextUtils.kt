@@ -25,7 +25,7 @@ import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster.core.data.model.posts.Post
 import com.koresuniku.wishmaster.core.data.model.threads.File
 import com.koresuniku.wishmaster.core.module.gallery.ImageItemData
-import com.koresuniku.wishmaster.core.utils.text.markup.SingleImageCommentMarginSpan
+import com.koresuniku.wishmaster.ui.utils.text.markup.SingleImageCommentMarginSpan
 import io.reactivex.Single
 import javax.inject.Inject
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.ui.anim
+package com.koresuniku.wishmaster.application.global
 
 import android.animation.Animator
 import android.os.Build
@@ -39,7 +39,7 @@ import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
  * Created by koresuniku on 2/12/18.
  */
 
-class WishmasterAnimationUtils @Inject constructor() {
+class WMAnimationUtils @Inject constructor() {
 
     fun showLoadingYoba(yoba: ImageView, loadingLayout: View) {
         yoba.post {

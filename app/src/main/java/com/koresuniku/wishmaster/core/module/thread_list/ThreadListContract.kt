@@ -28,6 +28,7 @@ import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListApi
 import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListJsonSchemaCatalogResponse
 import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListJsonSchemaPageResponse
 import com.koresuniku.wishmaster.application.global.WMImageUtils
+import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import io.reactivex.Single
 
@@ -72,7 +73,8 @@ object ThreadListContract {
     }
 
     //Presenter
-    interface IThreadListPresenter : IMvpDataPresenter<IThreadListMainView, ThreadListData> {
+    interface IThreadListPresenter : IMvpDataPresenter<IThreadListMainView, ThreadListData>,
+            GalleryContract.IGalleryDataProvider {
         var threadListAdapterView: IThreadListAdapterView?
 
         fun bindThreadListAdapterView(threadListAdapterView: IThreadListAdapterView)

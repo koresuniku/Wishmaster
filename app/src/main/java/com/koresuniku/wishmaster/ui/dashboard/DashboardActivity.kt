@@ -47,7 +47,7 @@ import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.notifier.OnNewReleaseListener
 import com.koresuniku.wishmaster.application.global.WMPermissionManager
 import com.koresuniku.wishmaster.core.data.network.github.Asset
-import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
+import com.koresuniku.wishmaster.application.global.WMAnimationUtils
 import android.support.v7.app.AlertDialog
 import com.koresuniku.wishmaster.core.module.dashboard.DashboardContract
 
@@ -59,7 +59,7 @@ class DashboardActivity : BaseWishmasterActivity(),
     @Inject lateinit var presenter: DashboardContract.IDashboardPresenter
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var viewUtils: ViewUtils
-    @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
+    @Inject lateinit var WMAnimationUtils: WMAnimationUtils
     @Inject lateinit var newReleaseNotifier: NewReleaseNotifier
     //@Inject lateinit var downloadManager: WMDownloadManager
     @Inject lateinit var permissionManager: WMPermissionManager
@@ -161,7 +161,7 @@ class DashboardActivity : BaseWishmasterActivity(),
     override fun provideFromActivityRequestCode() = IntentKeystore.FROM_DASHBOARD_ACTIVITY_REQUEST_CODE
 
     override fun showLoading() {
-        wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
+        WMAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
         mViewPager.setPagingEnabled(false)
     }
 

@@ -14,20 +14,31 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.module.thread_list
+package com.koresuniku.wishmaster.core.module.gallery
 
+import com.koresuniku.wishmaster.application.ApplicationComponent
 import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.global.RxModule
 import dagger.Component
+import io.reactivex.disposables.CompositeDisposable
 
 /**
- * Created by koresuniku on 3/6/18.
+ * Created by koresuniku on 3/7/18.
  */
 
+@GalleryScopes.ForGalleryLogic
+@Component(
+        dependencies = [ApplicationComponent::class],
+        modules = [(GalleryLogicModule::class), (RxModule::class)])
+interface GalleryLogicComponent {
 
-@ThreadListScopes.ForThreadListPresenter
-@Component(dependencies = [ThreadListLogicComponent::class])
-interface ThreadListPresenterComponent {
+    //Global singletons
     fun injector(): IWishmasterDependencyInjector
+    fun compositeDisposable(): CompositeDisposable
 
-    fun inject(threadListPresenter: ThreadListPresenter)
+    //Interactor
+    fun galleryInteractor(): GalleryContract.IGalleryInteractor
+
+    fun inject(galleryInteractor: GalleryInteractor)
+
 }

@@ -16,17 +16,17 @@
 
 package com.koresuniku.wishmaster.core.module.dashboard
 
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import io.reactivex.Single
 import javax.inject.Inject
 
 
-class DashboardSearchInteractor @Inject constructor(injector: IWishmasterDaggerInjector):
+class DashboardSearchInteractor @Inject constructor(injector: IWishmasterDependencyInjector):
         DashboardContract.IDashboardSearchInteractor {
 
     @Inject override lateinit var matcher: SearchInputMatcher
 
-    init { injector.daggerDashboardBusinessLogicComponent.inject(this) }
+    init { injector.daggerDashboardLogicComponent.inject(this) }
 
     override fun processInput(input: String): Single<SearchInputResponse> {
         return Single.create({

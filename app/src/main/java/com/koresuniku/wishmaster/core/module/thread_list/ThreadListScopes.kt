@@ -26,7 +26,7 @@ object ThreadListScopes {
 
     @Scope
     @Retention(AnnotationRetention.RUNTIME)
-    annotation class ForThreadListBusinessLogic
+    annotation class ForThreadListLogic
 
     @Scope
     @Retention(AnnotationRetention.RUNTIME)

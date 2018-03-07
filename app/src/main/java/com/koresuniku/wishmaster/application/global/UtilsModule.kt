@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module
+package com.koresuniku.wishmaster.application.global
 
-import com.koresuniku.wishmaster.application.global.UiParams
-import com.koresuniku.wishmaster.application.global.WMImageUtils
-import com.koresuniku.wishmaster.application.global.WMTextUtils
-import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
@@ -61,5 +57,5 @@ class UtilsModule {
 
     @Provides
     @Singleton
-    fun provideAnimationUtils(): WishmasterAnimationUtils = WishmasterAnimationUtils()
+    fun provideAnimationUtils(): WMAnimationUtils = WMAnimationUtils()
 }

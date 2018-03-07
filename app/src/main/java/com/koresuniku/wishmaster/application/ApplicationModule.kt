@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module
+package com.koresuniku.wishmaster.application
 
 import android.app.Application
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier

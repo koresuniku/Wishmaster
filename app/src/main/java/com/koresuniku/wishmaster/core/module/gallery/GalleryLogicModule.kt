@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module
+package com.koresuniku.wishmaster.core.module.gallery
 
-import android.content.Context
-import com.koresuniku.wishmaster.core.data.database.DatabaseHelper
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 /**
- * Created by koresuniku on 10.11.17.
+ * Created by koresuniku on 3/7/18.
  */
 
 @Module
-class DatabaseModule {
+class GalleryLogicModule {
 
     @Provides
-    @Singleton
-    fun provideDatabaseHelper(context: Context) = DatabaseHelper(context)
+    @GalleryScopes.ForGalleryLogic
+    fun provideGalleryInteractor(injector: IWishmasterDependencyInjector):
+            GalleryContract.IGalleryInteractor = GalleryInteractor(injector)
 }

@@ -19,27 +19,27 @@ package com.koresuniku.wishmaster.core.module.dashboard
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.global.WMDownloadManager
 import com.koresuniku.wishmaster.application.global.WMPermissionManager
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.application.ApplicationComponent
-import com.koresuniku.wishmaster.core.dagger.module.RxModule
-import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
+import com.koresuniku.wishmaster.application.global.RxModule
+import com.koresuniku.wishmaster.application.global.WMAnimationUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
 import dagger.Component
 import io.reactivex.disposables.CompositeDisposable
 
 
-@DashboardScopes.ForDashboardBusinessLogic
+@DashboardScopes.ForDashboardLogic
 @Component(
         dependencies = [ApplicationComponent::class],
         modules = [DashboardLogicModule::class, RxModule::class, SearchModule::class])
 interface DashboardLogicComponent {
 
     //Global singletons
-    fun injector(): IWishmasterDaggerInjector
+    fun injector(): IWishmasterDependencyInjector
     fun uiUtils(): UiUtils
     fun viewUtils(): ViewUtils
-    fun animationUtils(): WishmasterAnimationUtils
+    fun animationUtils(): WMAnimationUtils
     fun newReleaseNotifier(): NewReleaseNotifier
     fun downloadManager(): WMDownloadManager
     fun permissionManager(): WMPermissionManager

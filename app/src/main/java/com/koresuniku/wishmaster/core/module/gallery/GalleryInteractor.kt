@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.module.gallery
 
 import android.content.Context
 import com.koresuniku.wishmaster.application.global.WMImageUtils
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.threads.File
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -29,7 +29,7 @@ import javax.inject.Inject
  * Created by koresuniku on 3/4/18.
  */
 
-class GalleryInteractor @Inject constructor(injector: IWishmasterDaggerInjector):
+class GalleryInteractor @Inject constructor(injector: IWishmasterDependencyInjector):
         GalleryContract.IGalleryInteractor {
 
     @Inject lateinit var compositeDisposable: CompositeDisposable

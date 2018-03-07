@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.settings
 
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import dagger.Module
 import dagger.Provides
 
@@ -27,8 +27,8 @@ import dagger.Provides
 @Module
 class SettingsViewModule {
 
-    @PerSettingsView
+    @SettingsScopes.ForSettingsView
     @Provides
-    fun provideSettingsPresenter(injector: IWishmasterDaggerInjector): SettingsContract.ISettingsPresenter =
+    fun provideSettingsPresenter(injector: IWishmasterDependencyInjector): SettingsContract.ISettingsPresenter =
             SettingsPresenter(injector)
 }

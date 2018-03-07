@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.thread_list
 
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListResponseParser
 import dagger.Module
 import dagger.Provides
@@ -26,20 +26,20 @@ import dagger.Provides
 class ThreadListLogicModule {
 
     @Provides
-    @ThreadListScopes.ForThreadListBusinessLogic
-    fun provideThreadListNetworkInteractor(injector: IWishmasterDaggerInjector) :
+    @ThreadListScopes.ForThreadListLogic
+    fun provideThreadListNetworkInteractor(injector: IWishmasterDependencyInjector) :
             ThreadListContract.IThreadListNetworkInteractor {
         return ThreadListNetworkInteractor(injector)
     }
 
     @Provides
-    @ThreadListScopes.ForThreadListBusinessLogic
-    fun provideThreadListAdapterViewInteractor(injector: IWishmasterDaggerInjector) :
+    @ThreadListScopes.ForThreadListLogic
+    fun provideThreadListAdapterViewInteractor(injector: IWishmasterDependencyInjector) :
             ThreadListContract.IThreadListAdapterViewInteractor {
         return ThreadListAdapterViewInteractor(injector)
     }
 
     @Provides
-    @ThreadListScopes.ForThreadListBusinessLogic
+    @ThreadListScopes.ForThreadListLogic
     fun provideResponseParser(): ThreadListResponseParser = ThreadListResponseParser()
 }

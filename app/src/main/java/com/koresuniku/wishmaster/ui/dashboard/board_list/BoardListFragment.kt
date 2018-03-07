@@ -24,7 +24,7 @@ import android.widget.ExpandableListView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListsObject
 import com.koresuniku.wishmaster.core.module.dashboard.DashboardContract
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
@@ -40,7 +40,7 @@ class BoardListFragment : BaseWishmasterFragment(), DashboardContract.IDashboard
     private val LOG_TAG = BoardListFragment::class.java.simpleName
 
     @Inject lateinit var presenter: DashboardContract.IDashboardPresenter
-    @Inject lateinit var injector: IWishmasterDaggerInjector
+    @Inject lateinit var injector: IWishmasterDependencyInjector
 
     override lateinit var rootView: ViewGroup
     @BindView(R.id.board_list) lateinit var mBoardList: ExpandableListView

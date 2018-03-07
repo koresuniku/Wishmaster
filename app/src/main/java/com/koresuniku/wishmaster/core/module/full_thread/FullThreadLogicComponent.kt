@@ -17,11 +17,11 @@
 package com.koresuniku.wishmaster.core.module.full_thread
 
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.application.ApplicationComponent
-import com.koresuniku.wishmaster.core.dagger.module.RxModule
+import com.koresuniku.wishmaster.application.global.RxModule
 import com.koresuniku.wishmaster.application.global.WMTextUtils
-import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
+import com.koresuniku.wishmaster.application.global.WMAnimationUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import dagger.Component
 import io.reactivex.disposables.CompositeDisposable
@@ -30,18 +30,18 @@ import io.reactivex.disposables.CompositeDisposable
  * Created by koresuniku on 2/11/18.
  */
 
-@FullThreadScopes.ForFullThreadBusinessLogic
+@FullThreadScopes.ForFullThreadLogic
 @Component (dependencies = [ApplicationComponent::class],
         modules = [(FullThreadLogicModule::class), (RxModule::class)] )
 interface FullThreadLogicComponent {
 
     //Global singletons
-    fun injector(): IWishmasterDaggerInjector
+    fun injector(): IWishmasterDependencyInjector
     fun textUtils(): WMTextUtils
     fun uiUtils(): UiUtils
     fun orientationNotifier(): OrientationNotifier
     fun compositeDisposable(): CompositeDisposable
-    fun animationUtils(): WishmasterAnimationUtils
+    fun animationUtils(): WMAnimationUtils
 
     //Interactors
     fun fullThreadNetworkInteractor(): FullThreadContract.IFullThreadNetworkInteractor

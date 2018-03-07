@@ -30,9 +30,10 @@ import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.application.preferences.*
 import com.koresuniku.wishmaster.application.global.CommonParams
+import com.koresuniku.wishmaster.application.global.DownloaderModule
+import com.koresuniku.wishmaster.application.global.RxModule
 import com.koresuniku.wishmaster.application.global.UiParams
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster.core.dagger.module.*
+import com.koresuniku.wishmaster.core.data.network.NetworkModule
 import com.koresuniku.wishmaster.core.module.settings.SettingsPresenterModule
 import com.koresuniku.wishmaster.core.module.settings.SettingsViewModule
 import com.koresuniku.wishmaster.core.module.dashboard.*
@@ -73,7 +74,7 @@ import org.acra.config.ConfigurationBuilder
  */
 
 @ReportsCrashes(mailTo = "koresuniku@gmail.com")
-class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWishmasterDaggerInjector {
+class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWishmasterDependencyInjector {
 
     override val daggerApplicationComponent: DaggerApplicationComponent by lazy {
         DaggerApplicationComponent.builder()
@@ -86,17 +87,17 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
                 .downloaderModule(DownloaderModule(this))
                 .build() as DaggerApplicationComponent
     }
-    override val daggerDashboardBusinessLogicComponent: DaggerDashboardLogicComponent by lazy {
+    override val daggerDashboardLogicComponent: DaggerDashboardLogicComponent by lazy {
         DaggerDashboardLogicComponent.builder()
                 .applicationComponent(daggerApplicationComponent)
-                .dashboardBusinessLogicModule(DashboardLogicModule())
+                .dashboardLogicModule(DashboardLogicModule())
                 .rxModule(RxModule())
                 .searchModule(SearchModule())
                 .build() as DaggerDashboardLogicComponent
     }
     override val daggerDashboardPresenterComponent: DaggerDashboardPresenterComponent by lazy {
         DaggerDashboardPresenterComponent.builder()
-                .dashboardBusinessLogicComponent(daggerDashboardBusinessLogicComponent)
+                .dashboardLogicComponent(daggerDashboardLogicComponent)
                 .build() as DaggerDashboardPresenterComponent
     }
     override val daggerDashboardViewComponent: DaggerDashboardViewComponent by lazy {
@@ -105,16 +106,16 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
                 .dashboardViewModule(DashboardViewModule())
                 .build() as DaggerDashboardViewComponent
     }
-    override val daggerThreadListBusinessLogicComponent: DaggerThreadListLogicComponent by lazy {
+    override val daggerThreadListLogicComponent: DaggerThreadListLogicComponent by lazy {
         DaggerThreadListLogicComponent.builder()
                 .applicationComponent(daggerApplicationComponent)
-                .threadListBusinessLogicModule(ThreadListLogicModule())
+                .threadListLogicModule(ThreadListLogicModule())
                 .rxModule(RxModule())
                 .build() as DaggerThreadListLogicComponent
     }
     override val daggerThreadListPresenterComponent: DaggerThreadListPresenterComponent by lazy {
         DaggerThreadListPresenterComponent.builder()
-                .threadListBusinessLogicComponent(daggerThreadListBusinessLogicComponent)
+                .threadListLogicComponent(daggerThreadListLogicComponent)
                 .build() as DaggerThreadListPresenterComponent
     }
     override val daggerThreadListViewComponent: DaggerThreadListViewComponent by lazy {
@@ -123,16 +124,16 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
                 .threadListViewModule(ThreadListViewModule())
                 .build() as DaggerThreadListViewComponent
     }
-    override val daggerFullThreadBusinessLogicComponent: DaggerFullThreadLogicComponent by lazy {
+    override val daggerFullThreadLogicComponent: DaggerFullThreadLogicComponent by lazy {
         DaggerFullThreadLogicComponent.builder()
                 .applicationComponent(daggerApplicationComponent)
-                .fullThreadBusinessLogicModule(FullThreadLogicModule())
+                .fullThreadLogicModule(FullThreadLogicModule())
                 .rxModule(RxModule())
                 .build() as DaggerFullThreadLogicComponent
     }
     override val daggerFullThreadPresenterComponent: DaggerFullThreadPresenterComponent by lazy {
         DaggerFullThreadPresenterComponent.builder()
-                .fullThreadBusinessLogicComponent(daggerFullThreadBusinessLogicComponent)
+                .fullThreadLogicComponent(daggerFullThreadLogicComponent)
                 .build() as DaggerFullThreadPresenterComponent
     }
     override val daggerFullThreadViewComponent: DaggerFullThreadViewComponent by lazy {

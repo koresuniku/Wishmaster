@@ -29,7 +29,7 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.module.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.module.thread_list.ThreadListContract
 import com.koresuniku.wishmaster.application.global.WMImageUtils
@@ -41,7 +41,7 @@ import javax.inject.Inject
  * Created by koresuniku on 07.01.18.
  */
 
-class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
+class ThreadItemViewHolder(itemView: View, injector: IWishmasterDependencyInjector) :
         RecyclerView.ViewHolder(itemView), ThreadListContract.IThreadItemView,
         WMGridView.OnNoItemClickListener,
         WMGridView.OnImageItemClickListener{

@@ -36,7 +36,7 @@ import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.utils.IntentKeystore
 import com.koresuniku.wishmaster.core.module.full_thread.FullThreadContract
 import com.koresuniku.wishmaster.application.global.WMTextUtils
-import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
+import com.koresuniku.wishmaster.application.global.WMAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.view.recycler_view_fast_scroller.RecyclerFastScroller
@@ -55,7 +55,7 @@ class FullThreadActivity : BaseWishmasterActivity(), FullThreadContract.IFulThre
     @Inject lateinit var presenter: FullThreadContract.IFullThreadPresenter
     @Inject lateinit var textUtils: WMTextUtils
     @Inject lateinit var uiUtils: UiUtils
-    @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
+    @Inject lateinit var WMAnimationUtils: WMAnimationUtils
 
     @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
     @BindView(R.id.app_bar_layout) lateinit var mAppBarLayout: AppBarLayout
@@ -140,7 +140,7 @@ class FullThreadActivity : BaseWishmasterActivity(), FullThreadContract.IFulThre
     }
 
     private fun setupRecyclerView() {
-        wishmasterAnimationUtils.setSlideFromRightLayoutAnimation(mRecyclerView, this)
+        WMAnimationUtils.setSlideFromRightLayoutAnimation(mRecyclerView, this)
         mFullThreadRecyclerViewAdapter = FullThreadRecyclerViewAdapter(this)
         presenter.bindFullThreadAdapterView(mFullThreadRecyclerViewAdapter)
         mRecyclerView.setItemViewCacheSize(20)
@@ -181,7 +181,7 @@ class FullThreadActivity : BaseWishmasterActivity(), FullThreadContract.IFulThre
         activityMenu?.findItem(R.id.action_refresh)?.isEnabled = false
         mSwipyRefreshLayout.isEnabled = false
         supportActionBar?.title = getString(R.string.loading_text)
-        wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
+        WMAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     override fun getBoardId() = intent.getStringExtra(IntentKeystore.BOARD_ID_CODE)
@@ -227,7 +227,7 @@ class FullThreadActivity : BaseWishmasterActivity(), FullThreadContract.IFulThre
         activityMenu?.findItem(R.id.action_refresh)?.isEnabled = true
         mSwipyRefreshLayout.isEnabled = true
         if (!mSwipyRefreshLayout.isRefreshing)
-            wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
+            WMAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
         if (mSwipyRefreshLayout.isRefreshing)
             mSwipyRefreshLayout.isRefreshing = false
     }

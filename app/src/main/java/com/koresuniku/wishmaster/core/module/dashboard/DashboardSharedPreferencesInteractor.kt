@@ -18,20 +18,20 @@ package com.koresuniku.wishmaster.core.module.dashboard
 
 import com.koresuniku.wishmaster.application.preferences.ISharedPreferencesStorage
 import com.koresuniku.wishmaster.application.preferences.SharedPreferencesKeystore
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class DashboardSharedPreferencesInteractor @Inject constructor(injector: IWishmasterDaggerInjector) :
+class DashboardSharedPreferencesInteractor @Inject constructor(injector: IWishmasterDependencyInjector) :
         DashboardContract.IDashboardSharedPreferencesInteractor {
 
     @Inject override lateinit var sharedPreferencesStorage: ISharedPreferencesStorage
     @Inject lateinit var compositeDisposable: CompositeDisposable
 
-    init { injector.daggerDashboardBusinessLogicComponent.inject(this) }
+    init { injector.daggerDashboardLogicComponent.inject(this) }
 
     override fun getDashboardFavouriteTabPosition(): Single<Int> {
         return Single.create({

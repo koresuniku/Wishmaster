@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.module.gallery
 
 import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.core.base.BaseMvpPresenter
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.threads.File
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -29,7 +29,7 @@ import javax.inject.Inject
  * Created by koresuniku on 3/7/18.
  */
 
-class GalleryPresenter @Inject constructor(injector: IWishmasterDaggerInjector) :
+class GalleryPresenter @Inject constructor(injector: IWishmasterDependencyInjector) :
         BaseMvpPresenter<GalleryContract.IGalleryMainView>(),
         GalleryContract.IGalleryPresenter {
 

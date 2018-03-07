@@ -14,38 +14,22 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module
+package com.koresuniku.wishmaster.core.data.database
 
 import android.content.Context
-import com.koresuniku.wishmaster.application.preferences.*
-import com.koresuniku.wishmaster.application.global.CommonParams
-import com.koresuniku.wishmaster.application.global.UiParams
+import com.koresuniku.wishmaster.core.data.database.DatabaseHelper
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 /**
- * Created by koresuniku on 12.11.17.
+ * Created by koresuniku on 10.11.17.
  */
 
 @Module
-class SharedPreferencesModule {
+class DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideSharedPreferencesStorage(context: Context): ISharedPreferencesStorage {
-        return SharedPreferencesStorage(context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideUiParams(): UiParams = UiParams()
-
-    @Provides
-    @Singleton
-    fun provideSharedPreferencesHelper(): SharedPreferencesHelper = SharedPreferencesHelper()
-
-    @Provides
-    @Singleton
-    fun provideCommonParams(): CommonParams = CommonParams()
+    fun provideDatabaseHelper(context: Context) = DatabaseHelper(context)
 }

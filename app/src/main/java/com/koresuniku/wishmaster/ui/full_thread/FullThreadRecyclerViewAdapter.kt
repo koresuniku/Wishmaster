@@ -22,7 +22,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.module.full_thread.FullThreadContract
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
@@ -44,7 +44,7 @@ class FullThreadRecyclerViewAdapter() : RecyclerView.Adapter<PostItemViewHolder>
 
     private lateinit var activity: WeakReference<Activity>
     @Inject lateinit var presenter: FullThreadContract.IFullThreadPresenter
-    @Inject lateinit var injector: IWishmasterDaggerInjector
+    @Inject lateinit var injector: IWishmasterDependencyInjector
 
     constructor(activity: BaseWishmasterActivity) : this() {
         activity.getWishmasterApplication().daggerFullThreadViewComponent.inject(this)

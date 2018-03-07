@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.dashboard
 
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import dagger.Component
 
 /**
@@ -26,7 +26,7 @@ import dagger.Component
 @DashboardScopes.ForDashboardPresenter
 @Component(dependencies = [(DashboardLogicComponent::class)])
 interface DashboardPresenterComponent {
-    fun injector(): IWishmasterDaggerInjector
+    fun injector(): IWishmasterDependencyInjector
 
     fun inject(dashboardPresenter: DashboardPresenter)
 }

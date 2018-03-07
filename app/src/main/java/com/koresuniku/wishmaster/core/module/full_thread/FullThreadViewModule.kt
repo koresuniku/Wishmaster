@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.full_thread
 
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import dagger.Module
 import dagger.Provides
 
@@ -29,6 +29,6 @@ class FullThreadViewModule {
 
     @Provides
     @FullThreadScopes.ForFullThreadView
-    fun provideFullThreadPresenter(injector: IWishmasterDaggerInjector):
+    fun provideFullThreadPresenter(injector: IWishmasterDependencyInjector):
             FullThreadContract.IFullThreadPresenter = FullThreadPresenter(injector)
 }

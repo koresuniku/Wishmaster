@@ -14,25 +14,14 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.module.full_thread
+package com.koresuniku.wishmaster.application.utils
 
 import javax.inject.Scope
 
 /**
- * Created by koresuniku on 3/6/18.
+ * Created by koresuniku on 2/21/18.
  */
 
-object FullThreadScopes {
-
-    @Scope
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class ForFullThreadLogic
-
-    @Scope
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class ForFullThreadPresenter
-
-    @Scope
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class ForFullThreadView
-}
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class PerStubActivity

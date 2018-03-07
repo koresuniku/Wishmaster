@@ -17,7 +17,7 @@
 package com.koresuniku.wishmaster.core.module.dashboard
 
 import com.koresuniku.wishmaster.core.base.BaseMvpPresenter
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
 import io.reactivex.*
@@ -30,7 +30,7 @@ import javax.inject.Inject
  * Created by koresuniku on 03.10.17.
  */
 
-class DashboardPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector):
+class DashboardPresenter @Inject constructor(private val injector: IWishmasterDependencyInjector):
         BaseMvpPresenter<DashboardContract.IDashboardMainView>(), DashboardContract.IDashboardPresenter {
     private val LOG_TAG = DashboardPresenter::class.java.simpleName
 

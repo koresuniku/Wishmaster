@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.dashboard
 
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster.core.data.network.boards_api.BoardsResponseParser
@@ -26,14 +26,14 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class DashboardNetworkInteractor @Inject constructor(injector: IWishmasterDaggerInjector):
+class DashboardNetworkInteractor @Inject constructor(injector: IWishmasterDependencyInjector):
         DashboardContract.IDashboardNetworkInteractor {
 
     @Inject override lateinit var service: BoardsApiService
     @Inject lateinit var compositeDisposable: CompositeDisposable
     @Inject lateinit var responseParser: BoardsResponseParser
 
-    init { injector.daggerDashboardBusinessLogicComponent.inject(this) }
+    init { injector.daggerDashboardLogicComponent.inject(this) }
 
     override fun fetchBoardListData(): Single<BoardListData> {
         return Single.create({ e -> run {

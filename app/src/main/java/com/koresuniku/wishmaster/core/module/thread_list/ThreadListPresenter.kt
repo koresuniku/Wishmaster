@@ -19,8 +19,9 @@ package com.koresuniku.wishmaster.core.module.thread_list
 import com.koresuniku.wishmaster.application.notifier.OnOrientationChangedListener
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.base.BaseMvpPresenter
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
+import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -31,7 +32,7 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListPresenter @Inject constructor(private val injector: IWishmasterDaggerInjector):
+class ThreadListPresenter @Inject constructor(private val injector: IWishmasterDependencyInjector):
         BaseMvpPresenter<ThreadListContract.IThreadListMainView>(),
         ThreadListContract.IThreadListPresenter, OnOrientationChangedListener {
     private val LOG_TAG = ThreadListPresenter::class.java.simpleName
@@ -103,6 +104,10 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
     }
 
     override fun onThreadItemClicked(threadNumber: String) { mvpView?.launchFullThread(threadNumber) }
+
+    override fun provideFiles(galleryPresenter: GalleryContract.IGalleryPresenter, position: Int) {
+        galleryPresenter.files = presenterData.getThreadList()[position].files ?: emptyList()
+    }
 
     override fun unbindThreadListAdapterView() { this.threadListAdapterView = null }
     override fun unbindView() {

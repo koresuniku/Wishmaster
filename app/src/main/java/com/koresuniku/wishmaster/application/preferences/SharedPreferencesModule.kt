@@ -14,32 +14,38 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.data.network.github
+package com.koresuniku.wishmaster.application.preferences
 
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import android.content.Context
+import com.koresuniku.wishmaster.application.preferences.*
+import com.koresuniku.wishmaster.application.global.CommonParams
+import com.koresuniku.wishmaster.application.global.UiParams
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 /**
- * Created by koresuniku on 2/18/18.
+ * Created by koresuniku on 12.11.17.
  */
 
 @Module
-class GithubModule {
+class SharedPreferencesModule {
 
     @Provides
     @Singleton
-    fun provideGithubReleaseListNetworkInteractor(injector: IWishmasterDependencyInjector):
-            GithubReleaseListNetworkInteractor {
-        return GithubReleaseListNetworkInteractor(injector)
+    fun provideSharedPreferencesStorage(context: Context): ISharedPreferencesStorage {
+        return SharedPreferencesStorage(context)
     }
 
     @Provides
     @Singleton
-    fun provideGithubHelper(networkInteractor: GithubReleaseListNetworkInteractor,
-                            compositeDisposable: CompositeDisposable): GithubHelper {
-        return GithubHelper(networkInteractor, compositeDisposable)
-    }
+    fun provideUiParams(): UiParams = UiParams()
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferencesHelper(): SharedPreferencesHelper = SharedPreferencesHelper()
+
+    @Provides
+    @Singleton
+    fun provideCommonParams(): CommonParams = CommonParams()
 }

@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.scope
+package com.koresuniku.wishmaster.core.module.gallery
 
-import javax.inject.Scope
+import dagger.Component
 
 /**
- * Created by koresuniku on 2/21/18.
+ * Created by koresuniku on 3/7/18.
  */
 
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-annotation class PerStubActivity
+@GalleryScopes.ForGalleryPresenter
+@Component(dependencies = [(GalleryLogicComponent::class)], modules = [(GalleryPresenterModule::class)])
+interface GalleryPresenterComponent {
+
+    fun inject(galleryPresenter: GalleryPresenter)
+}

@@ -27,6 +27,7 @@ import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.module.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.data.network.full_thread_api.FullThreadApiService
 import com.koresuniku.wishmaster.application.global.WMImageUtils
+import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import io.reactivex.Single
 
@@ -70,7 +71,8 @@ object FullThreadContract {
     }
 
     //Presenter
-    interface IFullThreadPresenter : IMvpDataPresenter<IFulThreadMainView, PostListData> {
+    interface IFullThreadPresenter : IMvpDataPresenter<IFulThreadMainView, PostListData>,
+            GalleryContract.IGalleryDataProvider{
         var fullThreadAdapterView: IFullThreadAdapterView?
 
         fun bindFullThreadAdapterView(fullThreadAdapterView: IFullThreadAdapterView)

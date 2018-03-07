@@ -17,7 +17,7 @@
 package com.koresuniku.wishmaster.core.module.dashboard
 
 import com.koresuniku.wishmaster.core.base.BaseDatabaseInteractor
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListsObject
 import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
@@ -29,14 +29,14 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
-class DashboardDatabaseInteractor @Inject constructor(injector: IWishmasterDaggerInjector):
+class DashboardDatabaseInteractor @Inject constructor(injector: IWishmasterDependencyInjector):
         BaseDatabaseInteractor(), DashboardContract.IDashboardDatabaseInteractor {
 
     @Inject override lateinit var databaseHelper: DatabaseHelper
     @Inject lateinit var compositeDisposable: CompositeDisposable
     @Inject lateinit var boardsRepository: BoardsRepository
 
-    init { injector.daggerDashboardBusinessLogicComponent.inject(this) }
+    init { injector.daggerDashboardLogicComponent.inject(this) }
 
     override fun fetchBoardListData(): Single<BoardListData> {
         return Single.create({

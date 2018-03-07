@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module
+package com.koresuniku.wishmaster.core.data.network
 
 import android.app.Application
 import com.google.gson.FieldNamingPolicy

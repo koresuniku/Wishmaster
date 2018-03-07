@@ -14,13 +14,21 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module.settings_scopes
+package com.koresuniku.wishmaster.core.module.gallery
 
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import dagger.Module
+import dagger.Provides
 
 /**
- * Created by koresuniku on 2/19/18.
+ * Created by koresuniku on 3/7/18.
  */
 
 @Module
-class SettingsPresenterModule
+class GalleryViewModule {
+
+    @Provides
+    @GalleryScopes.ForGalleryView
+    fun provideGalleryPresenter(injector: IWishmasterDependencyInjector):
+            GalleryContract.IGalleryPresenter = GalleryPresenter(injector)
+}

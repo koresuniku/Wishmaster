@@ -14,24 +14,16 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module.settings_scopes
+package com.koresuniku.wishmaster.application.global
 
-import com.koresuniku.wishmaster.core.dagger.scope.PerSettingsView
-import com.koresuniku.wishmaster.core.modules.settings.ISettingsPresenter
-import com.koresuniku.wishmaster.core.modules.settings.SettingsPresenter
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 
-/**
- * Created by koresuniku on 2/19/18.
- */
 
 @Module
-class SettingsViewModule {
+class RxModule {
 
-    @PerSettingsView
     @Provides
-    fun provideSettingsPresenter(compositeDisposable: CompositeDisposable): ISettingsPresenter =
-            SettingsPresenter(compositeDisposable)
+    fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
 }

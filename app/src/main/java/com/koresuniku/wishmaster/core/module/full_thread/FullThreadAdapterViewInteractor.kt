@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.module.full_thread
 
 import android.content.Context
 import com.koresuniku.wishmaster.application.global.UiParams
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.application.global.WMImageUtils
@@ -33,7 +33,7 @@ import javax.inject.Inject
  * Created by koresuniku on 2/14/18.
  */
 
-class FullThreadAdapterViewInteractor @Inject constructor(injector: IWishmasterDaggerInjector):
+class FullThreadAdapterViewInteractor @Inject constructor(injector: IWishmasterDependencyInjector):
         FullThreadContract.IFullThreadAdapterViewInteractor{
 
     @Inject lateinit var uiParams: UiParams
@@ -44,7 +44,7 @@ class FullThreadAdapterViewInteractor @Inject constructor(injector: IWishmasterD
     @Inject lateinit var context: Context
     @Inject lateinit var viewUtils: ViewUtils
 
-    init { injector.daggerFullThreadBusinessLogicComponent.inject(this) }
+    init { injector.daggerFullThreadLogicComponent.inject(this) }
 
     override fun setItemViewData(adapterView: FullThreadContract.IFullThreadAdapterView,
                                  itemView: FullThreadContract.IPostItemView,

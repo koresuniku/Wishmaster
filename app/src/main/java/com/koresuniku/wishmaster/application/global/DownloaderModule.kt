@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module
+package com.koresuniku.wishmaster.application.global
 
+import android.content.Context
+import com.koresuniku.wishmaster.application.global.WMDownloadManager
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Singleton
+
+/**
+ * Created by koresuniku on 2/21/18.
+ */
 
 
 @Module
-class RxModule {
+class DownloaderModule(val context: Context) {
 
     @Provides
-    fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
+    @Singleton
+    fun provideDownloadManager(context: Context): WMDownloadManager = WMDownloadManager(context)
 }

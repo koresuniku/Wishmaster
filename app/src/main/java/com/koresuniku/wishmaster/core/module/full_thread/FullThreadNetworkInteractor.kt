@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.full_thread
 
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.data.network.full_thread_api.FullThreadApiService
 import io.reactivex.Single
@@ -24,13 +24,13 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
-class FullThreadNetworkInteractor @Inject constructor(injector: IWishmasterDaggerInjector):
+class FullThreadNetworkInteractor @Inject constructor(injector: IWishmasterDependencyInjector):
         FullThreadContract.IFullThreadNetworkInteractor {
 
     @Inject lateinit var compositeDisposable: CompositeDisposable
     @Inject override lateinit var service: FullThreadApiService
 
-    init { injector.daggerFullThreadBusinessLogicComponent.inject(this) }
+    init { injector.daggerFullThreadLogicComponent.inject(this) }
 
     override fun fetchPostListData(boardId: String, threadNumber: String): Single<PostListData> {
         return Single.create({ e ->

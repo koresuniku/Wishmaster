@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.utils.text.markup
+package com.koresuniku.wishmaster.ui.utils.text.markup
 
 import android.graphics.Canvas
 import android.graphics.Paint

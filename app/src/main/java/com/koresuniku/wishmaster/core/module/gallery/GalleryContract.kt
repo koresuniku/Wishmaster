@@ -51,7 +51,7 @@ object GalleryContract {
     }
 
     interface IGalleryDataProvider {
-        fun provideFiles(presenter: IGalleryPresenter)
+        fun provideFiles(galleryPresenter: IGalleryPresenter, position: Int)
     }
 
     //GalleryInteractor

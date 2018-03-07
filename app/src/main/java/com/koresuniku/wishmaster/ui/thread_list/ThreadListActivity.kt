@@ -39,7 +39,7 @@ import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.utils.IntentKeystore
 import com.koresuniku.wishmaster.core.module.thread_list.ThreadListContract
 import com.koresuniku.wishmaster.application.global.WMTextUtils
-import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
+import com.koresuniku.wishmaster.application.global.WMAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
 import com.koresuniku.wishmaster.ui.gallery.GalleryPagerAdapter
@@ -60,7 +60,7 @@ class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadL
     @Inject lateinit var presenter: ThreadListContract.IThreadListPresenter
     @Inject lateinit var textUtils: WMTextUtils
     @Inject lateinit var uiUtils: UiUtils
-    @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
+    @Inject lateinit var WMAnimationUtils: WMAnimationUtils
 
     @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
     @BindView(R.id.app_bar_layout) lateinit var mAppBarLayout: AppBarLayout
@@ -272,14 +272,14 @@ class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadL
         mSwipyRefreshLayout.isEnabled = false
         supportActionBar?.title = getString(R.string.loading_text)
         if (!mSwipyRefreshLayout.isRefreshing)
-            wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
+            WMAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     private fun hideLoading() {
         activityMenu?.findItem(R.id.action_refresh)?.isEnabled = true
         mSwipyRefreshLayout.isEnabled = true
         if (!mSwipyRefreshLayout.isRefreshing)
-            wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
+            WMAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
         if (mSwipyRefreshLayout.isRefreshing)
             mSwipyRefreshLayout.isRefreshing = false
         mRecyclerView.scrollToPosition(0)

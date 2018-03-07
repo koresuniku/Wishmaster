@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module
+package com.koresuniku.wishmaster.core.module.gallery
 
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import javax.inject.Scope
 
+/**
+ * Created by koresuniku on 3/7/18.
+ */
 
-@Module
-class InjectorModule(private val injector: IWishmasterDaggerInjector) {
+object GalleryScopes {
 
-    @Provides
-    @Singleton
-    fun provideInjector(): IWishmasterDaggerInjector = injector
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForGalleryLogic
+
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForGalleryPresenter
+
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForGalleryView
 }

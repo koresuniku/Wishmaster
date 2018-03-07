@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.dashboard
 
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.database.repository.BoardsRepository
 import com.koresuniku.wishmaster.core.data.network.boards_api.BoardsResponseParser
 import dagger.Module
@@ -27,38 +27,38 @@ import dagger.Provides
 class DashboardLogicModule {
 
     @Provides
-    @DashboardScopes.ForDashboardBusinessLogic
-    fun provideDashboardNetworkInteractor(injector: IWishmasterDaggerInjector):
+    @DashboardScopes.ForDashboardLogic
+    fun provideDashboardNetworkInteractor(injector: IWishmasterDependencyInjector):
             DashboardContract.IDashboardNetworkInteractor {
         return DashboardNetworkInteractor(injector)
     }
 
     @Provides
-    @DashboardScopes.ForDashboardBusinessLogic
-    fun provideDashboardDatabaseInteractor(injector: IWishmasterDaggerInjector):
+    @DashboardScopes.ForDashboardLogic
+    fun provideDashboardDatabaseInteractor(injector: IWishmasterDependencyInjector):
             DashboardContract.IDashboardDatabaseInteractor {
         return DashboardDatabaseInteractor(injector)
     }
 
     @Provides
-    @DashboardScopes.ForDashboardBusinessLogic
-    fun provideDashboardSearchInteractor(injector: IWishmasterDaggerInjector):
+    @DashboardScopes.ForDashboardLogic
+    fun provideDashboardSearchInteractor(injector: IWishmasterDependencyInjector):
             DashboardContract.IDashboardSearchInteractor {
         return DashboardSearchInteractor(injector)
     }
 
     @Provides
-    @DashboardScopes.ForDashboardBusinessLogic
-    fun provideDashboardSharedPreferencesInteractor(injector: IWishmasterDaggerInjector):
+    @DashboardScopes.ForDashboardLogic
+    fun provideDashboardSharedPreferencesInteractor(injector: IWishmasterDependencyInjector):
             DashboardContract.IDashboardSharedPreferencesInteractor {
         return DashboardSharedPreferencesInteractor(injector)
     }
 
     @Provides
-    @DashboardScopes.ForDashboardBusinessLogic
+    @DashboardScopes.ForDashboardLogic
     fun provideBoardsRepository(): BoardsRepository = BoardsRepository()
 
     @Provides
-    @DashboardScopes.ForDashboardBusinessLogic
+    @DashboardScopes.ForDashboardLogic
     fun provideBoardsResponseParser(): BoardsResponseParser = BoardsResponseParser()
 }

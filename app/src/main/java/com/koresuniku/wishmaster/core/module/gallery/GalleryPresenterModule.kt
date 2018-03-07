@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.module.full_thread
+package com.koresuniku.wishmaster.core.module.gallery
 
-import javax.inject.Scope
+import dagger.Module
+import dagger.Provides
 
 /**
- * Created by koresuniku on 3/6/18.
+ * Created by koresuniku on 3/7/18.
  */
 
-object FullThreadScopes {
+@Module
+class GalleryPresenterModule {
 
-    @Scope
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class ForFullThreadLogic
-
-    @Scope
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class ForFullThreadPresenter
-
-    @Scope
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class ForFullThreadView
+    @Provides
+    @GalleryScopes.ForGalleryPresenter
+    fun provideGalleryState(): GalleryState = GalleryState()
 }
