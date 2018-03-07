@@ -34,7 +34,7 @@ import javax.inject.Inject
  * Created by koresuniku on 04.01.18.
  */
 
-class WishmasterTextUtils @Inject constructor() {
+class WMTextUtils @Inject constructor() {
 
     fun obtainBoardIdDashName(boardModel: BoardModel) =
             "/${boardModel.getBoardId()}/ - ${boardModel.getBoardName()}"

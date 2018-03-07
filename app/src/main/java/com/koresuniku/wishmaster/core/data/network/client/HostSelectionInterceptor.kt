@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.network.client
+package com.koresuniku.wishmaster.core.data.network.client
 
 import okhttp3.Interceptor
 import okhttp3.HttpUrl

@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.utils.search
 
-import com.koresuniku.wishmaster.core.network.Dvach
+import com.koresuniku.wishmaster.core.data.network.Dvach
 import java.util.regex.Pattern
 import javax.inject.Inject
 

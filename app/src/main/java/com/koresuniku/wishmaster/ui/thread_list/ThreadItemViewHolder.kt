@@ -32,7 +32,7 @@ import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListMvpContract
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
 import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import javax.inject.Inject
@@ -93,14 +93,14 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     override fun setComment(comment: Spanned) { mComment.post { mComment.text = comment } }
     override fun setThreadShortInfo(info: String) { mResume.text = info }
 
-    override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {
+    override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WMImageUtils) {
         val imageLayout = itemView.findViewById<ViewGroup>(R.id.clickable_item_layout)
         val image = imageLayout.findViewById<ImageView>(R.id.image)
 
         imageLayout.setOnClickListener {
             val rect = Rect()
             image.getGlobalVisibleRect(rect)
-            val coordinates = WishmasterImageUtils.ImageCoordinates(
+            val coordinates = WMImageUtils.ImageCoordinates(
                     rect.left, rect.right, rect.top, rect.bottom)
             //presenter.setPreviewImageCoordinates(coordinates)
             onImageItemClick(0)
@@ -116,7 +116,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
 
     override fun setMultipleImages(imageItemDataList: List<ImageItemData>,
                                    url: String,
-                                   imageUtils: WishmasterImageUtils,
+                                   imageUtils: WMImageUtils,
                                    gridViewParams: WMGridView.GridViewParams,
                                    summaryHeight: Int) {
         mImageGrid.setOnNoItemClickListener(this)

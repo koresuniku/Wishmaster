@@ -45,9 +45,8 @@ import com.koresuniku.wishmaster.ui.utils.UiUtils
 import android.view.MenuItem
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.notifier.OnNewReleaseListener
-import com.koresuniku.wishmaster.application.singletones.WMDownloadManager
 import com.koresuniku.wishmaster.application.singletones.WMPermissionManager
-import com.koresuniku.wishmaster.core.network.github_api.Asset
+import com.koresuniku.wishmaster.core.data.network.github.Asset
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import android.support.v7.app.AlertDialog
 import com.koresuniku.wishmaster.core.modules.dashboard.DashboardMvpContract

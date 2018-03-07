@@ -16,8 +16,6 @@
 
 package com.koresuniku.wishmaster.ui.gallery.preview
 
-import android.graphics.Rect
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +24,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 
 /**
@@ -35,7 +33,7 @@ import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 
 class PreviewImageGridAdapter(private val imageItemDataList: List<ImageItemData>,
                               private val url: String,
-                              private val imageUtils: WishmasterImageUtils,
+                              private val imageUtils: WMImageUtils,
                               private val summaryHeight: Int,
                               private val gridViewParams: WMGridView.GridViewParams,
                               private val onNoItemClickListener: WMGridView.OnNoItemClickListener,
@@ -59,7 +57,7 @@ class PreviewImageGridAdapter(private val imageItemDataList: List<ImageItemData>
                 clickableItemLayout.setOnClickListener {
 //                        val rect = Rect()
 //                        image.getGlobalVisibleRect(rect)
-//                        val coordinates = WishmasterImageUtils.ImageCoordinates(
+//                        val coordinates = WMImageUtils.ImageCoordinates(
 //                                rect.left, rect.right, rect.top, rect.bottom)
 //                        presenter.setPreviewImageCoordinates(coordinates)
 //

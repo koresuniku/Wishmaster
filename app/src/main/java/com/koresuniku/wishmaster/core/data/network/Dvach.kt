@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.network.full_thread_api
+package com.koresuniku.wishmaster.core.data.network
 
-import com.koresuniku.wishmaster.core.data.model.posts.Post
-import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Query
+/**
+ * Created by koresuniku on 03.10.17.
+ */
 
+object Dvach {
 
-interface FullThreadApiService {
-
-    @GET("/makaba/mobile.fcgi")
-    fun getPostListObservable(@Query("task") task: String,
-                              @Query("board") board: String,
-                              @Query("thread") thread: String,
-                              @Query("post") post: Int): Observable<MutableList<Post>>
+    const val BASE_URL = "https://2ch.hk"
+    val MIRRORS = arrayListOf("https://2ch.hk", "https://2ch.pm", "https://2ch.re",
+            "https://2ch.tf", "https://2ch.wf", "https://2ch.yt", "https://2-ch.so")
 }

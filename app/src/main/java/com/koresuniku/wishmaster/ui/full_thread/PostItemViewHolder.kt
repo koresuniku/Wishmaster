@@ -30,7 +30,7 @@ import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadMvpContract
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
 import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import javax.inject.Inject
@@ -100,7 +100,7 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
         mComment.post { mComment.text = comment }
     }
 
-    override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {
+    override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WMImageUtils) {
         val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)
         val image = imageLayout.findViewById<ImageView>(R.id.image)
 
@@ -110,7 +110,7 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
 
     override fun setMultipleImages(imageItemDataList: List<ImageItemData>,
                                    url: String,
-                                   imageUtils: WishmasterImageUtils,
+                                   imageUtils: WMImageUtils,
                                    gridViewParams: WMGridView.GridViewParams,
                                    summaryHeight: Int) {
         mImageGrid.setOnNoItemClickListener(this)

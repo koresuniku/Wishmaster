@@ -16,6 +16,7 @@
 
 package com.koresuniku.wishmaster.core.dagger.component
 
+import com.koresuniku.wishmaster.application.ApplicationComponent
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.settings_scopes.SettingsPresenterModule

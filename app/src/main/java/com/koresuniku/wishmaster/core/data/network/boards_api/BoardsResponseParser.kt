@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.network.boards_api
+package com.koresuniku.wishmaster.core.data.network.boards_api
 
 import com.koresuniku.wishmaster.domain.boards_api.BoardsJsonSchemaResponse
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListData

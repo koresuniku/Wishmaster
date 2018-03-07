@@ -25,8 +25,8 @@ import com.koresuniku.wishmaster.core.base.IMvpView
 import com.koresuniku.wishmaster.core.base.INetworkInteractor
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
-import com.koresuniku.wishmaster.core.network.full_thread_api.FullThreadApiService
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster.core.data.network.full_thread_api.FullThreadApiService
+import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import io.reactivex.Single
 
@@ -61,10 +61,10 @@ object FullThreadMvpContract {
         fun setOnClickItemListener(threadNumber: String)
         fun setAnswers(subject: Spanned)
         fun setComment(comment: Spanned)
-        fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils)
+        fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WMImageUtils)
         fun setMultipleImages(imageItemDataList: List<ImageItemData>,
                               url: String,
-                              imageUtils: WishmasterImageUtils,
+                              imageUtils: WMImageUtils,
                               gridViewParams: WMGridView.GridViewParams,
                               summaryHeight: Int)
     }

@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.module.application_scope
+package com.koresuniku.wishmaster.core.data.network.github
 
-import com.koresuniku.wishmaster.core.network.github_api.GithubApiService
-import com.koresuniku.wishmaster.core.network.github_api.GithubHelper
-import com.koresuniku.wishmaster.core.network.github_api.GithubReleaseListNetworkInteractor
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable

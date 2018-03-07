@@ -23,7 +23,7 @@ import android.view.ViewGroup
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
 import com.koresuniku.wishmaster.core.modules.dashboard.DashboardMvpContract
-import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.core.utils.text.WMTextUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.view.drag_and_swipe_recycler_view.ItemTouchHelperAdapter
 import com.koresuniku.wishmaster.ui.view.drag_and_swipe_recycler_view.OnItemDroppedCallback
@@ -41,7 +41,7 @@ class FavouriteBoardsRecyclerViewAdapter():
     private val LOG_TAG = FavouriteBoardsRecyclerViewAdapter::class.java.simpleName
 
     @Inject lateinit var presenter: DashboardMvpContract.IDashboardPresenter
-    @Inject lateinit var textUtils: WishmasterTextUtils
+    @Inject lateinit var textUtils: WMTextUtils
 
     private lateinit var mActivity: WeakReference<BaseWishmasterActivity>
     private lateinit var mOnStartDragListener: OnStartDragListener

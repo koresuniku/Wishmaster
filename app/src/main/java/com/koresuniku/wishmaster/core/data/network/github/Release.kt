@@ -14,31 +14,22 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.network.thread_list_api
+package com.koresuniku.wishmaster.core.data.network.github
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.koresuniku.wishmaster.core.data.model.threads.Thread
 
 /**
- * Created by koresuniku on 01.01.18.
+ * Created by koresuniku on 2/18/18.
  */
 
-class ThreadListJsonSchemaCatalogResponse {
+class Release {
 
-    @SerializedName("Board")
+    @SerializedName("tag_name")
     @Expose
-    lateinit var boardId: String
+    lateinit var tagName: String
 
-    @SerializedName("BoardName")
+    @SerializedName("assets")
     @Expose
-    lateinit var boardName: String
-
-    @SerializedName("default_name")
-    @Expose
-    lateinit var defaultName: String
-
-    @SerializedName("threads")
-    @Expose
-    lateinit var threads: MutableList<Thread>
+    lateinit var assetList: List<Asset>
 }

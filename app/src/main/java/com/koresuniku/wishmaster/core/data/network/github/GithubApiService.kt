@@ -14,22 +14,17 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.network.github_api
+package com.koresuniku.wishmaster.core.data.network.github
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import io.reactivex.Observable
+import retrofit2.http.GET
 
 /**
  * Created by koresuniku on 2/18/18.
  */
 
-class Release {
+interface GithubApiService {
 
-    @SerializedName("tag_name")
-    @Expose
-    lateinit var tagName: String
-
-    @SerializedName("assets")
-    @Expose
-    lateinit var assetList: List<Asset>
+    @GET("/repos/koresuniku/wishmaster/releases")
+    fun getRealeaseList(): Observable<List<Release>>
 }

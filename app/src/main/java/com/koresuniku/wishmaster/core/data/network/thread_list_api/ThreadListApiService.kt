@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.network.thread_list_api
+package com.koresuniku.wishmaster.core.data.network.thread_list_api
 
 import io.reactivex.Observable
 import retrofit2.Call

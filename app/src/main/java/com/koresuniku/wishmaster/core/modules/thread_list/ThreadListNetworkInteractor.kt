@@ -18,10 +18,10 @@ package com.koresuniku.wishmaster.core.modules.thread_list
 
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
-import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListResponseParser
-import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListApiService
-import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListJsonSchemaCatalogResponse
-import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListJsonSchemaPageResponse
+import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListResponseParser
+import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListApiService
+import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListJsonSchemaCatalogResponse
+import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListJsonSchemaPageResponse
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

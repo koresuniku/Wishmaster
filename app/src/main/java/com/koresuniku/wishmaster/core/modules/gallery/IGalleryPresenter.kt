@@ -17,7 +17,7 @@
 package com.koresuniku.wishmaster.core.modules.gallery
 
 import com.koresuniku.wishmaster.core.data.model.threads.File
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
 
 
 /**
@@ -31,6 +31,6 @@ interface IGalleryPresenter {
     fun onGalleryLayoutClicked()
     fun getFile(position: Int): File
     fun getImageTargetCoordinates(position: Int, item: IGalleryItem)
-    fun setPreviewImageCoordinates(coordinates: WishmasterImageUtils.ImageCoordinates)
-    fun getPreviewImageCoordinates(): WishmasterImageUtils.ImageCoordinates
+    fun setPreviewImageCoordinates(coordinates: WMImageUtils.ImageCoordinates)
+    fun getPreviewImageCoordinates(): WMImageUtils.ImageCoordinates
 }

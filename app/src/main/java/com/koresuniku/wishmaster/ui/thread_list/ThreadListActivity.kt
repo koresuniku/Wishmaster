@@ -16,7 +16,6 @@
 
 package com.koresuniku.wishmaster.ui.thread_list
 
-import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -29,7 +28,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.*
-import android.view.animation.LinearInterpolator
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
@@ -39,10 +37,8 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.utils.IntentKeystore
-import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
 import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListMvpContract
-import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
-import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.core.utils.text.WMTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
@@ -62,7 +58,7 @@ class ThreadListActivity : BaseWishmasterActivity(), ThreadListMvpContract.IThre
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
     @Inject lateinit var presenter: ThreadListMvpContract.IThreadListPresenter
-    @Inject lateinit var textUtils: WishmasterTextUtils
+    @Inject lateinit var textUtils: WMTextUtils
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
 

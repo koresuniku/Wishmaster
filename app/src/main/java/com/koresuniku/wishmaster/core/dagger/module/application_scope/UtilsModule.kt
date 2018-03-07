@@ -17,8 +17,8 @@
 package com.koresuniku.wishmaster.core.dagger.module.application_scope
 
 import com.koresuniku.wishmaster.application.singletones.UiParams
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
-import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
+import com.koresuniku.wishmaster.core.utils.text.WMTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
@@ -36,15 +36,15 @@ class UtilsModule {
 
     @Provides
     @Singleton
-    fun provideTextUtils(): WishmasterTextUtils = WishmasterTextUtils()
+    fun provideTextUtils(): WMTextUtils = WMTextUtils()
 
     @Provides
     @Singleton
     fun provideImageUtils(uiUtils: UiUtils,
-                          textUtils: WishmasterTextUtils,
+                          textUtils: WMTextUtils,
                           uiParams: UiParams,
-                          deviceUtils: DeviceUtils): WishmasterImageUtils {
-        return WishmasterImageUtils(uiUtils, textUtils, uiParams, deviceUtils)
+                          deviceUtils: DeviceUtils): WMImageUtils {
+        return WMImageUtils(uiUtils, textUtils, uiParams, deviceUtils)
     }
 
     @Provides

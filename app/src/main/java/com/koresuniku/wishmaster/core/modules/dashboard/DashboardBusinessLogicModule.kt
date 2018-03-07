@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.modules.dashboard
 
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.database.repository.BoardsRepository
-import com.koresuniku.wishmaster.core.network.boards_api.BoardsResponseParser
+import com.koresuniku.wishmaster.core.data.network.boards_api.BoardsResponseParser
 import dagger.Module
 import dagger.Provides
 

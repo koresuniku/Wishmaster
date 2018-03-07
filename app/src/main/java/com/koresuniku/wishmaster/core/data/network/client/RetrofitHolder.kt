@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.network.client
+package com.koresuniku.wishmaster.core.data.network.client
 
 import com.google.gson.Gson
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import com.koresuniku.wishmaster.core.network.Dvach
-import com.koresuniku.wishmaster.core.network.github_api.GithubHelper
+import com.koresuniku.wishmaster.core.data.network.Dvach
+import com.koresuniku.wishmaster.core.data.network.github.GithubHelper
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -16,12 +16,12 @@
 
 package com.koresuniku.wishmaster.core.modules.gallery
 
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
 
 /**
  * Created by koresuniku on 3/4/18.
  */
 
 interface IGalleryItem {
-    fun onTargetDimensionsReady(coordinates: WishmasterImageUtils.ImageCoordinates)
+    fun onTargetDimensionsReady(coordinates: WMImageUtils.ImageCoordinates)
 }

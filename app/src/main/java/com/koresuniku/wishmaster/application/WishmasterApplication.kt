@@ -40,8 +40,9 @@ import com.koresuniku.wishmaster.core.dagger.module.settings_scopes.SettingsView
 import com.koresuniku.wishmaster.core.modules.dashboard.*
 import com.koresuniku.wishmaster.core.modules.full_thread.*
 import com.koresuniku.wishmaster.core.modules.thread_list.*
-import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
-import com.koresuniku.wishmaster.core.network.github_api.GithubHelper
+import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
+import com.koresuniku.wishmaster.core.data.network.github.GithubHelper
+import com.koresuniku.wishmaster.core.data.network.github.GithubModule
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
@@ -181,7 +182,7 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
         githubHelper.checkForNewRelease()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { newReleaseNotifier.notifyNewVersion(it) }
+                .subscribe(newReleaseNotifier::notifyNewVersion)
 
         Glide.get(this).register(
                 GlideUrl::class.java,

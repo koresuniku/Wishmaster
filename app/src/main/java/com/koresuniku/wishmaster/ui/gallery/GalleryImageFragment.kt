@@ -16,10 +16,8 @@
 
 package com.koresuniku.wishmaster.ui.gallery
 
-import android.animation.ValueAnimator
 import android.net.Uri
 import android.os.Bundle
-import android.support.annotation.Nullable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -34,12 +32,10 @@ import com.github.piasy.biv.view.BigImageView
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.modules.gallery.IGalleryItem
 import com.koresuniku.wishmaster.core.modules.gallery.IGalleryPresenter
-import com.koresuniku.wishmaster.core.network.Dvach
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster.core.data.network.Dvach
+import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 import android.view.animation.Animation
-import android.view.animation.ScaleAnimation
-import android.widget.RelativeLayout
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 
 
@@ -95,7 +91,7 @@ class GalleryImageFragment : BaseWishmasterFragment(), IGalleryItem {
         return rootView
     }
 
-    override fun onTargetDimensionsReady(coordinates: WishmasterImageUtils.ImageCoordinates) {
+    override fun onTargetDimensionsReady(coordinates: WMImageUtils.ImageCoordinates) {
 //        Log.d("WIU", "from: -> ${previewImageCoordinates.xLeft}:${previewImageCoordinates.yTop}" +
 //                "|${previewImageCoordinates.xRight}:${previewImageCoordinates.yBottom}")
 //        Log.d("WIU", "to: -> ${coordinates.xLeft}:${coordinates.yTop}" +

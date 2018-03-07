@@ -18,9 +18,7 @@ package com.koresuniku.wishmaster.core.utils.images
 
 import android.content.Context
 import android.graphics.Point
-import android.graphics.PointF
 import android.net.Uri
-import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -29,7 +27,7 @@ import com.koresuniku.wishmaster.application.singletones.UiParams
 import com.koresuniku.wishmaster.core.data.model.threads.File
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.modules.gallery.ImageLayoutDimensions
-import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.core.utils.text.WMTextUtils
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import io.reactivex.Single
@@ -39,10 +37,10 @@ import javax.inject.Inject
  * Created by koresuniku on 14.01.18.
  */
 
-class WishmasterImageUtils @Inject constructor(private val uiUtils: UiUtils,
-                                               private val textUtils: WishmasterTextUtils,
-                                               private val uiParams: UiParams,
-                                               private val deviceUtils: DeviceUtils) {
+class WMImageUtils @Inject constructor(private val uiUtils: UiUtils,
+                                       private val textUtils: WMTextUtils,
+                                       private val uiParams: UiParams,
+                                       private val deviceUtils: DeviceUtils) {
 
     data class ImageTargetDimensions(val width: Int, val height: Int)
 

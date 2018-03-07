@@ -22,10 +22,10 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster.application.singletones.CommonParams
-import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
-import com.koresuniku.wishmaster.core.network.full_thread_api.FullThreadApiService
-import com.koresuniku.wishmaster.core.network.github_api.GithubApiService
-import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListApiService
+import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
+import com.koresuniku.wishmaster.core.data.network.full_thread_api.FullThreadApiService
+import com.koresuniku.wishmaster.core.data.network.github.GithubApiService
+import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListApiService
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache

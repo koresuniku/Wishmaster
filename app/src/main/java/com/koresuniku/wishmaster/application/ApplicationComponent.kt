@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.dagger.component
+package com.koresuniku.wishmaster.application
 
 import android.app.Application
 import android.content.Context
@@ -24,7 +24,6 @@ import com.koresuniku.wishmaster.application.WishmasterApplication
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.application.preferences.ISharedPreferencesStorage
-import com.koresuniku.wishmaster.application.preferences.SharedPreferencesStorage
 import com.koresuniku.wishmaster.application.service.WMFirebaseMessagingService
 import com.koresuniku.wishmaster.application.singletones.UiParams
 import com.koresuniku.wishmaster.application.singletones.WMDownloadManager
@@ -35,18 +34,17 @@ import com.koresuniku.wishmaster.core.dagger.module.DownloaderModule
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
 import com.koresuniku.wishmaster.core.dagger.module.application_scope.*
 import com.koresuniku.wishmaster.core.data.database.DatabaseHelper
-import com.koresuniku.wishmaster.core.modules.gallery.GalleryInteractor
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
-import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
-import com.koresuniku.wishmaster.core.network.full_thread_api.FullThreadApiService
-import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListApiService
-import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
+import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
+import com.koresuniku.wishmaster.core.data.network.full_thread_api.FullThreadApiService
+import com.koresuniku.wishmaster.core.data.network.github.GithubModule
+import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListApiService
+import com.koresuniku.wishmaster.core.utils.text.WMTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
 import dagger.Component
-import io.reactivex.disposables.CompositeDisposable
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
@@ -89,8 +87,8 @@ interface ApplicationComponent {
     fun fullThreadApiService(): FullThreadApiService
 
     //Utils
-    fun textUtils(): WishmasterTextUtils
-    fun imageUtils(): WishmasterImageUtils
+    fun textUtils(): WMTextUtils
+    fun imageUtils(): WMImageUtils
     fun deviceUtils(): DeviceUtils
     fun uiUtils(): UiUtils
     fun viewUtils(): ViewUtils

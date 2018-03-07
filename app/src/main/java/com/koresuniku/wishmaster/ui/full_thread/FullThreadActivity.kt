@@ -35,7 +35,7 @@ import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.utils.IntentKeystore
 import com.koresuniku.wishmaster.core.modules.full_thread.FullThreadMvpContract
-import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.core.utils.text.WMTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
@@ -53,7 +53,7 @@ class FullThreadActivity : BaseWishmasterActivity(), FullThreadMvpContract.IFulT
     private val LOG_TAG = FullThreadActivity::class.java.simpleName
 
     @Inject lateinit var presenter: FullThreadMvpContract.IFullThreadPresenter
-    @Inject lateinit var textUtils: WishmasterTextUtils
+    @Inject lateinit var textUtils: WMTextUtils
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
 

@@ -20,9 +20,9 @@ import android.content.Context
 import com.koresuniku.wishmaster.application.singletones.UiParams
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
-import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
-import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
+import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
+import com.koresuniku.wishmaster.core.utils.text.WMTextUtils
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -37,9 +37,9 @@ class FullThreadAdapterViewInteractor @Inject constructor(injector: IWishmasterD
         FullThreadMvpContract.IFullThreadAdapterViewInteractor{
 
     @Inject lateinit var uiParams: UiParams
-    @Inject lateinit var textUtils: WishmasterTextUtils
+    @Inject lateinit var textUtils: WMTextUtils
     @Inject lateinit var compositeDisposable: CompositeDisposable
-    @Inject lateinit var imageUtils: WishmasterImageUtils
+    @Inject lateinit var imageUtils: WMImageUtils
     @Inject lateinit var retrofitHolder: RetrofitHolder
     @Inject lateinit var context: Context
     @Inject lateinit var viewUtils: ViewUtils

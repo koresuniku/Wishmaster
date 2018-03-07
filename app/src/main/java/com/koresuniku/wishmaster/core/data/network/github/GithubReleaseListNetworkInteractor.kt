@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.network.github_api
+package com.koresuniku.wishmaster.core.data.network.github
 
 import com.koresuniku.wishmaster.core.base.INetworkInteractor
 import io.reactivex.Single

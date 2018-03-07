@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.modules.full_thread
 
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
-import com.koresuniku.wishmaster.core.network.full_thread_api.FullThreadApiService
+import com.koresuniku.wishmaster.core.data.network.full_thread_api.FullThreadApiService
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject

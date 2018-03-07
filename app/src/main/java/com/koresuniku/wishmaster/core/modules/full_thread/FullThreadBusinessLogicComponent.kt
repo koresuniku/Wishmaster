@@ -16,13 +16,11 @@
 
 package com.koresuniku.wishmaster.core.modules.full_thread
 
-import android.content.Context
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster.core.dagger.component.ApplicationComponent
-import com.koresuniku.wishmaster.core.dagger.module.GalleryModule
+import com.koresuniku.wishmaster.application.ApplicationComponent
 import com.koresuniku.wishmaster.core.dagger.module.RxModule
-import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.core.utils.text.WMTextUtils
 import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import dagger.Component
@@ -39,7 +37,7 @@ interface FullThreadBusinessLogicComponent {
 
     //Global singletons
     fun injector(): IWishmasterDaggerInjector
-    fun textUtils(): WishmasterTextUtils
+    fun textUtils(): WMTextUtils
     fun uiUtils(): UiUtils
     fun orientationNotifier(): OrientationNotifier
     fun compositeDisposable(): CompositeDisposable

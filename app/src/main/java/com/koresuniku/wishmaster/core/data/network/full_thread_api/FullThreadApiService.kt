@@ -14,23 +14,19 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.network.github_api
+package com.koresuniku.wishmaster.core.data.network.full_thread_api
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.koresuniku.wishmaster.core.data.model.posts.Post
+import io.reactivex.Observable
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-/**
- * Created by koresuniku on 2/18/18.
- */
 
-class Asset {
+interface FullThreadApiService {
 
-    @SerializedName("browser_download_url")
-    @Expose
-    lateinit var downloadLink: String
-
-    @SerializedName("name")
-    @Expose
-    lateinit var name: String
-
+    @GET("/makaba/mobile.fcgi")
+    fun getPostListObservable(@Query("task") task: String,
+                              @Query("board") board: String,
+                              @Query("thread") thread: String,
+                              @Query("post") post: Int): Observable<MutableList<Post>>
 }

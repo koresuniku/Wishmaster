@@ -19,7 +19,7 @@ package com.koresuniku.wishmaster.core.modules.dashboard
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListData
-import com.koresuniku.wishmaster.core.network.boards_api.BoardsResponseParser
+import com.koresuniku.wishmaster.core.data.network.boards_api.BoardsResponseParser
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

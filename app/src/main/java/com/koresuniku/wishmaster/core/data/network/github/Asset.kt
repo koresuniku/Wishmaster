@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.network
+package com.koresuniku.wishmaster.core.data.network.github
+
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 /**
- * Created by koresuniku on 03.10.17.
+ * Created by koresuniku on 2/18/18.
  */
 
-object Dvach {
+class Asset {
 
-    const val BASE_URL = "https://2ch.hk"
-    val MIRRORS = arrayListOf("https://2ch.hk", "https://2ch.pm", "https://2ch.re",
-            "https://2ch.tf", "https://2ch.wf", "https://2ch.yt", "https://2-ch.so")
+    @SerializedName("browser_download_url")
+    @Expose
+    lateinit var downloadLink: String
+
+    @SerializedName("name")
+    @Expose
+    lateinit var name: String
+
 }

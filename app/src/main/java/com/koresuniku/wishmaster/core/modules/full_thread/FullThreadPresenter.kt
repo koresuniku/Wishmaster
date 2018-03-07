@@ -23,10 +23,6 @@ import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.base.BaseMvpPresenter
 import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
-import com.koresuniku.wishmaster.core.data.model.threads.File
-import com.koresuniku.wishmaster.core.modules.gallery.GalleryState
-import com.koresuniku.wishmaster.core.modules.gallery.IGalleryItem
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -50,7 +46,7 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
     override var fullThreadAdapterView: FullThreadMvpContract.IFullThreadAdapterView? = null
 
     override var presenterData: PostListData = PostListData.emptyData()
-    //private var previewImageCoordinates: WishmasterImageUtils.ImageCoordinates? = null
+    //private var previewImageCoordinates: WMImageUtils.ImageCoordinates? = null
 
     override fun bindView(mvpView: FullThreadMvpContract.IFulThreadMainView) {
         super.bindView(mvpView)
@@ -168,9 +164,9 @@ class FullThreadPresenter @Inject constructor(private val injector: IWishmasterD
 //    }
 //
 //    override fun getPreviewImageCoordinates() =
-//            previewImageCoordinates ?: WishmasterImageUtils.ImageCoordinates(0, 0, 0, 0)
+//            previewImageCoordinates ?: WMImageUtils.ImageCoordinates(0, 0, 0, 0)
 //
-//    override fun setPreviewImageCoordinates(coordinates: WishmasterImageUtils.ImageCoordinates) {
+//    override fun setPreviewImageCoordinates(coordinates: WMImageUtils.ImageCoordinates) {
 //        this.previewImageCoordinates = coordinates
 //    }
 //

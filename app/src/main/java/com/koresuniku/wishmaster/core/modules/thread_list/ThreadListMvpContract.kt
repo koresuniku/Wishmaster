@@ -24,10 +24,10 @@ import com.koresuniku.wishmaster.core.base.IMvpView
 import com.koresuniku.wishmaster.core.base.INetworkInteractor
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
-import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListApiService
-import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListJsonSchemaCatalogResponse
-import com.koresuniku.wishmaster.core.network.thread_list_api.ThreadListJsonSchemaPageResponse
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
+import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListApiService
+import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListJsonSchemaCatalogResponse
+import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListJsonSchemaPageResponse
+import com.koresuniku.wishmaster.core.utils.images.WMImageUtils
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import io.reactivex.Single
 
@@ -63,10 +63,10 @@ object ThreadListMvpContract {
         fun setMaxLines(value: Int)
         fun setComment(comment: Spanned)
         fun setThreadShortInfo(info: String)
-        fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils)
+        fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WMImageUtils)
         fun setMultipleImages(imageItemDataList: List<ImageItemData>,
                               url: String,
-                              imageUtils: WishmasterImageUtils,
+                              imageUtils: WMImageUtils,
                               gridViewParams: WMGridView.GridViewParams,
                               summaryHeight: Int)
     }
