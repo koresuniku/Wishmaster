@@ -29,7 +29,6 @@ import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
  */
 
 class GalleryPagerAdapter(fragmentManager: FragmentManager,
-                          private val galleryPresenter: IGalleryPresenter,
                           private val mediaTypeMatcher: MediaTypeMatcher,
                           private val retrofitHolder: RetrofitHolder) :
         FragmentStatePagerAdapter(fragmentManager) {
@@ -51,7 +50,7 @@ class GalleryPagerAdapter(fragmentManager: FragmentManager,
                 fragment.arguments = args
                 fragment
             }
-            else -> GalleryFragment()
+            else -> Fragment()
         }
 
     }

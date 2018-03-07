@@ -33,7 +33,7 @@ import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.module.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.module.thread_list.ThreadListContract
 import com.koresuniku.wishmaster.application.global.WMImageUtils
-import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
+import com.koresuniku.wishmaster.ui.gallery.PreviewImageGridAdapter
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import javax.inject.Inject
 

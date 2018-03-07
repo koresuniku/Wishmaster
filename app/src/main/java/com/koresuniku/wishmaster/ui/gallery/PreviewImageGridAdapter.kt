@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.ui.gallery.preview
+package com.koresuniku.wishmaster.ui.gallery
 
 import android.view.LayoutInflater
 import android.view.View

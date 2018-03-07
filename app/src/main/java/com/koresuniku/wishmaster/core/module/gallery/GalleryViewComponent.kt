@@ -16,10 +16,9 @@
 
 package com.koresuniku.wishmaster.core.module.gallery
 
-import android.support.v4.app.FragmentStatePagerAdapter
 import com.koresuniku.wishmaster.ui.gallery.GalleryImageFragment
 import com.koresuniku.wishmaster.ui.gallery.GalleryPagerAdapter
-import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
+import com.koresuniku.wishmaster.ui.gallery.PreviewImageGridAdapter
 import dagger.Component
 
 /**
