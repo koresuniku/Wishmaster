@@ -20,6 +20,7 @@ import android.content.Context
 import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.threads.File
+import com.koresuniku.wishmaster.ui.gallery.GalleryImageFragment
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -35,6 +36,7 @@ class GalleryInteractor @Inject constructor(injector: IWishmasterDependencyInjec
     @Inject lateinit var compositeDisposable: CompositeDisposable
     @Inject lateinit var imageUtils: WMImageUtils
     @Inject lateinit var context: Context
+    @Inject lateinit var mediaTypeMatcher: MediaTypeMatcher
 
     init {
         //injector.daggerGalleryBusinessLogicComponent.inject(this)
@@ -48,4 +50,6 @@ class GalleryInteractor @Inject constructor(injector: IWishmasterDependencyInjec
                     .subscribe(e::onSuccess))
         }
     }
+
+    override fun matchFile(file: File) = mediaTypeMatcher.matchFile(file)
 }

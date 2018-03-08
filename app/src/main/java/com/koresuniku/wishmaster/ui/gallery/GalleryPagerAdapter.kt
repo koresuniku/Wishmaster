@@ -21,29 +21,33 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.module.gallery.MediaTypeMatcher
-import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
+import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
+import javax.inject.Inject
 
 /**
  * Created by koresuniku on 2/28/18.
  */
 
-class GalleryPagerAdapter(fragmentManager: FragmentManager,
-                          private val mediaTypeMatcher: MediaTypeMatcher,
-                          private val retrofitHolder: RetrofitHolder) :
+class GalleryPagerAdapter(fragmentManager: FragmentManager, injector: IWishmasterDependencyInjector) :
         FragmentStatePagerAdapter(fragmentManager) {
+
+    @Inject lateinit var galleryPresenter: GalleryContract.IGalleryPresenter
+
+    init {
+        //injector.daggerGalleryViewComponent.inject(this)
+    }
 
     companion object {
         const val FRAGMENT_POSITION_KEY = "fragment_position"
-        const val URL = "url"
     }
 
     override fun getItem(position: Int): Fragment {
         val args = Bundle()
         args.putInt(FRAGMENT_POSITION_KEY, position)
-        args.putString(URL, retrofitHolder.getDvachBaseUrl())
 
-        return when (mediaTypeMatcher.matchFile(galleryPresenter.getFile(position))) {
+        return when (galleryPresenter.matchFile(position)) {
             MediaTypeMatcher.MediaType.IMAGE -> {
                 val fragment = GalleryImageFragment.newInstance(
                         galleryPresenter)
@@ -56,5 +60,5 @@ class GalleryPagerAdapter(fragmentManager: FragmentManager,
     }
 
     override fun getItemPosition(`object`: Any) = PagerAdapter.POSITION_NONE
-    override fun getCount() = galleryPresenter.getGalleryState().fileListInList.size
+    override fun getCount() = galleryPresenter.files.size
 }

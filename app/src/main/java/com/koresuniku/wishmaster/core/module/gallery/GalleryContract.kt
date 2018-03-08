@@ -48,6 +48,7 @@ object GalleryContract {
         fun onGalleryLayoutClicked()
         fun getFile(position: Int): File
         fun getImageTargetCoordinates(position: Int, item: GalleryContract.IGalleryItem)
+        fun matchFile(position: Int): MediaTypeMatcher.MediaType
     }
 
     interface IGalleryDataProvider {
@@ -57,5 +58,6 @@ object GalleryContract {
     //GalleryInteractor
     interface IGalleryInteractor : IMvpView {
         fun computeActualDimensions(file: File): Single<WMImageUtils.ImageCoordinates>
+        fun matchFile(file: File): MediaTypeMatcher.MediaType
     }
 }
