@@ -34,7 +34,8 @@ import javax.inject.Inject
 
 class ThreadListPresenter @Inject constructor(private val injector: IWishmasterDependencyInjector):
         BaseMvpPresenter<ThreadListContract.IThreadListMainView>(),
-        ThreadListContract.IThreadListPresenter, OnOrientationChangedListener {
+        ThreadListContract.IThreadListPresenter, OnOrientationChangedListener,
+        GalleryContract.IGalleryDataProvider {
     private val LOG_TAG = ThreadListPresenter::class.java.simpleName
 
     @Inject lateinit var compositeDisposable: CompositeDisposable

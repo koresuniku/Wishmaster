@@ -20,6 +20,7 @@ import android.content.Context
 import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.threads.File
+import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.ui.gallery.GalleryImageFragment
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -37,9 +38,10 @@ class GalleryInteractor @Inject constructor(injector: IWishmasterDependencyInjec
     @Inject lateinit var imageUtils: WMImageUtils
     @Inject lateinit var context: Context
     @Inject lateinit var mediaTypeMatcher: MediaTypeMatcher
+    @Inject lateinit var retrofitHolder: RetrofitHolder
 
     init {
-        //injector.daggerGalleryBusinessLogicComponent.inject(this)
+        injector.daggerGalleryLogicComponent.inject(this)
     }
 
     override fun computeActualDimensions(file: File): Single<WMImageUtils.ImageCoordinates> {
@@ -52,4 +54,6 @@ class GalleryInteractor @Inject constructor(injector: IWishmasterDependencyInjec
     }
 
     override fun matchFile(file: File) = mediaTypeMatcher.matchFile(file)
+
+    override fun getUrl() = retrofitHolder.getDvachBaseUrl()
 }

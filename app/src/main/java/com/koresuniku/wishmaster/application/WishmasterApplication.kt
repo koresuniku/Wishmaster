@@ -42,6 +42,7 @@ import com.koresuniku.wishmaster.core.module.thread_list.*
 import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.core.data.network.github.GithubHelper
 import com.koresuniku.wishmaster.core.data.network.github.GithubModule
+import com.koresuniku.wishmaster.core.module.gallery.*
 import com.koresuniku.wishmaster.core.module.settings.DaggerSettingsPresenterComponent
 import com.koresuniku.wishmaster.core.module.settings.DaggerSettingsViewComponent
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
@@ -155,6 +156,26 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
                 .settingsPresenterComponent(daggerSettingsPresenterComponent)
                 .settingsViewModule(SettingsViewModule())
                 .build() as DaggerSettingsViewComponent
+    }
+    override val daggerGalleryLogicComponent: DaggerGalleryLogicComponent by lazy {
+        DaggerGalleryLogicComponent.builder()
+                .applicationComponent(daggerApplicationComponent)
+                .galleryLogicModule(GalleryLogicModule())
+                .rxModule(RxModule())
+                .build() as DaggerGalleryLogicComponent
+    }
+    override val daggerGalleryPresenterComponent: DaggerGalleryPresenterComponent by lazy {
+        DaggerGalleryPresenterComponent.builder()
+                .galleryLogicComponent(daggerGalleryLogicComponent)
+                .galleryPresenterModule(GalleryPresenterModule())
+                .build() as DaggerGalleryPresenterComponent
+    }
+
+    override val daggerGalleryViewComponent: DaggerGalleryViewComponent by lazy {
+        DaggerGalleryViewComponent.builder()
+                .galleryPresenterComponent(daggerGalleryPresenterComponent)
+                .galleryViewModule(GalleryViewModule())
+                .build() as DaggerGalleryViewComponent
     }
 
     @Inject lateinit var okHttpClient: OkHttpClient

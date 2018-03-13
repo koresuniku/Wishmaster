@@ -16,7 +16,6 @@
 
 package com.koresuniku.wishmaster.ui.gallery
 
-import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
@@ -36,24 +35,13 @@ class GalleryPagerAdapter(fragmentManager: FragmentManager, injector: IWishmaste
     @Inject lateinit var galleryPresenter: GalleryContract.IGalleryPresenter
 
     init {
-        //injector.daggerGalleryViewComponent.inject(this)
-    }
-
-    companion object {
-        const val FRAGMENT_POSITION_KEY = "fragment_position"
+        injector.daggerGalleryViewComponent.inject(this)
     }
 
     override fun getItem(position: Int): Fragment {
-        val args = Bundle()
-        args.putInt(FRAGMENT_POSITION_KEY, position)
 
         return when (galleryPresenter.matchFile(position)) {
-            MediaTypeMatcher.MediaType.IMAGE -> {
-                val fragment = GalleryImageFragment.newInstance(
-                        galleryPresenter)
-                fragment.arguments = args
-                fragment
-            }
+            MediaTypeMatcher.MediaType.IMAGE -> GalleryImageFragment.newInstance(position)
             else -> Fragment()
         }
 

@@ -19,6 +19,7 @@ package com.koresuniku.wishmaster.core.module.gallery
 import com.koresuniku.wishmaster.ui.gallery.GalleryImageFragment
 import com.koresuniku.wishmaster.ui.gallery.GalleryPagerAdapter
 import com.koresuniku.wishmaster.ui.gallery.PreviewImageGridAdapter
+import com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity
 import dagger.Component
 
 /**
@@ -32,4 +33,5 @@ interface GalleryViewComponent {
     fun inject(previewImageGridAdapter: PreviewImageGridAdapter)
     fun inject(galleryPagerAdapter: GalleryPagerAdapter)
     fun inject(galleryImageFragment: GalleryImageFragment)
+    fun inject(threadListActivity: ThreadListActivity)
 }

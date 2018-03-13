@@ -16,6 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.gallery
 
+import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import dagger.Component
 
 /**
@@ -25,6 +26,7 @@ import dagger.Component
 @GalleryScopes.ForGalleryPresenter
 @Component(dependencies = [(GalleryLogicComponent::class)], modules = [(GalleryPresenterModule::class)])
 interface GalleryPresenterComponent {
+    fun injector(): IWishmasterDependencyInjector
 
     fun inject(galleryPresenter: GalleryPresenter)
 }

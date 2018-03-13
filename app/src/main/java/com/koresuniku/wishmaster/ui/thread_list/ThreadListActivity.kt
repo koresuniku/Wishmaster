@@ -40,6 +40,7 @@ import com.koresuniku.wishmaster.application.utils.IntentKeystore
 import com.koresuniku.wishmaster.core.module.thread_list.ThreadListContract
 import com.koresuniku.wishmaster.application.global.WMTextUtils
 import com.koresuniku.wishmaster.application.global.WMAnimationUtils
+import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
 import com.koresuniku.wishmaster.ui.gallery.GalleryPagerAdapter
@@ -54,10 +55,12 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadListMainView {
+class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadListMainView,
+        GalleryContract.IGalleryMainView {
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
     @Inject lateinit var presenter: ThreadListContract.IThreadListPresenter
+    @Inject lateinit var galleryPresenter: GalleryContract.IGalleryPresenter
     @Inject lateinit var textUtils: WMTextUtils
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var WMAnimationUtils: WMAnimationUtils
@@ -84,8 +87,10 @@ class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadL
 
     @SuppressLint("newApi")
     override fun onCreate(savedInstanceState: Bundle?) {
-        getWishmasterApplication().daggerThreadListViewComponent.inject(this)
         super.onCreate(savedInstanceState)
+        getWishmasterApplication().daggerThreadListViewComponent.inject(this)
+        getWishmasterApplication().daggerGalleryViewComponent.inject(this)
+
 
         ButterKnife.bind(this)
         uiUtils.showSystemUI(this)
@@ -197,31 +202,40 @@ class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadL
 
     private var yCoordinate = 0f
     private fun setupViewPager() {
-//        mGalleryPagerAdapter = GalleryPagerAdapter(
-//                supportFragmentManager, presenter, mediaTypeMatcher, retrofitHolder)
-//        mGalleryViewPager.adapter = mGalleryPagerAdapter
-//        mGalleryLayout.setOnTouchListener { view, motionEvent ->
-//            when(motionEvent.action) {
-//                MotionEvent.ACTION_DOWN -> {
-//                    yCoordinate = view.y - motionEvent.rawY
-//                }
-//                MotionEvent.ACTION_MOVE -> {
-//                    view.animate().y(motionEvent.rawY + yCoordinate).setDuration(0).start()
-//                }
-//                MotionEvent.ACTION_UP -> {
-//                    //your stuff
-//                }
-//                else -> {}
-//            }
-//            true
-//        }
+        mGalleryPagerAdapter = GalleryPagerAdapter(supportFragmentManager, getWishmasterApplication())
+        mGalleryViewPager.adapter = mGalleryPagerAdapter
+        mGalleryLayout.setOnTouchListener { view, motionEvent ->
+            when(motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    yCoordinate = view.y - motionEvent.rawY
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    view.animate().y(motionEvent.rawY + yCoordinate).setDuration(0).start()
+                }
+                MotionEvent.ACTION_UP -> {
+                    //your stuff
+                }
+                else -> {}
+            }
+            true
+        }
     }
 
-//    override fun openGallery() {
+    override var isGalleryOpened: Boolean = false
+
+    override fun openGallery() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun closeGallery() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    //    override fun openGallery() {
 //        galleryOpenedState = true
 //
 //        mGalleryPagerAdapter.notifyDataSetChanged()
-//        mGalleryViewPager.setCurrentItem(presenter.getGalleryState().currentPostPosition, false)
+//        mGalleryViewPager.setCurrentItem(.currentPostPosition, false)
 //        mGalleryLayout.visibility = View.VISIBLE
 //
 //        mGalleryBackground.alpha = 0f

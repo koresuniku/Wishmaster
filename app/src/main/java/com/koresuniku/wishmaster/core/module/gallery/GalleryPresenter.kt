@@ -33,18 +33,15 @@ class GalleryPresenter @Inject constructor(injector: IWishmasterDependencyInject
         BaseMvpPresenter<GalleryContract.IGalleryMainView>(),
         GalleryContract.IGalleryPresenter {
 
-    @Inject
-    override lateinit var galleryState: GalleryState
-    @Inject
-    lateinit var compositeDisposable: CompositeDisposable
-    @Inject
-    lateinit var galleryInteractor: GalleryContract.IGalleryInteractor
+    @Inject override lateinit var galleryState: GalleryState
+    @Inject lateinit var compositeDisposable: CompositeDisposable
+    @Inject lateinit var galleryInteractor: GalleryContract.IGalleryInteractor
 
     override lateinit var previewCoordinates: WMImageUtils.ImageCoordinates
     override lateinit var files: List<File>
 
     init {
-        //injector.daggerGalleryPresenterComponent.inject(this)
+        injector.daggerGalleryPresenterComponent.inject(this)
     }
 
     override fun onOpenGalleryClick(postPosition: Int, filePosition: Int) {
@@ -67,4 +64,6 @@ class GalleryPresenter @Inject constructor(injector: IWishmasterDependencyInject
     }
 
     override fun matchFile(position: Int) = galleryInteractor.matchFile(files[position])
+
+    override fun getUrl() = galleryInteractor.getUrl()
 }
