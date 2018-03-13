@@ -16,23 +16,11 @@
 
 package com.koresuniku.wishmaster.core.module.gallery
 
-import javax.inject.Scope
-
 /**
- * Created by koresuniku on 3/7/18.
+ * Created by koresuniku on 13.03.18.
  */
 
-object GalleryScopes {
+interface IGalleryLogicComponent {
 
-    @Scope
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class ForGalleryLogic
-
-    @Scope
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class ForGalleryPresenter
-
-    @Scope
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class ForGalleryView
+    fun inject(galleryInteractor: GalleryInteractor)
 }

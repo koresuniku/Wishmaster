@@ -111,18 +111,21 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
         DaggerThreadListLogicComponent.builder()
                 .applicationComponent(daggerApplicationComponent)
                 .threadListLogicModule(ThreadListLogicModule())
+                .galleryLogicModule(GalleryLogicModule(daggerThreadListLogicComponent))
                 .rxModule(RxModule())
                 .build() as DaggerThreadListLogicComponent
     }
     override val daggerThreadListPresenterComponent: DaggerThreadListPresenterComponent by lazy {
         DaggerThreadListPresenterComponent.builder()
                 .threadListLogicComponent(daggerThreadListLogicComponent)
+                .galleryPresenterModule(GalleryPresenterModule(daggerThreadListViewComponent))
                 .build() as DaggerThreadListPresenterComponent
     }
     override val daggerThreadListViewComponent: DaggerThreadListViewComponent by lazy {
         DaggerThreadListViewComponent.builder()
                 .threadListPresenterComponent(daggerThreadListPresenterComponent)
                 .threadListViewModule(ThreadListViewModule())
+                .galleryViewModule(GalleryViewModule(daggerThreadListPresenterComponent))
                 .build() as DaggerThreadListViewComponent
     }
     override val daggerFullThreadLogicComponent: DaggerFullThreadLogicComponent by lazy {
@@ -156,26 +159,6 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
                 .settingsPresenterComponent(daggerSettingsPresenterComponent)
                 .settingsViewModule(SettingsViewModule())
                 .build() as DaggerSettingsViewComponent
-    }
-    override val daggerGalleryLogicComponent: DaggerGalleryLogicComponent by lazy {
-        DaggerGalleryLogicComponent.builder()
-                .applicationComponent(daggerApplicationComponent)
-                .galleryLogicModule(GalleryLogicModule())
-                .rxModule(RxModule())
-                .build() as DaggerGalleryLogicComponent
-    }
-    override val daggerGalleryPresenterComponent: DaggerGalleryPresenterComponent by lazy {
-        DaggerGalleryPresenterComponent.builder()
-                .galleryLogicComponent(daggerGalleryLogicComponent)
-                .galleryPresenterModule(GalleryPresenterModule())
-                .build() as DaggerGalleryPresenterComponent
-    }
-
-    override val daggerGalleryViewComponent: DaggerGalleryViewComponent by lazy {
-        DaggerGalleryViewComponent.builder()
-                .galleryPresenterComponent(daggerGalleryPresenterComponent)
-                .galleryViewModule(GalleryViewModule())
-                .build() as DaggerGalleryViewComponent
     }
 
     @Inject lateinit var okHttpClient: OkHttpClient

@@ -41,9 +41,11 @@ import com.koresuniku.wishmaster.core.module.thread_list.ThreadListContract
 import com.koresuniku.wishmaster.application.global.WMTextUtils
 import com.koresuniku.wishmaster.application.global.WMAnimationUtils
 import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
+import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
 import com.koresuniku.wishmaster.ui.gallery.GalleryPagerAdapter
+import com.koresuniku.wishmaster.ui.gallery.IGalleryActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.view.recycler_view_fast_scroller.RecyclerFastScroller
 import com.koresuniku.wishmaster.ui.view.widget.WishmasterRecyclerView
@@ -55,15 +57,14 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadListMainView,
-        GalleryContract.IGalleryMainView {
+class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadListMainView, IGalleryActivity {
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
     @Inject lateinit var presenter: ThreadListContract.IThreadListPresenter
-    @Inject lateinit var galleryPresenter: GalleryContract.IGalleryPresenter
     @Inject lateinit var textUtils: WMTextUtils
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var WMAnimationUtils: WMAnimationUtils
+    @Inject override lateinit var galleryViewComponent: IGalleryViewComponent
 
     @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
     @BindView(R.id.app_bar_layout) lateinit var mAppBarLayout: AppBarLayout
@@ -77,9 +78,9 @@ class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadL
     @BindView(R.id.recycler_view) lateinit var mRecyclerView: WishmasterRecyclerView
     @BindView(R.id.scroller) lateinit var mScroller: RecyclerFastScroller
     @BindView(R.id.background) lateinit var mBackground: ImageView
-    @BindView(R.id.gallery_layout) lateinit var mGalleryLayout: ViewGroup
-    @BindView(R.id.gallery_background) lateinit var mGalleryBackground: View
-    @BindView(R.id.gallery_view_pager) lateinit var mGalleryViewPager: ViewPager
+//    @BindView(R.id.gallery_layout) lateinit var mGalleryLayout: ViewGroup
+//    @BindView(R.id.gallery_background) lateinit var mGalleryBackground: View
+//    @BindView(R.id.gallery_view_pager) lateinit var mGalleryViewPager: ViewPager
 
     private lateinit var mThreadListRecyclerViewAdapter: ThreadListRecyclerViewAdapter
     private lateinit var mGalleryPagerAdapter: GalleryPagerAdapter
@@ -89,8 +90,6 @@ class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getWishmasterApplication().daggerThreadListViewComponent.inject(this)
-        getWishmasterApplication().daggerGalleryViewComponent.inject(this)
-
 
         ButterKnife.bind(this)
         uiUtils.showSystemUI(this)
@@ -106,8 +105,7 @@ class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadL
         presenter.loadThreadList()
     }
 
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+            override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.thread_list_menu, menu)
         activityMenu = menu
         return super.onCreateOptionsMenu(menu)
@@ -202,33 +200,23 @@ class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadL
 
     private var yCoordinate = 0f
     private fun setupViewPager() {
-        mGalleryPagerAdapter = GalleryPagerAdapter(supportFragmentManager, getWishmasterApplication())
-        mGalleryViewPager.adapter = mGalleryPagerAdapter
-        mGalleryLayout.setOnTouchListener { view, motionEvent ->
-            when(motionEvent.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    yCoordinate = view.y - motionEvent.rawY
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    view.animate().y(motionEvent.rawY + yCoordinate).setDuration(0).start()
-                }
-                MotionEvent.ACTION_UP -> {
-                    //your stuff
-                }
-                else -> {}
-            }
-            true
-        }
-    }
-
-    override var isGalleryOpened: Boolean = false
-
-    override fun openGallery() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun closeGallery() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        mGalleryPagerAdapter = GalleryPagerAdapter(supportFragmentManager, getWishmasterApplication())
+//        mGalleryViewPager.adapter = mGalleryPagerAdapter
+//        mGalleryLayout.setOnTouchListener { view, motionEvent ->
+//            when(motionEvent.action) {
+//                MotionEvent.ACTION_DOWN -> {
+//                    yCoordinate = view.y - motionEvent.rawY
+//                }
+//                MotionEvent.ACTION_MOVE -> {
+//                    view.animate().y(motionEvent.rawY + yCoordinate).setDuration(0).start()
+//                }
+//                MotionEvent.ACTION_UP -> {
+//                    //your stuff
+//                }
+//                else -> {}
+//            }
+//            true
+//        }
     }
 
     //    override fun openGallery() {

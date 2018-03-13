@@ -39,6 +39,7 @@ abstract class BaseWishmasterActivity : BaseDrawerActivity(), IWishamsterActivit
     protected var isActivityDestroyed = false
     protected var isActivityReentered = false
     protected var activityMenu: Menu? = null
+    protected var onBackPressedListener: OnBackPressedListener? = null
 
     @LayoutRes abstract override fun provideContentLayoutResource(): Int
     abstract fun provideFromActivityRequestCode(): Int
@@ -57,7 +58,9 @@ abstract class BaseWishmasterActivity : BaseDrawerActivity(), IWishamsterActivit
 
     override fun onBackPressed() {
         setResult(Activity.RESULT_OK)
-        super.onBackPressed()
+        if (onBackPressedListener != null) {
+            onBackPressedListener?.let { if (it.doBack()) super.onBackPressed() }
+        } else super.onBackPressed()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -16,18 +16,11 @@
 
 package com.koresuniku.wishmaster.core.module.gallery
 
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
-import dagger.Module
-import dagger.Provides
-
 /**
- * Created by koresuniku on 3/7/18.
+ * Created by koresuniku on 13.03.18.
  */
 
-@Module
-class GalleryLogicModule(private val galleryLogicComponent: IGalleryLogicComponent) {
+interface IGalleryPresenterComponent {
 
-    @Provides
-    fun provideGalleryInteractor():
-            GalleryContract.IGalleryInteractor = GalleryInteractor(galleryLogicComponent)
+    fun inject(galleryPresenter: GalleryPresenter)
 }

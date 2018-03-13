@@ -58,8 +58,8 @@ class GalleryImageFragment : BaseWishmasterFragment(), GalleryContract.IGalleryI
     private lateinit var mUrl: String
 
     init {
-        (activity?.application as WishmasterApplication)
-                .daggerGalleryViewComponent
+        (activity?.application as IGalleryActivity)
+                .galleryViewComponent
                 .inject(this)
     }
 

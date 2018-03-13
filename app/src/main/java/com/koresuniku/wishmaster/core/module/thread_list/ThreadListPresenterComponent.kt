@@ -17,17 +17,22 @@
 package com.koresuniku.wishmaster.core.module.thread_list
 
 import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.core.module.gallery.GalleryPresenter
+import com.koresuniku.wishmaster.core.module.gallery.GalleryPresenterModule
+import com.koresuniku.wishmaster.core.module.gallery.IGalleryPresenterComponent
+import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
 import dagger.Component
 
 /**
  * Created by koresuniku on 3/6/18.
  */
 
-
 @ThreadListScopes.ForThreadListPresenter
-@Component(dependencies = [ThreadListLogicComponent::class])
-interface ThreadListPresenterComponent {
+@Component(dependencies = [(ThreadListLogicComponent::class)],
+        modules = [(GalleryPresenterModule::class)])
+interface ThreadListPresenterComponent : IGalleryPresenterComponent {
     fun injector(): IWishmasterDependencyInjector
+    fun galleryViewComponent(): IGalleryViewComponent
 
     fun inject(threadListPresenter: ThreadListPresenter)
 }

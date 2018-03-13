@@ -29,7 +29,7 @@ import javax.inject.Inject
  * Created by koresuniku on 3/7/18.
  */
 
-class GalleryPresenter @Inject constructor(injector: IWishmasterDependencyInjector) :
+class GalleryPresenter @Inject constructor(galleryPresenterComponent: IGalleryPresenterComponent) :
         BaseMvpPresenter<GalleryContract.IGalleryMainView>(),
         GalleryContract.IGalleryPresenter {
 
@@ -41,7 +41,7 @@ class GalleryPresenter @Inject constructor(injector: IWishmasterDependencyInject
     override lateinit var files: List<File>
 
     init {
-        injector.daggerGalleryPresenterComponent.inject(this)
+        galleryPresenterComponent.inject(this)
     }
 
     override fun onOpenGalleryClick(postPosition: Int, filePosition: Int) {

@@ -25,10 +25,9 @@ import dagger.Provides
  */
 
 @Module
-class GalleryViewModule {
+class GalleryViewModule(private val galleryPresenterComponent: IGalleryPresenterComponent) {
 
     @Provides
-    @GalleryScopes.ForGalleryView
-    fun provideGalleryPresenter(injector: IWishmasterDependencyInjector):
-            GalleryContract.IGalleryPresenter = GalleryPresenter(injector)
+    fun provideGalleryPresenter():
+            GalleryContract.IGalleryPresenter = GalleryPresenter(galleryPresenterComponent)
 }

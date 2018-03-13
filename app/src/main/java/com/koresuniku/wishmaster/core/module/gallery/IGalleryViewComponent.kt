@@ -16,22 +16,17 @@
 
 package com.koresuniku.wishmaster.core.module.gallery
 
+import com.koresuniku.wishmaster.ui.gallery.GalleryFragment
 import com.koresuniku.wishmaster.ui.gallery.GalleryImageFragment
 import com.koresuniku.wishmaster.ui.gallery.GalleryPagerAdapter
-import com.koresuniku.wishmaster.ui.gallery.PreviewImageGridAdapter
-import com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity
-import dagger.Component
 
 /**
- * Created by koresuniku on 3/7/18.
+ * Created by koresuniku on 13.03.18.
  */
 
-@GalleryScopes.ForGalleryView
-@Component(dependencies = [GalleryPresenterComponent::class], modules = [(GalleryViewModule::class)])
-interface GalleryViewComponent {
+interface IGalleryViewComponent {
 
-    fun inject(previewImageGridAdapter: PreviewImageGridAdapter)
     fun inject(galleryPagerAdapter: GalleryPagerAdapter)
     fun inject(galleryImageFragment: GalleryImageFragment)
-    fun inject(threadListActivity: ThreadListActivity)
+    fun inject(galleryFragment: GalleryFragment)
 }

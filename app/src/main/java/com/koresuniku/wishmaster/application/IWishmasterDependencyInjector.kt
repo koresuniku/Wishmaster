@@ -23,9 +23,6 @@ import com.koresuniku.wishmaster.core.module.dashboard.DaggerDashboardViewCompon
 import com.koresuniku.wishmaster.core.module.full_thread.DaggerFullThreadLogicComponent
 import com.koresuniku.wishmaster.core.module.full_thread.DaggerFullThreadPresenterComponent
 import com.koresuniku.wishmaster.core.module.full_thread.DaggerFullThreadViewComponent
-import com.koresuniku.wishmaster.core.module.gallery.DaggerGalleryLogicComponent
-import com.koresuniku.wishmaster.core.module.gallery.DaggerGalleryPresenterComponent
-import com.koresuniku.wishmaster.core.module.gallery.DaggerGalleryViewComponent
 import com.koresuniku.wishmaster.core.module.settings.DaggerSettingsPresenterComponent
 import com.koresuniku.wishmaster.core.module.settings.DaggerSettingsViewComponent
 import com.koresuniku.wishmaster.core.module.thread_list.DaggerThreadListLogicComponent
@@ -50,8 +47,4 @@ interface IWishmasterDependencyInjector {
 
     val daggerSettingsPresenterComponent: DaggerSettingsPresenterComponent
     val daggerSettingsViewComponent: DaggerSettingsViewComponent
-
-    val daggerGalleryLogicComponent: DaggerGalleryLogicComponent
-    val daggerGalleryPresenterComponent: DaggerGalleryPresenterComponent
-    val daggerGalleryViewComponent: DaggerGalleryViewComponent
 }

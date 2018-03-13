@@ -16,6 +16,12 @@
 
 package com.koresuniku.wishmaster.core.module.thread_list
 
+import com.koresuniku.wishmaster.core.module.gallery.GalleryViewModule
+import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
+import com.koresuniku.wishmaster.ui.gallery.GalleryFragment
+import com.koresuniku.wishmaster.ui.gallery.GalleryImageFragment
+import com.koresuniku.wishmaster.ui.gallery.GalleryPagerAdapter
+import com.koresuniku.wishmaster.ui.gallery.PreviewImageGridAdapter
 import com.koresuniku.wishmaster.ui.thread_list.ThreadItemViewHolder
 import com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity
 import com.koresuniku.wishmaster.ui.thread_list.ThreadListRecyclerViewAdapter
@@ -26,12 +32,12 @@ import dagger.Component
  */
 
 @ThreadListScopes.ForThreadListView
-@Component(dependencies = [(ThreadListPresenterComponent::class)],
-        modules = [(ThreadListViewModule::class)])
-interface ThreadListViewComponent {
+@Component(dependencies = [ThreadListPresenterComponent::class],
+        modules = [(ThreadListViewModule::class), (GalleryViewModule::class)])
+interface ThreadListViewComponent : IGalleryViewComponent {
 
     fun inject(activity: ThreadListActivity)
     fun inject(threadListAdapterView: ThreadListRecyclerViewAdapter)
     fun inject(threadItemViewHolder: ThreadItemViewHolder)
-
+    fun inject(previewImageGridAdapter: PreviewImageGridAdapter)
 }

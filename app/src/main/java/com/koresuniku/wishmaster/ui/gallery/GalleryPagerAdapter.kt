@@ -23,19 +23,20 @@ import android.support.v4.view.PagerAdapter
 import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.module.gallery.MediaTypeMatcher
 import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
+import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
 import javax.inject.Inject
 
 /**
  * Created by koresuniku on 2/28/18.
  */
 
-class GalleryPagerAdapter(fragmentManager: FragmentManager, injector: IWishmasterDependencyInjector) :
+class GalleryPagerAdapter(fragmentManager: FragmentManager, galleryViewComponent: IGalleryViewComponent) :
         FragmentStatePagerAdapter(fragmentManager) {
 
     @Inject lateinit var galleryPresenter: GalleryContract.IGalleryPresenter
 
     init {
-        injector.daggerGalleryViewComponent.inject(this)
+        galleryViewComponent.inject(this)
     }
 
     override fun getItem(position: Int): Fragment {

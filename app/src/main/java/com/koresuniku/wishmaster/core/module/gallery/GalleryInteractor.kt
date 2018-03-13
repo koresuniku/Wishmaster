@@ -31,7 +31,7 @@ import javax.inject.Inject
  * Created by koresuniku on 3/4/18.
  */
 
-class GalleryInteractor @Inject constructor(injector: IWishmasterDependencyInjector):
+class GalleryInteractor @Inject constructor(galleryLogicComponent: IGalleryLogicComponent):
         GalleryContract.IGalleryInteractor {
 
     @Inject lateinit var compositeDisposable: CompositeDisposable
@@ -41,7 +41,7 @@ class GalleryInteractor @Inject constructor(injector: IWishmasterDependencyInjec
     @Inject lateinit var retrofitHolder: RetrofitHolder
 
     init {
-        injector.daggerGalleryLogicComponent.inject(this)
+        galleryLogicComponent.inject(this)
     }
 
     override fun computeActualDimensions(file: File): Single<WMImageUtils.ImageCoordinates> {

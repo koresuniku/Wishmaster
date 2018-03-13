@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.module.gallery
+package com.koresuniku.wishmaster.ui.gallery
 
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
-import dagger.Component
+import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
 
 /**
- * Created by koresuniku on 3/7/18.
+ * Created by koresuniku on 13.03.18.
  */
 
-@GalleryScopes.ForGalleryPresenter
-@Component(dependencies = [(GalleryLogicComponent::class)], modules = [(GalleryPresenterModule::class)])
-interface GalleryPresenterComponent {
-    fun injector(): IWishmasterDependencyInjector
-
-    fun inject(galleryPresenter: GalleryPresenter)
+interface IGalleryActivity {
+    var galleryViewComponent: IGalleryViewComponent
 }

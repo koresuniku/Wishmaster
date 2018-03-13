@@ -21,10 +21,10 @@ import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.application.ApplicationComponent
 import com.koresuniku.wishmaster.application.global.RxModule
-import com.koresuniku.wishmaster.core.module.gallery.MediaTypeMatcher
 import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.application.global.WMTextUtils
 import com.koresuniku.wishmaster.application.global.WMAnimationUtils
+import com.koresuniku.wishmaster.core.module.gallery.*
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import dagger.Component
 import io.reactivex.disposables.CompositeDisposable
@@ -32,8 +32,8 @@ import io.reactivex.disposables.CompositeDisposable
 
 @ThreadListScopes.ForThreadListLogic
 @Component (dependencies = [ApplicationComponent::class],
-        modules = [(ThreadListLogicModule::class), (RxModule::class)])
-interface ThreadListLogicComponent {
+        modules = [(ThreadListLogicModule::class), (GalleryLogicModule::class), (RxModule::class)])
+interface ThreadListLogicComponent : IGalleryLogicComponent {
 
     //Global singletons
     fun injector(): IWishmasterDependencyInjector
@@ -49,8 +49,8 @@ interface ThreadListLogicComponent {
     //Interactors
     fun networkInteractor(): ThreadListContract.IThreadListNetworkInteractor
     fun adapterViewInteractor(): ThreadListContract.IThreadListAdapterViewInteractor
+    fun galleryInteractor(): GalleryContract.IGalleryInteractor
 
     fun inject(networkInteractor: ThreadListNetworkInteractor)
     fun inject(adapterViewInteractor: ThreadListAdapterViewInteractor)
-
 }
