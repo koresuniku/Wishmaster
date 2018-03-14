@@ -17,14 +17,14 @@
 package com.koresuniku.wishmaster.core.module.settings
 
 import com.koresuniku.wishmaster.core.base.BaseMvpPresenter
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import javax.inject.Inject
 
 /**
  * Created by koresuniku on 3/7/18.
  */
 
-class SettingsPresenter @Inject constructor(injector: IWishmasterDependencyInjector):
+class SettingsPresenter @Inject constructor(injector: IWMDependencyInjector):
         BaseMvpPresenter<SettingsContract.ISettingsMainView>(),
         SettingsContract.ISettingsPresenter {
 

@@ -17,7 +17,7 @@
 package com.koresuniku.wishmaster.core.module.dashboard
 
 import com.koresuniku.wishmaster.core.base.BaseDatabaseInteractor
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListsObject
 import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
@@ -29,7 +29,7 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
-class DashboardDatabaseInteractor @Inject constructor(injector: IWishmasterDependencyInjector):
+class DashboardDatabaseInteractor @Inject constructor(injector: IWMDependencyInjector):
         BaseDatabaseInteractor(), DashboardContract.IDashboardDatabaseInteractor {
 
     @Inject override lateinit var databaseHelper: DatabaseHelper

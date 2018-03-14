@@ -18,14 +18,14 @@ package com.koresuniku.wishmaster.core.module.dashboard
 
 import com.koresuniku.wishmaster.application.preferences.ISharedPreferencesStorage
 import com.koresuniku.wishmaster.application.preferences.SharedPreferencesKeystore
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class DashboardSharedPreferencesInteractor @Inject constructor(injector: IWishmasterDependencyInjector) :
+class DashboardSharedPreferencesInteractor @Inject constructor(injector: IWMDependencyInjector) :
         DashboardContract.IDashboardSharedPreferencesInteractor {
 
     @Inject override lateinit var sharedPreferencesStorage: ISharedPreferencesStorage

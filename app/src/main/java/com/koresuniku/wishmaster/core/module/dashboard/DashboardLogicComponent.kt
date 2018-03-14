@@ -19,7 +19,7 @@ package com.koresuniku.wishmaster.core.module.dashboard
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.global.WMDownloadManager
 import com.koresuniku.wishmaster.application.global.WMPermissionManager
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.application.ApplicationComponent
 import com.koresuniku.wishmaster.application.global.RxModule
 import com.koresuniku.wishmaster.application.global.WMAnimationUtils
@@ -36,7 +36,7 @@ import io.reactivex.disposables.CompositeDisposable
 interface DashboardLogicComponent {
 
     //Global singletons
-    fun injector(): IWishmasterDependencyInjector
+    fun injector(): IWMDependencyInjector
     fun uiUtils(): UiUtils
     fun viewUtils(): ViewUtils
     fun animationUtils(): WMAnimationUtils

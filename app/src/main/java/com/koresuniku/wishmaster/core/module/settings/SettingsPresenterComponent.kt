@@ -17,7 +17,7 @@
 package com.koresuniku.wishmaster.core.module.settings
 
 import com.koresuniku.wishmaster.application.ApplicationComponent
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.application.global.RxModule
 import dagger.Component
 import io.reactivex.disposables.CompositeDisposable
@@ -31,6 +31,6 @@ import io.reactivex.disposables.CompositeDisposable
         modules = [(SettingsPresenterModule::class), (RxModule::class)])
 interface SettingsPresenterComponent {
 
-    fun injector(): IWishmasterDependencyInjector
+    fun injector(): IWMDependencyInjector
     fun compositeDisposable(): CompositeDisposable
 }

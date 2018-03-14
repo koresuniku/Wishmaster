@@ -16,7 +16,6 @@
 
 package com.koresuniku.wishmaster.core.module.gallery
 
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import dagger.Module
 import dagger.Provides
 
@@ -28,5 +27,6 @@ import dagger.Provides
 class GalleryLogicModule {
 
     @Provides
+    @GalleryScopes.ForGalleryLogic
     fun provideMediaMatcher(): MediaTypeMatcher = MediaTypeMatcher()
 }

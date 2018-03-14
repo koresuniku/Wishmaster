@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.full_thread
 
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.data.network.full_thread_api.FullThreadApiService
 import io.reactivex.Single
@@ -24,7 +24,7 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
-class FullThreadNetworkInteractor @Inject constructor(injector: IWishmasterDependencyInjector):
+class FullThreadNetworkInteractor @Inject constructor(injector: IWMDependencyInjector):
         FullThreadContract.IFullThreadNetworkInteractor {
 
     @Inject lateinit var compositeDisposable: CompositeDisposable

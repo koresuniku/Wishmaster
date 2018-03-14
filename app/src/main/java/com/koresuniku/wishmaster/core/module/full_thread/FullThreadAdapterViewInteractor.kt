@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.module.full_thread
 
 import android.content.Context
 import com.koresuniku.wishmaster.application.global.UiParams
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
 import com.koresuniku.wishmaster.application.global.WMImageUtils
@@ -33,7 +33,7 @@ import javax.inject.Inject
  * Created by koresuniku on 2/14/18.
  */
 
-class FullThreadAdapterViewInteractor @Inject constructor(injector: IWishmasterDependencyInjector):
+class FullThreadAdapterViewInteractor @Inject constructor(injector: IWMDependencyInjector):
         FullThreadContract.IFullThreadAdapterViewInteractor{
 
     @Inject lateinit var uiParams: UiParams

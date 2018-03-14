@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.module.thread_list
 
 import android.content.Context
 import com.koresuniku.wishmaster.application.global.UiParams
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
@@ -33,7 +33,7 @@ import javax.inject.Inject
  * Created by koresuniku on 02.02.18.
  */
 
-class ThreadListAdapterViewInteractor @Inject constructor(injector: IWishmasterDependencyInjector):
+class ThreadListAdapterViewInteractor @Inject constructor(injector: IWMDependencyInjector):
         ThreadListContract.IThreadListAdapterViewInteractor {
 
     @Inject lateinit var uiParams: UiParams

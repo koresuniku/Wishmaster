@@ -29,10 +29,11 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.core.module.gallery.ImageItemData
 import com.koresuniku.wishmaster.core.module.thread_list.ThreadListContract
 import com.koresuniku.wishmaster.application.global.WMImageUtils
+import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import com.koresuniku.wishmaster.ui.gallery.PreviewImageGridAdapter
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import javax.inject.Inject
@@ -41,13 +42,14 @@ import javax.inject.Inject
  * Created by koresuniku on 07.01.18.
  */
 
-class ThreadItemViewHolder(itemView: View, injector: IWishmasterDependencyInjector) :
+class ThreadItemViewHolder(itemView: View, injector: IWMDependencyInjector) :
         RecyclerView.ViewHolder(itemView), ThreadListContract.IThreadItemView,
         WMGridView.OnNoItemClickListener,
-        WMGridView.OnImageItemClickListener{
+        WMGridView.OnImageItemClickListener {
     private val LOG_TAG = ThreadItemViewHolder::class.java.simpleName
 
     @Inject lateinit var presenter: ThreadListContract.IThreadListPresenter
+    @Inject lateinit var galleryPresenter: GalleryContract.IGalleryPresenter
 
     @Nullable @BindView(R.id.top) lateinit var mTop: View
     @Nullable @BindView(R.id.item_layout) lateinit var mItemLayout: ViewGroup
@@ -68,7 +70,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDependencyInject
 
     init {
         ButterKnife.bind(this, itemView)
-        injector.daggerThreadListViewComponent.inject(this)
+        injector.daggerThreadListViewComponent?.inject(this)
     }
 
     override fun adaptLayout(position: Int) {
@@ -102,7 +104,8 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDependencyInject
             image.getGlobalVisibleRect(rect)
             val coordinates = WMImageUtils.ImageCoordinates(
                     rect.left, rect.right, rect.top, rect.bottom)
-            //presenter.setPreviewImageCoordinates(coordinates)
+            galleryPresenter.previewCoordinates = coordinates
+            presenter.provideFiles(galleryPresenter, mThreadPosition)
             onImageItemClick(0)
         }
         imageLayout.setOnTouchListener { _, _ -> false }
@@ -134,6 +137,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDependencyInject
     override fun onNoItemClick() { presenter.onThreadItemClicked(threadNumber) }
 
     override fun onImageItemClick(position: Int) {
-        //presenter.onOpenGalleryClick(mThreadPosition, position)
+        Log.d(LOG_TAG, "onImageItemClick")
+        galleryPresenter.onOpenGalleryClick(mThreadPosition, position)
     }
 }

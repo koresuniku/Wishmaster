@@ -15,61 +15,49 @@
   ~ limitations under the License.
   -->
 
-<FrameLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"/>
+
+    <include
+        android:id="@+id/coordinator_view_kit"
+        layout="@layout/coordinator_view_kit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </include>
+
+    <include layout="@layout/loading_layout"
+             android:id="@+id/loading_layout"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+    </include>
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+    <include
+        android:id="@+id/error_layout"
+        layout="@layout/error_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        >
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:visibility="gone"/>
-
-        <ImageView
-            android:id="@+id/background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            app:srcCompat="@color/colorBackground"/>
-
-        <include
-            android:id="@+id/coordinator_view_kit"
-            layout="@layout/coordinator_view_kit"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-
-        </include>
-
-        <include
-            android:id="@+id/loading_layout"
-            layout="@layout/loading_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </include>
-
-        <include
-            android:id="@+id/error_layout"
-            layout="@layout/error_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </include>
-
-    </RelativeLayout>
+    </include>
 
 
-</FrameLayout>
+</RelativeLayout>

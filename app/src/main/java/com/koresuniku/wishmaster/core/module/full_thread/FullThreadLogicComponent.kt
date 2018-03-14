@@ -17,7 +17,7 @@
 package com.koresuniku.wishmaster.core.module.full_thread
 
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.application.ApplicationComponent
 import com.koresuniku.wishmaster.application.global.RxModule
 import com.koresuniku.wishmaster.application.global.WMTextUtils
@@ -36,7 +36,7 @@ import io.reactivex.disposables.CompositeDisposable
 interface FullThreadLogicComponent {
 
     //Global singletons
-    fun injector(): IWishmasterDependencyInjector
+    fun injector(): IWMDependencyInjector
     fun textUtils(): WMTextUtils
     fun uiUtils(): UiUtils
     fun orientationNotifier(): OrientationNotifier

@@ -75,7 +75,7 @@ import org.acra.config.ConfigurationBuilder
  */
 
 @ReportsCrashes(mailTo = "koresuniku@gmail.com")
-class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWishmasterDependencyInjector {
+class WMApplication @Inject constructor() : MultiDexApplication(), IWMDependencyInjector {
 
     override val daggerApplicationComponent: DaggerApplicationComponent by lazy {
         DaggerApplicationComponent.builder()
@@ -107,27 +107,11 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
                 .dashboardViewModule(DashboardViewModule())
                 .build() as DaggerDashboardViewComponent
     }
-    override val daggerThreadListLogicComponent: DaggerThreadListLogicComponent by lazy {
-        DaggerThreadListLogicComponent.builder()
-                .applicationComponent(daggerApplicationComponent)
-                .threadListLogicModule(ThreadListLogicModule())
-                .galleryLogicModule(GalleryLogicModule())
-                .rxModule(RxModule())
-                .build() as DaggerThreadListLogicComponent
-    }
-    override val daggerThreadListPresenterComponent: DaggerThreadListPresenterComponent by lazy {
-        DaggerThreadListPresenterComponent.builder()
-                .threadListLogicComponent(daggerThreadListLogicComponent)
-                .galleryPresenterModule(GalleryPresenterModule(daggerThreadListLogicComponent))
-                .build() as DaggerThreadListPresenterComponent
-    }
-    override val daggerThreadListViewComponent: DaggerThreadListViewComponent by lazy {
-        DaggerThreadListViewComponent.builder()
-                .threadListPresenterComponent(daggerThreadListPresenterComponent)
-                .threadListViewModule(ThreadListViewModule())
-                .galleryViewModule(GalleryViewModule(daggerThreadListPresenterComponent))
-                .build() as DaggerThreadListViewComponent
-    }
+
+    override lateinit var daggerThreadListLogicComponent: DaggerThreadListLogicComponent
+    override lateinit var daggerThreadListPresenterComponent:DaggerThreadListPresenterComponent
+    override lateinit var daggerThreadListViewComponent: DaggerThreadListViewComponent
+
     override val daggerFullThreadLogicComponent: DaggerFullThreadLogicComponent by lazy {
         DaggerFullThreadLogicComponent.builder()
                 .applicationComponent(daggerApplicationComponent)
@@ -218,5 +202,25 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
             uiParams.orientation = it.orientation
             orientationNotifier.notifyOrientation(it.orientation)
         }
+    }
+
+    override fun requestThreadListModule() {
+        daggerThreadListLogicComponent = DaggerThreadListLogicComponent.builder()
+                .applicationComponent(daggerApplicationComponent)
+                .threadListLogicModule(ThreadListLogicModule())
+                .galleryLogicModule(GalleryLogicModule())
+                .rxModule(RxModule())
+                .build() as DaggerThreadListLogicComponent
+
+        daggerThreadListPresenterComponent = DaggerThreadListPresenterComponent.builder()
+                .threadListLogicComponent(daggerThreadListLogicComponent)
+                .galleryPresenterModule(GalleryPresenterModule(daggerThreadListLogicComponent))
+                .build() as DaggerThreadListPresenterComponent
+
+        daggerThreadListViewComponent = DaggerThreadListViewComponent.builder()
+                .threadListPresenterComponent(daggerThreadListPresenterComponent)
+                .threadListViewModule(ThreadListViewModule())
+                .galleryViewModule(GalleryViewModule(daggerThreadListPresenterComponent))
+                .build() as DaggerThreadListViewComponent
     }
 }

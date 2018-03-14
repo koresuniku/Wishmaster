@@ -16,6 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.gallery
 
+import android.util.Log
 import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.core.base.BaseMvpPresenter
 import com.koresuniku.wishmaster.core.data.model.threads.File
@@ -37,7 +38,7 @@ class GalleryPresenter @Inject constructor(galleryPresenterComponent: IGalleryPr
     @Inject lateinit var galleryInteractor: GalleryContract.IGalleryInteractor
 
     override lateinit var previewCoordinates: WMImageUtils.ImageCoordinates
-    override lateinit var files: List<File>
+    override var files: List<File> = emptyList()
 
     init {
         galleryPresenterComponent.inject(this)
@@ -46,6 +47,10 @@ class GalleryPresenter @Inject constructor(galleryPresenterComponent: IGalleryPr
     override fun onOpenGalleryClick(postPosition: Int, filePosition: Int) {
         galleryState.currentPostPosition = postPosition
         galleryState.currentFilePosition = filePosition
+
+        Log.d("GP", "onOpenGalleryClick: ${this.hashCode()}")
+
+        mvpView?.openGallery()
     }
 
     override fun onGalleryLayoutClicked() {

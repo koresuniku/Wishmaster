@@ -61,7 +61,7 @@ interface ApplicationComponent {
     //Application
     fun application(): Application
     fun context(): Context
-    fun injector(): IWishmasterDependencyInjector
+    fun injector(): IWMDependencyInjector
 
     //SharedPreferences
     fun sharedPreferencesStorage(): ISharedPreferencesStorage
@@ -94,7 +94,7 @@ interface ApplicationComponent {
     fun orientationNotifier(): OrientationNotifier
     fun newReleaseNotifier(): NewReleaseNotifier
 
-    fun inject(application: WishmasterApplication)
+    fun inject(application: WMApplication)
     fun inject(service: WMFirebaseMessagingService)
     fun inject(service: WMFirebaseMessagingService.DownloadIntentService)
     fun inject(activity: StubActivity)

@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.data.network.github
 
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -31,7 +31,7 @@ class GithubModule {
 
     @Provides
     @Singleton
-    fun provideGithubReleaseListNetworkInteractor(injector: IWishmasterDependencyInjector):
+    fun provideGithubReleaseListNetworkInteractor(injector: IWMDependencyInjector):
             GithubReleaseListNetworkInteractor {
         return GithubReleaseListNetworkInteractor(injector)
     }

@@ -16,7 +16,6 @@
 
 package com.koresuniku.wishmaster.core.module.gallery
 
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import dagger.Module
 import dagger.Provides
 
@@ -28,6 +27,7 @@ import dagger.Provides
 class GalleryViewModule(private val galleryPresenterComponent: IGalleryPresenterComponent) {
 
     @Provides
+    @GalleryScopes.ForGalleryView
     fun provideGalleryPresenter():
             GalleryContract.IGalleryPresenter = GalleryPresenter(galleryPresenterComponent)
 }

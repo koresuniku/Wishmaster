@@ -21,7 +21,7 @@ import android.util.Log
 import com.koresuniku.wishmaster.application.notifier.OnOrientationChangedListener
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.base.BaseMvpPresenter
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import io.reactivex.Completable
@@ -34,7 +34,7 @@ import javax.inject.Inject
  * Created by koresuniku on 2/11/18.
  */
 
-class FullThreadPresenter @Inject constructor(private val injector: IWishmasterDependencyInjector):
+class FullThreadPresenter @Inject constructor(private val injector: IWMDependencyInjector):
         BaseMvpPresenter<FullThreadContract.IFulThreadMainView>(),
         FullThreadContract.IFullThreadPresenter, OnOrientationChangedListener {
     private val LOG_TAG = FullThreadPresenter::class.java.simpleName

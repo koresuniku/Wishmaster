@@ -25,7 +25,7 @@ import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListsObject
 import com.koresuniku.wishmaster.core.data.database.repository.BoardsRepository
 import com.koresuniku.wishmaster.core.module.dashboard.DashboardContract
@@ -36,7 +36,7 @@ import javax.inject.Inject
  * Created by koresuniku on 12.11.17.
  */
 
-class BoardListAdapter (injector: IWishmasterDependencyInjector,
+class BoardListAdapter (injector: IWMDependencyInjector,
                         private val mContext: WeakReference<Context>,
                         private val mBoardsListsObject: BoardListsObject)
     : BaseExpandableListAdapter() {

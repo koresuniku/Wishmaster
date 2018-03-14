@@ -16,6 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.thread_list
 
+import com.koresuniku.wishmaster.core.module.gallery.GalleryScopes
 import com.koresuniku.wishmaster.core.module.gallery.GalleryViewModule
 import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
 import com.koresuniku.wishmaster.ui.gallery.GalleryFragment
@@ -32,6 +33,7 @@ import dagger.Component
  */
 
 @ThreadListScopes.ForThreadListView
+@GalleryScopes.ForGalleryView
 @Component(dependencies = [ThreadListPresenterComponent::class],
         modules = [(ThreadListViewModule::class), (GalleryViewModule::class)])
 interface ThreadListViewComponent : IGalleryViewComponent {

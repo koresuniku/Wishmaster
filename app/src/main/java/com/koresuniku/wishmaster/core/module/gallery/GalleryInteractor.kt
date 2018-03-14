@@ -18,10 +18,8 @@ package com.koresuniku.wishmaster.core.module.gallery
 
 import android.content.Context
 import com.koresuniku.wishmaster.application.global.WMImageUtils
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.threads.File
 import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
-import com.koresuniku.wishmaster.ui.gallery.GalleryImageFragment
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

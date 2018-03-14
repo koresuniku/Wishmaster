@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.thread_list
 
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import dagger.Module
 import dagger.Provides
 
@@ -29,7 +29,7 @@ class ThreadListViewModule {
 
     @Provides
     @ThreadListScopes.ForThreadListView
-    fun provideThreadListPresenter(injector: IWishmasterDependencyInjector):
+    fun provideThreadListPresenter(injector: IWMDependencyInjector):
             ThreadListContract.IThreadListPresenter {
         return ThreadListPresenter(injector)
     }

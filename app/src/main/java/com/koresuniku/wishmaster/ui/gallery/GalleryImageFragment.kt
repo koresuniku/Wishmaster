@@ -34,7 +34,6 @@ import com.koresuniku.wishmaster.core.data.network.Dvach
 import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 import android.view.animation.Animation
-import com.koresuniku.wishmaster.application.WishmasterApplication
 import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
 import javax.inject.Inject
@@ -57,12 +56,6 @@ class GalleryImageFragment : BaseWishmasterFragment(), GalleryContract.IGalleryI
     private var mPosition = -1
     private lateinit var mUrl: String
 
-    init {
-        (activity?.application as IGalleryActivity<*>)
-                .galleryViewComponent
-                .inject(this)
-    }
-
     companion object {
         const val FRAGMENT_POSITION_KEY = "fragment_position"
 
@@ -78,6 +71,10 @@ class GalleryImageFragment : BaseWishmasterFragment(), GalleryContract.IGalleryI
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.gallery_image_layout, container, false) as ViewGroup
         ButterKnife.bind(this, rootView)
+
+        (activity as IGalleryActivity<*>)
+                .galleryViewComponent
+                .inject(this)
 
         bigImageView = rootView.findViewById(R.id.big_image_view)
 
@@ -144,6 +141,4 @@ class GalleryImageFragment : BaseWishmasterFragment(), GalleryContract.IGalleryI
         rootView.removeView(bigImageView)
         bigImageView = null
     }
-
-
 }

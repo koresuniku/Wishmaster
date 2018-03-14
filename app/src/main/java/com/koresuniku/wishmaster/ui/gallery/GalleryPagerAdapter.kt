@@ -20,7 +20,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.module.gallery.MediaTypeMatcher
 import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
@@ -40,12 +39,10 @@ class GalleryPagerAdapter(fragmentManager: FragmentManager, galleryViewComponent
     }
 
     override fun getItem(position: Int): Fragment {
-
         return when (galleryPresenter.matchFile(position)) {
             MediaTypeMatcher.MediaType.IMAGE -> GalleryImageFragment.newInstance(position)
             else -> Fragment()
         }
-
     }
 
     override fun getItemPosition(`object`: Any) = PagerAdapter.POSITION_NONE

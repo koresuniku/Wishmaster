@@ -22,7 +22,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster.core.module.thread_list.ThreadListContract
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
@@ -44,7 +44,7 @@ class ThreadListRecyclerViewAdapter() : RecyclerView.Adapter<ThreadItemViewHolde
 
     private lateinit var activity: WeakReference<Activity>
     @Inject lateinit var presenter: ThreadListContract.IThreadListPresenter
-    @Inject lateinit var injector: IWishmasterDependencyInjector
+    @Inject lateinit var injector: IWMDependencyInjector
 
     constructor(activity: BaseWishmasterActivity) : this() {
         activity.getWishmasterApplication().daggerThreadListViewComponent.inject(this)

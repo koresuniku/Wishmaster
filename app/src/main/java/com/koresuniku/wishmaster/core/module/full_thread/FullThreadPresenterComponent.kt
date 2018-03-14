@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.full_thread
 
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import dagger.Component
 
 /**
@@ -27,7 +27,7 @@ import dagger.Component
 @FullThreadScopes.ForFullThreadPresenter
 @Component(dependencies = [(FullThreadLogicComponent::class)])
 interface FullThreadPresenterComponent {
-    fun injector(): IWishmasterDependencyInjector
+    fun injector(): IWMDependencyInjector
 
     fun inject(fullThreadPresenter: FullThreadPresenter)
 }

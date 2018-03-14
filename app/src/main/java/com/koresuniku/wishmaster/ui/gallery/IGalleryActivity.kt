@@ -16,6 +16,7 @@
 
 package com.koresuniku.wishmaster.ui.gallery
 
+import android.view.ViewGroup
 import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
 
 /**
@@ -24,4 +25,5 @@ import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
 
 interface IGalleryActivity<C : IGalleryViewComponent> {
     var galleryViewComponent: C
+    var mGalleryLayout: ViewGroup
 }

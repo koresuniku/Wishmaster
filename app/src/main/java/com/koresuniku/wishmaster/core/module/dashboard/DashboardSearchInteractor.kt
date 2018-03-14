@@ -16,12 +16,12 @@
 
 package com.koresuniku.wishmaster.core.module.dashboard
 
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import io.reactivex.Single
 import javax.inject.Inject
 
 
-class DashboardSearchInteractor @Inject constructor(injector: IWishmasterDependencyInjector):
+class DashboardSearchInteractor @Inject constructor(injector: IWMDependencyInjector):
         DashboardContract.IDashboardSearchInteractor {
 
     @Inject override lateinit var matcher: SearchInputMatcher

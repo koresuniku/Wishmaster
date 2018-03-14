@@ -22,9 +22,9 @@ import javax.inject.Singleton
 
 
 @Module
-class InjectorModule(private val injector: IWishmasterDependencyInjector) {
+class InjectorModule(private val injector: IWMDependencyInjector) {
 
     @Provides
     @Singleton
-    fun provideInjector(): IWishmasterDependencyInjector = injector
+    fun provideInjector(): IWMDependencyInjector = injector
 }

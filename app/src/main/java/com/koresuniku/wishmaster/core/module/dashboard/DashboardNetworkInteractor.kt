@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.dashboard
 
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.domain.boards_api.BoardsApiService
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster.core.data.network.boards_api.BoardsResponseParser
@@ -26,7 +26,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class DashboardNetworkInteractor @Inject constructor(injector: IWishmasterDependencyInjector):
+class DashboardNetworkInteractor @Inject constructor(injector: IWMDependencyInjector):
         DashboardContract.IDashboardNetworkInteractor {
 
     @Inject override lateinit var service: BoardsApiService

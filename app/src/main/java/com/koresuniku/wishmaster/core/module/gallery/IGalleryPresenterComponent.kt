@@ -16,11 +16,14 @@
 
 package com.koresuniku.wishmaster.core.module.gallery
 
+import com.koresuniku.wishmaster.ui.utils.UiUtils
+
 /**
  * Created by koresuniku on 13.03.18.
  */
 
 interface IGalleryPresenterComponent {
+    fun uiUtils(): UiUtils
 
     fun inject(galleryPresenter: GalleryPresenter)
 }

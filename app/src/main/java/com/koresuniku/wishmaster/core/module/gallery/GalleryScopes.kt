@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.module.dashboard
+package com.koresuniku.wishmaster.core.module.gallery
 
-import com.koresuniku.wishmaster.application.IWMDependencyInjector
-import dagger.Module
-import dagger.Provides
+import javax.inject.Scope
 
 /**
- * Created by koresuniku on 05.10.17.
+ * Created by koresuniku on 3/14/18.
  */
 
-@Module
-class DashboardViewModule {
+object GalleryScopes {
 
-    @Provides
-    @DashboardScopes.ForDashboardView
-    fun provideDashboardPresenter(injector: IWMDependencyInjector):
-            DashboardContract.IDashboardPresenter {
-        return DashboardPresenter(injector)
-    }
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForGalleryLogic
+
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForGalleryPresenter
+
+    @Scope
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class ForGalleryView
 }

@@ -17,7 +17,7 @@
 package com.koresuniku.wishmaster.core.data.network.github
 
 import com.koresuniku.wishmaster.core.base.INetworkInteractor
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -26,7 +26,7 @@ import javax.inject.Inject
  * Created by koresuniku on 2/18/18.
  */
 
-class GithubReleaseListNetworkInteractor @Inject constructor(injector: IWishmasterDependencyInjector):
+class GithubReleaseListNetworkInteractor @Inject constructor(injector: IWMDependencyInjector):
         INetworkInteractor<GithubApiService> {
 
     @Inject override lateinit var service: GithubApiService

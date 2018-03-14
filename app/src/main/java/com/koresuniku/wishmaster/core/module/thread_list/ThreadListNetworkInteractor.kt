@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.thread_list
 
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListResponseParser
 import com.koresuniku.wishmaster.core.data.network.thread_list_api.ThreadListApiService
@@ -29,7 +29,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class ThreadListNetworkInteractor @Inject constructor(injector: IWishmasterDependencyInjector) :
+class ThreadListNetworkInteractor @Inject constructor(injector: IWMDependencyInjector) :
         ThreadListContract.IThreadListNetworkInteractor {
 
     @Inject lateinit var compositeDisposable: CompositeDisposable

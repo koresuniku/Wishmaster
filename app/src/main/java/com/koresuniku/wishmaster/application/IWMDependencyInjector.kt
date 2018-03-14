@@ -30,7 +30,7 @@ import com.koresuniku.wishmaster.core.module.thread_list.DaggerThreadListPresent
 import com.koresuniku.wishmaster.core.module.thread_list.DaggerThreadListViewComponent
 
 
-interface IWishmasterDependencyInjector {
+interface IWMDependencyInjector {
     val daggerApplicationComponent: DaggerApplicationComponent
 
     val daggerDashboardLogicComponent: DaggerDashboardLogicComponent
@@ -47,4 +47,6 @@ interface IWishmasterDependencyInjector {
 
     val daggerSettingsPresenterComponent: DaggerSettingsPresenterComponent
     val daggerSettingsViewComponent: DaggerSettingsViewComponent
+
+    fun requestThreadListModule()
 }

@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.core.module.dashboard
 
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.core.data.database.repository.BoardsRepository
 import com.koresuniku.wishmaster.core.data.network.boards_api.BoardsResponseParser
 import dagger.Module
@@ -28,28 +28,28 @@ class DashboardLogicModule {
 
     @Provides
     @DashboardScopes.ForDashboardLogic
-    fun provideDashboardNetworkInteractor(injector: IWishmasterDependencyInjector):
+    fun provideDashboardNetworkInteractor(injector: IWMDependencyInjector):
             DashboardContract.IDashboardNetworkInteractor {
         return DashboardNetworkInteractor(injector)
     }
 
     @Provides
     @DashboardScopes.ForDashboardLogic
-    fun provideDashboardDatabaseInteractor(injector: IWishmasterDependencyInjector):
+    fun provideDashboardDatabaseInteractor(injector: IWMDependencyInjector):
             DashboardContract.IDashboardDatabaseInteractor {
         return DashboardDatabaseInteractor(injector)
     }
 
     @Provides
     @DashboardScopes.ForDashboardLogic
-    fun provideDashboardSearchInteractor(injector: IWishmasterDependencyInjector):
+    fun provideDashboardSearchInteractor(injector: IWMDependencyInjector):
             DashboardContract.IDashboardSearchInteractor {
         return DashboardSearchInteractor(injector)
     }
 
     @Provides
     @DashboardScopes.ForDashboardLogic
-    fun provideDashboardSharedPreferencesInteractor(injector: IWishmasterDependencyInjector):
+    fun provideDashboardSharedPreferencesInteractor(injector: IWMDependencyInjector):
             DashboardContract.IDashboardSharedPreferencesInteractor {
         return DashboardSharedPreferencesInteractor(injector)
     }

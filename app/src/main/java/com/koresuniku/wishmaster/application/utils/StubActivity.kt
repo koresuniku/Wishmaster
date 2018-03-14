@@ -20,7 +20,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.application.WishmasterApplication
+import com.koresuniku.wishmaster.application.WMApplication
 import com.koresuniku.wishmaster.application.global.WMDownloadManager
 import com.koresuniku.wishmaster.application.global.WMPermissionManager
 import javax.inject.Inject
@@ -37,7 +37,7 @@ class StubActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stub)
-        (application as WishmasterApplication)
+        (application as WMApplication)
                 .daggerApplicationComponent
                 .inject(this)
 

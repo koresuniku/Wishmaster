@@ -18,7 +18,7 @@ package com.koresuniku.wishmaster.core.module.thread_list
 
 import android.content.Context
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.application.ApplicationComponent
 import com.koresuniku.wishmaster.application.global.RxModule
 import com.koresuniku.wishmaster.core.data.network.client.RetrofitHolder
@@ -31,12 +31,13 @@ import io.reactivex.disposables.CompositeDisposable
 
 
 @ThreadListScopes.ForThreadListLogic
+@GalleryScopes.ForGalleryLogic
 @Component (dependencies = [ApplicationComponent::class],
         modules = [(ThreadListLogicModule::class), (GalleryLogicModule::class), (RxModule::class)])
 interface ThreadListLogicComponent : IGalleryLogicComponent {
 
     //Global singletons
-    fun injector(): IWishmasterDependencyInjector
+    fun injector(): IWMDependencyInjector
     fun context(): Context
     fun textUtils(): WMTextUtils
     fun uiUtils(): UiUtils

@@ -19,7 +19,7 @@ package com.koresuniku.wishmaster.core.module.thread_list
 import com.koresuniku.wishmaster.application.notifier.OnOrientationChangedListener
 import com.koresuniku.wishmaster.application.notifier.OrientationNotifier
 import com.koresuniku.wishmaster.core.base.BaseMvpPresenter
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.threads.ThreadListData
 import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import io.reactivex.Completable
@@ -32,7 +32,7 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListPresenter @Inject constructor(private val injector: IWishmasterDependencyInjector):
+class ThreadListPresenter @Inject constructor(private val injector: IWMDependencyInjector):
         BaseMvpPresenter<ThreadListContract.IThreadListMainView>(),
         ThreadListContract.IThreadListPresenter, OnOrientationChangedListener,
         GalleryContract.IGalleryDataProvider {
@@ -46,8 +46,6 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
     override var threadListAdapterView: ThreadListContract.IThreadListAdapterView? = null
 
     override var presenterData: ThreadListData = ThreadListData.emptyData()
-
-    //private var previewImageCoordinates: WishmasterImageUtils.ImageCoordinates? = null
 
     override fun bindView(mvpView: ThreadListContract.IThreadListMainView) {
         super.bindView(mvpView)
@@ -117,41 +115,4 @@ class ThreadListPresenter @Inject constructor(private val injector: IWishmasterD
         orientationNotifier.unbindListener(this)
         mvpView = null
     }
-
-    //    override fun getGalleryState() = galleryState
-//
-//    override fun onOpenGalleryClick(itemPosition: Int, filePosition: Int) {
-//        presenterData.getThreadList()[itemPosition].files?.let {
-//
-//            getGalleryState().currentFilePosition = filePosition
-//            getGalleryState().currentPostPosition = filePosition
-//            getGalleryState().fileListInPost.clear()
-//            getGalleryState().fileListInList.clear()
-//            getGalleryState().fileListInPost.addAll(it)
-//            getGalleryState().fileListInList.addAll(it)
-//
-//            mvpView?.openGallery()
-//        }
-//
-//    }
-//
-//    override fun onGalleryLayoutClicked() {
-//
-//    }
-//
-//    override fun getFile(position: Int) = getGalleryState().fileListInList[position]
-//
-//    override fun getImageTargetCoordinates(position: Int, item: IGalleryItem) {
-//        compositeDisposable.add(galleryInteractor
-//                .computeActualDimensions(getFile(position))
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(item::onTargetDimensionsReady))
-//    }
-//
-//    override fun getPreviewImageCoordinates() =
-//            previewImageCoordinates ?: WishmasterImageUtils.ImageCoordinates(0, 0, 0, 0)
-//
-//    override fun setPreviewImageCoordinates(coordinates: WishmasterImageUtils.ImageCoordinates) {
-//        this.previewImageCoordinates = coordinates
-//    }
 }
