@@ -18,7 +18,6 @@ package com.koresuniku.wishmaster.core.module.gallery
 
 import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.core.base.BaseMvpPresenter
-import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.threads.File
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

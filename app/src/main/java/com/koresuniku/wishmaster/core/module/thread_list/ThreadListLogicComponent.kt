@@ -49,7 +49,6 @@ interface ThreadListLogicComponent : IGalleryLogicComponent {
     //Interactors
     fun networkInteractor(): ThreadListContract.IThreadListNetworkInteractor
     fun adapterViewInteractor(): ThreadListContract.IThreadListAdapterViewInteractor
-    fun galleryInteractor(): GalleryContract.IGalleryInteractor
 
     fun inject(networkInteractor: ThreadListNetworkInteractor)
     fun inject(adapterViewInteractor: ThreadListAdapterViewInteractor)

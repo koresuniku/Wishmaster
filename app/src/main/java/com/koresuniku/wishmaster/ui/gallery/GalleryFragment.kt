@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.WishmasterApplication
 import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
+import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 import javax.inject.Inject
 
@@ -40,7 +41,7 @@ class GalleryFragment : BaseWishmasterFragment(), GalleryContract.IGalleryMainVi
         rootView = inflater.inflate(R.layout.fragment_gallery, container, false) as ViewGroup
 
 
-        (activity?.application as IGalleryActivity)
+        (activity?.application as IGalleryActivity<*>)
                 .galleryViewComponent
                 .inject(this)
 

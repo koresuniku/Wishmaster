@@ -22,6 +22,6 @@ import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
  * Created by koresuniku on 13.03.18.
  */
 
-interface IGalleryActivity {
-    var galleryViewComponent: IGalleryViewComponent
+interface IGalleryActivity<C : IGalleryViewComponent> {
+    var galleryViewComponent: C
 }

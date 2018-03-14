@@ -17,10 +17,7 @@
 package com.koresuniku.wishmaster.core.module.thread_list
 
 import com.koresuniku.wishmaster.application.IWishmasterDependencyInjector
-import com.koresuniku.wishmaster.core.module.gallery.GalleryPresenter
-import com.koresuniku.wishmaster.core.module.gallery.GalleryPresenterModule
-import com.koresuniku.wishmaster.core.module.gallery.IGalleryPresenterComponent
-import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
+import com.koresuniku.wishmaster.core.module.gallery.*
 import dagger.Component
 
 /**
@@ -32,7 +29,7 @@ import dagger.Component
         modules = [(GalleryPresenterModule::class)])
 interface ThreadListPresenterComponent : IGalleryPresenterComponent {
     fun injector(): IWishmasterDependencyInjector
-    fun galleryViewComponent(): IGalleryViewComponent
+    fun galleryInteractor(): GalleryContract.IGalleryInteractor
 
     fun inject(threadListPresenter: ThreadListPresenter)
 }

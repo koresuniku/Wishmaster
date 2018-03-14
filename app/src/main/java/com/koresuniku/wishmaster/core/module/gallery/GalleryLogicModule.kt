@@ -25,9 +25,8 @@ import dagger.Provides
  */
 
 @Module
-class GalleryLogicModule(private val galleryLogicComponent: IGalleryLogicComponent) {
+class GalleryLogicModule {
 
     @Provides
-    fun provideGalleryInteractor():
-            GalleryContract.IGalleryInteractor = GalleryInteractor(galleryLogicComponent)
+    fun provideMediaMatcher(): MediaTypeMatcher = MediaTypeMatcher()
 }

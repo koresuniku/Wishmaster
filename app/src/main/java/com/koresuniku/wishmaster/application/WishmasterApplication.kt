@@ -111,14 +111,14 @@ class WishmasterApplication @Inject constructor() : MultiDexApplication(), IWish
         DaggerThreadListLogicComponent.builder()
                 .applicationComponent(daggerApplicationComponent)
                 .threadListLogicModule(ThreadListLogicModule())
-                .galleryLogicModule(GalleryLogicModule(daggerThreadListLogicComponent))
+                .galleryLogicModule(GalleryLogicModule())
                 .rxModule(RxModule())
                 .build() as DaggerThreadListLogicComponent
     }
     override val daggerThreadListPresenterComponent: DaggerThreadListPresenterComponent by lazy {
         DaggerThreadListPresenterComponent.builder()
                 .threadListLogicComponent(daggerThreadListLogicComponent)
-                .galleryPresenterModule(GalleryPresenterModule(daggerThreadListViewComponent))
+                .galleryPresenterModule(GalleryPresenterModule(daggerThreadListLogicComponent))
                 .build() as DaggerThreadListPresenterComponent
     }
     override val daggerThreadListViewComponent: DaggerThreadListViewComponent by lazy {

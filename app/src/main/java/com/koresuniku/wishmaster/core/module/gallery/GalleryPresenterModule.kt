@@ -24,11 +24,12 @@ import dagger.Provides
  */
 
 @Module
-class GalleryPresenterModule(private val galleryViewComponent: IGalleryViewComponent) {
+class GalleryPresenterModule(private val galleryLogicComponent: IGalleryLogicComponent) {
 
     @Provides
     fun provideGalleryState(): GalleryState = GalleryState()
 
     @Provides
-    fun provideGalleryViewComponent(): IGalleryViewComponent = galleryViewComponent
+    fun provideGalleryInteractor():
+            GalleryContract.IGalleryInteractor = GalleryInteractor(galleryLogicComponent)
 }

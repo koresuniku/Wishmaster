@@ -42,6 +42,7 @@ import com.koresuniku.wishmaster.application.global.WMTextUtils
 import com.koresuniku.wishmaster.application.global.WMAnimationUtils
 import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
+import com.koresuniku.wishmaster.core.module.thread_list.ThreadListViewComponent
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
 import com.koresuniku.wishmaster.ui.gallery.GalleryPagerAdapter
@@ -57,14 +58,16 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadListMainView, IGalleryActivity {
+class ThreadListActivity : BaseWishmasterActivity(),
+        ThreadListContract.IThreadListMainView,
+        IGalleryActivity<ThreadListViewComponent> {
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
     @Inject lateinit var presenter: ThreadListContract.IThreadListPresenter
     @Inject lateinit var textUtils: WMTextUtils
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var WMAnimationUtils: WMAnimationUtils
-    @Inject override lateinit var galleryViewComponent: IGalleryViewComponent
+    override lateinit var galleryViewComponent: ThreadListViewComponent
 
     @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
     @BindView(R.id.app_bar_layout) lateinit var mAppBarLayout: AppBarLayout
@@ -90,6 +93,7 @@ class ThreadListActivity : BaseWishmasterActivity(), ThreadListContract.IThreadL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getWishmasterApplication().daggerThreadListViewComponent.inject(this)
+        galleryViewComponent = getWishmasterApplication().daggerThreadListViewComponent
 
         ButterKnife.bind(this)
         uiUtils.showSystemUI(this)
