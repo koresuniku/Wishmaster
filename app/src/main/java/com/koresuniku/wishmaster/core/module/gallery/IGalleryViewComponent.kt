@@ -19,6 +19,7 @@ package com.koresuniku.wishmaster.core.module.gallery
 import com.koresuniku.wishmaster.ui.gallery.GalleryFragment
 import com.koresuniku.wishmaster.ui.gallery.GalleryImageFragment
 import com.koresuniku.wishmaster.ui.gallery.GalleryPagerAdapter
+import com.koresuniku.wishmaster.ui.gallery.PreviewImageGridAdapter
 
 /**
  * Created by koresuniku on 13.03.18.
@@ -29,4 +30,5 @@ interface IGalleryViewComponent {
     fun inject(galleryPagerAdapter: GalleryPagerAdapter)
     fun inject(galleryImageFragment: GalleryImageFragment)
     fun inject(galleryFragment: GalleryFragment)
+    fun inject(imageGridAdapter: PreviewImageGridAdapter)
 }

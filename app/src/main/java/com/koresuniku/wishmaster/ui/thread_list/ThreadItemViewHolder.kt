@@ -42,7 +42,7 @@ import javax.inject.Inject
  * Created by koresuniku on 07.01.18.
  */
 
-class ThreadItemViewHolder(itemView: View, injector: IWMDependencyInjector) :
+class ThreadItemViewHolder(itemView: View, private val injector: IWMDependencyInjector) :
         RecyclerView.ViewHolder(itemView), ThreadListContract.IThreadItemView,
         WMGridView.OnNoItemClickListener,
         WMGridView.OnImageItemClickListener {
@@ -70,7 +70,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWMDependencyInjector) :
 
     init {
         ButterKnife.bind(this, itemView)
-        injector.daggerThreadListViewComponent?.inject(this)
+        injector.daggerThreadListViewComponent.inject(this)
     }
 
     override fun adaptLayout(position: Int) {
@@ -104,8 +104,8 @@ class ThreadItemViewHolder(itemView: View, injector: IWMDependencyInjector) :
             image.getGlobalVisibleRect(rect)
             val coordinates = WMImageUtils.ImageCoordinates(
                     rect.left, rect.right, rect.top, rect.bottom)
-            galleryPresenter.previewCoordinates = coordinates
-            presenter.provideFiles(galleryPresenter, mThreadPosition)
+            galleryPresenter.galleryState.previewCoordinates = coordinates
+            galleryPresenter.galleryState.previewDrawable = image.drawable
             onImageItemClick(0)
         }
         imageLayout.setOnTouchListener { _, _ -> false }
@@ -128,7 +128,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWMDependencyInjector) :
                 else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
         mImageGrid.layoutParams.height = gridViewParams.finalHeight
         mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
-        mImageGrid.adapter = PreviewImageGridAdapter(
+        mImageGrid.adapter = PreviewImageGridAdapter(injector.daggerThreadListViewComponent,
                 imageItemDataList, url, imageUtils, summaryHeight,
                 gridViewParams, this, this)
         mImageGrid.requestLayout()
@@ -137,7 +137,8 @@ class ThreadItemViewHolder(itemView: View, injector: IWMDependencyInjector) :
     override fun onNoItemClick() { presenter.onThreadItemClicked(threadNumber) }
 
     override fun onImageItemClick(position: Int) {
-        Log.d(LOG_TAG, "onImageItemClick")
+        Log.d(LOG_TAG, "onImageItemClick: $position")
+        presenter.provideFiles(galleryPresenter, mThreadPosition)
         galleryPresenter.onOpenGalleryClick(mThreadPosition, position)
     }
 }

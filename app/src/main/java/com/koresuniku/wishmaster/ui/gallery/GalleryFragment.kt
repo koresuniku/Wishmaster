@@ -74,10 +74,7 @@ class GalleryFragment : BaseWishmasterFragment(), GalleryContract.IGalleryMainVi
     private fun setupViewPager() {
         activity?.let {
             mGalleryLayout.visibility = View.GONE
-            mGalleryPagerAdapter = GalleryPagerAdapter(
-                    it.supportFragmentManager,
-                    (it as IGalleryActivity<*>).galleryViewComponent)
-            mGalleryViewPager.adapter = mGalleryPagerAdapter
+
             Log.d("GF", "setupViewPager: ${this.hashCode()}")
 //            mGalleryLayout.setOnTouchListener { view, motionEvent ->
 //                when(motionEvent.action) {
@@ -112,11 +109,13 @@ class GalleryFragment : BaseWishmasterFragment(), GalleryContract.IGalleryMainVi
             isGalleryOpened = true
 
             Log.d("GF", "openGallery")
-
-            mGalleryPagerAdapter.notifyDataSetChanged()
-            mGalleryViewPager.setCurrentItem(presenter.galleryState.currentPostPosition, false)
+            mGalleryPagerAdapter = GalleryPagerAdapter(
+                    it.supportFragmentManager,
+                    (it as IGalleryActivity<*>).galleryViewComponent)
+            mGalleryViewPager.adapter = mGalleryPagerAdapter
+            mGalleryViewPager.setCurrentItem(presenter.galleryState.currentFilePosition, false)
             mGalleryLayout.visibility = View.VISIBLE
-//
+
             mGalleryBackground.alpha = 0f
             mGalleryBackground.animate()
                     .alpha(1f)
@@ -136,6 +135,9 @@ class GalleryFragment : BaseWishmasterFragment(), GalleryContract.IGalleryMainVi
 
     override fun closeGallery() {
         activity?.let {
+            presenter.galleryState.resetState()
+
+            mGalleryPagerAdapter.notifyDataSetChanged()
             mGalleryLayout.animate()
                     .alpha(0f)
                     .setDuration(resources.getInteger(R.integer.gallery_exit_duration).toLong())
@@ -151,7 +153,7 @@ class GalleryFragment : BaseWishmasterFragment(), GalleryContract.IGalleryMainVi
                         override fun onAnimationStart(p0: Animator?) {}
                     })
                     .start()
-            //mGalleryLayout.visibility = View.GONE
+
             isGalleryOpened = false
         }
     }

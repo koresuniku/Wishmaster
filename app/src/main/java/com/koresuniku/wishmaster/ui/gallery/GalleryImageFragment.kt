@@ -34,8 +34,12 @@ import com.koresuniku.wishmaster.core.data.network.Dvach
 import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 import android.view.animation.Animation
+import com.bumptech.glide.load.resource.drawable.GlideDrawable
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
+import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -64,6 +68,7 @@ class GalleryImageFragment : BaseWishmasterFragment(), GalleryContract.IGalleryI
             val fragment = GalleryImageFragment()
             val args = Bundle()
             args.putInt(FRAGMENT_POSITION_KEY, position)
+            fragment.arguments = args
             return fragment
         }
     }
@@ -72,24 +77,25 @@ class GalleryImageFragment : BaseWishmasterFragment(), GalleryContract.IGalleryI
         rootView = inflater.inflate(R.layout.gallery_image_layout, container, false) as ViewGroup
         ButterKnife.bind(this, rootView)
 
-        (activity as IGalleryActivity<*>)
-                .galleryViewComponent
-                .inject(this)
+        (activity as IGalleryActivity<*>).galleryViewComponent.inject(this)
 
         bigImageView = rootView.findViewById(R.id.big_image_view)
 
         mPosition = arguments?.getInt(FRAGMENT_POSITION_KEY) ?: 0
         mUrl = arguments?.getString(presenter.getUrl()) ?: Dvach.BASE_URL
 
-        presenter.getImageTargetCoordinates(mPosition, this)
-
-        Glide.with(preview.context)
-                .load(Uri.parse("$mUrl${presenter.getFile(mPosition).thumbnail}"))
-                .placeholder(preview.drawable)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(preview)
-
+        if (presenter.galleryState.previewClickedPosition == mPosition && !presenter.galleryState.previewAnimated) {
+            presenter.getImageTargetCoordinates(mPosition, this)
+            preview.alpha = 0f
+            preview.setImageDrawable(presenter.galleryState.previewDrawable)
+        } else {
+            Glide.with(preview.context)
+                    .load(Uri.parse("$mUrl${presenter.getFile(mPosition).thumbnail}"))
+                    .placeholder(preview.drawable)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(preview)
+        }
         bigImageView?.ssiv?.maxScale = 10.0f
         bigImageView?.ssiv?.resetScaleAndCenter()
         bigImageView?.showImage(Uri.parse("$mUrl${presenter.getFile(mPosition).path}"))
@@ -98,42 +104,47 @@ class GalleryImageFragment : BaseWishmasterFragment(), GalleryContract.IGalleryI
     }
 
     override fun onTargetDimensionsReady(coordinates: WMImageUtils.ImageCoordinates) {
-        val previewImageCoordinates = presenter.previewCoordinates
+        val previewImageCoordinates = presenter.galleryState.previewCoordinates
 
-        val imageWidth = DeviceUtils().getDisplayWidth(imagesContainer.context)
-        val imageHeight = DeviceUtils().getDisplayHeight(imagesContainer.context)
+        previewImageCoordinates?.let {
 
-        val scaleX = (previewImageCoordinates.xRight - previewImageCoordinates.xLeft).toFloat() /
-                (coordinates.xRight - coordinates.xLeft).toFloat()
-        val scaleY = (previewImageCoordinates.yBottom - previewImageCoordinates.yTop).toFloat() /
-                (coordinates.yBottom - coordinates.yTop).toFloat()
+            val imageWidth = DeviceUtils().getDisplayWidth(imagesContainer.context)
+            val imageHeight = DeviceUtils().getDisplayHeight(imagesContainer.context)
 
-        val imageCenterX = imageWidth / 2
-        val imageCenterY = imageHeight / 2
+            val scaleX = (previewImageCoordinates.xRight - previewImageCoordinates.xLeft).toFloat() /
+                    (coordinates.xRight - coordinates.xLeft).toFloat()
+            val scaleY = (previewImageCoordinates.yBottom - previewImageCoordinates.yTop).toFloat() /
+                    (coordinates.yBottom - coordinates.yTop).toFloat()
 
-        imagesContainer.scaleX = scaleX
-        imagesContainer.scaleY = scaleY
+            val imageCenterX = imageWidth / 2
+            val imageCenterY = imageHeight / 2
 
-        val translate = TranslateAnimation(
-                Animation.ABSOLUTE, - (imageCenterX - previewImageCoordinates.xLeft -
-                (0.5 * (previewImageCoordinates.xRight - previewImageCoordinates.xLeft))).toFloat(),
-                Animation.ABSOLUTE, 0f,
-                Animation.ABSOLUTE, - (imageCenterY - previewImageCoordinates.yTop -
-                (0.5 * (previewImageCoordinates.yBottom - previewImageCoordinates.yTop))).toFloat(),
-                Animation.ABSOLUTE, 0f)
-        translate.duration = resources.getInteger(R.integer.gallery_enter_duration).toLong()
-        translate.duration = 5000
-        translate.interpolator = AccelerateDecelerateInterpolator()
+            imagesContainer.scaleX = scaleX
+            imagesContainer.scaleY = scaleY
 
-        imagesContainer.startAnimation(translate)
+            val translate = TranslateAnimation(
+                    Animation.ABSOLUTE, -(imageCenterX - previewImageCoordinates.xLeft -
+                    (0.5 * (previewImageCoordinates.xRight - previewImageCoordinates.xLeft))).toFloat(),
+                    Animation.ABSOLUTE, 0f,
+                    Animation.ABSOLUTE, -(imageCenterY - previewImageCoordinates.yTop -
+                    (0.5 * (previewImageCoordinates.yBottom - previewImageCoordinates.yTop))).toFloat(),
+                    Animation.ABSOLUTE, 0f)
+            translate.duration = resources.getInteger(R.integer.gallery_enter_duration).toLong()
+            translate.interpolator = AccelerateDecelerateInterpolator()
 
-        imagesContainer.animate()
-                .setDuration(resources.getInteger(R.integer.gallery_enter_duration).toLong())
-                .setDuration(5000)
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .scaleX(1f)
-                .scaleY(1f)
-                .start()
+            imagesContainer.startAnimation(translate)
+
+            imagesContainer.animate()
+                    .setDuration(resources.getInteger(R.integer.gallery_enter_duration).toLong())
+                    .setInterpolator(AccelerateDecelerateInterpolator())
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .start()
+
+            preview.alpha = 1f
+        }
+
+        presenter.galleryState.previewAnimated = true
     }
 
     override fun onDestroyView() {

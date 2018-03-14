@@ -37,7 +37,6 @@ class GalleryPresenter @Inject constructor(galleryPresenterComponent: IGalleryPr
     @Inject lateinit var compositeDisposable: CompositeDisposable
     @Inject lateinit var galleryInteractor: GalleryContract.IGalleryInteractor
 
-    override lateinit var previewCoordinates: WMImageUtils.ImageCoordinates
     override var files: List<File> = emptyList()
 
     init {
@@ -47,6 +46,7 @@ class GalleryPresenter @Inject constructor(galleryPresenterComponent: IGalleryPr
     override fun onOpenGalleryClick(postPosition: Int, filePosition: Int) {
         galleryState.currentPostPosition = postPosition
         galleryState.currentFilePosition = filePosition
+        galleryState.previewClickedPosition = filePosition
 
         Log.d("GP", "onOpenGalleryClick: ${this.hashCode()}")
 

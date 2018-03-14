@@ -23,7 +23,7 @@
     <integer name="showing_list_duration">250</integer>
     <integer name="default_transition_duration">250</integer>
     <integer name="yoba_disappear_duration">150</integer>
-    <integer name="gallery_enter_duration">250</integer>
+    <integer name="gallery_enter_duration">200</integer>
     <integer name="gallery_exit_duration">80</integer>
 
     <!--ThreadList-->

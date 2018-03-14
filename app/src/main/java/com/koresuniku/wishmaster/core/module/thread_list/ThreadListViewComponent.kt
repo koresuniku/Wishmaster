@@ -41,5 +41,5 @@ interface ThreadListViewComponent : IGalleryViewComponent {
     fun inject(activity: ThreadListActivity)
     fun inject(threadListAdapterView: ThreadListRecyclerViewAdapter)
     fun inject(threadItemViewHolder: ThreadItemViewHolder)
-    fun inject(previewImageGridAdapter: PreviewImageGridAdapter)
+
 }

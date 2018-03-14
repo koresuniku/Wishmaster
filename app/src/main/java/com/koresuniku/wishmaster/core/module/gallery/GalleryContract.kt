@@ -42,7 +42,6 @@ object GalleryContract {
     //Presenter
     interface IGalleryPresenter : IMvpPresenter<IGalleryMainView> {
         var galleryState: GalleryState
-        var previewCoordinates: WMImageUtils.ImageCoordinates
         var files: List<File>
         fun onOpenGalleryClick(postPosition: Int, filePosition: Int)
         fun onGalleryLayoutClicked()

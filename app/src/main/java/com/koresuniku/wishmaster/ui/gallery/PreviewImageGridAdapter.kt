@@ -16,6 +16,7 @@
 
 package com.koresuniku.wishmaster.ui.gallery
 
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,19 +26,28 @@ import android.widget.TextView
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.core.module.gallery.ImageItemData
 import com.koresuniku.wishmaster.application.global.WMImageUtils
+import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
+import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
+import javax.inject.Inject
 
 /**
  * Created by koresuniku on 15.01.18.
  */
 
-class PreviewImageGridAdapter(private val imageItemDataList: List<ImageItemData>,
+class PreviewImageGridAdapter(galleryViewComponent: IGalleryViewComponent,
+                              private val imageItemDataList: List<ImageItemData>,
                               private val url: String,
                               private val imageUtils: WMImageUtils,
                               private val summaryHeight: Int,
                               private val gridViewParams: WMGridView.GridViewParams,
                               private val onNoItemClickListener: WMGridView.OnNoItemClickListener,
-                              private val onImageItemClickListener: WMGridView.OnImageItemClickListener) : BaseAdapter() {
+                              private val onImageItemClickListener: WMGridView.OnImageItemClickListener):
+        BaseAdapter() {
+
+    @Inject lateinit var presenter: GalleryContract.IGalleryPresenter
+
+    init { galleryViewComponent.inject(this) }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var returnView: View? = convertView
@@ -55,12 +65,12 @@ class PreviewImageGridAdapter(private val imageItemDataList: List<ImageItemData>
                 val clickableView = it.findViewById<View>(R.id.clickable_view)
 
                 clickableItemLayout.setOnClickListener {
-//                        val rect = Rect()
-//                        image.getGlobalVisibleRect(rect)
-//                        val coordinates = WMImageUtils.ImageCoordinates(
-//                                rect.left, rect.right, rect.top, rect.bottom)
-//                        presenter.setPreviewImageCoordinates(coordinates)
-//
+                    val rect = Rect()
+                    image.getGlobalVisibleRect(rect)
+                    val coordinates = WMImageUtils.ImageCoordinates(
+                            rect.left, rect.right, rect.top, rect.bottom)
+                    presenter.galleryState.previewCoordinates = coordinates
+                    presenter.galleryState.previewDrawable = image.drawable
                     onImageItemClickListener.onImageItemClick(position)
                 }
                 clickableView.setOnClickListener { onNoItemClickListener.onNoItemClick() }

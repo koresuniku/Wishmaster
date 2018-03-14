@@ -16,6 +16,8 @@
 
 package com.koresuniku.wishmaster.core.module.gallery
 
+import android.graphics.drawable.Drawable
+import com.koresuniku.wishmaster.application.global.WMImageUtils
 import javax.inject.Inject
 
 /**
@@ -27,4 +29,17 @@ class GalleryState @Inject constructor() {
     var currentFilePosition: Int = 0
     var currentPostPosition: Int = 0
 
+    var previewClickedPosition: Int = 0
+    var previewAnimated: Boolean = false
+    var previewDrawable: Drawable? = null
+    var previewCoordinates: WMImageUtils.ImageCoordinates? = null
+
+    fun resetState() {
+        currentFilePosition = 0
+        currentPostPosition = 0
+        previewClickedPosition = 0
+        previewAnimated = false
+        previewDrawable = null
+        previewCoordinates = null
+    }
 }

@@ -39,7 +39,7 @@ import javax.inject.Inject
  * Created by koresuniku on 2/14/18.
  */
 
-class PostItemViewHolder(itemView: View, injector: IWMDependencyInjector) :
+class PostItemViewHolder(itemView: View, private val injector: IWMDependencyInjector) :
         RecyclerView.ViewHolder(itemView), FullThreadContract.IPostItemView,
         WMGridView.OnNoItemClickListener,
         WMGridView.OnImageItemClickListener {
@@ -115,9 +115,9 @@ class PostItemViewHolder(itemView: View, injector: IWMDependencyInjector) :
                                    summaryHeight: Int) {
         mImageGrid.setOnNoItemClickListener(this)
         mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
-        mImageGrid.adapter = PreviewImageGridAdapter(
-                imageItemDataList, url, imageUtils, summaryHeight, gridViewParams,
-                this, this)
+//        mImageGrid.adapter = PreviewImageGridAdapter(injector.thr
+//                imageItemDataList, url, imageUtils, summaryHeight, gridViewParams,
+//                this, this)
         mImageGrid.layoutParams.height = gridViewParams.finalHeight
     }
 
