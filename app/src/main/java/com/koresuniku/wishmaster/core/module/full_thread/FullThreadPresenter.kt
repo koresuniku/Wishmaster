@@ -36,7 +36,9 @@ import javax.inject.Inject
 
 class FullThreadPresenter @Inject constructor(private val injector: IWMDependencyInjector):
         BaseMvpPresenter<FullThreadContract.IFulThreadMainView>(),
-        FullThreadContract.IFullThreadPresenter, OnOrientationChangedListener {
+        FullThreadContract.IFullThreadPresenter,
+        OnOrientationChangedListener,
+        GalleryContract.IGalleryDataProvider{
     private val LOG_TAG = FullThreadPresenter::class.java.simpleName
 
     @Inject lateinit var compositeDisposable: CompositeDisposable
@@ -47,7 +49,6 @@ class FullThreadPresenter @Inject constructor(private val injector: IWMDependenc
     override var fullThreadAdapterView: FullThreadContract.IFullThreadAdapterView? = null
 
     override var presenterData: PostListData = PostListData.emptyData()
-    //private var previewImageCoordinates: WMImageUtils.ImageCoordinates? = null
 
     override fun bindView(mvpView: FullThreadContract.IFulThreadMainView) {
         super.bindView(mvpView)
@@ -152,31 +153,4 @@ class FullThreadPresenter @Inject constructor(private val injector: IWMDependenc
         orientationNotifier.unbindListener(this)
         this.mvpView = null
     }
-    //    override fun getGalleryState(): GalleryState {
-//        //TODO: duplicate from thread list
-//        return GalleryState()
-//    }
-//
-//    override fun onOpenGalleryClick(itemPosition: Int, filePosition: Int) {
-//        //TODO: implement
-//    }
-//
-//    override fun onGalleryLayoutClicked() {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//    }
-//
-//    override fun getFile(position: Int): File {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//    }
-//
-//    override fun getPreviewImageCoordinates() =
-//            previewImageCoordinates ?: WMImageUtils.ImageCoordinates(0, 0, 0, 0)
-//
-//    override fun setPreviewImageCoordinates(coordinates: WMImageUtils.ImageCoordinates) {
-//        this.previewImageCoordinates = coordinates
-//    }
-//
-//    override fun getImageTargetCoordinates(position: Int, item: IGalleryItem) {
-//
-//    }
 }

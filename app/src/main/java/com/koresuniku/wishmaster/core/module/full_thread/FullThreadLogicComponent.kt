@@ -22,6 +22,10 @@ import com.koresuniku.wishmaster.application.ApplicationComponent
 import com.koresuniku.wishmaster.application.global.RxModule
 import com.koresuniku.wishmaster.application.global.WMTextUtils
 import com.koresuniku.wishmaster.application.global.WMAnimationUtils
+import com.koresuniku.wishmaster.core.module.gallery.GalleryLogicModule
+import com.koresuniku.wishmaster.core.module.gallery.GalleryScopes
+import com.koresuniku.wishmaster.core.module.gallery.IGalleryLogicComponent
+import com.koresuniku.wishmaster.core.module.gallery.MediaTypeMatcher
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import dagger.Component
 import io.reactivex.disposables.CompositeDisposable
@@ -31,9 +35,10 @@ import io.reactivex.disposables.CompositeDisposable
  */
 
 @FullThreadScopes.ForFullThreadLogic
+@GalleryScopes.ForGalleryLogic
 @Component (dependencies = [ApplicationComponent::class],
-        modules = [(FullThreadLogicModule::class), (RxModule::class)] )
-interface FullThreadLogicComponent {
+        modules = [(FullThreadLogicModule::class), (GalleryLogicModule::class), (RxModule::class)] )
+interface FullThreadLogicComponent : IGalleryLogicComponent {
 
     //Global singletons
     fun injector(): IWMDependencyInjector
@@ -42,6 +47,7 @@ interface FullThreadLogicComponent {
     fun orientationNotifier(): OrientationNotifier
     fun compositeDisposable(): CompositeDisposable
     fun animationUtils(): WMAnimationUtils
+    fun mediaTypeMatcher(): MediaTypeMatcher
 
     //Interactors
     fun fullThreadNetworkInteractor(): FullThreadContract.IFullThreadNetworkInteractor

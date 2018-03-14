@@ -17,6 +17,10 @@
 package com.koresuniku.wishmaster.core.module.full_thread
 
 import com.koresuniku.wishmaster.application.IWMDependencyInjector
+import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
+import com.koresuniku.wishmaster.core.module.gallery.GalleryPresenterModule
+import com.koresuniku.wishmaster.core.module.gallery.GalleryScopes
+import com.koresuniku.wishmaster.core.module.gallery.IGalleryPresenterComponent
 import dagger.Component
 
 /**
@@ -25,9 +29,13 @@ import dagger.Component
 
 
 @FullThreadScopes.ForFullThreadPresenter
-@Component(dependencies = [(FullThreadLogicComponent::class)])
-interface FullThreadPresenterComponent {
+@GalleryScopes.ForGalleryPresenter
+@Component(dependencies = [(FullThreadLogicComponent::class)],
+        modules = [(GalleryPresenterModule::class)])
+interface FullThreadPresenterComponent : IGalleryPresenterComponent {
     fun injector(): IWMDependencyInjector
+
+    fun galleryInteractor(): GalleryContract.IGalleryInteractor
 
     fun inject(fullThreadPresenter: FullThreadPresenter)
 }

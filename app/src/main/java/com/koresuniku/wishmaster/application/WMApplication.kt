@@ -112,24 +112,9 @@ class WMApplication @Inject constructor() : MultiDexApplication(), IWMDependency
     override lateinit var daggerThreadListPresenterComponent:DaggerThreadListPresenterComponent
     override lateinit var daggerThreadListViewComponent: DaggerThreadListViewComponent
 
-    override val daggerFullThreadLogicComponent: DaggerFullThreadLogicComponent by lazy {
-        DaggerFullThreadLogicComponent.builder()
-                .applicationComponent(daggerApplicationComponent)
-                .fullThreadLogicModule(FullThreadLogicModule())
-                .rxModule(RxModule())
-                .build() as DaggerFullThreadLogicComponent
-    }
-    override val daggerFullThreadPresenterComponent: DaggerFullThreadPresenterComponent by lazy {
-        DaggerFullThreadPresenterComponent.builder()
-                .fullThreadLogicComponent(daggerFullThreadLogicComponent)
-                .build() as DaggerFullThreadPresenterComponent
-    }
-    override val daggerFullThreadViewComponent: DaggerFullThreadViewComponent by lazy {
-        DaggerFullThreadViewComponent.builder()
-                .fullThreadPresenterComponent(daggerFullThreadPresenterComponent)
-                .fullThreadViewModule(FullThreadViewModule())
-                .build() as DaggerFullThreadViewComponent
-    }
+    override lateinit var daggerFullThreadLogicComponent: DaggerFullThreadLogicComponent
+    override lateinit var daggerFullThreadPresenterComponent: DaggerFullThreadPresenterComponent
+    override lateinit var daggerFullThreadViewComponent: DaggerFullThreadViewComponent
 
     override val daggerSettingsPresenterComponent: DaggerSettingsPresenterComponent by lazy {
         DaggerSettingsPresenterComponent.builder()
@@ -222,5 +207,25 @@ class WMApplication @Inject constructor() : MultiDexApplication(), IWMDependency
                 .threadListViewModule(ThreadListViewModule())
                 .galleryViewModule(GalleryViewModule(daggerThreadListPresenterComponent))
                 .build() as DaggerThreadListViewComponent
+    }
+
+    override fun requestFullThreadModule() {
+        daggerFullThreadLogicComponent = DaggerFullThreadLogicComponent.builder()
+                .applicationComponent(daggerApplicationComponent)
+                .fullThreadLogicModule(FullThreadLogicModule())
+                .galleryLogicModule(GalleryLogicModule())
+                .rxModule(RxModule())
+                .build() as DaggerFullThreadLogicComponent
+
+        daggerFullThreadPresenterComponent = DaggerFullThreadPresenterComponent.builder()
+                .fullThreadLogicComponent(daggerFullThreadLogicComponent)
+                .galleryPresenterModule(GalleryPresenterModule(daggerFullThreadLogicComponent))
+                .build() as DaggerFullThreadPresenterComponent
+
+        daggerFullThreadViewComponent = DaggerFullThreadViewComponent.builder()
+                .fullThreadPresenterComponent(daggerFullThreadPresenterComponent)
+                .fullThreadViewModule(FullThreadViewModule())
+                .galleryViewModule(GalleryViewModule(daggerFullThreadPresenterComponent))
+                .build() as DaggerFullThreadViewComponent
     }
 }

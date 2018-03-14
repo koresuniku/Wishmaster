@@ -35,7 +35,6 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.application.utils.IntentKeystore
 import com.koresuniku.wishmaster.core.module.thread_list.ThreadListContract
 import com.koresuniku.wishmaster.application.global.WMTextUtils
@@ -66,7 +65,7 @@ class ThreadListActivity : BaseWishmasterActivity(),
     @Inject lateinit var galleryPresenter: GalleryContract.IGalleryPresenter
     @Inject lateinit var textUtils: WMTextUtils
     @Inject lateinit var uiUtils: UiUtils
-    @Inject lateinit var WMAnimationUtils: WMAnimationUtils
+    @Inject lateinit var wmAnimationUtils: WMAnimationUtils
     override lateinit var galleryViewComponent: ThreadListViewComponent
 
     @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
@@ -106,7 +105,7 @@ class ThreadListActivity : BaseWishmasterActivity(),
         presenter.loadThreadList()
     }
 
-            override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.thread_list_menu, menu)
         activityMenu = menu
         return super.onCreateOptionsMenu(menu)
@@ -148,9 +147,7 @@ class ThreadListActivity : BaseWishmasterActivity(),
         } else mBackground.setImageResource(R.color.colorBackground)
     }
 
-    private fun setupErrorLayout() {
-        mErrorLabel.text = getString(R.string.failed_to_load_threads)
-    }
+    private fun setupErrorLayout() { mErrorLabel.text = getString(R.string.failed_to_load_threads) }
 
     private fun setupToolbar() {
         setSupportActionBar(mToolbar)
@@ -216,14 +213,14 @@ class ThreadListActivity : BaseWishmasterActivity(),
         mSwipyRefreshLayout.isEnabled = false
         supportActionBar?.title = getString(R.string.loading_text)
         if (!mSwipyRefreshLayout.isRefreshing)
-            WMAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
+            wmAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     private fun hideLoading() {
         activityMenu?.findItem(R.id.action_refresh)?.isEnabled = true
         mSwipyRefreshLayout.isEnabled = true
         if (!mSwipyRefreshLayout.isRefreshing)
-            WMAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
+            wmAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
         if (mSwipyRefreshLayout.isRefreshing)
             mSwipyRefreshLayout.isRefreshing = false
         mRecyclerView.scrollToPosition(0)
@@ -267,11 +264,6 @@ class ThreadListActivity : BaseWishmasterActivity(),
             if (it.doBack()) {
                 presenter.unbindThreadListAdapterView()
                 galleryPresenter.unbindView()
-//        galleryPresenter.unbindView()
-//        supportFragmentManager
-//                .beginTransaction()
-//                .remove(supportFragmentManager.findFragmentById(R.id.gallery_layout))
-//                .commit()
                 super.onBackPressed()
                 overrideBackwardPendingTransition()
             }
@@ -281,13 +273,6 @@ class ThreadListActivity : BaseWishmasterActivity(),
     override fun onDestroy() {
         presenter.unbindThreadListAdapterView()
         galleryPresenter.unbindView()
-//        supportFragmentManager.findFragmentById(R.id.gallery_layout)?.let {
-//            supportFragmentManager
-//                    .beginTransaction()
-//                    .remove(it)
-//                    .commit()
-//        }
-
         super.onDestroy()
     }
 }

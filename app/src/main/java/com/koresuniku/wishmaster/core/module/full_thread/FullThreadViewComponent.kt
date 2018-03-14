@@ -16,6 +16,9 @@
 
 package com.koresuniku.wishmaster.core.module.full_thread
 
+import com.koresuniku.wishmaster.core.module.gallery.GalleryScopes
+import com.koresuniku.wishmaster.core.module.gallery.GalleryViewModule
+import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadRecyclerViewAdapter
 import com.koresuniku.wishmaster.ui.full_thread.PostItemViewHolder
@@ -26,9 +29,10 @@ import dagger.Component
  */
 
 @FullThreadScopes.ForFullThreadView
+@GalleryScopes.ForGalleryView
 @Component (dependencies = [FullThreadPresenterComponent::class],
-        modules = [(FullThreadViewModule::class)])
-interface FullThreadViewComponent {
+        modules = [(FullThreadViewModule::class), (GalleryViewModule::class)])
+interface FullThreadViewComponent : IGalleryViewComponent {
 
     fun inject(fullThreadActivity: FullThreadActivity)
     fun inject(postItemViewHolder: PostItemViewHolder)

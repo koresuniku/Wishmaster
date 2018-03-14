@@ -37,7 +37,11 @@ import com.koresuniku.wishmaster.application.utils.IntentKeystore
 import com.koresuniku.wishmaster.core.module.full_thread.FullThreadContract
 import com.koresuniku.wishmaster.application.global.WMTextUtils
 import com.koresuniku.wishmaster.application.global.WMAnimationUtils
+import com.koresuniku.wishmaster.core.module.full_thread.FullThreadViewComponent
+import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
+import com.koresuniku.wishmaster.ui.gallery.GalleryFragment
+import com.koresuniku.wishmaster.ui.gallery.IGalleryActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.view.recycler_view_fast_scroller.RecyclerFastScroller
 import com.koresuniku.wishmaster.ui.view.widget.WishmasterRecyclerView
@@ -49,13 +53,17 @@ import javax.inject.Inject
  * Created by koresuniku on 2/11/18.
  */
 
-class FullThreadActivity : BaseWishmasterActivity(), FullThreadContract.IFulThreadMainView {
+class FullThreadActivity : BaseWishmasterActivity(),
+        FullThreadContract.IFulThreadMainView,
+        IGalleryActivity<FullThreadViewComponent> {
     private val LOG_TAG = FullThreadActivity::class.java.simpleName
 
     @Inject lateinit var presenter: FullThreadContract.IFullThreadPresenter
+    @Inject lateinit var galleryPresenter: GalleryContract.IGalleryPresenter
     @Inject lateinit var textUtils: WMTextUtils
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var WMAnimationUtils: WMAnimationUtils
+    override lateinit var galleryViewComponent: FullThreadViewComponent
 
     @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
     @BindView(R.id.app_bar_layout) lateinit var mAppBarLayout: AppBarLayout
@@ -69,13 +77,16 @@ class FullThreadActivity : BaseWishmasterActivity(), FullThreadContract.IFulThre
     @BindView(R.id.recycler_view) lateinit var mRecyclerView: WishmasterRecyclerView
     @BindView(R.id.scroller) lateinit var mScroller: RecyclerFastScroller
     @BindView(R.id.background) lateinit var mBackground: ImageView
+    @BindView(R.id.gallery_layout) override lateinit var mGalleryLayout: ViewGroup
 
     private lateinit var mFullThreadRecyclerViewAdapter: FullThreadRecyclerViewAdapter
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
-        getWishmasterApplication().daggerFullThreadViewComponent.inject(this)
         super.onCreate(savedInstanceState)
+        getWishmasterApplication().requestFullThreadModule()
+        getWishmasterApplication().daggerFullThreadViewComponent.inject(this)
+        galleryViewComponent = getWishmasterApplication().daggerFullThreadViewComponent
 
         ButterKnife.bind(this)
         presenter.bindView(this)
@@ -84,6 +95,7 @@ class FullThreadActivity : BaseWishmasterActivity(), FullThreadContract.IFulThre
         setupToolbar()
         setupRefreshLayout()
         setupRecyclerView()
+        setupGallery()
 
         presenter.loadPostList()
     }
@@ -127,9 +139,7 @@ class FullThreadActivity : BaseWishmasterActivity(), FullThreadContract.IFulThre
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun setupErrorLayout() {
-        mErrorLabel.text = getString(R.string.failed_to_load_posts)
-    }
+    private fun setupErrorLayout() { mErrorLabel.text = getString(R.string.failed_to_load_posts) }
 
     private fun setupTitle(title:  Spanned) { supportActionBar?.title = title }
 
@@ -166,6 +176,13 @@ class FullThreadActivity : BaseWishmasterActivity(), FullThreadContract.IFulThre
         mScroller.attachRecyclerView(mRecyclerView)
         mScroller.attachAdapter(mRecyclerView.adapter)
         mScroller.attachAppBarLayout(mCoordinator, mAppBarLayout)
+    }
+
+    private fun setupGallery() {
+        supportFragmentManager
+                .beginTransaction()
+                .add(R.id.gallery_layout, GalleryFragment())
+                .commit()
     }
 
     override fun onEnterAnimationComplete() {
@@ -265,13 +282,19 @@ class FullThreadActivity : BaseWishmasterActivity(), FullThreadContract.IFulThre
     }
 
     override fun onBackPressed() {
-        presenter.unbindFullThreadAdapterView()
-        super.onBackPressed()
-        overrideBackwardPendingTransition()
+        onBackPressedListener?.let {
+            if (it.doBack()) {
+                presenter.unbindFullThreadAdapterView()
+                galleryPresenter.unbindView()
+                super.onBackPressed()
+                overrideBackwardPendingTransition()
+            }
+        }
     }
 
     override fun onDestroy() {
         presenter.unbindFullThreadAdapterView()
+        galleryPresenter.unbindView()
         super.onDestroy()
     }
 }

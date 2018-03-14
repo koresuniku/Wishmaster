@@ -139,6 +139,7 @@ class ThreadItemViewHolder(itemView: View, private val injector: IWMDependencyIn
     override fun onImageItemClick(position: Int) {
         Log.d(LOG_TAG, "onImageItemClick: $position")
         presenter.provideFiles(galleryPresenter, mThreadPosition)
+        galleryPresenter.galleryState.previewClickedPosition = position
         galleryPresenter.onOpenGalleryClick(mThreadPosition, position)
     }
 }

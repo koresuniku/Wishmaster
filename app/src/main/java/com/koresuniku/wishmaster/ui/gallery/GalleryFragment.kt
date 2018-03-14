@@ -136,6 +136,7 @@ class GalleryFragment : BaseWishmasterFragment(), GalleryContract.IGalleryMainVi
     override fun closeGallery() {
         activity?.let {
             presenter.galleryState.resetState()
+            presenter.files = emptyList()
 
             mGalleryPagerAdapter.notifyDataSetChanged()
             mGalleryLayout.animate()

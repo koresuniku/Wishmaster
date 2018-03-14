@@ -49,4 +49,5 @@ interface IWMDependencyInjector {
     val daggerSettingsViewComponent: DaggerSettingsViewComponent
 
     fun requestThreadListModule()
+    fun requestFullThreadModule()
 }
