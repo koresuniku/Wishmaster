@@ -62,7 +62,7 @@ class FullThreadActivity : BaseWishmasterActivity(),
     @Inject lateinit var galleryPresenter: GalleryContract.IGalleryPresenter
     @Inject lateinit var textUtils: WMTextUtils
     @Inject lateinit var uiUtils: UiUtils
-    @Inject lateinit var WMAnimationUtils: WMAnimationUtils
+    @Inject lateinit var wmAnimationUtils: WMAnimationUtils
     override lateinit var galleryViewComponent: FullThreadViewComponent
 
     @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
@@ -89,6 +89,7 @@ class FullThreadActivity : BaseWishmasterActivity(),
         galleryViewComponent = getWishmasterApplication().daggerFullThreadViewComponent
 
         ButterKnife.bind(this)
+        uiUtils.showSystemUI(this)
         presenter.bindView(this)
 
         setupErrorLayout()
@@ -126,11 +127,6 @@ class FullThreadActivity : BaseWishmasterActivity(),
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.action_refresh)?.isEnabled = false
-        return super.onPrepareOptionsMenu(menu)
-    }
-
     override fun provideFromActivityRequestCode() = IntentKeystore.FROM_FULL_THREAD_ACTIVITY_REQUEST_CODE
     @LayoutRes override fun provideContentLayoutResource() = R.layout.activity_full_thread
 
@@ -140,7 +136,6 @@ class FullThreadActivity : BaseWishmasterActivity(),
     }
 
     private fun setupErrorLayout() { mErrorLabel.text = getString(R.string.failed_to_load_posts) }
-
     private fun setupTitle(title:  Spanned) { supportActionBar?.title = title }
 
     private fun setupRefreshLayout() {
@@ -150,7 +145,7 @@ class FullThreadActivity : BaseWishmasterActivity(),
     }
 
     private fun setupRecyclerView() {
-        WMAnimationUtils.setSlideFromRightLayoutAnimation(mRecyclerView, this)
+        wmAnimationUtils.setSlideFromRightLayoutAnimation(mRecyclerView, this)
         mFullThreadRecyclerViewAdapter = FullThreadRecyclerViewAdapter(this)
         presenter.bindFullThreadAdapterView(mFullThreadRecyclerViewAdapter)
         mRecyclerView.setItemViewCacheSize(20)
@@ -185,24 +180,24 @@ class FullThreadActivity : BaseWishmasterActivity(),
                 .commit()
     }
 
-    override fun onEnterAnimationComplete() {
-        super.onEnterAnimationComplete()
-        mRecyclerView.post {
-            if (!presenter.isDataLoaded()) {
-                mRecyclerView.scheduleLayoutAnimation()
-            }
-        }
-    }
+//    override fun onEnterAnimationComplete() {
+//        super.onEnterAnimationComplete()
+//        mRecyclerView.post {
+//            if (!presenter.isDataLoaded()) {
+//                mRecyclerView.scheduleLayoutAnimation()
+//            }
+//        }
+//    }
 
     override fun showLoading() {
         activityMenu?.findItem(R.id.action_refresh)?.isEnabled = false
         mSwipyRefreshLayout.isEnabled = false
         supportActionBar?.title = getString(R.string.loading_text)
-        WMAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
+        wmAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
-    override fun getBoardId() = intent.getStringExtra(IntentKeystore.BOARD_ID_CODE)
-    override fun getThreadNumber() = intent.getStringExtra(IntentKeystore.THREAD_NUMBER_CODE)
+    override fun getBoardId(): String = intent.getStringExtra(IntentKeystore.BOARD_ID_CODE)
+    override fun getThreadNumber(): String = intent.getStringExtra(IntentKeystore.THREAD_NUMBER_CODE)
 
     override fun onPostListReceived(title: Spanned, itemCount: Int) {
         hideLoading()
@@ -244,7 +239,7 @@ class FullThreadActivity : BaseWishmasterActivity(),
         activityMenu?.findItem(R.id.action_refresh)?.isEnabled = true
         mSwipyRefreshLayout.isEnabled = true
         if (!mSwipyRefreshLayout.isRefreshing)
-            WMAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
+            wmAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
         if (mSwipyRefreshLayout.isRefreshing)
             mSwipyRefreshLayout.isRefreshing = false
     }
@@ -268,10 +263,7 @@ class FullThreadActivity : BaseWishmasterActivity(),
     }
 
     override fun showNewPostsError(message: String?) {
-        val snackBar = Snackbar.make(
-                mErrorLayout,
-                message ?: getString(R.string.error),
-                Snackbar.LENGTH_INDEFINITE)
+        val snackBar = Snackbar.make(mErrorLayout, message ?: getString(R.string.error), Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction(R.string.bljad, { snackBar.dismiss() })
         snackBar.show()
     }

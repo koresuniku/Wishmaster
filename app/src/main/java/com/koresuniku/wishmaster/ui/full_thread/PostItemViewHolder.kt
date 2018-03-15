@@ -72,7 +72,7 @@ class PostItemViewHolder(itemView: View, private val injector: IWMDependencyInje
         injector.daggerFullThreadViewComponent.inject(this)
     }
 
-    override fun adaptLayout(position: Int) {
+    override fun setPosition(position: Int) {
         mPostPosition = position
     }
 

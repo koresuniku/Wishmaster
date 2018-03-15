@@ -57,7 +57,7 @@ object FullThreadContract {
     }
 
     interface IPostItemView : IMvpView {
-        fun adaptLayout(position: Int)
+        fun setPosition(position: Int)
         fun setHeader(head: Spannable)
         fun switchAnswersVisibility(visible: Boolean)
         fun setOnClickItemListener(threadNumber: String)

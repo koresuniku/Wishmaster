@@ -135,11 +135,6 @@ class ThreadListActivity : BaseWishmasterActivity(),
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.action_refresh)?.isEnabled = false
-        return super.onPrepareOptionsMenu(menu)
-    }
-
     private fun setupBackground() {
         if (BoardsBackgrounds.backgrounds.containsKey(getBoardId())) {
             mBackground.setImageResource(
