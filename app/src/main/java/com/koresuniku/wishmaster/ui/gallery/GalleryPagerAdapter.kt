@@ -16,48 +16,33 @@
 
 package com.koresuniku.wishmaster.ui.gallery
 
-import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
-import com.koresuniku.wishmaster.core.modules.gallery.IGalleryPresenter
-import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
-import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
-import java.io.Serializable
+import com.koresuniku.wishmaster.core.module.gallery.MediaTypeMatcher
+import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
+import com.koresuniku.wishmaster.core.module.gallery.IGalleryViewComponent
+import javax.inject.Inject
 
 /**
  * Created by koresuniku on 2/28/18.
  */
 
-class GalleryPagerAdapter(fragmentManager: FragmentManager,
-                          private val galleryPresenter: IGalleryPresenter,
-                          private val mediaTypeMatcher: MediaTypeMatcher,
-                          private val retrofitHolder: RetrofitHolder) :
+class GalleryPagerAdapter(fragmentManager: FragmentManager, galleryViewComponent: IGalleryViewComponent) :
         FragmentStatePagerAdapter(fragmentManager) {
 
-    companion object {
-        const val FRAGMENT_POSITION_KEY = "fragment_position"
-        const val URL = "url"
-    }
+    @Inject lateinit var galleryPresenter: GalleryContract.IGalleryPresenter
+
+    init { galleryViewComponent.inject(this) }
 
     override fun getItem(position: Int): Fragment {
-        val args = Bundle()
-        args.putInt(FRAGMENT_POSITION_KEY, position)
-        args.putString(URL, retrofitHolder.getDvachBaseUrl())
-
-        return when (mediaTypeMatcher.matchFile(galleryPresenter.getFile(position))) {
-            MediaTypeMatcher.MediaType.IMAGE -> {
-                val fragment = GalleryImageFragment.newInstance(
-                        galleryPresenter)
-                fragment.arguments = args
-                fragment
-            }
-            else -> GalleryFragment()
+        return when (galleryPresenter.matchFileGlobal(position)) {
+            MediaTypeMatcher.MediaType.IMAGE -> GalleryImageFragment.newInstance(position)
+            else -> Fragment()
         }
-
     }
 
     override fun getItemPosition(`object`: Any) = PagerAdapter.POSITION_NONE
-    override fun getCount() = galleryPresenter.getGalleryState().fileListInList.size
+    override fun getCount() = galleryPresenter.fileList.size
 }

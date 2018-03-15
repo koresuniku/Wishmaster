@@ -16,9 +16,9 @@
 
 package com.koresuniku.wishmaster.ui.base
 
-import com.koresuniku.wishmaster.application.WishmasterApplication
+import com.koresuniku.wishmaster.application.WMApplication
 
 
 interface IWishamsterActivity {
-    fun getWishmasterApplication(): WishmasterApplication
+    fun getWishmasterApplication(): WMApplication
 }

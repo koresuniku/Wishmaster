@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.application.preferences
 
-import com.koresuniku.wishmaster.core.network.Dvach
+import com.koresuniku.wishmaster.core.data.network.Dvach
 
 /**
  * Created by koresuniku on 12.11.17.

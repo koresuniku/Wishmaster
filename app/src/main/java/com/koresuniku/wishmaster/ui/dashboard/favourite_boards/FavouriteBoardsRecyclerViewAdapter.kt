@@ -21,9 +21,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.modules.dashboard.IDashboardPresenter
 import com.koresuniku.wishmaster.core.data.model.boards.BoardModel
-import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
+import com.koresuniku.wishmaster.core.module.dashboard.DashboardContract
+import com.koresuniku.wishmaster.application.global.WMTextUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.view.drag_and_swipe_recycler_view.ItemTouchHelperAdapter
 import com.koresuniku.wishmaster.ui.view.drag_and_swipe_recycler_view.OnItemDroppedCallback
@@ -40,15 +40,15 @@ class FavouriteBoardsRecyclerViewAdapter():
         RecyclerView.Adapter<FavouriteBoardsRecyclerViewViewHolder>(), ItemTouchHelperAdapter {
     private val LOG_TAG = FavouriteBoardsRecyclerViewAdapter::class.java.simpleName
 
-    @Inject lateinit var presenter: IDashboardPresenter
-    @Inject lateinit var textUtils: WishmasterTextUtils
+    @Inject lateinit var presenter: DashboardContract.IDashboardPresenter
+    @Inject lateinit var textUtils: WMTextUtils
 
-    private lateinit var mActivity: WeakReference<BaseWishmasterActivity<IDashboardPresenter>>
+    private lateinit var mActivity: WeakReference<BaseWishmasterActivity>
     private lateinit var mOnStartDragListener: OnStartDragListener
     private lateinit var mOnItemDroppedCallback: OnItemDroppedCallback
     private var mFavouriteBoards: List<BoardModel> = emptyList()
 
-    constructor(activity: BaseWishmasterActivity<IDashboardPresenter>,
+    constructor(activity: BaseWishmasterActivity,
                 onStartDragListener: OnStartDragListener,
                 onItemDroppedCallback: OnItemDroppedCallback) : this() {
         activity.getWishmasterApplication().daggerDashboardViewComponent.inject(this)
@@ -69,7 +69,7 @@ class FavouriteBoardsRecyclerViewAdapter():
         val boardModel = mFavouriteBoards[position]
         holder.mBoardName.text = textUtils.obtainBoardIdDashName(boardModel)
         holder.mDragAndDrop.setOnLongClickListener { mOnStartDragListener.onStartDrag(holder); false }
-        holder.itemView.setOnClickListener { presenter.shouldLaunchThreadListActivity(boardModel.getBoardId()) }
+        holder.itemView.setOnClickListener { presenter.launchThreadList(boardModel.getBoardId()) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouriteBoardsRecyclerViewViewHolder {

@@ -36,14 +36,15 @@ abstract class BaseDrawerActivity : AppCompatActivity() {
     }
 
     private fun setupContentView() {
-        val mainLayout = LayoutInflater.from(this).inflate(R.layout.activity_drawer, null, false)
+        val mainLayout = LayoutInflater.from(this)
+                .inflate(R.layout.activity_drawer, null, false)
         val contentContainer = mainLayout.findViewById<View>(R.id.content_container) as ViewGroup
-        val contentLayout = LayoutInflater.from(this).inflate(provideContentLayoutResource(), null, false)
+        val contentLayout = LayoutInflater.from(this)
+                .inflate(provideContentLayoutResource(), null, false)
 
         contentContainer.addView(contentLayout)
         setContentView(mainLayout)
     }
 
     @LayoutRes abstract fun provideContentLayoutResource(): Int
-
 }

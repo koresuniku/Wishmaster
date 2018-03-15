@@ -16,10 +16,12 @@
 
 package com.koresuniku.wishmaster.ui.full_thread
 
+import android.graphics.Rect
 import android.support.annotation.Nullable
 import android.support.v7.widget.RecyclerView
 import android.text.Spannable
 import android.text.Spanned
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -27,12 +29,12 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster.core.modules.full_thread.IFullThreadPresenter
-import com.koresuniku.wishmaster.core.modules.full_thread.PostItemView
-import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
-import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
+import com.koresuniku.wishmaster.core.module.full_thread.FullThreadContract
+import com.koresuniku.wishmaster.core.module.gallery.ImageItemData
+import com.koresuniku.wishmaster.application.global.WMImageUtils
+import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
+import com.koresuniku.wishmaster.ui.gallery.PreviewImageGridAdapter
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import javax.inject.Inject
 
@@ -40,11 +42,14 @@ import javax.inject.Inject
  * Created by koresuniku on 2/14/18.
  */
 
-class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
-        RecyclerView.ViewHolder(itemView), PostItemView, WMGridView.OnNoItemClickListener, WMGridView.OnImageItemClickListener {
+class PostItemViewHolder(itemView: View, private val injector: IWMDependencyInjector) :
+        RecyclerView.ViewHolder(itemView), FullThreadContract.IPostItemView,
+        WMGridView.OnNoItemClickListener,
+        WMGridView.OnImageItemClickListener {
     private val LOG_TAG = PostItemViewHolder::class.java.simpleName
 
-    @Inject lateinit var presenter: IFullThreadPresenter
+    @Inject lateinit var presenter: FullThreadContract.IFullThreadPresenter
+    @Inject lateinit var galleryPresenter: GalleryContract.IGalleryPresenter
 
     @Nullable @BindView(R.id.item_layout) lateinit var mItemLayout: ViewGroup
     @Nullable @BindView(R.id.head) lateinit var mHeader: TextView
@@ -60,13 +65,19 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
     @Nullable @BindView(R.id.answers_layout) lateinit var mAnswersLayout: ViewGroup
     @Nullable @BindView(R.id.answers) lateinit var mAnswers: TextView
 
+    private var mPostPosition = 0
+
     init {
         ButterKnife.bind(this, itemView)
         injector.daggerFullThreadViewComponent.inject(this)
     }
 
+    override fun setPosition(position: Int) {
+        mPostPosition = position
+    }
+
     override fun setOnClickItemListener(threadNumber: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun setHeader(head: Spannable) {
@@ -92,31 +103,45 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
     }
 
     override fun setAnswers(subject: Spanned) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun setComment(comment: Spanned) {
         mComment.post { mComment.text = comment }
     }
 
-    override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {
-        val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)
+    override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WMImageUtils) {
+        val imageLayout = itemView.findViewById<ViewGroup>(R.id.clickable_item_layout)
         val image = imageLayout.findViewById<ImageView>(R.id.image)
+
+        imageLayout.setOnClickListener {
+            val rect = Rect()
+            image.getGlobalVisibleRect(rect)
+            val coordinates = WMImageUtils.ImageCoordinates(
+                    rect.left, rect.right, rect.top, rect.bottom)
+            galleryPresenter.galleryState.previewCoordinates = coordinates
+            galleryPresenter.galleryState.previewDrawable = image.drawable
+            onImageItemClick(0)
+        }
+        imageLayout.setOnTouchListener { _, _ -> false }
 
         mImageSummary.text = imageItemData.summary
         imageUtils.loadImageThumbnail(imageItemData, image, url)
+        mImageLayout.requestLayout()
     }
 
     override fun setMultipleImages(imageItemDataList: List<ImageItemData>,
                                    url: String,
-                                   imageUtils: WishmasterImageUtils,
+                                   imageUtils: WMImageUtils,
                                    gridViewParams: WMGridView.GridViewParams,
                                    summaryHeight: Int) {
         mImageGrid.setOnNoItemClickListener(this)
         mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
-        mImageGrid.adapter = PreviewImageGridAdapter(
-                imageItemDataList, url, imageUtils, summaryHeight, gridViewParams, this, this)
+        mImageGrid.adapter = PreviewImageGridAdapter(injector.daggerFullThreadViewComponent,
+                imageItemDataList, url, imageUtils, summaryHeight, gridViewParams,
+                this, this)
         mImageGrid.layoutParams.height = gridViewParams.finalHeight
+        mImageGrid.requestLayout()
     }
 
     override fun onNoItemClick() {
@@ -124,6 +149,8 @@ class PostItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
     }
 
     override fun onImageItemClick(position: Int) {
-
+        Log.d(LOG_TAG, "onImageItemClick: $position")
+        presenter.provideFiles(galleryPresenter, mPostPosition)
+        galleryPresenter.onOpenGalleryClick(mPostPosition, position)
     }
 }

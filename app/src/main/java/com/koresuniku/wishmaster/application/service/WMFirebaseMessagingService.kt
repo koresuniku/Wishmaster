@@ -34,10 +34,10 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import com.koresuniku.wishmaster.BuildConfig
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.application.WishmasterApplication
+import com.koresuniku.wishmaster.application.WMApplication
 import com.koresuniku.wishmaster.application.preferences.SharedPreferencesStorage
-import com.koresuniku.wishmaster.application.singletones.WMDownloadManager
-import com.koresuniku.wishmaster.application.singletones.WMPermissionManager
+import com.koresuniku.wishmaster.application.global.WMDownloadManager
+import com.koresuniku.wishmaster.application.global.WMPermissionManager
 import com.koresuniku.wishmaster.application.utils.StubActivity
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
@@ -56,9 +56,8 @@ class WMFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage?) {
         super.onMessageReceived(message)
 
-
-        (application as WishmasterApplication)
-                .mDaggerApplicationComponent
+        (application as WMApplication)
+                .daggerApplicationComponent
                 .inject(this)
 
         message?.data?.get(FirebaseKeystore.NEW_VERSION_NAME_KEY)?.let {
@@ -144,8 +143,8 @@ class WMFirebaseMessagingService : FirebaseMessagingService() {
         @Inject lateinit var permissionManager: WMPermissionManager
 
         override fun onHandleIntent(intent: Intent?) {
-            (application as WishmasterApplication)
-                    .mDaggerApplicationComponent
+            (application as WMApplication)
+                    .daggerApplicationComponent
                     .inject(this)
 
             intent?.let {

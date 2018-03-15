@@ -16,24 +16,17 @@
 
 package com.koresuniku.wishmaster.ui.thread_list
 
-import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.support.annotation.LayoutRes
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
-import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.*
-import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_ATTACHED_IN_DECOR
-import android.view.animation.Animation
-import android.view.animation.LinearInterpolator
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageView
@@ -43,16 +36,15 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.koresuniku.wishmaster.R
 import com.koresuniku.wishmaster.application.utils.IntentKeystore
-import com.koresuniku.wishmaster.core.data.model.threads.File
-import com.koresuniku.wishmaster.core.modules.gallery.MediaTypeMatcher
-import com.koresuniku.wishmaster.core.modules.thread_list.IThreadListPresenter
-import com.koresuniku.wishmaster.core.modules.thread_list.ThreadListView
-import com.koresuniku.wishmaster.core.network.client.RetrofitHolder
-import com.koresuniku.wishmaster.core.utils.text.WishmasterTextUtils
-import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
+import com.koresuniku.wishmaster.core.module.thread_list.ThreadListContract
+import com.koresuniku.wishmaster.application.global.WMTextUtils
+import com.koresuniku.wishmaster.application.global.WMAnimationUtils
+import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
+import com.koresuniku.wishmaster.core.module.thread_list.ThreadListViewComponent
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.full_thread.FullThreadActivity
-import com.koresuniku.wishmaster.ui.gallery.GalleryPagerAdapter
+import com.koresuniku.wishmaster.ui.gallery.GalleryFragment
+import com.koresuniku.wishmaster.ui.gallery.IGalleryActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import com.koresuniku.wishmaster.ui.view.recycler_view_fast_scroller.RecyclerFastScroller
 import com.koresuniku.wishmaster.ui.view.widget.WishmasterRecyclerView
@@ -64,16 +56,17 @@ import javax.inject.Inject
  * Created by koresuniku on 01.01.18.
  */
 
-class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
-        ThreadListView<IThreadListPresenter> {
+class ThreadListActivity : BaseWishmasterActivity(),
+        ThreadListContract.IThreadListMainView,
+        IGalleryActivity<ThreadListViewComponent> {
     private val LOG_TAG = ThreadListActivity::class.java.simpleName
 
-    @Inject override lateinit var presenter: IThreadListPresenter
-    @Inject lateinit var textUtils: WishmasterTextUtils
+    @Inject lateinit var presenter: ThreadListContract.IThreadListPresenter
+    @Inject lateinit var galleryPresenter: GalleryContract.IGalleryPresenter
+    @Inject lateinit var textUtils: WMTextUtils
     @Inject lateinit var uiUtils: UiUtils
-    @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
-    @Inject lateinit var mediaTypeMatcher: MediaTypeMatcher
-    @Inject lateinit var retrofitHolder: RetrofitHolder
+    @Inject lateinit var wmAnimationUtils: WMAnimationUtils
+    override lateinit var galleryViewComponent: ThreadListViewComponent
 
     @BindView(R.id.coordinator) lateinit var mCoordinator: CoordinatorLayout
     @BindView(R.id.app_bar_layout) lateinit var mAppBarLayout: AppBarLayout
@@ -87,18 +80,16 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
     @BindView(R.id.recycler_view) lateinit var mRecyclerView: WishmasterRecyclerView
     @BindView(R.id.scroller) lateinit var mScroller: RecyclerFastScroller
     @BindView(R.id.background) lateinit var mBackground: ImageView
-    @BindView(R.id.gallery_layout) lateinit var mGalleryLayout: ViewGroup
-    @BindView(R.id.gallery_background) lateinit var mGalleryBackground: View
-    @BindView(R.id.gallery_view_pager) lateinit var mGalleryViewPager: ViewPager
+    @BindView(R.id.gallery_layout) override lateinit var mGalleryLayout: ViewGroup
 
     private lateinit var mThreadListRecyclerViewAdapter: ThreadListRecyclerViewAdapter
-    private lateinit var mGalleryPagerAdapter: GalleryPagerAdapter
-    private var galleryOpenedState = false
 
     @SuppressLint("newApi")
     override fun onCreate(savedInstanceState: Bundle?) {
-        getWishmasterApplication().daggerThreadListViewComponent.inject(this)
         super.onCreate(savedInstanceState)
+        getWishmasterApplication().requestThreadListModule()
+        getWishmasterApplication().daggerThreadListViewComponent.inject(this)
+        galleryViewComponent = getWishmasterApplication().daggerThreadListViewComponent
 
         ButterKnife.bind(this)
         uiUtils.showSystemUI(this)
@@ -109,11 +100,10 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
         setupToolbar()
         setupRefreshLayout()
         setupRecyclerView()
-        setupViewPager()
+        setupGallery()
 
         presenter.loadThreadList()
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.thread_list_menu, menu)
@@ -145,11 +135,6 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.action_refresh)?.isEnabled = false
-        return super.onPrepareOptionsMenu(menu)
-    }
-
     private fun setupBackground() {
         if (BoardsBackgrounds.backgrounds.containsKey(getBoardId())) {
             mBackground.setImageResource(
@@ -157,9 +142,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
         } else mBackground.setImageResource(R.color.colorBackground)
     }
 
-    private fun setupErrorLayout() {
-        mErrorLabel.text = getString(R.string.failed_to_load_threads)
-    }
+    private fun setupErrorLayout() { mErrorLabel.text = getString(R.string.failed_to_load_threads) }
 
     private fun setupToolbar() {
         setSupportActionBar(mToolbar)
@@ -208,71 +191,11 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
         mScroller.attachAppBarLayout(mCoordinator, mAppBarLayout)
     }
 
-    private var yCoordinate = 0f
-    private fun setupViewPager() {
-        mGalleryPagerAdapter = GalleryPagerAdapter(
-                supportFragmentManager, presenter, mediaTypeMatcher, retrofitHolder)
-        mGalleryViewPager.adapter = mGalleryPagerAdapter
-        mGalleryLayout.setOnTouchListener { view, motionEvent ->
-            when(motionEvent.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    yCoordinate = view.y - motionEvent.rawY
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    view.animate().y(motionEvent.rawY + yCoordinate).setDuration(0).start()
-                }
-                MotionEvent.ACTION_UP -> {
-                    //your stuff
-                }
-                else -> {}
-            }
-            true
-        }
-    }
-
-    override fun openGallery() {
-        galleryOpenedState = true
-
-        mGalleryPagerAdapter.notifyDataSetChanged()
-        mGalleryViewPager.setCurrentItem(presenter.getGalleryState().currentPositionInList, false)
-        mGalleryLayout.visibility = View.VISIBLE
-
-        mGalleryBackground.alpha = 0f
-        mGalleryBackground.animate()
-                .alpha(1f)
-                .setDuration(resources.getInteger(R.integer.gallery_enter_duration).toLong())
-                .setInterpolator(LinearInterpolator())
-                .setListener(object : Animator.AnimatorListener {
-                    override fun onAnimationRepeat(p0: Animator?) {}
-                    override fun onAnimationEnd(p0: Animator?) {}
-                    override fun onAnimationCancel(p0: Animator?) {}
-                    override fun onAnimationStart(p0: Animator?) {
-                        uiUtils.setBarsTranslucent(this@ThreadListActivity, true)
-                    }
-                })
-                .start()
-    }
-
-    override fun closeGallery() {
-        mGalleryLayout.animate()
-                .alpha(0f)
-                .setDuration(resources.getInteger(R.integer.gallery_exit_duration).toLong())
-                .setInterpolator(LinearInterpolator())
-                .setListener(object : Animator.AnimatorListener {
-                    override fun onAnimationRepeat(p0: Animator?) {}
-
-                    override fun onAnimationEnd(p0: Animator?) {
-                        uiUtils.setBarsTranslucent(this@ThreadListActivity, false)
-                        mGalleryLayout.visibility = View.GONE
-                        mGalleryLayout.alpha = 1f
-                    }
-
-                    override fun onAnimationCancel(p0: Animator?) {}
-                    override fun onAnimationStart(p0: Animator?) {}
-                })
-                .start()
-
-        galleryOpenedState = false
+    private fun setupGallery() {
+        supportFragmentManager
+                .beginTransaction()
+                .add(R.id.gallery_layout, GalleryFragment())
+                .commit()
     }
 
     override fun onThreadListReceived(boardName: String) {
@@ -285,14 +208,14 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
         mSwipyRefreshLayout.isEnabled = false
         supportActionBar?.title = getString(R.string.loading_text)
         if (!mSwipyRefreshLayout.isRefreshing)
-            wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
+            wmAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
     }
 
     private fun hideLoading() {
         activityMenu?.findItem(R.id.action_refresh)?.isEnabled = true
         mSwipyRefreshLayout.isEnabled = true
         if (!mSwipyRefreshLayout.isRefreshing)
-            wishmasterAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
+            wmAnimationUtils.hideLoadingYoba(mYobaImage, mLoadingLayout)
         if (mSwipyRefreshLayout.isRefreshing)
             mSwipyRefreshLayout.isRefreshing = false
         mRecyclerView.scrollToPosition(0)
@@ -323,7 +246,7 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
         mRecyclerView.visibility = View.VISIBLE
     }
 
-    override fun launchFullThreadActivity(threadNumber: String) {
+    override fun launchFullThread(threadNumber: String) {
         val intent = Intent(this, FullThreadActivity::class.java)
         intent.putExtra(IntentKeystore.BOARD_ID_CODE, getBoardId())
         intent.putExtra(IntentKeystore.THREAD_NUMBER_CODE, threadNumber)
@@ -331,19 +254,20 @@ class ThreadListActivity : BaseWishmasterActivity<IThreadListPresenter>(),
         overrideForwardPendingTransition()
     }
 
-    override fun galleryOpenedState() = galleryOpenedState
-
     override fun onBackPressed() {
-        if (galleryOpenedState) closeGallery()
-        else {
-            presenter.unbindThreadListAdapterView()
-            super.onBackPressed()
-            overrideBackwardPendingTransition()
+        onBackPressedListener?.let {
+            if (it.doBack()) {
+                presenter.unbindThreadListAdapterView()
+                galleryPresenter.unbindView()
+                super.onBackPressed()
+                overrideBackwardPendingTransition()
+            }
         }
     }
 
     override fun onDestroy() {
         presenter.unbindThreadListAdapterView()
+        galleryPresenter.unbindView()
         super.onDestroy()
     }
 }

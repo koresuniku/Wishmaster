@@ -16,6 +16,7 @@
 
 package com.koresuniku.wishmaster.core.data.model.posts
 
+import com.koresuniku.wishmaster.core.data.model.threads.File
 import java.util.ArrayList
 
 /**
@@ -23,7 +24,9 @@ import java.util.ArrayList
  */
 class PostListData {
 
-    lateinit var postList: MutableList<Post>
+    var postList: MutableList<Post> = arrayListOf()
+    var fileList: MutableList<File> = arrayListOf()
+    var fileMap: MutableMap<Int, File> = hashMapOf()
 
     companion object {
         fun emptyData(): PostListData {

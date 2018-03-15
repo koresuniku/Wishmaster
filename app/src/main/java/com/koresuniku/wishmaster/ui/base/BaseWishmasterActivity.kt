@@ -16,37 +16,31 @@
 
 package com.koresuniku.wishmaster.ui.base
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.support.annotation.LayoutRes
-import android.support.annotation.MenuRes
-import android.support.v4.app.ActivityOptionsCompat
 import android.view.Menu
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.application.WishmasterApplication
-import com.koresuniku.wishmaster.core.base.mvp.IMvpPresenter
-import com.koresuniku.wishmaster.core.base.mvp.IMvpView
+import com.koresuniku.wishmaster.application.WMApplication
+import com.koresuniku.wishmaster.core.base.IMvpView
 import com.koresuniku.wishmaster.ui.settings.SettingsActivity
-import com.koresuniku.wishmaster.ui.utils.UiUtils
 
 /**
  * Created by koresuniku on 12.01.18.
  */
 
-abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> :
-        BaseDrawerActivity(), IWishamsterActivity, IMvpView<P> {
+abstract class BaseWishmasterActivity : BaseDrawerActivity(), IWishamsterActivity, IMvpView {
 
     protected var isActivityDestroyed = false
     protected var isActivityReentered = false
     protected var activityMenu: Menu? = null
+    var onBackPressedListener: OnBackPressedListener? = null
 
     @LayoutRes abstract override fun provideContentLayoutResource(): Int
     abstract fun provideFromActivityRequestCode(): Int
 
-    override fun getWishmasterApplication(): WishmasterApplication = application as WishmasterApplication
+    override fun getWishmasterApplication(): WMApplication = application as WMApplication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +54,9 @@ abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> :
 
     override fun onBackPressed() {
         setResult(Activity.RESULT_OK)
-        presenter.unbindView()
+//        if (onBackPressedListener != null) {
+//            onBackPressedListener?.let { if (it.doBack()) super.onBackPressed() }
+//        } else
         super.onBackPressed()
     }
 
@@ -73,16 +69,7 @@ abstract class BaseWishmasterActivity<P : IMvpPresenter<*>> :
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.unbindView()
         isActivityDestroyed = true
-    }
-
-    @SuppressLint("RestrictedApi")
-    protected fun launchNextActivityWithtransition(intent: Intent) {
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            startActivityForResult(intent, provideFromActivityRequestCode(), options.toBundle())
-        } else startActivityForResult(intent, provideFromActivityRequestCode())
     }
 
     fun overrideForwardPendingTransition() {

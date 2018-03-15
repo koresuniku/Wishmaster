@@ -17,26 +17,24 @@
 package com.koresuniku.wishmaster.ui.thread_list
 
 import android.graphics.Rect
-import android.graphics.RectF
 import android.support.annotation.Nullable
 import android.support.v7.widget.RecyclerView
 import android.text.Spanned
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.dagger.IWishmasterDaggerInjector
-import com.koresuniku.wishmaster.core.modules.gallery.ImageItemData
-import com.koresuniku.wishmaster.core.modules.thread_list.IThreadListPresenter
-import com.koresuniku.wishmaster.core.utils.images.WishmasterImageUtils
-import com.koresuniku.wishmaster.core.modules.thread_list.ThreadItemView
-import com.koresuniku.wishmaster.ui.gallery.preview.PreviewImageGridAdapter
+import com.koresuniku.wishmaster.application.IWMDependencyInjector
+import com.koresuniku.wishmaster.core.module.gallery.ImageItemData
+import com.koresuniku.wishmaster.core.module.thread_list.ThreadListContract
+import com.koresuniku.wishmaster.application.global.WMImageUtils
+import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
+import com.koresuniku.wishmaster.ui.gallery.PreviewImageGridAdapter
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import javax.inject.Inject
 
@@ -44,13 +42,14 @@ import javax.inject.Inject
  * Created by koresuniku on 07.01.18.
  */
 
-class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) :
-        RecyclerView.ViewHolder(itemView),
-        ThreadItemView, WMGridView.OnNoItemClickListener,
-        WMGridView.OnImageItemClickListener{
+class ThreadItemViewHolder(itemView: View, private val injector: IWMDependencyInjector) :
+        RecyclerView.ViewHolder(itemView), ThreadListContract.IThreadItemView,
+        WMGridView.OnNoItemClickListener,
+        WMGridView.OnImageItemClickListener {
     private val LOG_TAG = ThreadItemViewHolder::class.java.simpleName
 
-    @Inject lateinit var presenter: IThreadListPresenter
+    @Inject lateinit var presenter: ThreadListContract.IThreadListPresenter
+    @Inject lateinit var galleryPresenter: GalleryContract.IGalleryPresenter
 
     @Nullable @BindView(R.id.top) lateinit var mTop: View
     @Nullable @BindView(R.id.item_layout) lateinit var mItemLayout: ViewGroup
@@ -96,16 +95,17 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     override fun setComment(comment: Spanned) { mComment.post { mComment.text = comment } }
     override fun setThreadShortInfo(info: String) { mResume.text = info }
 
-    override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WishmasterImageUtils) {
+    override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WMImageUtils) {
         val imageLayout = itemView.findViewById<ViewGroup>(R.id.clickable_item_layout)
         val image = imageLayout.findViewById<ImageView>(R.id.image)
 
         imageLayout.setOnClickListener {
             val rect = Rect()
             image.getGlobalVisibleRect(rect)
-            val coordinates = WishmasterImageUtils.ImageCoordinates(
+            val coordinates = WMImageUtils.ImageCoordinates(
                     rect.left, rect.right, rect.top, rect.bottom)
-            presenter.setPreviewImageCoordinates(coordinates)
+            galleryPresenter.galleryState.previewCoordinates = coordinates
+            galleryPresenter.galleryState.previewDrawable = image.drawable
             onImageItemClick(0)
         }
         imageLayout.setOnTouchListener { _, _ -> false }
@@ -119,7 +119,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
 
     override fun setMultipleImages(imageItemDataList: List<ImageItemData>,
                                    url: String,
-                                   imageUtils: WishmasterImageUtils,
+                                   imageUtils: WMImageUtils,
                                    gridViewParams: WMGridView.GridViewParams,
                                    summaryHeight: Int) {
         mImageGrid.setOnNoItemClickListener(this)
@@ -128,7 +128,7 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
                 else itemView.context.resources.getDimension(R.dimen.thread_item_image_comment_no_subject_top_margin).toInt()
         mImageGrid.layoutParams.height = gridViewParams.finalHeight
         mImageGrid.columnWidth = imageItemDataList[0].dimensions.widthInPx
-        mImageGrid.adapter = PreviewImageGridAdapter(
+        mImageGrid.adapter = PreviewImageGridAdapter(injector.daggerThreadListViewComponent,
                 imageItemDataList, url, imageUtils, summaryHeight,
                 gridViewParams, this, this)
         mImageGrid.requestLayout()
@@ -137,6 +137,9 @@ class ThreadItemViewHolder(itemView: View, injector: IWishmasterDaggerInjector) 
     override fun onNoItemClick() { presenter.onThreadItemClicked(threadNumber) }
 
     override fun onImageItemClick(position: Int) {
-        presenter.onOpenGalleryClick(mThreadPosition, position)
+        Log.d(LOG_TAG, "onImageItemClick: $position")
+        presenter.provideFiles(galleryPresenter, mThreadPosition)
+        galleryPresenter.galleryState.previewClickedPosition = position
+        galleryPresenter.onOpenGalleryClick(0, position)
     }
 }

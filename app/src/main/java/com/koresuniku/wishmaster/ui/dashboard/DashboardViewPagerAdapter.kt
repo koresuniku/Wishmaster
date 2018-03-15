@@ -29,7 +29,7 @@ import com.koresuniku.wishmaster.ui.dashboard.history.HistoryFragment
 */
 
 class DashboardViewPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
-    private  val COUNT = 4
+    private val COUNT = 4
 
     override fun getItem(position: Int): Fragment {
         when (position) {

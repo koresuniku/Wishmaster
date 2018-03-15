@@ -26,11 +26,12 @@ import javax.inject.Inject
  * Created by koresuniku on 10.11.17.
  */
 
-class DatabaseHelper @Inject constructor(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class DatabaseHelper @Inject constructor(context: Context) :
+        SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        private val DATABASE_NAME = "wishmaster.db"
-        private val DATABASE_VERSION = 2
+        private const val DATABASE_NAME = "wishmaster.db"
+        private const val DATABASE_VERSION = 2
     }
 
     override fun onCreate(db: SQLiteDatabase) {

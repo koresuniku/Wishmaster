@@ -23,4 +23,6 @@ import android.view.ViewGroup
 abstract class BaseWishmasterFragment: Fragment() {
 
     abstract var rootView: ViewGroup
+
+    fun getWMActivity() = activity as BaseWishmasterActivity
 }

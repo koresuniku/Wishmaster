@@ -32,7 +32,6 @@ import butterknife.BindView
 import butterknife.ButterKnife
 
 import com.koresuniku.wishmaster.R
-import com.koresuniku.wishmaster.core.modules.dashboard.DashboardView
 import com.koresuniku.wishmaster.core.data.model.boards.BoardListData
 import com.koresuniku.wishmaster.ui.utils.ViewUtils
 import com.koresuniku.wishmaster.ui.view.widget.DashboardViewPager
@@ -40,32 +39,29 @@ import com.koresuniku.wishmaster.ui.view.widget.DashboardViewPager
 import javax.inject.Inject
 import android.support.v7.widget.SearchView
 import com.koresuniku.wishmaster.application.utils.IntentKeystore
-import com.koresuniku.wishmaster.core.modules.dashboard.IDashboardPresenter
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterActivity
 import com.koresuniku.wishmaster.ui.thread_list.ThreadListActivity
 import com.koresuniku.wishmaster.ui.utils.UiUtils
 import android.view.MenuItem
 import com.koresuniku.wishmaster.application.notifier.NewReleaseNotifier
 import com.koresuniku.wishmaster.application.notifier.OnNewReleaseListener
-import com.koresuniku.wishmaster.application.singletones.WMDownloadManager
-import com.koresuniku.wishmaster.application.singletones.WMPermissionManager
-import com.koresuniku.wishmaster.core.network.github_api.Asset
-import com.koresuniku.wishmaster.ui.anim.WishmasterAnimationUtils
+import com.koresuniku.wishmaster.application.global.WMPermissionManager
+import com.koresuniku.wishmaster.core.data.network.github.Asset
+import com.koresuniku.wishmaster.application.global.WMAnimationUtils
 import android.support.v7.app.AlertDialog
-import android.util.Log
-import com.koresuniku.wishmaster.application.utils.FirebaseKeystore
+import com.koresuniku.wishmaster.core.module.dashboard.DashboardContract
 
 
-class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
-        DashboardView<IDashboardPresenter>, OnNewReleaseListener {
+class DashboardActivity : BaseWishmasterActivity(),
+        DashboardContract.IDashboardMainView, OnNewReleaseListener {
     private val LOG_TAG = DashboardActivity::class.java.simpleName
 
-    @Inject override lateinit var presenter: IDashboardPresenter
+    @Inject lateinit var presenter: DashboardContract.IDashboardPresenter
     @Inject lateinit var uiUtils: UiUtils
     @Inject lateinit var viewUtils: ViewUtils
-    @Inject lateinit var wishmasterAnimationUtils: WishmasterAnimationUtils
+    @Inject lateinit var WMAnimationUtils: WMAnimationUtils
     @Inject lateinit var newReleaseNotifier: NewReleaseNotifier
-    @Inject lateinit var downloadManager: WMDownloadManager
+    //@Inject lateinit var downloadManager: WMDownloadManager
     @Inject lateinit var permissionManager: WMPermissionManager
 
     @BindView(R.id.toolbar) lateinit var mToolbar: Toolbar
@@ -127,7 +123,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
                     builder.setMessage(R.string.new_version_available)
                             .setPositiveButton(R.string.download_text, { dialog, id ->
                                 if (permissionManager.checkAndRequestExternalStoragePermissionForLoadNewVersion(this)) {
-                                    downloadManager.downloadWithNotification(it.downloadLink, it.name)
+                                    //downloadManager.downloadWithNotification(it.downloadLink, it.name)
                                 }
                             })
                             .setNegativeButton(R.string.cancel_text, { dialog, id -> })
@@ -151,7 +147,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
             WMPermissionManager.WRITE_EXTERNAL_STORAGE_FOR_LOAD_NEW_VERSION_REQUEST_CODE -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     newReleaseNotifier.cachedAsset?.let {
-                        downloadManager.downloadWithNotification(it.downloadLink, it.name)
+                        //downloadManager.downloadWithNotification(it.downloadLink, it.name)
                     }
                 }
                 return
@@ -165,7 +161,7 @@ class DashboardActivity : BaseWishmasterActivity<IDashboardPresenter>(),
     override fun provideFromActivityRequestCode() = IntentKeystore.FROM_DASHBOARD_ACTIVITY_REQUEST_CODE
 
     override fun showLoading() {
-        wishmasterAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
+        WMAnimationUtils.showLoadingYoba(mYobaImage, mLoadingLayout)
         mViewPager.setPagingEnabled(false)
     }
 

@@ -16,7 +16,7 @@
 
 package com.koresuniku.wishmaster.application.notifier
 
-import com.koresuniku.wishmaster.core.network.github_api.Asset
+import com.koresuniku.wishmaster.core.data.network.github.Asset
 
 /**
  * Created by koresuniku on 2/18/18.
