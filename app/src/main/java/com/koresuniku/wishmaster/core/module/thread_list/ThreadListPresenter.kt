@@ -105,7 +105,9 @@ class ThreadListPresenter @Inject constructor(private val injector: IWMDependenc
     override fun onThreadItemClicked(threadNumber: String) { mvpView?.launchFullThread(threadNumber) }
 
     override fun provideFiles(galleryPresenter: GalleryContract.IGalleryPresenter, position: Int) {
-        galleryPresenter.files = presenterData.getThreadList()[position].files ?: emptyList()
+        val fileList = (presenterData.getThreadList()[position].files ?: emptyList()).toMutableList()
+        galleryPresenter.fileList = fileList
+        galleryPresenter.fileMap[0] = fileList
     }
 
     override fun unbindThreadListAdapterView() { this.threadListAdapterView = null }

@@ -113,7 +113,7 @@ class GalleryFragment : BaseWishmasterFragment(), GalleryContract.IGalleryMainVi
                     it.supportFragmentManager,
                     (it as IGalleryActivity<*>).galleryViewComponent)
             mGalleryViewPager.adapter = mGalleryPagerAdapter
-            mGalleryViewPager.setCurrentItem(presenter.galleryState.currentFilePosition, false)
+            mGalleryViewPager.setCurrentItem(presenter.galleryState.currentFilePositionGlobal, false)
             mGalleryLayout.visibility = View.VISIBLE
 
             mGalleryBackground.alpha = 0f
@@ -136,7 +136,7 @@ class GalleryFragment : BaseWishmasterFragment(), GalleryContract.IGalleryMainVi
     override fun closeGallery() {
         activity?.let {
             presenter.galleryState.resetState()
-            presenter.files = emptyList()
+            presenter.resetGallery()
 
             mGalleryPagerAdapter.notifyDataSetChanged()
             mGalleryLayout.animate()

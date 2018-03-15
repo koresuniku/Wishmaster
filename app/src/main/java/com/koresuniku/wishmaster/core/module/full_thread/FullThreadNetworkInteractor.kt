@@ -19,6 +19,7 @@ package com.koresuniku.wishmaster.core.module.full_thread
 import com.koresuniku.wishmaster.application.IWMDependencyInjector
 import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.data.network.full_thread_api.FullThreadApiService
+import com.koresuniku.wishmaster.core.data.network.full_thread_api.FullThreadResponseParser
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -29,6 +30,7 @@ class FullThreadNetworkInteractor @Inject constructor(injector: IWMDependencyInj
 
     @Inject lateinit var compositeDisposable: CompositeDisposable
     @Inject override lateinit var service: FullThreadApiService
+    @Inject lateinit var responseParser: FullThreadResponseParser
 
     init { injector.daggerFullThreadLogicComponent.inject(this) }
 
@@ -39,6 +41,7 @@ class FullThreadNetworkInteractor @Inject constructor(injector: IWMDependencyInj
                     .subscribe({
                         val data = PostListData()
                         data.postList = it
+                        data.fileList = responseParser.obtainFileList(data)
                         e.onSuccess(data)
                     }, { it.printStackTrace() }))
         })
@@ -52,6 +55,7 @@ class FullThreadNetworkInteractor @Inject constructor(injector: IWMDependencyInj
                     .subscribe({
                         val data = PostListData()
                         data.postList = it
+                        data.fileList = responseParser.obtainFileList(data)
                         e.onSuccess(data)
                     }, { it.printStackTrace() }))
         })

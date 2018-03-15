@@ -18,7 +18,6 @@ package com.koresuniku.wishmaster.ui.gallery
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,12 +33,8 @@ import com.koresuniku.wishmaster.core.data.network.Dvach
 import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.ui.base.BaseWishmasterFragment
 import android.view.animation.Animation
-import com.bumptech.glide.load.resource.drawable.GlideDrawable
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import com.koresuniku.wishmaster.ui.utils.DeviceUtils
-import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -90,7 +85,7 @@ class GalleryImageFragment : BaseWishmasterFragment(), GalleryContract.IGalleryI
             preview.setImageDrawable(presenter.galleryState.previewDrawable)
         } else {
             Glide.with(preview.context)
-                    .load(Uri.parse("$mUrl${presenter.getFile(mPosition).thumbnail}"))
+                    .load(Uri.parse("$mUrl${presenter.getFileGlobal(mPosition).thumbnail}"))
                     .placeholder(preview.drawable)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
@@ -98,7 +93,7 @@ class GalleryImageFragment : BaseWishmasterFragment(), GalleryContract.IGalleryI
         }
         bigImageView?.ssiv?.maxScale = 10.0f
         bigImageView?.ssiv?.resetScaleAndCenter()
-        bigImageView?.showImage(Uri.parse("$mUrl${presenter.getFile(mPosition).path}"))
+        bigImageView?.showImage(Uri.parse("$mUrl${presenter.getFileGlobal(mPosition).path}"))
 
         return rootView
     }

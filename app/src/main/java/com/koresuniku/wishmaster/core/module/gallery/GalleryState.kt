@@ -26,8 +26,9 @@ import javax.inject.Inject
 
 class GalleryState @Inject constructor() {
 
-    var currentFilePosition: Int = 0
+    var currentFilePositionInPost: Int = 0
     var currentPostPosition: Int = 0
+    var currentFilePositionGlobal: Int = 0
 
     var previewClickedPosition: Int = 0
     var previewAnimated: Boolean = false
@@ -35,8 +36,9 @@ class GalleryState @Inject constructor() {
     var previewCoordinates: WMImageUtils.ImageCoordinates? = null
 
     fun resetState() {
-        currentFilePosition = 0
+        currentFilePositionInPost = 0
         currentPostPosition = 0
+        currentFilePositionGlobal = 0
         previewClickedPosition = 0
         previewAnimated = false
         previewDrawable = null

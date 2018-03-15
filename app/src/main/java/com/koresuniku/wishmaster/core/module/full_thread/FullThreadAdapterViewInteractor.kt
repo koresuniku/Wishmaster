@@ -50,6 +50,7 @@ class FullThreadAdapterViewInteractor @Inject constructor(injector: IWMDependenc
                                  itemView: FullThreadContract.IPostItemView,
                                  data: PostListData, position: Int, type: Int) {
         val post = data.postList[position]
+        itemView.adaptLayout(position)
 
         //Answers
         //TODO: count the answers!

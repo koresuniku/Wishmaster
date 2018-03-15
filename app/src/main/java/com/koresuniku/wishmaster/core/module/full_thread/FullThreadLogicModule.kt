@@ -17,6 +17,7 @@
 package com.koresuniku.wishmaster.core.module.full_thread
 
 import com.koresuniku.wishmaster.application.IWMDependencyInjector
+import com.koresuniku.wishmaster.core.data.network.full_thread_api.FullThreadResponseParser
 import dagger.Module
 import dagger.Provides
 
@@ -40,4 +41,8 @@ class FullThreadLogicModule {
             FullThreadContract.IFullThreadAdapterViewInteractor {
         return FullThreadAdapterViewInteractor(injector)
     }
+
+    @Provides
+    @FullThreadScopes.ForFullThreadLogic
+    fun provideResponseParser(): FullThreadResponseParser = FullThreadResponseParser()
 }

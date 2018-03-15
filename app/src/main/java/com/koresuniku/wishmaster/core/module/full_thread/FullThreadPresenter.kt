@@ -98,6 +98,7 @@ class FullThreadPresenter @Inject constructor(private val injector: IWMDependenc
                         val oldCount = presenterData.postList.size
                         if (it.postList.isNotEmpty()) {
                             presenterData.postList.addAll(it.postList)
+                            presenterData.fileList.addAll(it.fileList)
                             fullThreadAdapterView?.onNewPostsReceived(
                                     oldCount, presenterData.postList.size)
                         }
@@ -142,8 +143,12 @@ class FullThreadPresenter @Inject constructor(private val injector: IWMDependenc
     }
 
     override fun provideFiles(galleryPresenter: GalleryContract.IGalleryPresenter, position: Int) {
-        //TODO: provide all the files!
-        galleryPresenter.files = presenterData.postList[position].files ?: emptyList()
+        galleryPresenter.fileList = presenterData.fileList
+        presenterData.postList.forEachIndexed { index, post ->
+            post.files?.let {
+                galleryPresenter.fileMap[index] = it
+            }
+        }
     }
 
     override fun unbindFullThreadAdapterView() { this.fullThreadAdapterView = null }

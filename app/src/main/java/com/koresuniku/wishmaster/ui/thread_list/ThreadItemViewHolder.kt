@@ -140,6 +140,6 @@ class ThreadItemViewHolder(itemView: View, private val injector: IWMDependencyIn
         Log.d(LOG_TAG, "onImageItemClick: $position")
         presenter.provideFiles(galleryPresenter, mThreadPosition)
         galleryPresenter.galleryState.previewClickedPosition = position
-        galleryPresenter.onOpenGalleryClick(mThreadPosition, position)
+        galleryPresenter.onOpenGalleryClick(0, position)
     }
 }

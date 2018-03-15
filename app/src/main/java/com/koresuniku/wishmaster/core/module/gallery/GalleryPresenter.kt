@@ -17,7 +17,6 @@
 package com.koresuniku.wishmaster.core.module.gallery
 
 import android.util.Log
-import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.core.base.BaseMvpPresenter
 import com.koresuniku.wishmaster.core.data.model.threads.File
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -37,18 +36,21 @@ class GalleryPresenter @Inject constructor(galleryPresenterComponent: IGalleryPr
     @Inject lateinit var compositeDisposable: CompositeDisposable
     @Inject lateinit var galleryInteractor: GalleryContract.IGalleryInteractor
 
-    override var files: List<File> = emptyList()
+    override var fileMap: MutableMap<Int, MutableList<File>> = hashMapOf()
+    override var fileList: MutableList<File> = arrayListOf()
 
-    init {
-        galleryPresenterComponent.inject(this)
-    }
+    init { galleryPresenterComponent.inject(this) }
 
-    override fun onOpenGalleryClick(postPosition: Int, filePosition: Int) {
+    override fun onOpenGalleryClick(postPosition: Int, filePositionInPost: Int) {
+        Log.d("GP", "requested Post: $postPosition")
         galleryState.currentPostPosition = postPosition
-        galleryState.currentFilePosition = filePosition
-        galleryState.previewClickedPosition = filePosition
+        galleryState.currentFilePositionInPost = filePositionInPost
 
-        Log.d("GP", "onOpenGalleryClick: ${this.hashCode()}")
+        val theFileClicked = fileMap[postPosition]?.get(filePositionInPost)
+        galleryState.currentFilePositionGlobal = fileList.indexOf(theFileClicked)
+        galleryState.previewClickedPosition = galleryState.currentFilePositionGlobal
+
+        Log.d("GP", "onOpenGalleryClick: ${fileMap}")
 
         mvpView?.openGallery()
     }
@@ -57,17 +59,24 @@ class GalleryPresenter @Inject constructor(galleryPresenterComponent: IGalleryPr
 
     }
 
-    override fun getFile(position: Int) = files[position]
+    override fun getFileGlobal(position: Int) = fileList[position]
+    override fun getFileLocal(postPosition: Int, filePositionInPost: Int) =
+            fileMap[postPosition]?.get(filePositionInPost) ?: File()
 
     override fun getImageTargetCoordinates(position: Int, item: GalleryContract.IGalleryItem) {
         compositeDisposable.add(galleryInteractor
-                .computeActualDimensions(getFile(position))
+                .computeActualDimensions(getFileGlobal(position))
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(item::onTargetDimensionsReady))
     }
 
-    override fun matchFile(position: Int) = galleryInteractor.matchFile(files[position])
+    override fun matchFileGlobal(position: Int) = galleryInteractor.matchFile(getFileGlobal(position))
 
     override fun getUrl() = galleryInteractor.getUrl()
+
+    override fun resetGallery() {
+        fileList = arrayListOf()
+        fileMap = hashMapOf()
+    }
 }

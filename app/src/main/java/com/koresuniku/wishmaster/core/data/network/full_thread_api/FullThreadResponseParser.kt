@@ -14,27 +14,23 @@
  * limitations under the License.
  */
 
-package com.koresuniku.wishmaster.core.data.model.posts
+package com.koresuniku.wishmaster.core.data.network.full_thread_api
 
+import com.koresuniku.wishmaster.core.data.model.posts.PostListData
 import com.koresuniku.wishmaster.core.data.model.threads.File
-import java.util.ArrayList
+import javax.inject.Inject
 
 /**
- * Created by koresuniku on 2/11/18.
+ * Created by koresuniku on 3/15/18.
  */
-class PostListData {
 
-    var postList: MutableList<Post> = arrayListOf()
-    var fileList: MutableList<File> = arrayListOf()
-    var fileMap: MutableMap<Int, File> = hashMapOf()
+class FullThreadResponseParser @Inject constructor() {
 
-    companion object {
-        fun emptyData(): PostListData {
-            val data = PostListData()
+    fun obtainFileList(postListData: PostListData): MutableList<File> {
+        val result = arrayListOf<File>()
 
-            data.postList = ArrayList()
+        postListData.postList.forEach { it.files?.let { result.addAll(it) } }
 
-            return data
-        }
+        return result
     }
 }

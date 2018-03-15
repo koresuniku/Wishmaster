@@ -42,13 +42,16 @@ object GalleryContract {
     //Presenter
     interface IGalleryPresenter : IMvpPresenter<IGalleryMainView> {
         var galleryState: GalleryState
-        var files: List<File>
-        fun onOpenGalleryClick(postPosition: Int, filePosition: Int)
+        var fileList: MutableList<File>
+        var fileMap: MutableMap<Int, MutableList<File>>
+        fun onOpenGalleryClick(postPosition: Int, filePositionInPost: Int)
         fun onGalleryLayoutClicked()
-        fun getFile(position: Int): File
+        fun getFileGlobal(position: Int): File
+        fun getFileLocal(postPosition: Int, filePositionInPost: Int): File
         fun getImageTargetCoordinates(position: Int, item: GalleryContract.IGalleryItem)
-        fun matchFile(position: Int): MediaTypeMatcher.MediaType
+        fun matchFileGlobal(position: Int): MediaTypeMatcher.MediaType
         fun getUrl(): String
+        fun resetGallery()
     }
 
     interface IGalleryDataProvider {

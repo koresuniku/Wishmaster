@@ -111,7 +111,7 @@ class PostItemViewHolder(itemView: View, private val injector: IWMDependencyInje
     }
 
     override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WMImageUtils) {
-        val imageLayout = itemView.findViewById<ViewGroup>(R.id.image_layout)
+        val imageLayout = itemView.findViewById<ViewGroup>(R.id.clickable_item_layout)
         val image = imageLayout.findViewById<ImageView>(R.id.image)
 
         imageLayout.setOnClickListener {
@@ -127,6 +127,7 @@ class PostItemViewHolder(itemView: View, private val injector: IWMDependencyInje
 
         mImageSummary.text = imageItemData.summary
         imageUtils.loadImageThumbnail(imageItemData, image, url)
+        mImageLayout.requestLayout()
     }
 
     override fun setMultipleImages(imageItemDataList: List<ImageItemData>,
@@ -140,6 +141,7 @@ class PostItemViewHolder(itemView: View, private val injector: IWMDependencyInje
                 imageItemDataList, url, imageUtils, summaryHeight, gridViewParams,
                 this, this)
         mImageGrid.layoutParams.height = gridViewParams.finalHeight
+        mImageGrid.requestLayout()
     }
 
     override fun onNoItemClick() {
@@ -149,7 +151,6 @@ class PostItemViewHolder(itemView: View, private val injector: IWMDependencyInje
     override fun onImageItemClick(position: Int) {
         Log.d(LOG_TAG, "onImageItemClick: $position")
         presenter.provideFiles(galleryPresenter, mPostPosition)
-        galleryPresenter.galleryState.previewClickedPosition = position
         galleryPresenter.onOpenGalleryClick(mPostPosition, position)
     }
 }
