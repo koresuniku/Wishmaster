@@ -99,15 +99,15 @@ class GalleryImageFragment : BaseWishmasterFragment(), GalleryContract.IGalleryI
         bigImageView?.showImage(Uri.parse("$mUrl${presenter.getFileGlobal(mPosition).path}"))
 
         //clickableView.setOnClickListener { presenter.onGalleryLayoutClick() }
-        clickableView.setOnTouchListener { view, motionEvent ->
-            Log.d("GIF", "cv motionEvent: ${motionEvent.action}")
-            false
-        }
-        imagesContainer.setOnTouchListener { view, motionEvent ->
-            Log.d("GIF", "ic motionEvent: ${motionEvent.action}")
-            bigImageView?.onTouchEvent(motionEvent)
-            false
-        }
+//        clickableView.setOnTouchListener { view, motionEvent ->
+//            Log.d("GIF", "cv motionEvent: ${motionEvent.action}")
+//            false
+//        }
+//        imagesContainer.setOnTouchListener { view, motionEvent ->
+//            Log.d("GIF", "ic motionEvent: ${motionEvent.action}")
+//            bigImageView?.onTouchEvent(motionEvent)
+//            false
+//        }
 
         //imagesContainer.setOnClickListener { presenter.onGalleryLayoutClick() }
         return rootView
