@@ -99,7 +99,6 @@ class GalleryFragment : BaseWishmasterFragment(), GalleryContract.IGalleryMainVi
             closeGallery()
             false
         } else {
-            presenter.unbindView()
             true
         }
     }
@@ -138,7 +137,6 @@ class GalleryFragment : BaseWishmasterFragment(), GalleryContract.IGalleryMainVi
             presenter.galleryState.resetState()
             presenter.resetGallery()
 
-            mGalleryPagerAdapter.notifyDataSetChanged()
             mGalleryLayout.animate()
                     .alpha(0f)
                     .setDuration(resources.getInteger(R.integer.gallery_exit_duration).toLong())
@@ -146,6 +144,7 @@ class GalleryFragment : BaseWishmasterFragment(), GalleryContract.IGalleryMainVi
                     .setListener(object : Animator.AnimatorListener {
                         override fun onAnimationRepeat(p0: Animator?) {}
                         override fun onAnimationEnd(p0: Animator?) {
+                            mGalleryPagerAdapter.notifyDataSetChanged()
                             uiUtils.setBarsTranslucent(it, false)
                             mGalleryLayout.visibility = View.GONE
                             mGalleryLayout.alpha = 1f

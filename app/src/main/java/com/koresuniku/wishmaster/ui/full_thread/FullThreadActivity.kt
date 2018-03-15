@@ -276,6 +276,7 @@ class FullThreadActivity : BaseWishmasterActivity(),
     override fun onBackPressed() {
         onBackPressedListener?.let {
             if (it.doBack()) {
+                presenter.unbindView()
                 presenter.unbindFullThreadAdapterView()
                 galleryPresenter.unbindView()
                 super.onBackPressed()
@@ -285,6 +286,7 @@ class FullThreadActivity : BaseWishmasterActivity(),
     }
 
     override fun onDestroy() {
+        presenter.unbindView()
         presenter.unbindFullThreadAdapterView()
         galleryPresenter.unbindView()
         super.onDestroy()

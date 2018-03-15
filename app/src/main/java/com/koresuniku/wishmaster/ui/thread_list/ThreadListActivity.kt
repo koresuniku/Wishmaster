@@ -257,6 +257,7 @@ class ThreadListActivity : BaseWishmasterActivity(),
     override fun onBackPressed() {
         onBackPressedListener?.let {
             if (it.doBack()) {
+                presenter.unbindView()
                 presenter.unbindThreadListAdapterView()
                 galleryPresenter.unbindView()
                 super.onBackPressed()
@@ -266,6 +267,7 @@ class ThreadListActivity : BaseWishmasterActivity(),
     }
 
     override fun onDestroy() {
+        presenter.unbindView()
         presenter.unbindThreadListAdapterView()
         galleryPresenter.unbindView()
         super.onDestroy()
