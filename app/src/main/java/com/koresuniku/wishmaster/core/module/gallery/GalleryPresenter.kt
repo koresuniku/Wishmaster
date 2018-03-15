@@ -42,7 +42,6 @@ class GalleryPresenter @Inject constructor(galleryPresenterComponent: IGalleryPr
     init { galleryPresenterComponent.inject(this) }
 
     override fun onOpenGalleryClick(postPosition: Int, filePositionInPost: Int) {
-        Log.d("GP", "requested Post: $postPosition")
         galleryState.currentPostPosition = postPosition
         galleryState.currentFilePositionInPost = filePositionInPost
 
@@ -50,13 +49,17 @@ class GalleryPresenter @Inject constructor(galleryPresenterComponent: IGalleryPr
         galleryState.currentFilePositionGlobal = fileList.indexOf(theFileClicked)
         galleryState.previewClickedPosition = galleryState.currentFilePositionGlobal
 
-        Log.d("GP", "onOpenGalleryClick: ${fileMap}")
 
         mvpView?.openGallery()
     }
 
-    override fun onGalleryLayoutClicked() {
+    override fun onGalleryLayoutClick() {
+        Log.d("GP", "onGalleryLayoutClick: ${galleryState.isGalleryFullscreen}")
 
+        if (!galleryState.isGalleryFullscreen) mvpView?.hideSystemUi()
+        else mvpView?.showSystemUi()
+
+        galleryState.isGalleryFullscreen = !galleryState.isGalleryFullscreen
     }
 
     override fun getFileGlobal(position: Int) = fileList[position]

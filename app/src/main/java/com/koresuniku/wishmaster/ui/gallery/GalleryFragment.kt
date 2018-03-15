@@ -96,12 +96,16 @@ class GalleryFragment : BaseWishmasterFragment(), GalleryContract.IGalleryMainVi
 
     override fun doBack(): Boolean {
         return if (isGalleryOpened) {
-            closeGallery()
+            if (presenter.galleryState.isGalleryFullscreen) presenter.onGalleryLayoutClick()
+            else closeGallery()
             false
         } else {
             true
         }
     }
+
+    override fun hideSystemUi() { activity?.let { uiUtils.hideSystemUI(it) } }
+    override fun showSystemUi() { activity?.let { uiUtils.showSystemUI(it) } }
 
     override fun openGallery() {
         activity?.let {

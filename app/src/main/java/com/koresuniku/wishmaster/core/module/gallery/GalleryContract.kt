@@ -33,6 +33,8 @@ object GalleryContract {
         var isGalleryOpened: Boolean
         fun openGallery()
         fun closeGallery()
+        fun hideSystemUi()
+        fun showSystemUi()
     }
 
     interface IGalleryItem : IMvpView {
@@ -45,7 +47,7 @@ object GalleryContract {
         var fileList: MutableList<File>
         var fileMap: MutableMap<Int, MutableList<File>>
         fun onOpenGalleryClick(postPosition: Int, filePositionInPost: Int)
-        fun onGalleryLayoutClicked()
+        fun onGalleryLayoutClick()
         fun getFileGlobal(position: Int): File
         fun getFileLocal(postPosition: Int, filePositionInPost: Int): File
         fun getImageTargetCoordinates(position: Int, item: GalleryContract.IGalleryItem)

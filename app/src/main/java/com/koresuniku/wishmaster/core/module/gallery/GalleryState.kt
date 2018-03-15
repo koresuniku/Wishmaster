@@ -35,6 +35,8 @@ class GalleryState @Inject constructor() {
     var previewDrawable: Drawable? = null
     var previewCoordinates: WMImageUtils.ImageCoordinates? = null
 
+    var isGalleryFullscreen = false
+
     fun resetState() {
         currentFilePositionInPost = 0
         currentPostPosition = 0

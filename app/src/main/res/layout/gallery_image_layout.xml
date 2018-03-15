@@ -20,28 +20,22 @@
              android:layout_height="match_parent"
              xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <View
-        android:id="@+id/clickable_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true">
-    </View>
-
     <FrameLayout
         android:id="@+id/images_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <ImageView
             android:id="@+id/preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            />
+            android:adjustViewBounds="true"/>
 
         <com.github.piasy.biv.view.BigImageView
             android:id="@+id/big_image_view"
@@ -52,6 +46,11 @@
 
     </FrameLayout>
 
+    <View
+        android:id="@+id/clickable_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </View>
 
 
 </RelativeLayout>

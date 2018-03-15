@@ -18,6 +18,7 @@ package com.koresuniku.wishmaster.ui.gallery
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +48,7 @@ class GalleryImageFragment : BaseWishmasterFragment(), GalleryContract.IGalleryI
 
     @BindView(R.id.clickable_view) lateinit var clickableView: View
     @BindView(R.id.preview) lateinit var preview: ImageView
-    @BindView(R.id.images_container) lateinit var imagesContainer: View
+    @BindView(R.id.images_container) lateinit var imagesContainer: ViewGroup
     var bigImageView: BigImageView? = null
 
     @Inject lateinit var presenter: GalleryContract.IGalleryPresenter
@@ -83,6 +84,7 @@ class GalleryImageFragment : BaseWishmasterFragment(), GalleryContract.IGalleryI
             presenter.getImageTargetCoordinates(mPosition, this)
             preview.alpha = 0f
             preview.setImageDrawable(presenter.galleryState.previewDrawable)
+            //bigImageView?.ssiv?.setBackgroundDrawable(presenter.galleryState.previewDrawable)
         } else {
             Glide.with(preview.context)
                     .load(Uri.parse("$mUrl${presenter.getFileGlobal(mPosition).thumbnail}"))
@@ -91,10 +93,23 @@ class GalleryImageFragment : BaseWishmasterFragment(), GalleryContract.IGalleryI
                     .skipMemoryCache(true)
                     .into(preview)
         }
+
         bigImageView?.ssiv?.maxScale = 10.0f
         bigImageView?.ssiv?.resetScaleAndCenter()
         bigImageView?.showImage(Uri.parse("$mUrl${presenter.getFileGlobal(mPosition).path}"))
 
+        //clickableView.setOnClickListener { presenter.onGalleryLayoutClick() }
+        clickableView.setOnTouchListener { view, motionEvent ->
+            Log.d("GIF", "cv motionEvent: ${motionEvent.action}")
+            false
+        }
+        imagesContainer.setOnTouchListener { view, motionEvent ->
+            Log.d("GIF", "ic motionEvent: ${motionEvent.action}")
+            bigImageView?.onTouchEvent(motionEvent)
+            false
+        }
+
+        //imagesContainer.setOnClickListener { presenter.onGalleryLayoutClick() }
         return rootView
     }
 
