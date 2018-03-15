@@ -134,8 +134,6 @@ class GalleryFragment : BaseWishmasterFragment(), GalleryContract.IGalleryMainVi
 
     override fun closeGallery() {
         activity?.let {
-            presenter.galleryState.resetState()
-            presenter.resetGallery()
 
             mGalleryLayout.animate()
                     .alpha(0f)
@@ -144,6 +142,8 @@ class GalleryFragment : BaseWishmasterFragment(), GalleryContract.IGalleryMainVi
                     .setListener(object : Animator.AnimatorListener {
                         override fun onAnimationRepeat(p0: Animator?) {}
                         override fun onAnimationEnd(p0: Animator?) {
+                            presenter.galleryState.resetState()
+                            presenter.resetGallery()
                             mGalleryPagerAdapter.notifyDataSetChanged()
                             uiUtils.setBarsTranslucent(it, false)
                             mGalleryLayout.visibility = View.GONE

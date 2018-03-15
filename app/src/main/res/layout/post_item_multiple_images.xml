@@ -81,6 +81,8 @@
         layout="@layout/line_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/post_item_container"/>
+        android:layout_below="@+id/post_item_container"
+        android:layout_marginLeft="@dimen/thread_post_side_margin_default"
+        android:layout_marginRight="@dimen/thread_post_side_margin_default"/>
 
 </RelativeLayout>
