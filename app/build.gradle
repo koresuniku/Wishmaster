@@ -20,7 +20,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.21'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.30'
     }
 }
 
@@ -35,8 +35,8 @@ android {
         applicationId "com.koresuniku.wishmaster"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 3
-        versionName "0.0.2"
+        versionCode 4
+        versionName "0.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled = true
