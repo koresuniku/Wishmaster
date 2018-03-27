@@ -21,6 +21,7 @@ import android.support.annotation.Nullable
 import android.support.v7.widget.RecyclerView
 import android.text.Spannable
 import android.text.Spanned
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -107,6 +108,7 @@ class PostItemViewHolder(itemView: View, private val injector: IWMDependencyInje
     }
 
     override fun setComment(comment: Spanned) {
+        mComment.movementMethod = LinkMovementMethod.getInstance()
         mComment.post { mComment.text = comment }
     }
 
