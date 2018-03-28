@@ -21,7 +21,6 @@ import android.support.annotation.Nullable
 import android.support.v7.widget.RecyclerView
 import android.text.Spannable
 import android.text.Spanned
-import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +35,7 @@ import com.koresuniku.wishmaster.core.module.gallery.ImageItemData
 import com.koresuniku.wishmaster.application.global.WMImageUtils
 import com.koresuniku.wishmaster.core.module.gallery.GalleryContract
 import com.koresuniku.wishmaster.ui.gallery.PreviewImageGridAdapter
+import com.koresuniku.wishmaster.ui.utils.ClickableMovementMethod
 import com.koresuniku.wishmaster.ui.view.widget.WMGridView
 import javax.inject.Inject
 
@@ -108,13 +108,17 @@ class PostItemViewHolder(itemView: View, private val injector: IWMDependencyInje
     }
 
     override fun setComment(comment: Spanned) {
-        mComment.movementMethod = LinkMovementMethod.getInstance()
-        mComment.post { mComment.text = comment }
+        mComment.movementMethod = ClickableMovementMethod.getInstance()
+        mComment.isClickable = false
+        mComment.isLongClickable = false
+        mComment.post { mComment.text = comment; }
     }
 
     override fun setSingleImage(imageItemData: ImageItemData, url: String, imageUtils: WMImageUtils) {
         val imageLayout = itemView.findViewById<ViewGroup>(R.id.clickable_item_layout)
         val image = imageLayout.findViewById<ImageView>(R.id.image)
+
+        imageLayout.post { imageLayout.bringToFront() }
 
         imageLayout.setOnClickListener {
             val rect = Rect()
